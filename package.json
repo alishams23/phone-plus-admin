@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "sass": "^1.68.0",
+    "vue-tabler-icons": "^2.21.0",
     "vuetify": "^3.3.17"
   }
 }

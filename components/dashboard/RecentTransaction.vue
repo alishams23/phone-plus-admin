@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { CircleIcon } from 'vue-tabler-icons';
 import { recentTransaction } from '@/data/dashboard/dashboardData';
 </script>
-<template>
+<template> 
     <v-card elevation="10" class="withbg">
         <v-card-item class="pb-0">
             <v-card-title class="text-h5 pt-sm-2">Recent Transactions</v-card-title>
