@@ -7,6 +7,24 @@ const primary = theme.current.value.colors.primary;
 const secondary = theme.current.value.colors.secondary;
 const select = ref('March 2023');
 const items = ref(['March 2023', 'April 2023', 'May 2023']);
+const options = {
+  chart: {
+    type: "bar",
+  },
+  plotOptions: {
+    bar: {
+      borderRadius: 10,
+      borderRadiusApplication: "around",
+    },
+  },
+};
+
+const series = [
+  {
+    name: "Score",
+    data: [30, 40, 35, 50, 49, 60, 70, 91],
+  },
+];
 const chartOptions = computed(() => {
     return {
 
@@ -94,8 +112,7 @@ const chartOptions = computed(() => {
                 </div>
             </div>
             <div class="mt-6">
-                <apexchart type="bar" height="370px" :options="chartOptions.chartOptions" :series="chartOptions.series">
-                </apexchart>
+                <apexchart width="500" type="bar" :options="options" :series="series"></apexchart>
             </div>
         </v-card-item>
     </v-card>
