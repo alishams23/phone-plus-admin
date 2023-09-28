@@ -42,21 +42,17 @@ const chartOptions = computed(() => {
 const Chart = [38, 40, 25];
 </script>
 <template>
-    <v-card elevation="10" class="withbg">
-        <v-card-item>
+    <v-card elevation="10"  color="#ECF2FF"   class="border  border-primary rounded-lg rtl">
+        <v-card-item class="bg-deep-purple-darken-4">
             <div class="d-sm-flex align-center justify-space-between pt-sm-2">
-                <v-card-title class="text-h5">Yearly Breakup</v-card-title>
+                <v-card-title class="text-h5 rtl">کیف پول</v-card-title>
             </div>
-            <v-row>
-                <v-col cols="7" sm="7">
+      
                     <div class="mt-6">
-                        <h3 class="text-h3">$36,358</h3>
+                        <h3 class="text-h3">36,000,000</h3>
                         <div class="mt-1">
-                            <v-avatar class="bg-lightsuccess text-success" size="25">
-                                <ArrowUpLeftIcon size="20" />
-                            </v-avatar>
-                            <span class="text-subtitle-1 ml-2 font-weight-bold">+9%</span>
-                            <span class="text-subtitle-1 text-muted ml-2">last year</span>
+                     
+                            <span class="text-subtitle-1 text-muted ml-2">تومان</span>
                         </div>
                         <div class="d-flex align-center mt-sm-10 mt-8">
                             <h6 class="text-subtitle-1 text-muted">
@@ -67,15 +63,9 @@ const Chart = [38, 40, 25];
                             </h6>
                         </div>
                     </div>
-                </v-col>
-                <v-col cols="5" sm="5" class="pl-lg-0">
-                    <div class="d-flex align-center flex-shrink-0">
-                        <ClientOnly>
-                        <apexchart class="pt-6" type="donut" height="145" :options="chartOptions" :series="Chart"> </apexchart>
-                    </ClientOnly>
-                    </div>
-                </v-col>
-            </v-row>
+              
+            
+      
         </v-card-item>
     </v-card>
 </template>
