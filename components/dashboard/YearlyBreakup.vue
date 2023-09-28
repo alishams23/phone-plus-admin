@@ -70,7 +70,9 @@ const Chart = [38, 40, 25];
                 </v-col>
                 <v-col cols="5" sm="5" class="pl-lg-0">
                     <div class="d-flex align-center flex-shrink-0">
+                        <ClientOnly>
                         <apexchart class="pt-6" type="donut" height="145" :options="chartOptions" :series="Chart"> </apexchart>
+                    </ClientOnly>
                     </div>
                 </v-col>
             </v-row>

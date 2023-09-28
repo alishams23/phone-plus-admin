@@ -7,24 +7,6 @@ const primary = theme.current.value.colors.primary;
 const secondary = theme.current.value.colors.secondary;
 const select = ref('March 2023');
 const items = ref(['March 2023', 'April 2023', 'May 2023']);
-const options = {
-  chart: {
-    type: "bar",
-  },
-  plotOptions: {
-    bar: {
-      borderRadius: 10,
-      borderRadiusApplication: "around",
-    },
-  },
-};
-
-const series = [
-  {
-    name: "Score",
-    data: [30, 40, 35, 50, 49, 60, 70, 91],
-  },
-];
 const chartOptions = computed(() => {
     return {
 
@@ -105,14 +87,17 @@ const chartOptions = computed(() => {
     <v-card elevation="10" class="withbg">
         <v-card-item>
             <div class="d-sm-flex align-center justify-space-between pt-sm-2">
-                <div><v-card-title class="text-h5">Sales Overview</v-card-title></div>
+                <div><v-card-title class="text-h5 irsa">آمار فروش</v-card-title></div>
                 <div class="my-sm-0 my-2">
                     <v-select v-model="select" :items="items" variant="outlined" density="compact"
                         hide-details></v-select>
                 </div>
             </div>
             <div class="mt-6">
-                <apexchart width="500" type="bar" :options="options" :series="series"></apexchart>
+                <ClientOnly>
+                <apexchart type="bar" height="370px" :options="chartOptions.chartOptions" :series="chartOptions.series">
+                </apexchart>
+            </ClientOnly>
             </div>
         </v-card-item>
     </v-card>

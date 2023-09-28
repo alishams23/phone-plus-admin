@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { productsCard } from '@/data/dashboard/dashboardData';
+import { BasketIcon } from 'vue-tabler-icons';
+
 </script>
 <template>
     <v-row>
