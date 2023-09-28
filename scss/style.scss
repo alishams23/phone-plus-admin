@@ -13,3 +13,11 @@
 @import './pages/dashboards';
 @import './pages/auth';
 @import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css';
+
+
+.bg-glass{
+    /* From https://css.glass */
+background: rgba(255, 255, 255, 0.909) !important;
+backdrop-filter: blur(15px);
+-webkit-backdrop-filter: blur(5px);
+}

@@ -6,7 +6,7 @@ import NavItem from '@/layouts/full/vertical-sidebar/NavItem/index.vue';
 import ExtraBox from '@/layouts/full/vertical-sidebar/extrabox/ExtraBox.vue';
 // import Logo from '@/assets//logo/Logo.vue';
 // Icon Imports
-import { Menu2Icon, BellRingingIcon } from 'vue-tabler-icons';
+import { Menu2Icon, } from 'vue-tabler-icons';
 // dropdown imports
 import NotificationDD from '@/layouts/full/vertical-header/NotificationDD.vue';
 import ProfileDD from '@/layouts/full/vertical-header/ProfileDD.vue';
@@ -17,7 +17,7 @@ const sDrawer = ref(true);
 <template>
  <v-app>
        <!------Sidebar-------->
-       <v-navigation-drawer left elevation="0"  app class="leftSidebar"  v-model="sDrawer">
+       <v-navigation-drawer location="right" elevation="0"  app class="leftSidebar"  v-model="sDrawer">
         <!---Logo part -->
         <div class="pa-5">
             <!-- <Logo /> -->
@@ -45,10 +45,10 @@ const sDrawer = ref(true);
 
     </v-navigation-drawer>
     <!------Header-------->
-    <v-app-bar elevation="0" height="70">
+    <v-app-bar elevation="0" class="rtl bg-glass" height="70" color="transparent" >
         <div class="d-flex align-center justify-space-between w-100">
             <div>
-                <v-btn class="hidden-lg-and-up ms-md-3 ms-sm-5 ms-3 text-muted" @click="sDrawer = !sDrawer" icon variant="flat"
+                <v-btn color="transparent" class="hidden-lg-and-up ms-md-3 ms-sm-5 ms-3 text-muted" @click="sDrawer = !sDrawer" icon variant="flat"
                     size="small">
                     <Menu2Icon size="20" stroke-width="1.5" />
                 </v-btn>

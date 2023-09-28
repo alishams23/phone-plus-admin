@@ -8,7 +8,7 @@ import { PencilIcon } from 'vue-tabler-icons';
         <v-col cols="12" lg="3" sm="6" v-for="card in productsCard" :key="card.title">
           
             <v-card elevation="10" class="rtl" rounded="lg">
-                <RouterLink :to="card.link">
+                <RouterLink :to="'/'">
                     <v-img :src="card.photo" height="100%" class="rounded-t-md"></v-img>
                 </RouterLink>
                 <div class="d-flex justify-end ml-4 mt-n5 " >

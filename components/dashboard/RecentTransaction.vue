@@ -21,7 +21,7 @@ import { recentTransaction } from '@/data/dashboard/dashboardData';
                             <h6 v-if="list.boldtext" class="text-body-1 font-weight-bold">{{ list.subtitle }}</h6>
                             <h6 v-else class="text-body-1 textSecondary">{{ list.subtitle }}</h6>
                             <div class="mt-n1">
-                                <RouterLink :to="list.url" class="text-body-1 text-primary text-decoration-none" v-if="list.link">{{
+                                <RouterLink :to="'/'" class="text-body-1 text-primary text-decoration-none" v-if="list.link">{{
                                     list.link
                                 }}</RouterLink>
                             </div>

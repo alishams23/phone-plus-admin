@@ -29,35 +29,35 @@ const sidebarItem: menu[] = [
     {
         title: 'پروفایل',
         icon: UserCircleIcon,
-        to: '/sample'
+        to: '/profile'
     },
     {
         title: 'تنظیمات',
         icon: Settings2Icon,
-        to: '/sample'
+        to: '/settings'
     },
     { header: 'مالی' },
     {
         title: 'پرداخت‌ها',
         icon: CoinsIcon,
-        to: '/sample'
+        to: '/payment'
     },
     { header: 'محصولات' },
     {
         title: 'کالاها',
         icon: CubeIcon,
-        to: '/sample'
+        to: '/products'
     },
     {
         title: 'ارسال کالا',
         icon: CubeSendIcon,
-        to: '/sample'
+        to: '/transport'
     },
     { header: 'ارتباط' },
     {
         title: 'گفت و گو',
         icon: MessageCircleIcon,
-        to: '/sample'
+        to: '/chat'
     },
 ];
 
