@@ -10,7 +10,7 @@ const chartOptions = computed(() => {
     return {
 
         series: [
-            { name: "Earnings this month:", data: [355, 390, 300, 350, 390, 180, 355,] },
+            { name: "درآمد:", data: [355, 390, 300, 350, 390, 180, 355,] },
         
         ],
         chartOptions: {
