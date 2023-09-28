@@ -1,9 +1,8 @@
 import {
     ApertureIcon,
     CopyIcon,
-    LayoutDashboardIcon, LoginIcon, MoodHappyIcon, TypographyIcon, UserPlusIcon
+    LayoutDashboardIcon, LoginIcon, MoodHappyIcon, TypographyIcon, UserPlusIcon, Settings2Icon, UserCircleIcon, CoinsIcon, MessageCircleIcon
 } from 'vue-tabler-icons';
-
 export interface menu {
     header?: string;
     title?: string;
@@ -28,36 +27,26 @@ const sidebarItem: menu[] = [
     },
     { header: 'عمومی' },
     {
-        title: 'پزوفایل',
-        icon: TypographyIcon,
+        title: 'پروفایل',
+        icon: UserCircleIcon,
         to: '/ui/typography'
     },
     {
         title: 'تنظیمات',
-        icon: MoodHappyIcon,
+        icon: Settings2Icon,
         to: '/icons'
     },
     { header: 'کاری' },
     {
         title: 'امور مالی',
-        icon: LoginIcon,
+        icon: CoinsIcon,
         to: '/auth/login'
-    },
-    {
-        title: 'کسب و کار',
-        icon: CopyIcon,
-        to: '/ui/shadow'
     },
     
     { header: 'ارتباط' },
     {
-        title: 'دورهی',
-        icon: UserPlusIcon,
-        to: '/auth/register'
-    },
-    {
         title: 'گفت و گو',
-        icon: UserPlusIcon,
+        icon: MessageCircleIcon,
         to: '/auth/register'
     },
 ];
