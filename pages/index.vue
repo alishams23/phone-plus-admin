@@ -49,6 +49,15 @@ ProductCards}}
                 </v-col>
                 <!-- Product Cards -->
                 <v-col cols="12">
+                   <div class="d-flex justify-space-between align-center">
+                    
+                    <v-btn variant="outlined"  rounded="xl" size="small">
+                       همه ی محصولات
+                    </v-btn>
+                    <div class="rtl font-weight-black py-5">
+                        محصولات اخیر
+                    </div>
+                   </div>
                     <ProductCards />
                 </v-col>
             </v-row>

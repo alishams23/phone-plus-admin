@@ -83,7 +83,7 @@ const chartOptions = computed(() => {
 });
 </script>
 <template>
-    <v-card elevation="10" class="withbg">
+    <v-card elevation="10" rounded="lg" class="withbg">
         <v-card-item>
             <div class="rtl d-sm-flex align-center justify-space-between pt-sm-2">
                 <div><v-card-title class="text-h5 irsa"> فروش هفته ی اخیر</v-card-title></div>

@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { computed } from 'vue';
 import { useTheme } from 'vuetify';
-import { ArrowDownRightIcon, CurrencyDollarIcon } from 'vue-tabler-icons';
+import {  CurrencyDollarIcon } from 'vue-tabler-icons';
 
 const theme = useTheme();
 const primary = theme.current.value.colors.primary;
@@ -56,11 +56,11 @@ const areaChart = {
 };
 </script>
 <template>
-    <v-card elevation="10" class="withbg">
+    <v-card elevation="10" rounded="lg" class="withbg">
         <v-card-item>
             <div class="d-flex align-center justify-space-between pt-sm-2 rtl">
                 <v-card-title class="text-h5">درآمد ماهانه</v-card-title>
-                <v-btn size="large" icon  class="bg-secondary">
+                <v-btn size="large" icon elevation="10"  class="bg-secondary">
                     <v-avatar size="large" class="text-white">
                         <CurrencyDollarIcon size="25" />
                     </v-avatar>
@@ -68,7 +68,7 @@ const areaChart = {
             </div>
             <v-row>
                 <v-col cols="12">
-                    <div class="mt-2">
+                    <div class="mt-2 pb-10">
                         <h3 class="text-h3">6,000,000</h3>
                        
                     </div>

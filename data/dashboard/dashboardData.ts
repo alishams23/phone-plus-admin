@@ -106,7 +106,7 @@ import proimg3 from '@/assets/images/products/s7.jpg';
 import proimg4 from '@/assets/images/products/s11.jpg';
 const productsCard: productsCards[] = [
     {
-        title: 'Boat Headphone',
+        title: 'هدفون',
         link: '/',
         photo: proimg1,
         salesPrice: 375,
@@ -114,7 +114,7 @@ const productsCard: productsCards[] = [
         rating: 4
     },
     {
-        title: 'MacBook Air Pro',
+        title: 'MacBook Air ',
         link: '/',
         photo: proimg2,
         salesPrice: 650,
@@ -122,21 +122,22 @@ const productsCard: productsCards[] = [
         rating: 5
     },
     {
-        title: 'Red Valvet Dress',
+        title: 'هدفون',
         link: '/',
-        photo: proimg3,
-        salesPrice: 150,
-        price: 200,
-        rating: 3
+        photo: proimg1,
+        salesPrice: 375,
+        price: 285,
+        rating: 4
     },
     {
-        title: 'Cute Soft Teddybear',
+        title: 'MacBook pro ',
         link: '/',
-        photo: proimg4,
-        salesPrice: 285,
-        price: 345,
-        rating: 2
-    }
+        photo: proimg2,
+        salesPrice: 9000,
+        price: 10000,
+        rating: 5
+    },
+ 
 ];
 
 
