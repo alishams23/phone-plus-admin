@@ -4,9 +4,9 @@ import { CircleIcon } from 'vue-tabler-icons';
 import { recentTransaction } from '@/data/dashboard/dashboardData';
 </script>
 <template> 
-    <v-card elevation="10" class="withbg">
+    <v-card rounded="lg" elevation="10" class="withbg">
         <v-card-item class="pb-0">
-            <v-card-title class="text-h5 pt-sm-2">Recent Transactions</v-card-title>
+            <v-card-title class="text-h5 rtl pt-sm-2">اعلان‌های اخیر</v-card-title>
             <div class="recent-transaction mt-10 px-3">
                 <div v-for="list in recentTransaction" :key="list.title">
                     <v-row class="d-flex mb-4">
