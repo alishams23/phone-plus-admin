@@ -4,15 +4,15 @@ import {productPerformance} from '@/data/dashboard/dashboardData';
 <template>
     <v-card rounded="lg" elevation="10" class="">
         <v-card-item class="pa-6">
-        <v-card-title class="text-h5 pt-sm-2 pb-7">Recent Transactions</v-card-title>
-        <v-table class="month-table">
+        <v-card-title class="text-h5 rtl pt-sm-1 pb-3">فروش های اخیر</v-card-title>
+        <v-table class="month-table rtl">
             <thead>
                 <tr>
-                    <th class="text-subtitle-1 font-weight-bold">Id</th>
-                    <th class="text-subtitle-1 font-weight-bold">Assigned</th>
-                    <th class="text-subtitle-1 font-weight-bold">Name</th>
-                    <th class="text-subtitle-1 font-weight-bold">Priority</th>
-                    <th class="text-subtitle-1 font-weight-bold text-right">Budget</th>
+                    <th class="text-subtitle-1 font-weight-bold"></th>
+                    <th class="text-subtitle-1 font-weight-bold">خریدار</th>
+                    <th class="text-subtitle-1 font-weight-bold">محصول</th>
+                    <th class="text-subtitle-1 font-weight-bold">وضعیت</th>
+                    <th class="text-subtitle-1 font-weight-bold text-right">مبلغ</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,7 +35,7 @@ import {productPerformance} from '@/data/dashboard/dashboardData';
                         }}</v-chip>
                     </td>
                     <td>
-                        <h6 class="text-h6 text-right">{{ item.budget }}</h6>
+                        <h6 class="text-h6 text-right">{{ item.budget }} تومان</h6>
                     </td>
                 </tr>
             </tbody>

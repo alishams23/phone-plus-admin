@@ -3,8 +3,8 @@ import type { recentTrans, productPerformanceType, productsCards } from '@/types
 /*--Recent Transaction--*/
 const recentTransaction: recentTrans[] = [
     {
-        title: '09:30 am',
-        subtitle: 'Payment received from John Doe of $385.90',
+        title: '09:30',
+        subtitle: 'پرداخت جدید ثبت شد',
         textcolor: 'primary',
         boldtext: false,
         line: true,
@@ -12,35 +12,35 @@ const recentTransaction: recentTrans[] = [
         url: ''
     },
     {
-        title: '10:00 am',
-        subtitle: 'New sale recorded',
+        title: '10:00',
+        subtitle: 'فروش جدید ثبت شد',
         textcolor: 'secondary',
         boldtext: true,
-        line: true,
-        link: '#ML-3467',
-        url: ''
-    },
-    {
-        title: '12:00 am',
-        subtitle: 'Payment was made of $64.95 to Michael',
-        textcolor: 'success',
-        boldtext: false,
         line: true,
         link: '',
         url: ''
     },
     {
-        title: '09:30 am',
-        subtitle: 'New sale recorded',
-        textcolor: 'warning',
-        boldtext: true,
+        title: '17:00',
+        subtitle: 'درخواست خدمات جدید ثبت شد',
+        textcolor: 'success',
+        boldtext: false,
         line: true,
-        link: '#ML-3467',
+        link: 'برو به صفحه',
         url: ''
     },
     {
-        title: '09:30 am',
-        subtitle: 'New arrival recorded',
+        title: '19:30',
+        subtitle: 'فروش جدید ثبت شد',
+        textcolor: 'warning',
+        boldtext: true,
+        line: true,
+        link: '',
+        url: ''
+    },
+    {
+        title: '20:30',
+        subtitle: 'ورود جدید ثبت شد',
         textcolor: 'error',
         boldtext: true,
         line: true,
@@ -48,8 +48,8 @@ const recentTransaction: recentTrans[] = [
         url: ''
     },
     {
-        title: '12:00 am',
-        subtitle: 'Payment Received',
+        title: '22:00',
+        subtitle: 'پرداخت جدید ثبت شد',
         textcolor: 'success',
         boldtext: false,
         line: false,
@@ -62,39 +62,39 @@ const recentTransaction: recentTrans[] = [
 const productPerformance: productPerformanceType[] = [
     {
         id: 1,
-        name: 'Sunil Joshi',
-        post: 'Web Designer',
-        pname: 'Elite Admin',
-        status: 'Low',
+        name: 'محمد کریمی',
+        post: 'mhm_karimi',
+        pname: 'هدفون',
+        status: 'در انتظار ارسال',
         statuscolor: 'primary',
-        budget: '$3.9'
+        budget: '285'
     },
     {
         id: 2,
-        name: 'Andrew McDownland',
-        post: 'Project Manager',
-        pname: 'Real Homes WP Theme',
-        status: 'Medium',
+        name: 'علی صالحی',
+        post: 'ali_salehi',
+        pname: 'Macbook Air',
+        status: 'ارسال شده',
         statuscolor: 'secondary',
-        budget: '$24.5k'
+        budget: '900'
     },
     {
         id: 3,
-        name: 'Christopher Jamil',
-        post: 'Project Manager',
-        pname: 'MedicalPro WP Theme',
-        status: 'High',
-        statuscolor: 'error',
-        budget: '$12.8k'
+        name: 'سامان روشنی',
+        post: 'saman021',
+        pname: 'اپل آیدی',
+        status: 'انجام شده',
+        statuscolor: 'success',
+        budget: '150'
     },
     {
         id: 4,
-        name: 'Nirav Joshi',
-        post: 'Frontend Engineer',
-        pname: 'Hosting Press HTML',
-        status: 'Critical',
-        statuscolor: 'success',
-        budget: '$2.4k'
+        name: 'امیر باقری',
+        post: 'amirbagheri',
+        pname: 'Macbook Air',
+        status: 'ارسال شده',
+        statuscolor: 'secondary',
+        budget: '900'
     }
 
 ];
