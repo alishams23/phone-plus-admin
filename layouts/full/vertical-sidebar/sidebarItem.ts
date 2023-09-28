@@ -20,44 +20,45 @@ export interface menu {
 }
 
 const sidebarItem: menu[] = [
-    { header: 'Home' },
+    { header: 'خانه' },
     {
-        title: 'Dashboard',
+        title: 'داشبورد',
         icon: LayoutDashboardIcon,
         to: '/'
     },
-    { header: 'utilities' },
+    { header: 'عمومی' },
     {
-        title: 'Typography',
+        title: 'پزوفایل',
         icon: TypographyIcon,
         to: '/ui/typography'
     },
     {
-        title: 'Shadow',
-        icon: CopyIcon,
-        to: '/ui/shadow'
+        title: 'تنظیمات',
+        icon: MoodHappyIcon,
+        to: '/icons'
     },
-    { header: 'auth' },
+    { header: 'کاری' },
     {
-        title: 'Login',
+        title: 'امور مالی',
         icon: LoginIcon,
         to: '/auth/login'
     },
     {
-        title: 'Register',
+        title: 'کسب و کار',
+        icon: CopyIcon,
+        to: '/ui/shadow'
+    },
+    
+    { header: 'ارتباط' },
+    {
+        title: 'دورهی',
         icon: UserPlusIcon,
         to: '/auth/register'
     },
-    { header: 'Extra' },
     {
-        title: 'Icons',
-        icon: MoodHappyIcon,
-        to: '/icons'
-    },
-    {
-        title: 'Sample Page',
-        icon: ApertureIcon,
-        to: '/sample-page'
+        title: 'گفت و گو',
+        icon: UserPlusIcon,
+        to: '/auth/register'
     },
 ];
 
