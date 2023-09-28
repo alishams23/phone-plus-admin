@@ -2,7 +2,7 @@
 import {productPerformance} from '@/data/dashboard/dashboardData';
 </script>
 <template>
-    <v-card elevation="10" class="">
+    <v-card rounded="lg" elevation="10" class="">
         <v-card-item class="pa-6">
         <v-card-title class="text-h5 pt-sm-2 pb-7">Recent Transactions</v-card-title>
         <v-table class="month-table">
