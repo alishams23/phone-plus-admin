@@ -19,8 +19,13 @@ const sDrawer = ref(true);
        <!------Sidebar-------->
        <v-navigation-drawer location="right" elevation="0"  app class="leftSidebar"  v-model="sDrawer">
         <!---Logo part -->
-        <div class="pa-5">
+        <div class=" pa-5  ">
             <!-- <Logo /> -->
+           <v-sheet class="d-flex justify-center align-center">
+            <v-avatar size="100" justify="center">
+                    <img src="@/assets/images/users/avatar-1.jpg" height="100" alt="user" />
+                </v-avatar>
+            </v-sheet>
         </div>
         <!-- ---------------------------------------------- -->
         <!---Navigation -->
@@ -45,7 +50,7 @@ const sDrawer = ref(true);
 
     </v-navigation-drawer>
     <!------Header-------->
-    <v-app-bar elevation="0" class="rtl bg-glass" height="70" color="transparent" >
+    <v-app-bar elevation="0" class="rtl bg-glass" height="70" color="transparent" v-if="sDrawer == false" >
         <div class="d-flex align-center justify-space-between w-100">
             <div>
                 <v-btn color="transparent" class="hidden-lg-and-up ms-md-3 ms-sm-5 ms-3 text-muted" @click="sDrawer = !sDrawer" icon variant="flat"
@@ -57,7 +62,7 @@ const sDrawer = ref(true);
             </div>
             <div>
                 <!-- User Profile -->
-                <ProfileDD />
+                <!-- <ProfileDD /> -->
             </div>
         </div>
     </v-app-bar>
