@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { productsCard } from '@/data/dashboard/dashboardData';
+import { physicalProductsCard } from '@/data/dashboard/dashboardData';
 import { PencilIcon } from 'vue-tabler-icons';
-
+ 
 </script>
 <template>
     <v-row>
-        <v-col cols="12" lg="3" sm="6" v-for="card in productsCard" :key="card.title">
+        <v-col cols="12" lg="3" sm="6" v-for="card in physicalProductsCard" :key="card.title">
           
             <v-card elevation="10" class="rtl" rounded="lg">
                 <RouterLink :to="'/'">

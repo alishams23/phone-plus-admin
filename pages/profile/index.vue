@@ -1,3 +1,4 @@
+
 <template>
   <v-container>
     <v-card elevation="10" rounded="lg">
@@ -49,14 +50,14 @@
        color="primary"
       >
         <v-tab value="one">محصولات</v-tab>
-        <v-tab value="two">Item Two</v-tab>
-        <v-tab value="three">Item Three</v-tab>
+        <v-tab value="two">خدمات</v-tab>
+        <v-tab value="three">آموزش‌ها</v-tab>
       </v-tabs>
   
       <v-card-text>
         <v-window v-model="tab">
           <v-window-item value="one">
-            محصولات
+            <ProductCards />
           </v-window-item>
   
           <v-window-item value="two">
@@ -74,10 +75,14 @@
 </template>
   
 <script>
+
+
+/*Call Components*/
+import ProductCards from '~/components/dashboard/ProductCards.vue';
 import { BrandInstagramIcon, BrandTelegramIcon } from 'vue-tabler-icons';
 
 export default {
-  components: { BrandInstagramIcon, BrandTelegramIcon },
+  components: { BrandInstagramIcon, BrandTelegramIcon, ProductCards},
   data() {
     return {
       tab:null,
@@ -101,4 +106,4 @@ export default {
 <style scoped>
 /* Add your custom styles here to make it beautiful */
 </style>
-  
+
