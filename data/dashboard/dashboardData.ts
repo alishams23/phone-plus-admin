@@ -141,4 +141,78 @@ const productsCard: productsCards[] = [
 ];
 
 
-export { recentTransaction, productPerformance, productsCard }
+const physicalProductsCard: productsCards[] = [
+    {
+        title: 'هدفون',
+        link: '/',
+        photo: proimg1,
+        salesPrice: 375,
+        price: 285,
+        rating: 4
+    },
+    {
+        title: 'MacBook Air ',
+        link: '/',
+        photo: proimg2,
+        salesPrice: 650,
+        price: 900,
+        rating: 5
+    },
+    {
+        title: 'هدفون',
+        link: '/',
+        photo: proimg1,
+        salesPrice: 375,
+        price: 285,
+        rating: 4
+    },
+    {
+        title: 'MacBook pro ',
+        link: '/',
+        photo: proimg2,
+        salesPrice: 9000,
+        price: 10000,
+        rating: 5
+    },
+ 
+];
+
+
+const learningsCard: productsCards[] = [
+    {
+        title: 'هدفون',
+        link: '/',
+        photo: proimg1,
+        salesPrice: 375,
+        price: 285,
+        rating: 4
+    },
+    {
+        title: 'MacBook Air ',
+        link: '/',
+        photo: proimg2,
+        salesPrice: 650,
+        price: 900,
+        rating: 5
+    },
+    {
+        title: 'هدفون',
+        link: '/',
+        photo: proimg1,
+        salesPrice: 375,
+        price: 285,
+        rating: 4
+    },
+    {
+        title: 'MacBook pro ',
+        link: '/',
+        photo: proimg2,
+        salesPrice: 9000,
+        price: 10000,
+        rating: 5
+    },
+ 
+];
+
+
+export { recentTransaction, productPerformance, productsCard, physicalProductsCard, learningsCard }
