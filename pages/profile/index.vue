@@ -50,7 +50,7 @@
        color="primary"
       >
         <v-tab value="one">محصولات</v-tab>
-        <v-tab value="two">خدمات</v-tab>
+        <v-tab value="two">محصولات فیزیکی</v-tab>
         <v-tab value="three">آموزش‌ها</v-tab>
       </v-tabs>
   
@@ -61,11 +61,11 @@
           </v-window-item>
   
           <v-window-item value="two">
-            Two
+            <physicalProductsCard />
           </v-window-item>
-  
+          
           <v-window-item value="three">
-            Three
+            <learningsCard />
           </v-window-item>
         </v-window>
       </v-card-text>
@@ -79,6 +79,8 @@
 
 /*Call Components*/
 import ProductCards from '~/components/dashboard/ProductCards.vue';
+import learningsCard from '~/components/dashboard/LearningsCards.vue';
+import physicalProductsCard from '~/components/dashboard/PhysicalProductsCards.vue';
 import { BrandInstagramIcon, BrandTelegramIcon } from 'vue-tabler-icons';
 
 export default {
