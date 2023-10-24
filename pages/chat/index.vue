@@ -15,8 +15,8 @@
                 </v-btn>
 
                 <v-btn rounded="xl" elevation="0" size="small" width="45" height="45" class="mt-auto mb-5 custom-rounded-1"
-                    color="indigo-darken-3">
-                    <v-icon>
+                    color="indigo-darken-3" icon="">
+                    <v-icon >
                         <Logout2Icon />
                     </v-icon>
 
@@ -73,7 +73,13 @@
         </v-navigation-drawer>
 
         <v-main>
+            
+          
             <v-app-bar :elevation="0" class=" border-b">
+                <v-btn color="transparent" class="hidden-lg-and-up mr-5 ms-md-3 ms-sm-5 ms-3 text-muted" @click="drawer = !drawer" icon variant="flat"
+                size="small">
+                <Menu2Icon size="20" stroke-width="1.5" />
+            </v-btn>
                 <v-avatar color="indigo-darken-4" size="48" style="font-size:9px" class="me-9  ms-md-4">
                     J O
                 </v-avatar>
@@ -112,7 +118,7 @@
 
             <v-bottom-navigation height="70" elevation="0" color="transparent">
                 <v-row class="px-3 py-2">
-                    <v-col cols="11">
+                    <v-col cols="9" sm="10" md="11">
                         <v-text-field class="shadow-none" bg-color="grey-lighten-3" elevation="10" label=" پیام شما ..." rounded="pill"
                             variant="solo-flat"></v-text-field>
                     </v-col>
@@ -130,10 +136,10 @@
 </template>
 
 <script>
-import { Circle0FilledIcon, SendIcon, SearchIcon, Home2Icon, Logout2Icon } from 'vue-tabler-icons';
+import { Circle0FilledIcon, SendIcon, SearchIcon, Home2Icon, Logout2Icon, Menu2Icon} from 'vue-tabler-icons';
 
 export default {
-    components: { Circle0FilledIcon, SendIcon, SearchIcon, Home2Icon, Logout2Icon },
+    components: { Circle0FilledIcon, SendIcon, SearchIcon, Home2Icon, Logout2Icon,Menu2Icon },
     setup() {
         definePageMeta({
             layout: "chat",
