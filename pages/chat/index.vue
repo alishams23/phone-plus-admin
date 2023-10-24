@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-navigation-drawer class=" hidden-sm-and-down" location="left" rail-width="90" rail
+        <v-navigation-drawer class=" hidden-sm-and-down" location="right" rail-width="90" rail
             style="position:fixed; top:0; right:0; ">
             <div class="d-flex bg-primary flex-column justify-center align-center" style="height: 100%;">
                 <v-btn rounded="xl" elevation="0" size="small" width="50" color="transparent" height="50"
@@ -23,24 +23,13 @@
                 </v-btn>
             </div>
         </v-navigation-drawer>
-        <v-navigation-drawer location="left" v-model="drawer" :width="300">
+        <v-navigation-drawer location="right" v-model="drawer" :width="300">
 
-            <v-toolbar color="transparent" class="py-5">
-                <v-btn icon>
-                    <v-avatar size="50">
-                        <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
-
-
-                    </v-avatar>
-                </v-btn>
-
-                <v-toolbar-title>New Chat</v-toolbar-title>
-
-            </v-toolbar>
-            <v-text-field class="shadow-none px-3 pt-0" bg-color="grey-lighten-3" base-color="primary" label=" search..."
+          
+            <v-text-field class="shadow-none px-3 pt-0 mt-10" bg-color="grey-lighten-3" base-color="primary" label=" search..."
                 rounded="pill" variant="solo-flat">
 
-                <template v-slot:prepend>
+                <template v-slot:append>
 
                     <v-avatar size="48" color="primary">
                         <SearchIcon  />
@@ -54,7 +43,7 @@
 
             <v-list subheader>
 
-                <v-list-item v-for="item in items" :key="item.title" class="py-3">
+                <v-list-item v-for="item in items" :key="item.title" class="py-3 rtl">
                     <template v-slot:prepend>
                         <v-avatar size="50" color="grey-lighten-1">
                             <v-img :src="item.avatar"></v-img>
@@ -75,15 +64,15 @@
         <v-main>
             
           
-            <v-app-bar :elevation="0" class=" border-b">
+            <v-app-bar :elevation="0" class=" border-b rtl">
                 <v-btn color="transparent" class="hidden-lg-and-up mr-5 ms-md-3 ms-sm-5 ms-3 text-muted" @click="drawer = !drawer" icon variant="flat"
                 size="small">
                 <Menu2Icon size="20" stroke-width="1.5" />
             </v-btn>
                 <v-avatar color="indigo-darken-4" size="48" style="font-size:9px" class="me-9  ms-md-4">
-                    J O
+                    <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
                 </v-avatar>
-                <div class=" font-weight-bold text-h5">Jason Oner</div>
+                <div class=" font-weight-bold text-h5">آرتا</div>
             </v-app-bar>
             <v-list>
 
@@ -173,10 +162,10 @@ export default {
         ],
         drawer: true,
         items: [
-            { active: true, title: 'Jason Oner', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg' },
-            { active: true, title: 'Ranee Carlson', avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg' },
-            { title: 'Cindy Baker', avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg' },
-            { title: 'Ali Connors', avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg' },
+            { active: true, title: 'آرتا', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg' },
+            { active: true, title: 'کامران', avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg' },
+            { title: 'شایان', avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg' },
+            { title: 'کیوان', avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg' },
         ],
         items2: [
             { title: 'Travis Howard', avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg' },
@@ -185,10 +174,10 @@ export default {
             text: null
         },
         messages: [
-            { msg: 'Real-Time', avatar: 'https://cdn.vuetifyjs.com/images/john.png', sent: false },
-            { msg: 'Audience', avatar: 'https://cdn.vuetifyjs.com/images/john.png', sent: true },
-            { msg: 'Conversions', avatar: 'https://cdn.vuetifyjs.com/images/john.png', sent: false },
-            { msg: 'reaas', avatar: 'https://cdn.vuetifyjs.com/images/john.png', sent: false },
+            { msg: 'سلام', avatar: 'https://cdn.vuetifyjs.com/images/john.png', sent: false },
+            { msg: 'سلام خسته نباشید', avatar: 'https://cdn.vuetifyjs.com/images/john.png', sent: true },
+            { msg: 'قیمت x چنده', avatar: 'https://cdn.vuetifyjs.com/images/john.png', sent: false },
+            { msg: 'خسته نباشید', avatar: 'https://cdn.vuetifyjs.com/images/john.png', sent: false },
         ],
 
         user_item: 0,
