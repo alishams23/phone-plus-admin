@@ -3,9 +3,7 @@
         <v-navigation-drawer class=" hidden-sm-and-down" location="right" rail-width="90" rail
             style="position:fixed; top:0; right:0; ">
             <div class="d-flex bg-primary flex-column justify-center align-center" style="height: 100%;">
-                <v-btn rounded="xl" elevation="0" size="small" width="50" color="transparent" height="50"
-                    class="text-sm text-blue-darken-4 text-white font-weight-black mt-5 mb-auto">چت</v-btn>
-
+          
                 <v-btn v-for="(item, index) in menu" variant="flat" :key="item + '+sidebar'" elevation="0" size="x-small"
                     width="50" height="50" class="my-3 custom-rounded-1" color="transparent">
                     <v-icon size="40">

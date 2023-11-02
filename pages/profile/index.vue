@@ -70,14 +70,7 @@
         </v-window>
       </v-card-text>
     </v-card>
-    hover: false,
-      top: false,
-      right: false,
-      bottom: false,
-      left: false,
-      direction: 'top',
-      transition: 'slide-y',
-      fab: false
+
   </v-container>
 </template>
   
@@ -93,6 +86,7 @@ export default {
   components: { BrandInstagramIcon, BrandTelegramIcon, ProductCards},
   data() {
     return {
+      tab:null,
       hover: false,
       top: false,
       right: false,
