@@ -59,13 +59,15 @@
           <v-window-item value="one">
             <ProductCards />
           </v-window-item>
-  
+          
           <v-window-item value="two">
             <physicalProductsCard />
+            <ProductCards />
           </v-window-item>
           
           <v-window-item value="three">
             <learningsCard />
+            <ProductCards />
           </v-window-item>
         </v-window>
       </v-card-text>
@@ -97,10 +99,10 @@ export default {
       fab: false,
       seller: {
         
-        name: 'John Doe',
-        bio: 'Passionate seller of unique handmade items.',
-        phone: '+123 456 789',
-        email: 'john@example.com',
+        name: 'محمد رضایی',
+        bio: ' تامین‌کننده برتر گوشی‌ها و لوازم جانبی؛ کیفیت بالا، نوآوری، رضایت مشتری.',
+        phone: '+98 912 220 7744',
+        email: 'mohammad.rezaei@example.com',
         socialLinks: [
 
           { label: 'تلگرام', url: 'https://twitter.com/johndoe', icon: BrandTelegramIcon },
