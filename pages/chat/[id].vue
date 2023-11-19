@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-navigation-drawer class=" hidden-sm-and-down" location="right" rail-width="90" rail
+        <!-- <v-navigation-drawer class=" hidden-sm-and-down" location="right" rail-width="90" rail
             style="position:fixed; top:0; right:0; ">
             <div class="d-flex bg-primary flex-column justify-center align-center" style="height: 100%;">
           
@@ -20,45 +20,8 @@
 
                 </v-btn>
             </div>
-        </v-navigation-drawer>
-        <v-navigation-drawer location="right" v-model="drawer" :width="300">
-
-          
-            <v-text-field class="shadow-none px-3 pt-0 mt-10" bg-color="grey-lighten-3" base-color="primary" label=" search..."
-                rounded="pill" variant="solo-flat">
-
-                <template v-slot:append>
-
-                    <v-avatar size="48" color="primary">
-                        <SearchIcon  />
-
-                    </v-avatar>
-                </template>
-            </v-text-field>
-
-
-
-
-            <v-list subheader>
-
-                <v-list-item v-for="item in items" :key="item.title" class="py-3 rtl">
-                    <template v-slot:prepend>
-                        <v-avatar size="50" color="grey-lighten-1">
-                            <v-img :src="item.avatar"></v-img>
-                        </v-avatar>
-                    </template>
-
-                    <template v-slot:append>
-                        <v-avatar size="20" class=" text-body-2" color="primary" v-if="item.active"> 1</v-avatar>
-
-                    </template>
-                    <v-list-item-title v-text="item.title"></v-list-item-title>
-
-
-                </v-list-item>
-            </v-list>
-        </v-navigation-drawer>
-
+        </v-navigation-drawer> -->
+       
         <v-main>
             
           
@@ -128,9 +91,7 @@ import { Circle0FilledIcon, SendIcon, SearchIcon, Home2Icon, Logout2Icon, Menu2I
 export default {
     components: { Circle0FilledIcon, SendIcon, SearchIcon, Home2Icon, Logout2Icon,Menu2Icon },
     setup() {
-        definePageMeta({
-            layout: "chat",
-        })
+ 
     },
     data: () => ({
         menu: [

@@ -7,8 +7,9 @@ const props = defineProps({ item: Object, level: Number });
 <template>
     <!---Single Item-->
     <v-list-item
-        :to="item.to"
+        :to="item.to != '/chat' ?  item.to : ''"
         rounded
+
         class="mb-1"
         color="primary"
         :disabled="item.disabled"

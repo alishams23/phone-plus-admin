@@ -41,15 +41,26 @@
        </div>
    </v-card>
   </v-container>
+
+  <VLayoutItem model-value position="bottom" class="text-end" size="88">
+    <div class="ma-4">
+      <VBtn icon="" size="large" color="primary" elevation="8" >
+        <v-icon>
+<PlusIcon />
+        </v-icon>
+      </VBtn>
+    </div>
+  </VLayoutItem>
 </template>
 
 <script>
-import { PencilIcon } from 'vue-tabler-icons';
+import { PencilIcon,PlusIcon } from 'vue-tabler-icons';
 import proimg1 from '@/assets/images/products/s4.jpg';
 import proimg2 from '@/assets/images/products/s5.jpg';
 export default {
  components:{
-   PencilIcon
+   PencilIcon,
+   PlusIcon
  },
  name: "ProductCard",
  data() {
