@@ -61,7 +61,7 @@ export default {
 <template>
  <v-app>
        <!------Sidebar-------->
-       <v-navigation-drawer location="right" elevation="0"  app class="leftSidebar"  v-model="sDrawer">
+       <v-navigation-drawer location="right" elevation="0"  app class="leftSidebar rounded-s-circle overflow-hidden"  v-model="sDrawer">
         <!---Logo part -->
         <div class=" pa-5  ">
             <!-- <Logo /> -->
@@ -131,7 +131,7 @@ export default {
     </v-navigation-drawer>
 
 
-    <v-navigation-drawer location="right" :temporary="currentRouteCheck('/chat') ? false : true" v-model="drawer" :width="300">
+    <!-- <v-navigation-drawer location="right" :temporary="currentRouteCheck('/chat') ? false : true" v-model="drawer" :width="300">
 
          
         <v-text-field class="shadow-none px-3 pt-0 mt-10" bg-color="grey-lighten-3" base-color="primary" label=" search..."
@@ -163,7 +163,7 @@ export default {
                 <v-list-item-title v-text="item.title"></v-list-item-title>
             </v-list-item>
         </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
 
 
     <!------Header-------->
