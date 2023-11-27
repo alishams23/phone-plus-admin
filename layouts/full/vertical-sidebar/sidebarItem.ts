@@ -44,9 +44,14 @@ const sidebarItem: menu[] = [
     },
     { header: 'محصولات' },
     {
-        title: 'کالاها',
+        title: 'محصولات',
         icon: CubeIcon,
         to: '/products'
+    },
+    {
+        title: 'خدمات',
+        icon: CubeIcon,
+        to: '/services'
     },
     {
         title: 'ارسال کالا',
