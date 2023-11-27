@@ -1,5 +1,66 @@
 <template>
   <v-container>
+    <v-row align="center">
+      <v-col cols="4">
+        <v-locale-provider rtl  >
+        <v-text-field
+        label="جستجو"
+        rounded="lg"
+        persistent-hint
+        variant="outlined"
+        color="primary"
+        dense
+        
+       class="mt-5 text-body-2"
+   
+      >
+      <template v-slot:prepend-inner>
+    
+          <SearchIcon color="gray" />
+
+        
+      </template>
+      <template v-slot:prepend>
+        <v-dialog width="500">
+          <template v-slot:activator="{ props }">
+            <v-btn v-bind="props" variant="tonal" color="primary"  rounded="lg" size="50"  >
+              <FilterCogIcon />
+    
+            </v-btn>
+          </template>
+        
+          <template v-slot:default="{ isActive }">
+            <v-card title="Dialog">
+              <v-card-text>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </v-card-text>
+        
+              <v-card-actions>
+                <v-spacer></v-spacer>
+        
+                <v-btn
+                  text="Close Dialog"
+                  @click="isActive.value = false"
+                ></v-btn>
+              </v-card-actions>
+            </v-card>
+          </template>
+        </v-dialog>
+       
+      </template>
+    </v-text-field>
+    </v-locale-provider>
+      </v-col>
+      <v-col cols="7" class="rtl d-flex align-center">
+        <v-avatar color="primary" rounded="lg" size="50">
+          <BoxIcon/>
+        </v-avatar>
+        <div class=" px-5 font-weight-bold text-h4">
+          کالا ها 
+        </div>
+       
+      </v-col>
+    </v-row>
    <v-card
      elevation="10"
      v-for="product in products"
@@ -12,7 +73,6 @@
              <v-card-title class="text-h5 font-weight-bold">
                {{ product.name }}
              </v-card-title>
-
              <div>
                {{ product.description }}
              </div>
@@ -54,13 +114,16 @@
 </template>
 
 <script>
-import { PencilIcon,PlusIcon } from 'vue-tabler-icons';
+import { PencilIcon,PlusIcon,BoxIcon,SearchIcon,FilterCogIcon } from 'vue-tabler-icons';
 import proimg1 from '@/assets/images/products/s4.jpg';
 import proimg2 from '@/assets/images/products/s5.jpg';
 export default {
  components:{
    PencilIcon,
-   PlusIcon
+   PlusIcon,
+   BoxIcon,
+   SearchIcon,
+   FilterCogIcon
  },
  name: "ProductCard",
  data() {
@@ -119,4 +182,5 @@ export default {
 .product-image {
  height: 200px; /* Adjust the height as needed */
 }
+
 </style>
