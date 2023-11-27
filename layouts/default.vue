@@ -61,11 +61,11 @@ export default {
 <template>
  <v-app>
        <!------Sidebar-------->
-       <v-navigation-drawer location="right" elevation="0"  app class="leftSidebar rounded-s-circle overflow-hidden bg-primary"  v-model="sDrawer">
+       <v-navigation-drawer location="right" elevation="0"  app class="leftSidebar rounded-s-circle overflow-hidden " color="#311B92"  v-model="sDrawer">
         <!---Logo part -->
         <div class=" pa-5  ">
             <!-- <Logo /> -->
-           <v-sheet class="d-flex justify-center align-center" color="primary">
+           <v-sheet class="d-flex justify-center align-center" color="transparent">
             <v-avatar size="100" justify="center">
                     <img src="@/assets/images/users/avatar-1.jpg" height="100" alt="user" />
                 </v-avatar>
@@ -90,7 +90,9 @@ export default {
                             rounded
                             @click="item.to == '/chat'? drawer = true : null"
                             class="mb-1"
-                            color="primary"
+                          
+                           
+                            active-class="bg-white text-black"
                             :disabled="item.disabled"
                             :target="item.type === 'external' ? '_blank' : ''"
                         >
@@ -186,3 +188,9 @@ export default {
     </v-main>
  </v-app>
 </template>
+
+<style>
+.text-black{
+    color: black !important;
+}
+</style>

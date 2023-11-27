@@ -56,50 +56,56 @@
           <BoxIcon/>
         </v-avatar>
         <div class=" px-5 font-weight-bold text-h4">
-          کالا ها 
+          محصولات
         </div>
        
       </v-col>
     </v-row>
-   <v-card
-     elevation="10"
-     v-for="product in products"
-     :key="product.id"
-     rounded="lg"
-     class="my-8 rtl"
-   >
-       <div class="d-flex flex-no-wrap justify-space-between">
-           <div class="pa-5 d-flex align-start flex-column ">
-             <v-card-title class="text-h5 font-weight-bold">
-               {{ product.name }}
-             </v-card-title>
-             <div>
-               {{ product.description }}
-             </div>
+ <v-row>
+  <v-col  v-for="product in products"
+  :key="product.id" cols="6">
+    <v-card
+    elevation="10"
+   
+    rounded="lg"
+    class="my-5 rtl mx-3"
+  >
+      <div class="d-flex flex-no-wrap justify-space-between">
+          <div class="pa-5 d-flex align-start flex-column ">
+            <v-card-title class="text-h5 font-weight-bold">
+              {{ product.name }}
 
-             <v-card-actions class="mt-auto">
-               <v-btn
-                 class="px-10"
-                 variant="flat"
-                 rounded="xl"
-                 color="primary"
-               >
-                 ویرایش
-                 <template v-slot:append>
-                   <PencilIcon size="15" />
-                 </template>
-               </v-btn>
-             </v-card-actions>
-           </div>
+              
+            </v-card-title>
+            <v-card-text class="text-line-1">
+              {{ product.description }}
+            </v-card-text>
 
-           <v-avatar
-             size="230"
-             rounded="0"
-           >
-             <v-img :src="product.image"></v-img>
-           </v-avatar>
-       </div>
-   </v-card>
+            <v-card-actions class="mt-auto">
+              <v-btn
+                class="px-10"
+                variant="flat"
+                rounded="xl"
+                color="primary"
+              >
+                ویرایش
+                <template v-slot:append>
+                  <PencilIcon size="15" />
+                </template>
+              </v-btn>
+            </v-card-actions>
+          </div>
+
+          <v-avatar
+            size="230"
+            rounded="0"
+          >
+            <v-img :src="product.image"></v-img>
+          </v-avatar>
+      </div>
+  </v-card>
+  </v-col>
+ </v-row>
   </v-container>
 
   <VLayoutItem model-value position="bottom" class="text-end" size="88">
@@ -182,5 +188,12 @@ export default {
 .product-image {
  height: 200px; /* Adjust the height as needed */
 }
-
+.text-line-1 {
+ display: block;/* or inline-block */
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  max-height: 3.6em;
+  line-height: 1.8em;
+}
 </style>
