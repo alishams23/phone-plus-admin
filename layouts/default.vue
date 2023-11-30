@@ -61,7 +61,7 @@ export default {
 <template>
  <v-app>
        <!------Sidebar-------->
-       <v-navigation-drawer location="right" elevation="0"  app class="leftSidebar rounded-s-circle overflow-hidden " color="#311B92"  v-model="sDrawer">
+       <v-navigation-drawer location="right" elevation="0"  app class="leftSidebar " color="primary"  v-model="sDrawer">
         <!---Logo part -->
         <div class=" pa-5  ">
             <!-- <Logo /> -->
@@ -92,7 +92,7 @@ export default {
                             class="mb-1"
                           
                            
-                            active-class="bg-white text-black"
+                            active-class="bg-white text-primary"
                             :disabled="item.disabled"
                             :target="item.type === 'external' ? '_blank' : ''"
                         >
@@ -188,9 +188,3 @@ export default {
     </v-main>
  </v-app>
 </template>
-
-<style>
-.text-black{
-    color: black !important;
-}
-</style>
