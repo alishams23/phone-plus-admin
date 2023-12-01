@@ -19,12 +19,11 @@ const items= [
             { title: 'شایان', avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg' },
             { title: 'کیوان', avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg' },
         ]
-
 </script> -->
 
 <script>
-
 import sidebarItems from '@/layouts/full/vertical-sidebar/sidebarItem';
+import settingItems from '@/layouts/full/vertical-sidebar/settingItem';
 import NavGroup from '@/layouts/full/vertical-sidebar/NavGroup/index.vue';
 import NavItem from '@/layouts/full/vertical-sidebar/NavItem/index.vue';
 import ExtraBox from '@/layouts/full/vertical-sidebar/extrabox/ExtraBox.vue';
@@ -41,8 +40,10 @@ export default {
   data (){
     return{
         sidebarMenu : sidebarItems,
+        settingMenu : settingItems,
         sDrawer : true,
-        drawer:false,
+        chat_drawer:false,
+        setting_drawer:false,
         items: [
             { active: true, title: 'آرتا', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg' },
             { active: true, title: 'کامران', avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg' },
@@ -81,21 +82,16 @@ export default {
                     <template v-for="(item, i) in sidebarMenu">
                         <!---Item Sub Header -->
                         <NavGroup :item="item" v-if="item.header" :key="item.title" />
-
                         <!---Single Item-->
-                
                             <v-list-item
                             v-else 
-                            :to="item.to != '/chat' ?  item.to : ''"
+                            :to="item.to == '/chat' || item.to == '/settings'? ''  : item.to"
                             rounded
-                            @click="item.to == '/chat'? drawer = true : null"
+                            @click="item.to == '/chat' ? chat_drawer = true : item.to == '/settings'? setting_drawer = true : null"
                             class="mb-1"
-                          
-                           
                             active-class="bg-white text-primary"
                             :disabled="item.disabled"
-                            :target="item.type === 'external' ? '_blank' : ''"
-                        >
+                            :target="item.type === 'external' ? '_blank' : ''">
                             <!---If icon-->
                             <template v-slot:prepend>
                                 <Icon :item="item.icon"  />
@@ -112,45 +108,28 @@ export default {
                                     class="sidebarchip hide-menu"
                                     :size="'small'"
                                     :variant="item.chipVariant"
-                                    :prepend-icon="item.chipIcon"
-                                >
+                                    :prepend-icon="item.chipIcon">
                                     {{ item.chip }}
                                 </v-chip>
                             </template>
                         </v-list-item>
-                    
-                
-
-                        
                         <!---End Single Item-->
                     </template>
                 </v-list>
-            
             </perfect-scrollbar> 
         </div>
     </v-navigation-drawer>
 
-
-    <!-- <v-navigation-drawer location="right" :temporary="currentRouteCheck('/chat') ? false : true" v-model="drawer" :width="300">
-
-         
+    <v-navigation-drawer location="right" :temporary="currentRouteCheck('/chat') ? false : true" v-model="chat_drawer" :width="300">
         <v-text-field class="shadow-none px-3 pt-0 mt-10" bg-color="grey-lighten-3" base-color="primary" label=" search..."
             rounded="pill" variant="solo-flat">
-
             <template v-slot:append>
-
                 <v-avatar size="48" color="primary">
                     <SearchIcon  />
-
                 </v-avatar>
             </template>
         </v-text-field>
-
-
-
-
         <v-list subheader>
-
             <v-list-item v-for="item,index in items" :to="'/chat/' + index" :key="item.title" class="py-3 rtl">
                 <template v-slot:prepend>
                     <v-avatar size="50" color="grey-lighten-1">
@@ -163,8 +142,46 @@ export default {
                 <v-list-item-title v-text="item.title"></v-list-item-title>
             </v-list-item>
         </v-list>
-    </v-navigation-drawer> -->
-
+    </v-navigation-drawer>
+    
+    <v-navigation-drawer location="right" :temporary="currentRouteCheck('/settings') ? false : true" v-model="setting_drawer" :width="300">
+        <template v-for="(item, i) in settingMenu">
+                        <!---Item Sub Header -->
+                        <NavGroup :item="item" v-if="item.header" :key="item.title" />
+                        <!---Single Item-->
+                            <v-list-item
+                            v-else 
+                            :to="item.to == '/chat' || item.to == '/settings'? ''  : item.to"
+                            rounded
+                            @click="item.to == '/chat' ? chat_drawer = true : item.to == '/settings'? setting_drawer = true : null"
+                            class="mb-1"
+                            active-class="bg-white text-primary"
+                            :disabled="item.disabled"
+                            :target="item.type === 'external' ? '_blank' : ''">
+                            <!---If icon-->
+                            <template v-slot:prepend>
+                                <Icon :item="item.icon"  />
+                            </template>
+                            <v-list-item-title class="rtl">{{item.title }}</v-list-item-title>
+                            <!---If Caption-->
+                            <v-list-item-subtitle v-if="item.subCaption" class="text-caption mt-n1 hide-menu">
+                                {{ item.subCaption }}
+                            </v-list-item-subtitle>
+                            <!---If any chip or label-->
+                            <template v-slot:append v-if="item.chip">
+                                <v-chip
+                                    :color="item.chipColor"
+                                    class="sidebarchip hide-menu"
+                                    :size="'small'"
+                                    :variant="item.chipVariant"
+                                    :prepend-icon="item.chipIcon">
+                                    {{ item.chip }}
+                                </v-chip>
+                            </template>
+                        </v-list-item>
+                        <!---End Single Item-->
+                    </template>
+    </v-navigation-drawer>
 
     <!------Header-------->
     <v-app-bar elevation="0" class="rtl bg-glass" height="70" color="transparent" v-if="sDrawer == false" >

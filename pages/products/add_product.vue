@@ -16,7 +16,6 @@
                 variant="outlined"
                 color="primary"
                 class="mt-5"/>
-            
             <v-text-field
                 label="قیمت محصول"
                 rounded="lg"
@@ -62,8 +61,8 @@
                 label="عکس‌های محصول"
                 multiple
                >
-                <template v-slot:prepend="{isDirty}">
-                     {{ isDirty }}
+                <template v-slot:prepend>
+                   
                     <PhotoIcon style="margin-left: -20px;" class="  text-grey" />
 
                        
