@@ -1,6 +1,6 @@
 <template>
     <v-app height="100%">
-       
+       {{ username }}
         <v-card  height="100%" elevation="0" >
                 
             <v-window v-model="step" class=" h-100">
@@ -154,19 +154,67 @@
   
   <script>
     
-  
+    import { useUserStore } from '~/store/user'; // Adjust the path accordingly
+
     export default {
+      computed: {
+    username() {
+      return useUserStore().username;
+    },
+  },
         setup() {
     definePageMeta({
       layout: "chat",
     })
   },
      data: () => ({
-      step: 1
+      step: 1,
+      rules: {
+        required: value => !!value || 'Field is required',
+      },
+      generalError: false,
+      username: "",
+      password: "",
+      loading: false,
     }),
     props: {
       source: String
-    } 
+    } ,
+    mounted() {
+  
+  },
+  methods:{
+    async Login() {
+  this.loading = true;
+  try {
+    const response = await axios.post("https://tedline.org/api/account/login/", {
+      username: this.username,
+      password: this.password,
+    });
+
+    if (response.status === 200) {
+      // Login successful
+      this.$store.commit("login", {
+        token: response.data.token,
+        username: this.username,
+      });
+      this.loading = false;
+      this.$router.push("/");
+    } else {
+      // Handle other HTTP status codes (e.g., 401 for unauthorized)
+      this.loading = false;
+      this.generalError = true;
+    }
+  } catch (error) {
+    // Handle network errors or unexpected exceptions
+    this.loading = false;
+    this.generalError = true;
+    
+    // Log the error to the console
+    console.error("API error:", error);
+  }
+}
+  }
   
       
     }
