@@ -1,16 +1,20 @@
 export const useUserStore = defineStore('user', {
     state: () => ({
-        isAuthenticated: null,
-        token: '',
-        username: 'ali',
+      userToken:useCookie('token')
     }),
     actions: {
-      // since we rely on `this`, we cannot use an arrow function
-    //   increment() {
-    //     this.count++
-    //   },
-    //   randomizeCounter() {
-    //     this.count = Math.round(100 * Math.random())
-    //   },
+      storeToken(token){
+        this.userToken = token
+        const newCookie = useCookie('token', {
+            maxAge: 60*24*28,
+            sameSite: true,
+            secure: true,
+        })
+        newCookie.value = this.userToken
+    },
+
+ 
+
+  
     },
   })
