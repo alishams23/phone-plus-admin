@@ -21,32 +21,9 @@
         
       </template>
       <template v-slot:prepend>
-        <v-dialog width="500">
-          <template v-slot:activator="{ props }">
-            <v-btn v-bind="props" variant="tonal" color="primary"  rounded="lg" size="50"  >
-              <FilterCogIcon />
-    
-            </v-btn>
-          </template>
-        
-          <template v-slot:default="{ isActive }">
-            <v-card title="Dialog">
-              <v-card-text>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </v-card-text>
-        
-              <v-card-actions>
-                <v-spacer></v-spacer>
-        
-                <v-btn
-                  text="Close Dialog"
-                  @click="isActive.value = false"
-                ></v-btn>
-              </v-card-actions>
-            </v-card>
-          </template>
-        </v-dialog>
-       
+        <v-btn v-bind="props" variant="tonal" color="primary"  rounded="lg" size="50"  >
+          <SortDescending2Icon />
+        </v-btn>       
       </template>
     </v-text-field>
     </v-locale-provider>
@@ -58,7 +35,6 @@
         <div class=" px-5 font-weight-bold text-h4">
           محصولات
         </div>
-       
       </v-col>
     </v-row>
  <v-row>
@@ -66,7 +42,6 @@
   :key="product.id" cols="6">
     <v-card
     elevation="10"
-   
     rounded="lg"
     class="my-5 rtl mx-3"
   >
@@ -74,13 +49,10 @@
           <div class="pa-5 d-flex align-start flex-column ">
             <v-card-title class="text-h5 font-weight-bold">
               {{ product.name }}
-
-              
             </v-card-title>
             <v-card-text class="text-line-1">
               {{ product.description }}
             </v-card-text>
-
             <v-card-actions class="mt-auto">
               <v-btn
                 class="px-10"
@@ -95,7 +67,6 @@
               </v-btn>
             </v-card-actions>
           </div>
-
           <v-avatar
             size="230"
             rounded="0"
@@ -107,29 +78,42 @@
   </v-col>
  </v-row>
   </v-container>
-
   <VLayoutItem model-value position="bottom" class="text-end" size="88">
+   
+    <v-dialog width="500">
+  <template v-slot:activator="{ props }">
     <div class="ma-4">
-      <VBtn icon="" size="large" color="primary" elevation="8" >
+      <VBtn v-bind="props"  icon="" size="large" color="primary" elevation="8" >
         <v-icon>
-<PlusIcon />
+          <PlusIcon />
         </v-icon>
       </VBtn>
     </div>
+  </template>
+
+  <template v-slot:default="{ isActive }">
+    <v-card class="px-15 rounded-lg my-20 " title="">
+      <AddProduct />
+    </v-card>
+  </template>
+</v-dialog>
   </VLayoutItem>
 </template>
-
 <script>
-import { PencilIcon,PlusIcon,BoxIcon,SearchIcon,FilterCogIcon } from 'vue-tabler-icons';
+import { PencilIcon,PlusIcon,BoxIcon,SearchIcon,FilterCogIcon, SortDescending2Icon } from 'vue-tabler-icons';
 import proimg1 from '@/assets/images/products/s4.jpg';
 import proimg2 from '@/assets/images/products/s5.jpg';
+import AddProduct from '@/pages/products/add_product.vue';
+
 export default {
  components:{
    PencilIcon,
    PlusIcon,
+   SortDescending2Icon,
    BoxIcon,
    SearchIcon,
-   FilterCogIcon
+   FilterCogIcon,
+   AddProduct
  },
  name: "ProductCard",
  data() {
