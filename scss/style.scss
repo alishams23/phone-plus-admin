@@ -21,3 +21,8 @@ background: rgba(255, 255, 255, 0.909) !important;
 backdrop-filter: blur(15px);
 -webkit-backdrop-filter: blur(5px);
 }
+
+.v-btn {
+    /* Apply the custom letter-spacing to all v-btn components */
+    letter-spacing: 0px !important; /* Adjust the value as needed */
+}
