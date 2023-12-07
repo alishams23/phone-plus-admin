@@ -87,19 +87,9 @@
                 variant="flat"
                 color="primary"
                
-                class="mx-2 text-body2 font-weight-bold mb-5"
+                class="mx-2 px-10 text-body2 font-weight-bold mb-5"
                 type="submit">
                 ثبت
-            </v-btn>
-
-            <v-btn 
-                rounded="lg"
-                persistent-hint
-                variant="tonal"
-                color="primary"
-                class="mx-2 mb-5"
-                type="submit">
-                ولش کن
             </v-btn>
         </v-locale-provider>
     </form>
