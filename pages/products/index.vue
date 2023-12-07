@@ -28,13 +28,13 @@
     </v-text-field>
     </v-locale-provider>
       </v-col>
-      <v-col cols="7" class="rtl d-flex align-center">
+      <v-col cols="8" class="rtl d-flex align-center">
         <v-avatar color="primary" rounded="lg" size="50">
           <BoxIcon/>
         </v-avatar>
         <div class=" px-5 font-weight-bold text-h4">
           محصولات
-        </div>
+        </div> 
       </v-col>
     </v-row>
  <v-row>

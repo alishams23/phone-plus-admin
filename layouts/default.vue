@@ -88,7 +88,7 @@ export default {
                             :to="item.to == '/chat' || item.to == '/settings'? ''  : item.to"
                             rounded
                             @click="item.to == '/chat' ? chat_drawer = true : item.to == '/settings'? setting_drawer = true : null"
-                            class="mb-1"
+                            class="mb-1 text-white"
                             active-class="bg-white text-primary"
                             :disabled="item.disabled"
                             :target="item.type === 'external' ? '_blank' : ''">
@@ -205,3 +205,10 @@ export default {
     </v-main>
  </v-app>
 </template>
+
+<style scoped>
+
+.text-primary{
+    color: rgb(64, 0, 124) !important;
+}
+</style>
