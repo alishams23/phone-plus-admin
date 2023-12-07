@@ -1,7 +1,7 @@
+import { createApp } from 'vue';
+import Vue3Editor from 'vue3-editor';
 
-import { VueEditor } from "vue3-editor";
 export default defineNuxtPlugin((nuxtApp) => {
-   
-
-  nuxtApp.vueApp.use(VueEditor);
+  const app = createApp({});
+  app.use(Vue3Editor);
 });

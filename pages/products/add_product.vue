@@ -16,6 +16,12 @@
                 variant="outlined"
                 color="primary"
                 class="mt-5"/>
+
+                <vue3-editor
+                class="bg-white"
+                v-model="body"
+                :editorOptions="editorOptions"
+              ></vue3-editor>
             <v-text-field
                 label="قیمت محصول"
                 rounded="lg"
@@ -130,6 +136,9 @@
 </template>
 <script>
 import {PhotoIcon, VideoIcon } from 'vue-tabler-icons';
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
   export default {
     components:{PhotoIcon, VideoIcon},
     data: () => ({
@@ -137,6 +146,22 @@ import {PhotoIcon, VideoIcon } from 'vue-tabler-icons';
         images: [],
         video: null,
         value: 0,
+        body: '',
+        editorOptions: {
+        theme: "snow",
+        modules: {
+          toolbar: [
+            ["bold", "italic", "underline", "strike"],
+            ["link", "blockquote", "code-block"],
+            [{ list: "ordered" }, { list: "bullet" }],
+            [{ script: "sub" }, { script: "super" }],
+            [{ indent: "-1" }, { indent: "+1" }],
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+            [{ direction: "rtl" }],
+            // ['image']
+          ],
+        },
+      },
     }),
   }
 </script>
