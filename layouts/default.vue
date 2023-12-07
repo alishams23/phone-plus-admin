@@ -62,7 +62,7 @@ export default {
 <template>
  <v-app>
        <!------Sidebar-------->
-       <v-navigation-drawer location="right" elevation="0"  app class="leftSidebar " color="primary"  v-model="sDrawer">
+       <v-navigation-drawer location="right" elevation="0"  app class="leftSidebar border-0 curved" color="transparent"  v-model="sDrawer">
         <!---Logo part -->
         <div class=" pa-5  ">
             <!-- <Logo /> -->
@@ -96,7 +96,7 @@ export default {
                             <template v-slot:prepend>
                                 <Icon :item="item.icon"  />
                             </template>
-                            <v-list-item-title class="rtl">{{item.title }}</v-list-item-title>
+                            <v-list-item-title class="rtl text-right">{{item.title }}</v-list-item-title>
                             <!---If Caption-->
                             <v-list-item-subtitle v-if="item.subCaption" class="text-caption mt-n1 hide-menu">
                                 {{ item.subCaption }}
@@ -120,7 +120,7 @@ export default {
         </div>
     </v-navigation-drawer>
 
-    <v-navigation-drawer location="right" :temporary="currentRouteCheck('/chat') ? false : true" v-model="chat_drawer" :width="300">
+    <v-navigation-drawer location="left" :temporary="currentRouteCheck('/chat') ? false : true" v-model="chat_drawer" :width="300">
         <v-text-field class="shadow-none px-3 pt-0 mt-10" bg-color="grey-lighten-3" base-color="primary" label=" search..."
             rounded="pill" variant="solo-flat">
             <template v-slot:append>
@@ -144,7 +144,7 @@ export default {
         </v-list>
     </v-navigation-drawer>
     
-    <v-navigation-drawer location="right" :temporary="currentRouteCheck('/settings') ? false : true" v-model="setting_drawer" :width="300">
+    <v-navigation-drawer location="left" :temporary="currentRouteCheck('/settings') ? false : true" v-model="setting_drawer" :width="300">
         <template v-for="(item, i) in settingMenu">
                         <!---Item Sub Header -->
                         <NavGroup :item="item" v-if="item.header" :key="item.title" />
@@ -162,7 +162,7 @@ export default {
                             <template v-slot:prepend>
                                 <Icon :item="item.icon"  />
                             </template>
-                            <v-list-item-title class="rtl">{{item.title }}</v-list-item-title>
+                            <v-list-item-title  class="rtl">{{item.title }}</v-list-item-title>
                             <!---If Caption-->
                             <v-list-item-subtitle v-if="item.subCaption" class="text-caption mt-n1 hide-menu">
                                 {{ item.subCaption }}
@@ -211,4 +211,13 @@ export default {
 .text-primary{
     color: rgb(64, 0, 124) !important;
 }
+
+.curved {
+    padding: 0px 0px 0px 20px;
+    background-image:radial-gradient(ellipse 75% 100% at 70% 50%, rgb(98, 0, 238) 89.9%, #ffffff00 90%);
+    text-align: center;
+    font-family: sans-serif;
+    text-transform: uppercase;
+  
+  }
 </style>
