@@ -24,20 +24,7 @@
                 variant="outlined"
                 color="primary"
                 class="mt-5"/>
-        </v-locale-provider>
-
-        <v-slider
-            label="درصد تخفیف"
-            variant="outlined"
-            color="primary"
-            class="mt-5"
-            v-model="value"
-            :min="0"
-            :max="100"
-            :step="1"
-            thumb-label
-        ></v-slider>
-        <v-locale-provider rtl  >
+      
             <v-autocomplete
                 label="دسته بندی‌ها"
                 rounded="lg"
@@ -53,10 +40,11 @@
 
             <v-file-input
                 rounded="lg"
+                accept=".png,.jpg"
                 persistent-hint
                 variant="outlined"
                 color="primary"
-                v-model="files"
+                v-model="images"
                 placeholder="Upload your documents"
                 label="عکس‌های محصول"
                 multiple
@@ -79,29 +67,76 @@
                     </template>
                 </template>
             </v-file-input>
-        
-
-            <v-btn
+           
+            <v-file-input
                 rounded="lg"
+                accept=".mp4"
                 persistent-hint
-                variant="flat"
+                variant="outlined"
                 color="primary"
-               
-                class="mx-2 px-10 text-body2 font-weight-bold mb-5"
-                type="submit">
-                ثبت
-            </v-btn>
+                v-model="video"
+                placeholder="اضافه کردن ویدئو"
+                label="فیلم محصول"
+                multiple
+               >
+                <template v-slot:prepend>
+                    <VideoIcon style="margin-left: -20px;" class="  text-grey" />
+                </template>
+                <template v-slot:selection="{ fileNames }">
+                        <template v-for="fileName in fileNames" :key="fileName">
+                            <v-chip
+                            size="small"
+                            label
+                            color="primary"
+                            >
+                            {{ fileName }}
+                        </v-chip>
+                    </template>
+                </template>
+            </v-file-input>
+        
+            <v-checkbox
+                    v-model="discount"
+                    label="دارای تخفیف"
+                ></v-checkbox>
         </v-locale-provider>
+
+        <v-slide-y-transition>
+            <v-slider
+                v-if="discount"
+                label="درصد تخفیف"
+                variant="outlined"
+                color="primary"
+                class="mt-5"
+                v-model="value"
+                :min="0"
+                :max="100"
+                :step="1"
+                thumb-label
+            ></v-slider>
+        </v-slide-y-transition>
+
+        <v-btn
+            rounded="lg"
+            persistent-hint
+            variant="flat"
+            color="primary"
+            
+            class="mx-2 px-10 text-body2 font-weight-bold mb-5"
+            type="submit">
+            ثبت
+        </v-btn>
     </form>
 </template>
 <script>
-import {PhotoIcon } from 'vue-tabler-icons';
-
+import {PhotoIcon, VideoIcon } from 'vue-tabler-icons';
   export default {
-    components:{PhotoIcon},
+    components:{PhotoIcon, VideoIcon},
     data: () => ({
-      files: [],
-      value: 0,
+        discount: false,
+        images: [],
+        video: null,
+        value: 0,
     }),
   }
 </script>
