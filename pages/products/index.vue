@@ -80,7 +80,7 @@
   </v-container>
   <VLayoutItem model-value position="bottom" class="text-end" size="88">
    
-    <v-dialog width="500">
+    <v-dialog width="900">
   <template v-slot:activator="{ props }">
     <div class="ma-4">
       <VBtn v-bind="props"  icon="" size="large" color="primary" elevation="8" >

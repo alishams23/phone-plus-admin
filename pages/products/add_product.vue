@@ -9,19 +9,13 @@
                 color="primary"
                 class="mt-10"/>
             
-            <v-text-field
-                label="توضیحات محصول"
-                rounded="lg"
-                persistent-hint
-                variant="outlined"
-                color="primary"
-                class="mt-5"/>
-
-                <vue3-editor
-                class="bg-white"
-                v-model="body"
-                :editorOptions="editorOptions"
-              ></vue3-editor>
+        <div class="px-5 py-3 ">
+            توضیحات محصول
+        </div>
+    </v-locale-provider>
+                <TextEditor
+              ></TextEditor>
+              <v-locale-provider rtl  >
             <v-text-field
                 label="قیمت محصول"
                 rounded="lg"
@@ -29,7 +23,7 @@
                 persistent-hint
                 variant="outlined"
                 color="primary"
-                class="mt-5"/>
+                class="mt-10"/>
       
             <v-autocomplete
                 label="دسته بندی‌ها"
@@ -37,13 +31,12 @@
                 persistent-hint
                 variant="outlined"
                 color="primary"
-                class="mt-5"
+                class="mt-5 mb-5"
                 clearable
                 chips
-                :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                :items="['موبایل', 'تبلت', 'لپ تاپ', 'لوازم جانبی', 'مانیتور']"
                 multiple>
             </v-autocomplete>
-
             <v-file-input
                 rounded="lg"
                 accept=".png,.jpg"
@@ -73,7 +66,6 @@
                     </template>
                 </template>
             </v-file-input>
-           
             <v-file-input
                 rounded="lg"
                 accept=".mp4"
@@ -100,11 +92,13 @@
                     </template>
                 </template>
             </v-file-input>
-        
             <v-checkbox
                     v-model="discount"
+                    color="primary"
                     label="دارای تخفیف"
-                ></v-checkbox>
+                >
+            </v-checkbox>
+
         </v-locale-provider>
 
         <v-slide-y-transition>
@@ -135,33 +129,26 @@
     </form>
 </template>
 <script>
-import {PhotoIcon, VideoIcon } from 'vue-tabler-icons';
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
+import {PhotoIcon, VideoIcon ,CheckboxIcon} from 'vue-tabler-icons';
+import TextEditor from '@/components/shared/TextEditor.vue';
+
+
   export default {
-    components:{PhotoIcon, VideoIcon},
+    components:{PhotoIcon, VideoIcon,CheckboxIcon,TextEditor},
+
     data: () => ({
         discount: false,
         images: [],
         video: null,
         value: 0,
-        body: '',
-        editorOptions: {
-        theme: "snow",
-        modules: {
-          toolbar: [
-            ["bold", "italic", "underline", "strike"],
-            ["link", "blockquote", "code-block"],
-            [{ list: "ordered" }, { list: "bullet" }],
-            [{ script: "sub" }, { script: "super" }],
-            [{ indent: "-1" }, { indent: "+1" }],
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-            [{ direction: "rtl" }],
-            // ['image']
-          ],
-        },
-      },
+       
+     
     }),
   }
 </script>
+
+<style >
+.ql-toolbar.ql-snow{
+    border-radius: 13px 13px 0px 0px !important;
+}
+</style>

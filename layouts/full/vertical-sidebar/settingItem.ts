@@ -19,7 +19,7 @@ export interface menu {
 }
 
 const sidebarItem: menu[] = [
-    { header: '' },
+
     {
         title: 'تغییر نام کاربری',
         icon: UserCircleIcon,

@@ -1,6 +1,8 @@
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+import { SquareRoundedIcon , SquareRoundedFilledIcon } from 'vue-tabler-icons';
+
 const dark = {
   dark: true,
   colors: {
@@ -12,9 +14,15 @@ export default defineNuxtPlugin(nuxtApp => {
     ssr: true,
     components,
     directives,
-    
+    icons: {
+      aliases: {
+      checkboxOff: SquareRoundedIcon,
+      checkboxOn:SquareRoundedFilledIcon
+      }
+
+    },
     theme: {
-    
+  
   
       themes: {
         dark,
