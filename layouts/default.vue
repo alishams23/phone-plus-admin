@@ -62,11 +62,11 @@ export default {
 <template>
  <v-app>
        <!------Sidebar-------->
-       <v-navigation-drawer location="right" elevation="0"  app class="leftSidebar  border-0 curved" color="transparent"  v-model="sDrawer">
+       <v-navigation-drawer location="right" elevation="0"  app class="leftSidebar  border-0 curved" color="white"  v-model="sDrawer">
         <!---Logo part -->
         <div class=" pa-5  ">
             <!-- <Logo /> -->
-           <v-sheet class="d-flex justify-center align-center" color="transparent">
+           <v-sheet class="d-flex justify-center align-center ml-5" color="transparent">
             <v-avatar size="100" justify="center">
                     <img src="@/assets/images/users/avatar-1.jpg" height="100" alt="user" />
                 </v-avatar>
@@ -76,7 +76,7 @@ export default {
         <!---Navigation -->
         <!-- ---------------------------------------------- -->
         <div>
-            <v-list class="pa-6">
+            <v-list class="">
                 <!---Menu Loop -->
                 <template v-for="(item, i) in sidebarMenu">
                     <!---Item Sub Header -->
@@ -85,17 +85,20 @@ export default {
                         <v-list-item
                         v-else 
                         :to="item.to == '/chat' || item.to == '/settings'? ''  : item.to"
-                        rounded
+                        
+                        variant="flat"
                         @click="item.to == '/chat' ? (chat_drawer = true,setting_drawer = false)   : item.to == '/settings'? (setting_drawer = true,chat_drawer = false) : null"
-                        class="mb-1 text-white"
-                        active-class="bg-white text-primary"
+                        class="mb-1 text-white rounded-e-lg bg-transparent ml-n5 mr-n3"
+
+                        active-class="bg-white-important  text-primary"
                         :disabled="item.disabled"
+                    
                         :target="item.type === 'external' ? '_blank' : ''">
                         <!---If icon-->
-                        <template v-slot:prepend>
-                            <Icon :item="item.icon"  />
+                        <template v-slot:append>
+                            <Icon :item="item.icon" class="ml-3"  />
                         </template>
-                        <v-list-item-title class="rtl text-right">{{item.title }}</v-list-item-title>
+                        <v-list-item-title  class="rtl text-right ">{{item.title }}</v-list-item-title>
                         <!---If Caption-->
                         <v-list-item-subtitle v-if="item.subCaption" class="text-caption mt-n1 hide-menu">
                             {{ item.subCaption }}
@@ -118,7 +121,7 @@ export default {
         </div>
     </v-navigation-drawer>
 
-    <v-navigation-drawer  location="left" color="transparent" elevation="0" :class="currentRouteCheck('/chat') ? ' bg-white-important ' : 'curved-white  border-0'"  :temporary="currentRouteCheck('/chat') ? false : true" v-model="chat_drawer" :width="300">
+    <v-navigation-drawer  location="right" color="transparent" elevation="0" :class="currentRouteCheck('/chat') ? ' bg-white-important ' : 'curved-white  border-0'"  :temporary="currentRouteCheck('/chat') ? false : true" v-model="chat_drawer" :width="300">
         <v-text-field class="shadow-none px-3 pt-0 mt-10 border-0" bg-color="grey-lighten-3" base-color="primary" label=" search..."
             rounded="pill" variant="solo" elevation="0">
             <template v-slot:append-inner>
@@ -142,7 +145,7 @@ export default {
         </v-list>
     </v-navigation-drawer>
     
-    <v-navigation-drawer  color="transparent" elevation="0" :class="currentRouteCheck('/settings') ? 'bg-white-important ' : 'curved-white  border-0'" location="left" :temporary="currentRouteCheck('/settings') ? false : true" v-model="setting_drawer" :width="300">
+    <v-navigation-drawer  color="transparent" elevation="0" :class="currentRouteCheck('/settings') ? 'bg-white-important ' : 'curved-white  border-0'" location="right" :temporary="currentRouteCheck('/settings') ? false : true" v-model="setting_drawer" :width="300">
 
         <div class="rtl d-flex align-center mt-4 mr-10 mb-10">
             <v-avatar color="primary" rounded="lg" size="50">
@@ -218,12 +221,16 @@ export default {
 
 <style scoped>
 
-.text-primary{
+
+.text-primary .v-list-item__content .v-list-item-title {
+    color: rgb(64, 0, 124) !important;
+}
+.text-primary .v-list-item__append .icon-tabler{
     color: rgb(64, 0, 124) !important;
 }
 
 .curved {
-    padding: 0px 0px 0px 20px;
+    padding: 0px 0px 0px 0px;
     background-image:radial-gradient(ellipse 75% 100% at 70% 50%, rgb(98, 0, 238) 89.9%, #ffffff00 90%);
     text-align: center;
     font-family: sans-serif;
@@ -232,8 +239,8 @@ export default {
   }
 
   .curved-white {
-    padding: 0px 20px 0px 0px;
-    background-image:radial-gradient(ellipse 60% 100% at 45% 50%, rgb(255, 255, 255) 89.9%, #ffffff00 90%);
+    padding: 0px 0px 0px 25px;
+    background-image:radial-gradient(ellipse 75% 100% at 70% 50%, rgb(255, 255, 255) 89.9%, #ffffff00 90%);
     text-align: center;
     font-family: sans-serif;
     text-transform: uppercase;

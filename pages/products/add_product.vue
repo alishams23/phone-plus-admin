@@ -16,27 +16,33 @@
                 <TextEditor
               ></TextEditor>
               <v-locale-provider rtl  >
+      <v-row class="mt-10 mb-5">
+        <v-col>
             <v-text-field
-                label="قیمت محصول"
-                rounded="lg"
-                type="number"
-                persistent-hint
-                variant="outlined"
-                color="primary"
-                class="mt-10"/>
-      
-            <v-autocomplete
-                label="دسته بندی‌ها"
-                rounded="lg"
-                persistent-hint
-                variant="outlined"
-                color="primary"
-                class="mt-5 mb-5"
-                clearable
-                chips
-                :items="['موبایل', 'تبلت', 'لپ تاپ', 'لوازم جانبی', 'مانیتور']"
-                multiple>
-            </v-autocomplete>
+            label="قیمت محصول"
+            rounded="lg"
+            type="number"
+            persistent-hint
+            variant="outlined"
+            color="primary"
+            />
+        </v-col>
+      <v-col>
+        <v-autocomplete
+        label="دسته بندی‌ها"
+        rounded="lg"
+        persistent-hint
+        variant="outlined"
+        color="primary"
+     
+        clearable
+        chips
+        :items="['موبایل', 'تبلت', 'لپ تاپ', 'لوازم جانبی', 'مانیتور']"
+        multiple>
+    </v-autocomplete>
+      </v-col>
+      </v-row>
+        
             <v-file-input
                 rounded="lg"
                 accept=".png,.jpg"
