@@ -142,7 +142,7 @@ export default {
           password: this.password,
         });
         if (response.status === 200) {
-          userStore.storeToken(response.data.token);
+          userStore.setToken(response.data.token);
           this.loading = false;
           this.$router.push("/");
         } else {

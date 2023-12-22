@@ -79,17 +79,20 @@ export default {
             <v-list class="">
                 <!---Menu Loop -->
                 <template v-for="(item, i) in sidebarMenu">
+                
                     <!---Item Sub Header -->
                     <NavGroup :item="item" v-if="item.header" :key="item.title" />
                     <!---Single Item-->
+                    
                         <v-list-item
                         v-else 
-                        :to="item.to == '/chat' || item.to == '/settings'? ''  : item.to"
+                        :to="item.to == '/chat' || item.to == '/settings'? ''  :   item.to"
+                        
                         
                         variant="flat"
                         @click="item.to == '/chat' ? (chat_drawer = true,setting_drawer = false)   : item.to == '/settings'? (setting_drawer = true,chat_drawer = false) : null"
                         class="mb-1 text-white rounded-e-lg bg-transparent ml-n5 mr-n3"
-
+                        :class="currentRouteCheck(item.to)? 'bg-white-important  text-primary' :''"
                         active-class="bg-white-important  text-primary"
                         :disabled="item.disabled"
                     
@@ -145,7 +148,7 @@ export default {
         </v-list>
     </v-navigation-drawer>
     
-    <v-navigation-drawer  color="transparent" elevation="0" :class="currentRouteCheck('/settings') ? 'bg-white-important ' : 'curved-white  border-0'" location="right" :temporary="currentRouteCheck('/settings') ? false : true" v-model="setting_drawer" :width="300">
+    <v-navigation-drawer  color="transparent" elevation="0" :class="currentRouteCheck('/settings') ? 'curved-white  border-0 ' : 'curved-white  border-0'" location="right" :temporary="currentRouteCheck('/settings') ? false : true" v-model="setting_drawer" :width="300">
 
         <div class="rtl d-flex align-center mt-4 mr-10 mb-10">
             <v-avatar color="primary" rounded="lg" size="50">
@@ -240,7 +243,7 @@ export default {
 
   .curved-white {
     padding: 0px 0px 0px 25px;
-    background-image:radial-gradient(ellipse 75% 100% at 70% 50%, rgb(255, 255, 255) 89.9%, #ffffff00 90%);
+    background-image:radial-gradient(ellipse 75% 100% at 70% 50%, rgb(255, 255, 255) 89.9%, #ffffff00 90%),radial-gradient(ellipse 75% 100% at 69.8% 50%, rgb(198, 198, 198) 89.9%, #ffffff00 90%);
     text-align: center;
     font-family: sans-serif;
     text-transform: uppercase;
