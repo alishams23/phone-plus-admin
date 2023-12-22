@@ -12,7 +12,8 @@
             </template>
             <template v-slot:prepend>
               <v-btn @click="order = !order;searchData()"  variant="tonal" color="primary" rounded="lg" size="50">
-                <SortDescending2Icon />
+                <SortDescending2Icon v-if="order" />              
+                <SortAscending2Icon  v-if="!order"/>
               </v-btn>
             </template>
           </v-text-field>
@@ -27,18 +28,14 @@
         </div>
       </v-col>
     </v-row>
-    <div class="d-flex justify-center">
-      <v-progress-circular v-if="loading" bg-color="transparent" :size="55" class="ma-10" :width="7" color="primary"
-        indeterminate></v-progress-circular>
-    </div>
     <v-alert v-if="data.length == 0 && loading == false"  color="primary" icon="fa fa-info" variant="tonal" border="start"  class="rtl border-opacity-100 my-10">
       <div class="text-sm  font-weight-black irsa">
       محصولی وجود ندارد
-      </div>
+    </div>
     </v-alert>
     <v-row>
      
-      <v-col v-for="product in data" :key="product.id" cols="6">
+      <v-col v-for="product in data" v-if="!loading" :key="product.id" cols="6">
         <v-card elevation="10" rounded="lg" class="my-5 rtl mx-3">
           <div class="d-flex flex-no-wrap justify-space-between">
             <div class="pa-5 d-flex align-start flex-column ">
@@ -85,9 +82,13 @@
       </template>
     </v-dialog>
   </VLayoutItem>
+  <div class="d-flex justify-center">
+      <v-progress-circular v-if="loading" bg-color="transparent" :size="55" class="ma-10" :width="7" color="primary"
+        indeterminate></v-progress-circular>
+    </div>
 </template>
 <script>
-import { PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon } from 'vue-tabler-icons';
+import { PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon} from 'vue-tabler-icons';
 import proimg1 from '@/assets/images/products/s4.jpg';
 import proimg2 from '@/assets/images/products/s5.jpg';
 import AddProduct from '@/pages/products/add_product.vue';
@@ -99,6 +100,7 @@ export default {
     PencilIcon,
     PlusIcon,
     SortDescending2Icon,
+    SortAscending2Icon,
     BoxIcon,
     SearchIcon,
     FilterCogIcon,
@@ -107,7 +109,6 @@ export default {
   name: "ProductCard",
   data() {
     return {
-   
       data: [],
       loading: true,
       search_text:'',
@@ -119,7 +120,7 @@ export default {
   methods: {
     searchData() {
       this.loading = true
-      axios.get(`http://127.0.0.1:8000/api/product/Products_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+      axios.get(`http://192.168.1.107:8000/api/product/Products_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
@@ -128,8 +129,7 @@ export default {
       }).then((response) => {
         this.loading = false
         this.data = response.data
-      }
-      )
+      })
     }
   }, async mounted() {
     this.searchData()

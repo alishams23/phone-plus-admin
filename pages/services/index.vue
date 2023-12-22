@@ -11,72 +11,71 @@
         color="primary"
         dense
         
-       class="mt-5 text-body-2"
-   
-      >
-      <template v-slot:prepend-inner>
-    
-          <SearchIcon color="gray" />
+       class="mt-5 text-body-2">
+        <template v-slot:prepend-inner>
+      
+            <SearchIcon color="gray" />
 
-        
-      </template>
-      <template v-slot:prepend>
-        <v-btn v-bind="props" variant="tonal" color="primary"  rounded="lg" size="50"  >
-          <SortDescending2Icon />
-        </v-btn>       
-      </template>
-    </v-text-field>
-    </v-locale-provider>
+          
+        </template>
+        <template v-slot:prepend>
+          <v-btn v-bind="props" variant="tonal" color="primary"  rounded="lg" size="50"  >
+            <SortDescending2Icon v-if="order" />              
+            <SortAscending2Icon  v-if="!order"/>
+          </v-btn>       
+        </template>
+        </v-text-field>
+        </v-locale-provider>
       </v-col>
       <v-col cols="8" class="rtl d-flex align-center">
-        <v-avatar color="primary" rounded="lg" size="50">
-          <BoxIcon/>
-        </v-avatar>
-        <div class=" px-5 font-weight-bold text-h4">
-          خدمات
-        </div> 
+          <v-avatar color="primary" rounded="lg" size="50">
+            <BoxIcon/>
+          </v-avatar>
+          <div class=" px-5 font-weight-bold text-h4">
+            خدمات
+          </div> 
       </v-col>
     </v-row>
- <v-row>
-  <v-col  v-for="product in products"
-  :key="product.id" cols="6">
-    <v-card
-    elevation="10"
-    rounded="lg"
-    class="my-5 rtl mx-3"
-  >
-      <div class="d-flex flex-no-wrap justify-space-between">
-          <div class="pa-5 d-flex align-start flex-column ">
-            <v-card-title class="text-h5 font-weight-bold">
-              {{ product.name }}
-            </v-card-title>
-            <v-card-text class="text-line-1">
-              {{ product.description }}
-            </v-card-text>
-            <v-card-actions class="mt-auto">
-              <v-btn
-                class="px-10"
-                variant="flat"
-                rounded="xl"
-                color="primary"
+    <v-row>
+      <v-col  v-for="product in products"
+      :key="product.id" cols="6">
+        <v-card
+        elevation="10"
+        rounded="lg"
+        class="my-5 rtl mx-3"
+      >
+          <div class="d-flex flex-no-wrap justify-space-between">
+              <div class="pa-5 d-flex align-start flex-column ">
+                <v-card-title class="text-h5 font-weight-bold">
+                  {{ product.name }}
+                </v-card-title>
+                <v-card-text class="text-line-1">
+                  {{ product.description }}
+                </v-card-text>
+                <v-card-actions class="mt-auto">
+                  <v-btn
+                    class="px-10"
+                    variant="flat"
+                    rounded="xl"
+                    color="primary"
+                  >
+                    ویرایش
+                    <template v-slot:append>
+                      <PencilIcon size="15" />
+                    </template>
+                  </v-btn>
+                </v-card-actions>
+              </div>
+              <v-avatar
+                size="230"
+                rounded="0"
               >
-                ویرایش
-                <template v-slot:append>
-                  <PencilIcon size="15" />
-                </template>
-              </v-btn>
-            </v-card-actions>
+                <v-img :src="product.image"></v-img>
+              </v-avatar>
           </div>
-          <v-avatar
-            size="230"
-            rounded="0"
-          >
-            <v-img :src="product.image"></v-img>
-          </v-avatar>
-      </div>
-  </v-card>
-  </v-col>
- </v-row>
+      </v-card>
+      </v-col>
+    </v-row>
   </v-container>
   <VLayoutItem model-value position="bottom" class="text-end" size="88">
    
@@ -100,7 +99,7 @@
   </VLayoutItem>
 </template>
 <script>
-import { PencilIcon,PlusIcon,BoxIcon,SearchIcon,FilterCogIcon, SortDescending2Icon } from 'vue-tabler-icons';
+import { PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon } from 'vue-tabler-icons';
 import adsl from '@/assets/images/services/adsl.png';
 import telephone from '@/assets/images/services/telephone.png';
 import payment from '@/assets/images/services/payment.jpg';
@@ -109,15 +108,16 @@ import management from '@/assets/images/services/management.png';
 import AddService from '@/pages/services/add_service.vue';
 
 export default {
- components:{
-   PencilIcon,
-   PlusIcon,
-   SortDescending2Icon,
-   BoxIcon,
-   SearchIcon,
-   FilterCogIcon,
-   AddService
- },
+  components:{
+    PencilIcon,
+    PlusIcon,
+    SortDescending2Icon,
+    SortAscending2Icon,
+    BoxIcon,
+    SearchIcon,
+    FilterCogIcon,
+    AddService
+  },
  name: "ProductCard",
  data() {
    return {
@@ -155,6 +155,7 @@ export default {
     },
        // ... اضافه کردن سایر خدمات
      ],
+     order : false,
    };
  },
 };
