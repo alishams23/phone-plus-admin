@@ -120,7 +120,7 @@ export default {
   methods: {
     searchData() {
       this.loading = true
-      axios.get(`http://192.168.1.107:8000/api/product/Products_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+      axios.get(`http://127.0.0.1:8000/api/product/Products_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
