@@ -1,8 +1,9 @@
 <template>
-    <form >        
+    <form @submit.prevent="sendData">      
         <v-locale-provider rtl  >
             <v-text-field
                 label="نام محصول"
+                v-model="title"
                 rounded="lg"
                 persistent-hint
                 variant="outlined"
@@ -12,14 +13,16 @@
         <div class="px-5 py-3 ">
             توضیحات محصول
         </div>
-    </v-locale-provider>
-                <TextEditor
-              ></TextEditor>
-              <v-locale-provider rtl  >
-      <v-row class="mt-10 mb-5">
+        </v-locale-provider>
+            <TextEditor
+            @update="handleTextChange" 
+            ></TextEditor>
+        <v-locale-provider rtl  >
+        <v-row class="mt-10 mb-5">
         <v-col>
             <v-text-field
             label="قیمت محصول"
+            v-model= "price"
             rounded="lg"
             type="number"
             persistent-hint
@@ -27,27 +30,30 @@
             color="primary"
             />
         </v-col>
-      <v-col>
-        <v-autocomplete
-        label="دسته بندی‌ها"
-        rounded="lg"
-        persistent-hint
-        variant="outlined"
-        color="primary"
-     
-        clearable
-        chips
-        :items="['موبایل', 'تبلت', 'لپ تاپ', 'لوازم جانبی', 'مانیتور']"
-        multiple>
-    </v-autocomplete>
-      </v-col>
-      </v-row>
-        
+        <v-col>
+            <v-autocomplete
+                label="دسته بندی‌ها"
+                rounded="lg"
+                persistent-hint
+                variant="outlined"
+                color="primary"
+            
+                clearable
+                chips
+                :items="['موبایل', 'تبلت', 'لپ تاپ', 'لوازم جانبی', 'مانیتور']"
+                multiple>
+            </v-autocomplete>
+        </v-col>
+        </v-row>
+       
+
             <v-file-input
                 rounded="lg"
                 accept=".png,.jpg"
                 persistent-hint
                 variant="outlined"
+                @change="sendImage"
+                :disabled="loadingImage"
                 color="primary"
                 v-model="images"
                 placeholder="Upload your documents"
@@ -127,7 +133,7 @@
             persistent-hint
             variant="flat"
             color="primary"
-            
+            :disabled="loadingImage"
             class="mx-2 px-10 text-body2 font-weight-bold mb-5"
             type="submit">
             ثبت
@@ -137,20 +143,115 @@
 <script>
 import {PhotoIcon, VideoIcon ,CheckboxIcon} from 'vue-tabler-icons';
 import TextEditor from '@/components/shared/TextEditor.vue';
-
+import axios from 'axios';
+import { useUserStore } from '~/store/user';
 
   export default {
     components:{PhotoIcon, VideoIcon,CheckboxIcon,TextEditor},
 
     data: () => ({
+        price: 0,
+        title: null,
+        description: null,
         discount: false,
         images: [],
         video: null,
         value: 0,
-       
-     
+        imageIds : [],
+        loadingImage:false,
     }),
-  }
+    
+    methods: {
+        handleTextChange(newText) {
+    this.description = newText;
+    console.log(newText)
+  },
+  sendDataFunc(){
+    if (this.images && this.images.length) {
+        this.images.forEach((file, index) => {
+            let imageFormData = new FormData();
+
+            imageFormData.append(`photo`, file);
+
+             try {
+             axios.post('http://192.168.1.107:8000/api/product/AddImageApi/', imageFormData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Token ${useUserStore().userToken}`
+            },
+            }).then((data) => {
+                this.imageIds.push(data.id)
+                console.log(this.data)
+               
+
+            })
+
+         
+        } catch (error) {
+            console.error('Error uploading images:', error);
+            return; 
+        }
+        return 
+        })
+
+       
+        }
+  },
+  async sendImage(){
+    this.loadingImage = true 
+     this.sendDataFunc().then(()=>{
+        this.loadingImage = false 
+
+    })
+
+  // First, upload images and get their IDs
+ 
+
+  },
+    async sendData() {
+        
+
+      
+
+        // Now proceed with the rest of the data submission
+        let formData = new FormData();
+
+        // Append image IDs to the form data
+        
+        formData.append(`image`, this.imageIds);
+       
+
+  
+      if (this.video) {
+        formData.append('video', this.video);
+      }
+  
+      // Assuming you have data properties like productName, productDescription, productPrice, etc.
+      formData.append('title', this.title);
+      formData.append('description', this.description);
+      formData.append('price', this.price);
+      // For the value of a slider
+      formData.append('discount', this.value);
+  
+      // Send the request
+      axios.post('http://192.168.1.107:8000/api/product/AddProductApi/', formData, {
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Token ${useUserStore().userToken}`
+        },
+      })
+      .then(response => {
+        // handle success
+        console.log(response.data);
+      })
+      .catch(error => {
+        // handle error
+        console.error('Error:', error);
+      });
+    },
+    }
+  };
 </script>
 
 <style >

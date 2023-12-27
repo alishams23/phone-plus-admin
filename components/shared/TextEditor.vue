@@ -2,10 +2,15 @@
     <client-only >
         <quill-editor
         class="rounded-b-lg"
+        ref="editorContent"
          content-type="html"
+         v-model="content"
          theme="snow"
          :toolbar="toolbar"
          :modules="modules"
+       
+         @blur="updateContent"
+
         />
       </client-only>
 </template>
@@ -13,6 +18,19 @@
   import '@vueup/vue-quill/dist/vue-quill.snow.css'
   import EditIcon from '@/assets/icons/edit.svg'
   import SaveIcon from '@/assets/icons/save.svg'
+
+  import { ref, defineEmits } from 'vue';
+
+let content = 'dddd'
+  const emit = defineEmits(['update']);
+  const editorContent = ref('');
+
+  // ... (rest of your code)
+
+  const updateContent = () => {
+   
+    emit('update', document.querySelector(".ql-editor").innerHTML);
+  };
 
   let  toolbar= [
             ["bold", "italic", "underline", "strike"],
