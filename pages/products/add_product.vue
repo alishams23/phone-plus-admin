@@ -39,12 +39,15 @@
                 persistent-hint
                 variant="outlined"
                 color="primary"
-            
                 clearable
                 chips
-                :items="['موبایل', 'تبلت', 'لپ تاپ', 'لوازم جانبی', 'مانیتور']"
+                v-model="selectedCategories"
+                :items="categories"
+                item-text="name"
+                item-value="id" 
                 multiple>
             </v-autocomplete>
+
         </v-col>
         </v-row>
        
@@ -69,15 +72,23 @@
             <template v-slot:selection="{ fileNames }">
                 <template v-for="(preview, index) in imagePreviews" :key="index">
                     <v-chip
+                        class="mx-1"
                         size="small"
                         label
                         color="primary"
                     >
-                        <img :src="preview" class="chip-image-preview" /> {{ fileNames[index] }}
+                        {{ fileNames[index] }}
                     </v-chip>
                 </template>
             </template>
         </v-file-input>
+        <div class="image-preview-container">
+            <template v-for="(preview, index) in imagePreviews" :key="index">
+                    <img :src="preview" class="chip-image-preview" />
+
+            </template>
+        </div>
+        
 
             <v-file-input
                 rounded="lg"
@@ -161,81 +172,99 @@ import { useUserStore } from '~/store/user';
         imageIds : [],
         loadingImage:false,
         imagePreviews: [], 
+        categories: [],
+        selectedCategories: [],
     }),
-    
+    mounted() {
+        this.fetchCategories();
+    },
     methods: {
         handleTextChange(newText) {
-    this.description = newText;
-    console.log(newText)
-  },
-  async sendDataFunc(){
-    if (this.images && this.images.length) {
-        this.images.forEach((file, index) => {
-            let imageFormData = new FormData();
-
-            imageFormData.append(`photo`, file);
-
-             try {
-             axios.post('http://192.168.1.107:8000/api/product/AddImageApi/', imageFormData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                Authorization: `Token ${useUserStore().userToken}`
-            },
-            }).then((data) => {
-                this.imageIds.push(data.data.id)
-
-            })
-
-         
-        } catch (error) {
-            console.error('Error uploading images:', error);
-            return; 
-        }
-        return 
-        })
-
-       
-        }
-    },
-    async sendImage() {
-        this.loadingImage = true;
-        this.imagePreviews = [];
-        this.images.forEach(file => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-            this.imagePreviews.push(e.target.result);
-            };
-            reader.readAsDataURL(file);
-        });
-        this.sendDataFunc();
-        this.loadingImage = false;
-    },
-    async sendData() {
-  
-    let formDic = {}
-    formDic['image'] = this.imageIds
-    formDic['title'] = this.title
-    formDic['description'] = this.description
-    formDic['price'] = this.price
-    formDic['discount'] = this.value
-
-      axios.post('http://192.168.1.107:8000/api/product/AddProductApi/', formDic, {
-        headers: {
-         
-          Authorization: `Token ${useUserStore().userToken}`
+            this.description = newText;
         },
-      })
-      .then(response => {
-        // handle success
-        console.log(response.data);
-      })
-      .catch(error => {
-        // handle error
-        console.error('Error:', error);
-      });
-    },
+        async fetchCategories() {
+            try {
+                const userToken = useUserStore().userToken; // Get the token from your user store
+                const response = await axios.get('http://192.168.1.107:8000/api/product/ListCategories/', {
+                    headers: {
+                        Authorization: `Token ${userToken}`
+                    }
+                });
+                this.categories = response.data; // Assuming the API returns an array
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        },
+        async sendDataFunc(){
+            if (this.images && this.images.length) {
+                this.images.forEach((file, index) => {
+                    let imageFormData = new FormData();
+                    
+                    imageFormData.append(`photo`, file);
+
+                    try {
+                    axios.post('http://192.168.1.107:8000/api/product/AddImageApi/', imageFormData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Token ${useUserStore().userToken}`
+                    },
+                    }).then((data) => {
+                        this.imageIds.push(data.data.id)
+
+                    })
+
+                
+                } catch (error) {
+                    console.error('Error uploading images:', error);
+                    return; 
+                }
+                return 
+                })
+
+            
+                }
+            },
+        async sendImage() {
+            this.loadingImage = true;
+            this.imagePreviews = [];
+            this.images.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                this.imagePreviews.push(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            });
+            this.sendDataFunc();
+            this.loadingImage = false;
+        },
+        async sendData() {
+            console.log(this.selectedCategories)
+
+            let formDic = {}
+            formDic['category'] = this.selectedCategories
+            formDic['image'] = this.imageIds
+            formDic['title'] = this.title
+            formDic['description'] = this.description
+            formDic['price'] = this.price
+            formDic['discount'] = this.value
+
+            axios.post('http://192.168.1.107:8000/api/product/AddProductApi/', formDic, {
+                headers: {
+                
+                Authorization: `Token ${useUserStore().userToken}`
+                },
+            })
+            .then(response => {
+                // handle success
+                console.log(response.data);
+            })
+            .catch(error => {
+                // handle error
+                console.error('Error:', error);
+            });
+        },
     }
-  };
+};
 </script>
 
 <style >
@@ -243,9 +272,17 @@ import { useUserStore } from '~/store/user';
     border-radius: 13px 13px 0px 0px !important;
 }
 .chip-image-preview {
-    width: 20px;
-    height: 20px;
+    width: 100px; /* Increased size */
+    height: 100px; /* Increased size */
     object-fit: cover;
-    margin-right: 8px;
+    border-radius: 13px; /* Rounded corners */
+    margin-right: 17px;
+    margin-bottom: 20px;
+}
+.image-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between chips */
+    margin-top: 10px; /* Space above the container */
 }
 </style>
