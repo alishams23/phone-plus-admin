@@ -1,11 +1,10 @@
 <template>
-    <form @submit.prevent="sendData" >      
+    <form @submit.prevent="sendData">      
         <v-locale-provider rtl  >
             <v-text-field
                 label="نام محصول"
                 v-model="title"
                 rounded="lg"
-                required
                 persistent-hint
                 variant="outlined"
                 color="primary"
@@ -24,7 +23,6 @@
             <v-text-field
             label="قیمت محصول"
             v-model= "price"
-            required
             rounded="lg"
             type="number"
             persistent-hint
@@ -49,36 +47,37 @@
         </v-row>
        
 
-        <v-file-input
-            rounded="lg"
-            accept=".png,.jpg"
-            persistent-hint
-            required
-            @change="sendImage"
-            variant="outlined"
-            :disabled="loadingImage"
-            color="primary"
-            v-model="images"
-            placeholder="Upload your documents"
-            label="عکس‌های محصول"
-            multiple
-        >
-            <template v-slot:prepend>
-                <PhotoIcon style="margin-left: -20px;" class="text-grey" />
-            </template>
-            <template v-slot:selection="{ fileNames }">
-                <template v-for="(preview, index) in imagePreviews" :key="index">
-                    <v-chip
-                        size="small"
-                        label
-                        color="primary"
-                    >
-                        <img :src="preview" class="chip-image-preview" /> {{ fileNames[index] }}
-                    </v-chip>
-                </template>
-            </template>
-        </v-file-input>
+            <v-file-input
+                rounded="lg"
+                accept=".png,.jpg"
+                persistent-hint
+                variant="outlined"
+                @change="sendImage"
+                :disabled="loadingImage"
+                color="primary"
+                v-model="images"
+                placeholder="Upload your documents"
+                label="عکس‌های محصول"
+                multiple
+               >
+                <template v-slot:prepend>
+                   
+                    <PhotoIcon style="margin-left: -20px;" class="  text-grey" />
 
+                       
+                </template>
+                <template v-slot:selection="{ fileNames }">
+                        <template v-for="fileName in fileNames" :key="fileName">
+                            <v-chip
+                            size="small"
+                            label
+                            color="primary"
+                            >
+                            {{ fileName }}
+                        </v-chip>
+                    </template>
+                </template>
+            </v-file-input>
             <v-file-input
                 rounded="lg"
                 accept=".mp4"
@@ -160,7 +159,6 @@ import { useUserStore } from '~/store/user';
         value: 0,
         imageIds : [],
         loadingImage:false,
-        imagePreviews: [], 
     }),
     
     methods: {
@@ -168,7 +166,7 @@ import { useUserStore } from '~/store/user';
     this.description = newText;
     console.log(newText)
   },
-  async sendDataFunc(){
+  sendDataFunc(){
     if (this.images && this.images.length) {
         this.images.forEach((file, index) => {
             let imageFormData = new FormData();
@@ -182,7 +180,9 @@ import { useUserStore } from '~/store/user';
                 Authorization: `Token ${useUserStore().userToken}`
             },
             }).then((data) => {
-                this.imageIds.push(data.data.id)
+                this.imageIds.push(data.id)
+                console.log(this.data)
+               
 
             })
 
@@ -196,32 +196,48 @@ import { useUserStore } from '~/store/user';
 
        
         }
-    },
-    async sendImage() {
-        this.loadingImage = true;
-        this.imagePreviews = [];
-        this.images.forEach(file => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-            this.imagePreviews.push(e.target.result);
-            };
-            reader.readAsDataURL(file);
-        });
-        this.sendDataFunc();
-        this.loadingImage = false;
-    },
-    async sendData() {
-  
-    let formDic = {}
-    formDic['image'] = this.imageIds
-    formDic['title'] = this.title
-    formDic['description'] = this.description
-    formDic['price'] = this.price
-    formDic['discount'] = this.value
+  },
+  async sendImage(){
+    this.loadingImage = true 
+     this.sendDataFunc().then(()=>{
+        this.loadingImage = false 
 
-      axios.post('http://192.168.1.107:8000/api/product/AddProductApi/', formDic, {
+    })
+
+  // First, upload images and get their IDs
+ 
+
+  },
+    async sendData() {
+        
+
+      
+
+        // Now proceed with the rest of the data submission
+        let formData = new FormData();
+
+        // Append image IDs to the form data
+        
+        formData.append(`image`, this.imageIds);
+       
+
+  
+      if (this.video) {
+        formData.append('video', this.video);
+      }
+  
+      // Assuming you have data properties like productName, productDescription, productPrice, etc.
+      formData.append('title', this.title);
+      formData.append('description', this.description);
+      formData.append('price', this.price);
+      // For the value of a slider
+      formData.append('discount', this.value);
+  
+      // Send the request
+      axios.post('http://192.168.1.107:8000/api/product/AddProductApi/', formData, {
         headers: {
-         
+          "Content-type": "application/json",
+          Accept: "application/json",
           Authorization: `Token ${useUserStore().userToken}`
         },
       })
@@ -241,11 +257,5 @@ import { useUserStore } from '~/store/user';
 <style >
 .ql-toolbar.ql-snow{
     border-radius: 13px 13px 0px 0px !important;
-}
-.chip-image-preview {
-    width: 20px;
-    height: 20px;
-    object-fit: cover;
-    margin-right: 8px;
 }
 </style>
