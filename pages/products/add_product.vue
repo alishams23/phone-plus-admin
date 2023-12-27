@@ -1,10 +1,11 @@
 <template>
-    <form @submit.prevent="sendData">      
+    <form @submit.prevent="sendData" >      
         <v-locale-provider rtl  >
             <v-text-field
                 label="نام محصول"
                 v-model="title"
                 rounded="lg"
+                required
                 persistent-hint
                 variant="outlined"
                 color="primary"
@@ -23,6 +24,7 @@
             <v-text-field
             label="قیمت محصول"
             v-model= "price"
+            required
             rounded="lg"
             type="number"
             persistent-hint
@@ -51,8 +53,9 @@
                 rounded="lg"
                 accept=".png,.jpg"
                 persistent-hint
-                variant="outlined"
+                required
                 @change="sendImage"
+                variant="outlined"
                 :disabled="loadingImage"
                 color="primary"
                 v-model="images"
@@ -78,6 +81,7 @@
                     </template>
                 </template>
             </v-file-input>
+            
             <v-file-input
                 rounded="lg"
                 accept=".mp4"
@@ -166,7 +170,7 @@ import { useUserStore } from '~/store/user';
     this.description = newText;
     console.log(newText)
   },
-  sendDataFunc(){
+  async sendDataFunc(){
     if (this.images && this.images.length) {
         this.images.forEach((file, index) => {
             let imageFormData = new FormData();
@@ -180,9 +184,7 @@ import { useUserStore } from '~/store/user';
                 Authorization: `Token ${useUserStore().userToken}`
             },
             }).then((data) => {
-                this.imageIds.push(data.id)
-                console.log(this.data)
-               
+                this.imageIds.push(data.data.id)
 
             })
 
@@ -199,45 +201,22 @@ import { useUserStore } from '~/store/user';
   },
   async sendImage(){
     this.loadingImage = true 
-     this.sendDataFunc().then(()=>{
-        this.loadingImage = false 
-
-    })
-
-  // First, upload images and get their IDs
- 
+     await this.sendDataFunc()
+    this.loadingImage = false 
 
   },
     async sendData() {
-        
-
-      
-
-        // Now proceed with the rest of the data submission
-        let formData = new FormData();
-
-        // Append image IDs to the form data
-        
-        formData.append(`image`, this.imageIds);
-       
-
   
-      if (this.video) {
-        formData.append('video', this.video);
-      }
-  
-      // Assuming you have data properties like productName, productDescription, productPrice, etc.
-      formData.append('title', this.title);
-      formData.append('description', this.description);
-      formData.append('price', this.price);
-      // For the value of a slider
-      formData.append('discount', this.value);
-  
-      // Send the request
-      axios.post('http://192.168.1.107:8000/api/product/AddProductApi/', formData, {
+    let formDic = {}
+    formDic['image'] = this.imageIds
+    formDic['title'] = this.title
+    formDic['description'] = this.description
+    formDic['price'] = this.price
+    formDic['discount'] = this.value
+
+      axios.post('http://192.168.1.107:8000/api/product/AddProductApi/', formDic, {
         headers: {
-          "Content-type": "application/json",
-          Accept: "application/json",
+         
           Authorization: `Token ${useUserStore().userToken}`
         },
       })
