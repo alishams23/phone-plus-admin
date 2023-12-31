@@ -19,10 +19,10 @@
                         <div class="d-flex justify-center " v-if="sended" >
                             <CheckIcon class="me-3" />
                            <div>
-                            ارسال نشده‌ ها
+                            ارسال نشده‌ها
                            </div>
                         </div>              
-                        <span v-else >ارسال نشده‌ ها</span>              
+                        <span v-else >ارسال نشده‌ها</span>              
                     </v-btn>
                    
                     </template>
@@ -80,7 +80,10 @@
                         <td>
                             <v-chip v-if="item.is_finished" :class="'text-body-2 px-3 py-1 bg-primary'" color="white"  size="x-small" >
                                ارسال شده
-                        </v-chip>
+                            </v-chip>
+                            <v-chip v-else-if="item.is_received" :class="'text-body-2 px-3 py-1 bg-green' " color="white"  size="x-small" >
+                                تحویل داده شده
+                            </v-chip>
                             <v-chip v-else :class="'text-body-2 px-3 py-1 bg-red' " color="white"  size="x-small" >
                                 ارسال نشده
                             </v-chip>

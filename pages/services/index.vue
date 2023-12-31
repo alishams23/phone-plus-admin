@@ -2,29 +2,20 @@
   <v-container>
     <v-row align="center">
       <v-col cols="4">
-        <v-locale-provider rtl  >
-        <v-text-field
-        label="جستجو"
-        rounded="lg"
-        persistent-hint
-        variant="outlined"
-        color="primary"
-        dense
-        
-       class="mt-5 text-body-2">
-        <template v-slot:prepend-inner>
-      
-            <SearchIcon color="gray" />
+        <v-locale-provider rtl>
+          <v-text-field v-model="search_text" @update:model-value="searchData" label="جستجو" rounded="lg" persistent-hint variant="outlined" color="primary" dense
+            class="mt-5 text-body-2">
+            <template v-slot:prepend-inner>
 
-          
-        </template>
-        <template v-slot:prepend>
-          <v-btn v-bind="props" variant="tonal" color="primary"  rounded="lg" size="50"  >
-            <SortDescending2Icon v-if="order" />              
-            <SortAscending2Icon  v-if="!order"/>
-          </v-btn>       
-        </template>
-        </v-text-field>
+              <SearchIcon color="gray" />
+            </template>
+            <template v-slot:prepend>
+              <v-btn @click="order = !order;searchData()"  variant="tonal" color="primary" rounded="lg" size="50">
+                <SortDescending2Icon v-if="order" />              
+                <SortAscending2Icon  v-if="!order"/>
+              </v-btn>
+            </template>
+          </v-text-field>
         </v-locale-provider>
       </v-col>
       <v-col cols="8" class="rtl d-flex align-center">
@@ -37,7 +28,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col  v-for="product in products"
+      <v-col  v-for="product in data"
       :key="product.id" cols="6">
         <v-card
         elevation="10"
@@ -118,55 +109,41 @@ export default {
     FilterCogIcon,
     AddService
   },
- name: "ProductCard",
- data() {
-   return {
-     products: [
-    {
-      id: 1,
-      name: 'خدمات اینترنت پرسرعت',
-      description: 'ارائه اینترنت پرسرعت با پوشش و سرعت مناسب به مشتریان شما.',
-      image: adsl
-    },
-    {
-      id: 2,
-      name: 'خدمات تلفنی',
-      description: 'مکالمات تلفنی با کیفیت صدا بالا و خدمات مخابراتی بین‌المللی.',
-      image: telephone
-    },
-
-    {
-      id: 3,
-      name: 'خدمات پرداخت موبایلی',
-      description: 'پرداخت‌های موبایلی و انجام تراکنش‌های مالی از طریق گوشی‌های همراه.',
-      image: payment
-    },
-    {
-      id: 4,
-      name: 'خدمات امنیت موبایل',
-      description: 'محافظت از داده‌ها و اطلاعات حساس در گوشی‌های همراه با خدمات امنیتی.',
-      image: security
-    },
-    {
-      id: 5,
-      name: 'خدمات مدیریت حساب کاربری',
-      description: 'مدیریت حساب کاربری و پروفایل مشتریان به صورت آنلاین و از طریق اپلیکیشن موبایل.',
-      image: management
-    },
-       // ... اضافه کردن سایر خدمات
-     ],
-     order : false,
-   };
- },
+  name: "ProductCard",
+  data() {
+      return {
+        data: [],
+        loading: true,
+        search_text:'',
+        order : false,
+      };
+  },
+  methods: { 
+    searchData() {
+      this.loading = true
+      axios.get(`http://192.168.1.107:8000/api/product/Products_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Token ${useUserStore().userToken}`
+        },
+      }).then((response) => {
+        this.loading = false
+        this.data = response.data
+      })
+    }
+  }, async mounted() {
+    this.searchData()
+  }
 };
 </script>
 
 <style scoped>
 .product-image {
- height: 200px; /* Adjust the height as needed */
+  height: 200px; /* Adjust the height as needed */
 }
 .text-line-1 {
- display: block;/* or inline-block */
+  display: block;/* or inline-block */
   text-overflow: ellipsis;
   word-wrap: break-word;
   overflow: hidden;
