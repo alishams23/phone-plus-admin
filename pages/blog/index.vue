@@ -58,7 +58,7 @@
                     <v-img
                         cover
                         height="250"
-                        :src="blog.image">
+                        :src="blog.imageBlog.photo">
                     </v-img>
                     <v-card-item>
                         <v-card-title>{{blog.title}}</v-card-title>
@@ -79,7 +79,9 @@
                                 size="small"
                             ></v-rating>
                         </v-row>
-                        <div>{{blog.description}}</div>
+                        <ShowTextEditor :content="blog.body" />
+                  
+
                     </v-card-text>
                     <v-divider class="mx-4 mb-1"></v-divider>
                     <v-card-actions class="mt-auto">
@@ -100,6 +102,26 @@
         </v-row>    
     </v-locale-provider>
     </v-container>
+    <VLayoutItem model-value position="bottom" class="text-end" size="88">
+      <VBtn to="/blog/add_blog" icon="" size="large" color="primary" elevation="8">
+        <v-icon>
+          <PlusIcon />
+        </v-icon>
+      </VBtn>
+        <!-- <v-dialog width="900">
+          <template v-slot:activator="{ props }">
+            <div class="ma-4">
+             
+            </div>
+          </template>
+    
+          <template v-slot:default="{ isActive }">
+            <v-card class="px-15 rounded-lg my-20 " title="">
+              <AddBlog />
+            </v-card>
+          </template>
+        </v-dialog> -->
+      </VLayoutItem>
 </template>
 <script>
 import {PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon, ArticleIcon } from 'vue-tabler-icons';
@@ -108,7 +130,10 @@ import image_1 from '@/assets/images/blog/1.png';
 import image_2 from '@/assets/images/blog/2.png';
 import image_3 from '@/assets/images/blog/3.png';
 import image_4 from '@/assets/images/blog/4.png';
-import AddService from '@/pages/services/add_service.vue';
+import AddBlog from '@/pages/blog/add_blog.vue';
+import axios from "axios";
+import ShowTextEditor from '~/components/shared/ShowTextEditor.vue';
+import { useUserStore } from '~/store/user';
 
 export default {
  components:{
@@ -120,7 +145,8 @@ export default {
     SearchIcon,
     FilterCogIcon,
     ArticleIcon,
-    AddService
+    AddBlog,
+    ShowTextEditor
  },
  data() {
    return {
@@ -133,7 +159,7 @@ export default {
  methods: {
     searchData() {
       this.loading = true
-      axios.get(`http://192.168.1.107:8000/api/product/Products_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+      axios.get(`http://127.0.0.1:8000/api/blog/Blog_List/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
@@ -141,7 +167,7 @@ export default {
         },
       }).then((response) => {
         this.loading = false
-        this.data = response.data
+        this.data = response.data.results
       })
     }
   }, async mounted() {
