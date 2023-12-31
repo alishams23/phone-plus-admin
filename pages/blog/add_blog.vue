@@ -1,261 +1,166 @@
 <template>
-    <form @submit.prevent="sendData">      
-        <v-locale-provider rtl  >
-            <v-text-field
-                label="نام محصول"
-                v-model="title"
-                rounded="lg"
-                persistent-hint
-                variant="outlined"
-                color="primary"
-                class="mt-10"/>
-            
-        <div class="px-5 py-3 ">
-            توضیحات محصول
-        </div>
-        </v-locale-provider>
-            <TextEditor
-            @update="handleTextChange" 
-            ></TextEditor>
-        <v-locale-provider rtl  >
-        <v-row class="mt-10 mb-5">
-        <v-col>
-            <v-text-field
-            label="قیمت محصول"
-            v-model= "price"
-            rounded="lg"
-            type="number"
-            persistent-hint
-            variant="outlined"
-            color="primary"
-            />
-        </v-col>
-        <v-col>
-            <v-autocomplete
-                label="دسته بندی‌ها"
-                rounded="lg"
-                persistent-hint
-                variant="outlined"
-                color="primary"
-            
-                clearable
-                chips
-                :items="['موبایل', 'تبلت', 'لپ تاپ', 'لوازم جانبی', 'مانیتور']"
-                multiple>
-            </v-autocomplete>
-        </v-col>
-        </v-row>
-       
-
-            <v-file-input
-                rounded="lg"
-                accept=".png,.jpg"
-                persistent-hint
-                variant="outlined"
-                @change="sendImage"
-                :disabled="loadingImage"
-                color="primary"
-                v-model="images"
-                placeholder="Upload your documents"
-                label="عکس‌های محصول"
-                multiple
-               >
-                <template v-slot:prepend>
-                   
-                    <PhotoIcon style="margin-left: -20px;" class="  text-grey" />
-
-                       
-                </template>
-                <template v-slot:selection="{ fileNames }">
-                        <template v-for="fileName in fileNames" :key="fileName">
-                            <v-chip
-                            size="small"
-                            label
-                            color="primary"
-                            >
-                            {{ fileName }}
-                        </v-chip>
-                    </template>
-                </template>
-            </v-file-input>
-            <v-file-input
-                rounded="lg"
-                accept=".mp4"
-                persistent-hint
-                variant="outlined"
-                color="primary"
-                v-model="video"
-                placeholder="اضافه کردن ویدئو"
-                label="فیلم محصول"
-                multiple
-               >
-                <template v-slot:prepend>
-                    <VideoIcon style="margin-left: -20px;" class="  text-grey" />
-                </template>
-                <template v-slot:selection="{ fileNames }">
-                        <template v-for="fileName in fileNames" :key="fileName">
-                            <v-chip
-                            size="small"
-                            label
-                            color="primary"
-                            >
-                            {{ fileName }}
-                        </v-chip>
-                    </template>
-                </template>
-            </v-file-input>
-            <v-checkbox
-                    v-model="discount"
-                    color="primary"
-                    label="دارای تخفیف"
-                >
-            </v-checkbox>
-
-        </v-locale-provider>
-
-        <v-slide-y-transition>
-            <v-slider
-                v-if="discount"
-                label="درصد تخفیف"
-                variant="outlined"
-                color="primary"
-                class="mt-5"
-                v-model="value"
-                :min="0"
-                :max="100"
-                :step="1"
-                thumb-label
-            ></v-slider>
-        </v-slide-y-transition>
-
-        <v-btn
-            rounded="lg"
-            persistent-hint
-            variant="flat"
-            color="primary"
-            :disabled="loadingImage"
-            class="mx-2 px-10 text-body2 font-weight-bold mb-5"
-            type="submit">
-            ثبت
-        </v-btn>
-    </form>
-</template>
-<script>
-import {PhotoIcon, VideoIcon ,CheckboxIcon} from 'vue-tabler-icons';
-import TextEditor from '@/components/shared/TextEditor.vue';
-import axios from 'axios';
-import { useUserStore } from '~/store/user';
-
-  export default {
-    components:{PhotoIcon, VideoIcon,CheckboxIcon,TextEditor},
-
-    data: () => ({
-        price: 0,
-        title: null,
-        description: null,
-        discount: false,
-        images: [],
-        video: null,
-        value: 0,
-        imageIds : [],
-        loadingImage:false,
-    }),
+    <form class="px-3" @submit.prevent="sendData" enctype="multipart/form-data">
+      <div class="mt-3 mb-5">
+     
+        <v-text-field
+        label="تیتر مقاله"
+        v-model="title"
+        rounded="lg"
+        required
+        persistent-hint
+        variant="outlined"
+        color="primary"
+        class="mt-10"/>
     
+      </div>
+      <TextEditor
+      @update="handleTextChange" 
+      ></TextEditor>
+      <div class="my-4">
+        <div class="text-right fw-bold">انتخاب عکس مقاله</div>
+      </div>
+      <div class="d-flex">
+
+        <v-file-input
+        rounded="lg"
+        accept=".png,.jpg"
+        persistent-hint
+        required
+      
+        variant="outlined"
+   
+        color="primary"
+        v-model="photo"
+        placeholder="Upload your documents"
+        label="عکس‌های هدر"
+        
+    >
+        <template v-slot:prepend>
+            <PhotoIcon style="margin-left: -20px;" class="text-grey" />
+        </template>
+       
+    </v-file-input>
+
+       
+      
+      </div>
+      <p class="text-danger rtl pt-3">
+        {{ error }}
+      </p>
+      <div class="d-flex rtl m-3 mt-5">
+        <v-btn
+        rounded="lg"
+        persistent-hint
+        variant="flat"
+        color="primary"
+    
+        class="mx-2 px-10 text-body2 font-weight-bold mb-5"
+        type="submit">
+          افزودن
+        </v-btn>
+      </div>
+      {{ body }}
+    </form>
+  </template>
+  
+  <script>
+
+  import TextEditor from '@/components/shared/TextEditor.vue';
+  import { useUserStore } from '~/store/user';
+  import axios from "axios";
+import {PhotoIcon, } from 'vue-tabler-icons';
+
+  
+  export default {
+    components: {
+        TextEditor,
+        PhotoIcon
+    },
+    data() {
+      return {
+        loading: false,
+        photo: null,
+        title: "",
+        error: "",
+        body: "",
+        imageId: null,
+        fd: null,
+        editorOptions: {
+          theme: "snow",
+     
+        },
+      };
+    },
     methods: {
         handleTextChange(newText) {
-    this.description = newText;
-    console.log(newText)
+    this.body = newText;
+   
   },
-  sendDataFunc(){
-    if (this.images && this.images.length) {
-        this.images.forEach((file, index) => {
-            let imageFormData = new FormData();
-
-            imageFormData.append(`photo`, file);
-
-             try {
-             axios.post('http://192.168.1.107:8000/api/product/AddImageApi/', imageFormData, {
-            headers: {
+      async sendData() {
+        if (
+          this.body == null ||
+          this.body == "" 
+        ) {
+          this.error = "لطفا همه ی مقادیر را وارد کنید ";
+          return 0;
+        }
+        this.loading = true;
+        this.fd = new FormData();
+        this.fd.append("photo", this.photo[0]);
+        this.fd.append("title_for_photo", this.title);
+        console.log(this.photo)
+        await axios
+          .post(
+            `http://127.0.0.1:8000/api/blog/CreateImage/`,
+            this.fd,
+  
+            {
+              headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization: `Token ${useUserStore().userToken}`
-            },
-            }).then((data) => {
-                this.imageIds.push(data.id)
-                console.log(this.data)
-               
-
-            })
-
-         
-        } catch (error) {
-            console.error('Error uploading images:', error);
-            return; 
-        }
-        return 
-        })
-
-       
-        }
-  },
-  async sendImage(){
-    this.loadingImage = true 
-     this.sendDataFunc().then(()=>{
-        this.loadingImage = false 
-
-    })
-
-  // First, upload images and get their IDs
- 
-
-  },
-    async sendData() {
-        
-
-      
-
-        // Now proceed with the rest of the data submission
-        let formData = new FormData();
-
-        // Append image IDs to the form data
-        
-        formData.append(`image`, this.imageIds);
-       
-
+              },
+            }
+          )
+          .catch(function (error) {
+            if (error.response) {
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            }
+          })
+          .then((response) => {
+            this.imageId = response.data.id;
+            axios
+              .post(
+                `http://127.0.0.1:8000/api/blog/createBlog/`,
+                {
+                  title: this.title,
+                  body: this.body,
+                  imageBlog: this.imageId,
+                },
+                {
+                  headers: {
+                    "Content-type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Token ${useUserStore().userToken}`
+                  },
+                }
+              )
+              .catch(function (error) {
+                if (error.response) {
+                  console.log(error.response.data);
+                  console.log(error.response.status);
+                  console.log(error.response.headers);
+                }
+              })
+              .then((response) => {
+                this.$router.push(`/blog`);
+              });
+          });
   
-      if (this.video) {
-        formData.append('video', this.video);
-      }
-  
-      // Assuming you have data properties like productName, productDescription, productPrice, etc.
-      formData.append('title', this.title);
-      formData.append('description', this.description);
-      formData.append('price', this.price);
-      // For the value of a slider
-      formData.append('discount', this.value);
-  
-      // Send the request
-      axios.post('http://192.168.1.107:8000/api/product/AddProductApi/', formData, {
-        headers: {
-          "Content-type": "application/json",
-          Accept: "application/json",
-          Authorization: `Token ${useUserStore().userToken}`
-        },
-      })
-      .then(response => {
-        // handle success
-        console.log(response.data);
-      })
-      .catch(error => {
-        // handle error
-        console.error('Error:', error);
-      });
+        this.loading = false;
+      },
     },
-    }
   };
-</script>
-
-<style >
-.ql-toolbar.ql-snow{
-    border-radius: 13px 13px 0px 0px !important;
-}
-</style>
+  </script>
+  
