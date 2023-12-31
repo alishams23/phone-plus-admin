@@ -15,8 +15,8 @@
                         <SortDescending2Icon v-if="order" />              
                         <SortAscending2Icon  v-if="!order"/>
                     </v-btn>
-                    <v-btn @click="sended = !sended"  :variant="sended ?  'tonal' : 'outlined'" color="primary" height="50px" class="ms-3 " rounded="lg" >
-                        <div class="d-flex justify-center " v-if="sended" >
+                    <v-btn @click="sended = !sended;searchData()"  :variant="sended ?  'tonal' : 'outlined'" color="primary" height="50px" class="ms-3 " rounded="lg" >
+                        <div class="d-flex justify-center " v-if="!sended" >
                             <CheckIcon class="me-3" />
                            <div>
                             ارسال نشده‌ها
@@ -78,11 +78,11 @@
                             <h6 class="text-body-1 text-muted">{{ item.count }}</h6>
                         </td>
                         <td>
-                            <v-chip v-if="item.is_finished" :class="'text-body-2 px-3 py-1 bg-primary'" color="white"  size="x-small" >
-                               ارسال شده
-                            </v-chip>
-                            <v-chip v-else-if="item.is_received" :class="'text-body-2 px-3 py-1 bg-green' " color="white"  size="x-small" >
+                            <v-chip v-if="item.is_received" :class="'text-body-2 px-3 py-1 bg-green' " color="white"  size="x-small" >
                                 تحویل داده شده
+                            </v-chip>
+                            <v-chip v-else-if="item.is_finished" :class="'text-body-2 px-3 py-1 bg-primary'" color="white"  size="x-small" >
+                               ارسال شده
                             </v-chip>
                             <v-chip v-else :class="'text-body-2 px-3 py-1 bg-red' " color="white"  size="x-small" >
                                 ارسال نشده
@@ -153,7 +153,7 @@ export default {
     methods: {
         searchData() {
         this.loading = true
-        axios.get(`http://192.168.1.107:8000/api/order/Order_payed_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+        axios.get(`http://192.168.1.107:8000/api/order/Order_payed_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}&is_finished=${this.sended}`, {
             headers: {
             "Content-type": "application/json",
             Accept: "application/json",

@@ -65,24 +65,7 @@
 
                         
                     </v-card-item>
-                    <v-card-text>
-                        <v-row
-                            align="center"
-                            class="mx-0"
-                            >
-                            <v-rating
-                                :model-value="4.5"
-                                color="amber"
-                                density="compact"
-                                half-increments
-                                readonly
-                                size="small"
-                            ></v-rating>
-                        </v-row>
-                        <ShowTextEditor :content="blog.body" />
-                  
-
-                    </v-card-text>
+                                      
                     <v-divider class="mx-4 mb-1"></v-divider>
                     <v-card-actions class="mt-auto">
                         <v-btn
@@ -159,7 +142,7 @@ export default {
  methods: {
     searchData() {
       this.loading = true
-      axios.get(`http://127.0.0.1:8000/api/blog/Blog_List/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+      axios.get(`http://192.168.1.107:8000/api/blog/Blog_List/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
