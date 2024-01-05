@@ -62,125 +62,97 @@ import { useUserStore } from '~/store/user';
 import axios from "axios";
 import { PhotoIcon, } from 'vue-tabler-icons';
 
-
-export default {
-  components: {
-    TextEditor,
-    PhotoIcon
-  },
-  data() {
-    return {
-      loading: false,
-      photo: null,
-      title: "",
-      error: "",
-      body: "",
-      imageId: null,
-      imagePreviews: [],
-      selectedCategories: [],
-      categories: [],
-      fd: null,
-      editorOptions: {
-        theme: "snow",
-
-      },
-    };
-  },
-  mounted(){
-    this.fetchCategories()
-  },
-  methods: {
-    handleTextChange(newText) {
-      this.body = newText;
-
+  
+  export default {
+    components: {
+        TextEditor,
+        PhotoIcon
     },
-    async fetchCategories() {
-      try {
-        const userToken = useUserStore().userToken; // Get the token from your user store
-        const response = await axios.get('http://192.168.1.107:8000/api/blog/List_category/', {
-          headers: {
-            Authorization: `Token ${userToken}`
-          }
-        });
-        this.categories = response.data; // Assuming the API returns an array
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
+    data() {
+      return {
+        loading: false,
+        photo: null,
+        title: "",
+        error: "",
+        body: "",
+        imageId: null,
+        fd: null,
+        editorOptions: {
+          theme: "snow",
+     
+        },
+      };
     },
-    async changeImage() {
-      this.imagePreviews = [];
-      this.photo.forEach(file => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.imagePreviews.push(e.target.result);
-        };
-        reader.readAsDataURL(file);
-      });
-    },
-    async sendData() {
-      if (
-        this.body == null ||
-        this.body == ""
-      ) {
-        this.error = "لطفا همه ی مقادیر را وارد کنید ";
-        return 0;
-      }
-      this.loading = true;
-      this.fd = new FormData();
-      this.fd.append("photo", this.photo[0]);
-      this.fd.append("title_for_photo", this.title);
-      console.log(this.photo)
-      await axios
-        .post(
-          `http://192.168.1.107:8000/api/blog/CreateImage/`,
-          this.fd,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              Authorization: `Token ${useUserStore().userToken}`
-            },
-          }
-        )
-        .catch(function (error) {
-          if (error.response) {
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
-          }
-        })
-        .then((response) => {
-          this.imageId = response.data.id;
-          axios
-            .post(
-              `http://192.168.1.107:8000/api/blog/createBlog/`,
-              {
-                title: this.title,
-                body: this.body,
-                imageBlog: this.imageId,
-                category : this.selectedCategories,
+    methods: {
+        handleTextChange(newText) {
+    this.body = newText;
+   
+  },
+      async sendData() {
+        if (
+          this.body == null ||
+          this.body == "" 
+        ) {
+          this.error = "لطفا همه ی مقادیر را وارد کنید ";
+          return 0;
+        }
+        this.loading = true;
+        this.fd = new FormData();
+        this.fd.append("photo", this.photo[0]);
+        this.fd.append("title_for_photo", this.title);
+        console.log(this.photo)
+        await axios
+          .post(
+            `http://192.168.1.107:8000/api/blog/CreateImage/`,
+            this.fd,
+  
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Token ${useUserStore().userToken}`
               },
-              {
-                headers: {
-                  "Content-type": "application/json",
-                  Accept: "application/json",
-                  Authorization: `Token ${useUserStore().userToken}`
+            }
+          )
+          .catch(function (error) {
+            if (error.response) {
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            }
+          })
+          .then((response) => {
+            this.imageId = response.data.id;
+            axios
+              .post(
+                `http://192.168.1.107:8000/api/blog/createBlog/`,
+                {
+                  title: this.title,
+                  body: this.body,
+                  imageBlog: this.imageId,
                 },
-              }
-            )
-            .catch(function (error) {
-              if (error.response) {
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-              }
-            })
-            .then((response) => {
-              this.$router.push(`/blog`);
-            });
-        });
-      this.loading = false;
+                {
+                  headers: {
+                    "Content-type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Token ${useUserStore().userToken}`
+                  },
+                }
+              )
+              .catch(function (error) {
+                if (error.response) {
+                  console.log(error.response.data);
+                  console.log(error.response.status);
+                  console.log(error.response.headers);
+                }
+              })
+              .then((response) => {
+                this.$router.push(`/blog`);
+              });
+          });
+  
+        this.loading = false;
+      },
     },
-  },
-};
-</script>
+  };
+  </script>
   

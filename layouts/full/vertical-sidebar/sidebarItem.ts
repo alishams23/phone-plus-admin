@@ -54,7 +54,7 @@ const sidebarItem: menu[] = [
         to: '/products'
     },
     {
-        title: 'خدمات',
+        title: 'محصولات دیجیتال',
         icon: ToolIcon,
         to: '/services'
     },
