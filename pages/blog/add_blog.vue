@@ -92,10 +92,9 @@ import {PhotoIcon, } from 'vue-tabler-icons';
       };
     },
     methods: {
-        handleTextChange(newText) {
-    this.body = newText;
-   
-  },
+      handleTextChange(newText) {
+        this.body = newText;
+      },
       async sendData() {
         if (
           this.body == null ||

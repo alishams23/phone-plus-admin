@@ -1,147 +1,315 @@
 <template>
-    <form >        
-        <v-locale-provider rtl  >
-            <v-text-field
-                label="نام"
-                rounded="lg"
-                persistent-hint
-                variant="outlined"
-                color="primary"
-                class="mt-10"/>
+
+
+
+     <div>
+        <v-tabs
+    v-model="tab"
+    align-tabs="center"
+    color="primary"
+    
+    >
+   
+        <v-tab value="one">افزودن تکی </v-tab>
+      <v-tab value="two">افزودن گروهی</v-tab>
+   
+    
+</v-tabs>
+        <v-window v-model="tab"  >
+        <v-window-item value="one" style="overflow-y: scroll;">
+            <form >        
+                <v-locale-provider rtl  >
+                    <v-text-field
+                        label="نام"
+                        rounded="lg"
+                        persistent-hint
+                        variant="outlined"
+                        color="primary"
+                        class="mt-10"/>
+                    
+                        </v-locale-provider>
+                        <TextEditor
+                            @update="handleTextChange" 
+                        ></TextEditor>
+                        <v-locale-provider rtl>
+                    <v-text-field
+                        label="قیمت"
+                        rounded="lg"
+                        type="number"
+                        persistent-hint
+                        variant="outlined"
+                        color="primary"
+                        class="mt-5"/>
             
-            <v-text-field
-                label="توضیحات"
-                rounded="lg"
-                persistent-hint
-                variant="outlined"
-                color="primary"
-                class="mt-5"/>
+                    <v-autocomplete
+                        label="دسته بندی‌ها"
+                        rounded="lg"
+                        persistent-hint
+                        variant="outlined"
+                        color="primary"
+                        class="mt-5"
+                        clearable
+                        chips
+                        :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                        multiple>
+                    </v-autocomplete>
 
-                <vue3-editor
-                class="bg-white"
-                v-model="body"
-                :editorOptions="editorOptions"
-              ></vue3-editor>
-            <v-text-field
-                label="قیمت"
-                rounded="lg"
-                type="number"
-                persistent-hint
-                variant="outlined"
-                color="primary"
-                class="mt-5"/>
-      
-            <v-autocomplete
-                label="دسته بندی‌ها"
-                rounded="lg"
-                persistent-hint
-                variant="outlined"
-                color="primary"
-                class="mt-5"
-                clearable
-                chips
-                :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
-                multiple>
-            </v-autocomplete>
+                    <v-file-input
+                        rounded="lg"
+                        accept=".png,.jpg"
+                        :rules="rules"
+                        persistent-hint
+                        variant="outlined"
+                        color="primary"
+                        v-model="image"
+                        placeholder="Upload your documents"
+                        label="عکس‌"
+                    >
+                        <template v-slot:prepend>
+                        
+                            <PhotoIcon style="margin-left: -20px;" class="  text-grey" />
 
-            <v-file-input
-                rounded="lg"
-                accept=".png,.jpg"
-                :rules="rules"
-                persistent-hint
-                variant="outlined"
-                color="primary"
-                v-model="image"
-                placeholder="Upload your documents"
-                label="عکس‌"
-               >
-                <template v-slot:prepend>
-                   
-                    <PhotoIcon style="margin-left: -20px;" class="  text-grey" />
+                            
+                        </template>
+                        <template v-slot:selection="{ fileNames }">
+                                <template v-for="fileName in fileNames" :key="fileName">
+                                    <v-chip
+                                    size="small"
+                                    label
+                                    color="primary"
+                                    >
+                                    {{ fileName }}
+                                </v-chip>
+                            </template>
+                        </template>
+                    </v-file-input>
+                
+                    <v-file-input
+                        rounded="lg"
+                        accept=".zip,.rar"
+                        persistent-hint
+                        variant="outlined"
+                        color="primary"
+                        
+                        v-model="video"
+                        placeholder="اضافه کردن فایل"
+                        label="فایل محصول"
+                        >
+                        <template v-slot:prepend>
+                            <FileImportIcon style="margin-left: -20px;" class="  text-grey" />
+                        </template>
+                        <template v-slot:selection="{ fileNames }">
+                                <template v-for="fileName in fileNames" :key="fileName">
+                                    <v-chip
+                                    size="small"
+                                    label
+                                    color="primary"
+                                    >
+                                    {{ fileName }}
+                                </v-chip>
+                            </template>
+                        </template>
+                    </v-file-input>
 
-                       
-                </template>
-                <template v-slot:selection="{ fileNames }">
-                        <template v-for="fileName in fileNames" :key="fileName">
-                            <v-chip
-                            size="small"
-                            label
-                            color="primary"
-                            >
-                            {{ fileName }}
-                        </v-chip>
-                    </template>
-                </template>
-            </v-file-input>
-           
-            <v-file-input
-                rounded="lg"
-                accept=".mp4"
-                persistent-hint
-                variant="outlined"
-                color="primary"
-                v-model="video"
-                placeholder="اضافه کردن ویدئو"
-                label="فیلم محصول"
-                multiple
-               >
-                <template v-slot:prepend>
-                    <VideoIcon style="margin-left: -20px;" class="  text-grey" />
-                </template>
-                <template v-slot:selection="{ fileNames }">
-                        <template v-for="fileName in fileNames" :key="fileName">
-                            <v-chip
-                            size="small"
-                            label
-                            color="primary"
-                            >
-                            {{ fileName }}
-                        </v-chip>
-                    </template>
-                </template>
-            </v-file-input>
+                    <v-checkbox
+                            v-model="discount"
+                            label="دارای تخفیف"
+                        ></v-checkbox>
+                </v-locale-provider>
+
+                <v-slide-y-transition>
+                    <v-slider
+                        v-if="discount"
+                        label="درصد تخفیف"
+                        variant="outlined"
+                        color="primary"
+                        class="mt-5"
+                        v-model="value"
+                        :min="0"
+                        :max="100"
+                        :step="1"
+                        thumb-label
+                    ></v-slider>
+                </v-slide-y-transition>
+
+                <v-btn
+                    rounded="lg"
+                    persistent-hint
+                    variant="flat"
+                    color="primary"
+                    
+                    class="mx-2 px-10 text-body2 font-weight-bold mb-5"
+                    type="submit">
+                    ثبت
+                </v-btn>
+            </form>
+        </v-window-item>
+
+        <v-window-item value="two">
+          
         
-            <v-checkbox
-                    v-model="discount"
-                    label="دارای تخفیف"
-                ></v-checkbox>
-        </v-locale-provider>
-
-        <v-slide-y-transition>
-            <v-slider
-                v-if="discount"
-                label="درصد تخفیف"
-                variant="outlined"
-                color="primary"
-                class="mt-5"
-                v-model="value"
-                :min="0"
-                :max="100"
-                :step="1"
-                thumb-label
-            ></v-slider>
-        </v-slide-y-transition>
-
-        <v-btn
-            rounded="lg"
-            persistent-hint
-            variant="flat"
-            color="primary"
+            <form >        
+                <v-locale-provider rtl  >
+                    <v-alert
+                        class="mt-5 rounded-lg"
+                        title="نکته"
+                        text="برای ثبت لایسنس‌های خود، لطفاً فایل CSV را با دقت تکمیل کنید. هر ردیف فایل باید حاوی اطلاعات یک لایسنس باشد. پس از تکمیل، فایل خود را در بخش مربوطه در وب‌سایت آپلود کنید تا لایسنس‌های شما به سرعت و به طور موثر ثبت شوند."
+                    ></v-alert>
+                    <v-text-field
+                        label="نام"
+                        rounded="lg"
+                        persistent-hint
+                        variant="outlined"
+                        color="primary"
+                        class="mt-10"/>
+                </v-locale-provider>
+                <TextEditor
+                    @update="handleTextChange" 
+                ></TextEditor>
+                <v-locale-provider rtl>
+                    <v-text-field
+                        label="قیمت"
+                        rounded="lg"
+                        type="number"
+                        persistent-hint
+                        variant="outlined"
+                        color="primary"
+                        class="mt-5"/>
             
-            class="mx-2 px-10 text-body2 font-weight-bold mb-5"
-            type="submit">
-            ثبت
-        </v-btn>
-    </form>
+                    <v-autocomplete
+                        label="دسته بندی‌ها"
+                        rounded="lg"
+                        persistent-hint
+                        variant="outlined"
+                        color="primary"
+                        class="mt-5"
+                        clearable
+                        chips
+                        :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                        multiple>
+                    </v-autocomplete>
+
+                    <v-file-input
+                        rounded="lg"
+                        accept=".png,.jpg"
+                        :rules="rules"
+                        persistent-hint
+                        variant="outlined"
+                        color="primary"
+                        v-model="image"
+                        placeholder="Upload your documents"
+                        label="عکس‌"
+                    >
+                        <template v-slot:prepend>
+                        
+                            <PhotoIcon style="margin-left: -20px;" class="  text-grey" />
+
+                            
+                        </template>
+                        <template v-slot:selection="{ fileNames }">
+                                <template v-for="fileName in fileNames" :key="fileName">
+                                    <v-chip
+                                    size="small"
+                                    label
+                                    color="primary"
+                                    >
+                                    {{ fileName }}
+                                </v-chip>
+                            </template>
+                        </template>
+                    </v-file-input>
+
+                    <v-file-input
+                        rounded="lg"
+                        accept=".csv"
+                        persistent-hint
+                        variant="outlined"
+                        color="primary"
+                        
+                        v-model="video"
+                        placeholder="اضافه لیست"
+                        label="لیست محصول"
+                        >
+                        <template v-slot:prepend>
+                            <FileImportIcon style="margin-left: -20px;" class="  text-grey" />
+                        </template>
+                        <template v-slot:selection="{ fileNames }">
+                                <template v-for="fileName in fileNames" :key="fileName">
+                                    <v-chip
+                                    size="small"
+                                    label
+                                    color="primary"
+                                    >
+                                    {{ fileName }}
+                                </v-chip>
+                            </template>
+                        </template>
+                    </v-file-input>
+
+                    <v-checkbox
+                            v-model="discount"
+                            label="دارای تخفیف"
+                        ></v-checkbox>
+                </v-locale-provider>
+
+                <v-slide-y-transition>
+                    <v-slider
+                        v-if="discount"
+                        label="درصد تخفیف"
+                        variant="outlined"
+                        color="primary"
+                        class="mt-5"
+                        v-model="value"
+                        :min="0"
+                        :max="100"
+                        :step="1"
+                        thumb-label
+                    ></v-slider>
+                </v-slide-y-transition>
+
+                <v-btn
+                    rounded="lg"
+                    persistent-hint
+                    variant="flat"
+                    color="primary"
+                    
+                    class="mx-2 px-10 text-body2 font-weight-bold mb-5"
+                    type="submit">
+                    ثبت
+                </v-btn>
+            </form>
+        </v-window-item>
+
+      </v-window>
+     </div>
+
 </template>
 <script>
-import {PhotoIcon, VideoIcon } from 'vue-tabler-icons';
+import {PhotoIcon, VideoIcon, FileImportIcon } from 'vue-tabler-icons';
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
+import TextEditor from '@/components/shared/TextEditor.vue';
+
   export default {
-    components:{PhotoIcon, VideoIcon},
+    components:{PhotoIcon, VideoIcon, FileImportIcon, TextEditor},
+    methods: {
+      handleTextChange(newText) {
+        this.body = newText;
+      },
+    },
     data: () => ({
+        price: 0,
+        title: null,
+        description: null,
+        images: [],
+        imageIds : [],
+        loadingImage:false,
+        imagePreviews: [], 
+        categories: [],
+        selectedCategories: [],
+
+        tab: null,
         discount: false,
         image: null,
         video: null,
@@ -154,5 +322,6 @@ import "quill/dist/quill.bubble.css";
         ],
       },
     }),
+    
   }
 </script>
