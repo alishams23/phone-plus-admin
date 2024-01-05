@@ -42,8 +42,8 @@
                 <v-col  v-for="blog in data"
                 :key="blog.id" cols="4">
                 <v-card
-                :loading="loading"
-                    elevation="10"
+                :loading="loadingItem == blog.id"
+                    elevation="0"
                     rounded="lg"
                     class="mx-auto my-5"
                     max-width="350">
@@ -57,21 +57,24 @@
                     </template>
                     <v-img
                         cover
+                        class="rounded-xl"
                         height="250"
                         :src="blog.imageBlog.photo">
                     </v-img>
                     <v-card-item>
-                        <v-card-title>{{blog.title}}</v-card-title>
+                        <v-card-title class="text-h6 ">{{blog.title}}</v-card-title>
 
                         
                     </v-card-item>
                                       
-                    <v-divider class="mx-4 mb-1"></v-divider>
-                    <v-card-actions class="mt-auto">
+          
+                    <v-card-actions class="mt-auto" >
                         <v-btn
-                            class="px-10"
+                            class="px-10 ml-4"
                             variant="flat"
+                            :to="'/blog/'+ blog.id"
                             rounded="xl"
+                            size="small"
                             color="primary"
                         >
                             ویرایش
@@ -79,6 +82,20 @@
                             <PencilIcon size="15" />
                             </template>
                         </v-btn>
+                        <v-avatar
+                        size="30"
+                        variant="tonal"
+                        @click="removeItem(blog.id)"
+                      
+                        color="red-darken-2"
+                        icon=""
+                        
+                    >
+                        
+                       
+                        <TrashIcon size="15"  />
+                 
+                    </v-avatar>
                     </v-card-actions>
                 </v-card>      
             </v-col>
@@ -91,28 +108,13 @@
           <PlusIcon />
         </v-icon>
       </VBtn>
-        <!-- <v-dialog width="900">
-          <template v-slot:activator="{ props }">
-            <div class="ma-4">
-             
-            </div>
-          </template>
-    
-          <template v-slot:default="{ isActive }">
-            <v-card class="px-15 rounded-lg my-20 " title="">
-              <AddBlog />
-            </v-card>
-          </template>
-        </v-dialog> -->
+
       </VLayoutItem>
 </template>
 <script>
-import {PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon, ArticleIcon } from 'vue-tabler-icons';
+import {PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon, ArticleIcon,TrashIcon } from 'vue-tabler-icons';
 
-import image_1 from '@/assets/images/blog/1.png';
-import image_2 from '@/assets/images/blog/2.png';
-import image_3 from '@/assets/images/blog/3.png';
-import image_4 from '@/assets/images/blog/4.png';
+
 import AddBlog from '@/pages/blog/add_blog.vue';
 import axios from "axios";
 import ShowTextEditor from '~/components/shared/ShowTextEditor.vue';
@@ -129,7 +131,8 @@ export default {
     FilterCogIcon,
     ArticleIcon,
     AddBlog,
-    ShowTextEditor
+    ShowTextEditor,
+    TrashIcon
  },
  data() {
    return {
@@ -137,12 +140,13 @@ export default {
         loading: true,
         search_text:'', 
         order : false,
+        loadingItem : 0,
    };
  },
  methods: {
     searchData() {
       this.loading = true
-      axios.get(`http://192.168.1.107:8000/api/blog/Blog_List/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+      axios.get(`http://192.168.1.107:8000/api/blog/Blog_List/?search=${this.search_text}&ordering=${this.order == false ? '-id' : 'id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
@@ -151,6 +155,20 @@ export default {
       }).then((response) => {
         this.loading = false
         this.data = response.data.results
+      })
+    }
+    ,removeItem(id){
+      this.loadingItem = id
+      axios.delete(`http://192.168.1.107:8000/api/blog/BlogRemove/${id}/`, {
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Token ${useUserStore().userToken}`
+        },
+      }).then((response) => {
+       
+        this.searchData()
+        this.loadingItem = 0
       })
     }
   }, async mounted() {

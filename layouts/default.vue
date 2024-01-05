@@ -62,7 +62,7 @@ export default {
 <template>
  <v-app>
        <!------Sidebar-------->
-       <v-navigation-drawer location="right" elevation="0"  app class="leftSidebar  border-0 curved" color="white"  v-model="sDrawer">
+       <v-navigation-drawer location="right" elevation="0"  app class="leftSidebar  border-0 curved" :color="chat_drawer == true | setting_drawer == true ? 'white' : 'transparent'"  v-model="sDrawer">
         <!---Logo part -->
         <div class=" pa-5  ">
             <!-- <Logo /> -->
@@ -232,13 +232,27 @@ export default {
     color: rgb(64, 0, 124) !important;
 }
 
-.curved {
-    padding: 0px 0px 0px 0px;
-    background-image:radial-gradient(ellipse 75% 100% at 70% 50%, rgb(98, 0, 238) 89.9%, #ffffff00 90%);
-    text-align: center;
-    font-family: sans-serif;
-    text-transform: uppercase;
-  
+
+  @media (min-width: 1280px) {
+    .curved {
+        padding: 0px 0px 0px 0px;
+        background-image:radial-gradient(ellipse 75% 100% at 70% 50%, rgb(98, 0, 238) 89.9%, #ffffff00 90%);
+        text-align: center;
+        font-family: sans-serif;
+        text-transform: uppercase;
+      
+      }
+  }
+
+  @media (max-width: 1280px) {
+    .curved {
+        padding: 0px 0px 0px 0px;
+        background-color:rgb(98, 0, 238) !important;
+        text-align: center;
+        font-family: sans-serif;
+        text-transform: uppercase;
+      
+      }
   }
 
   .curved-white {

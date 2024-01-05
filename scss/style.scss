@@ -77,3 +77,19 @@ backdrop-filter: blur(15px);
 .v-field--variant-solo, .v-field--variant-solo-filled{
     box-shadow: none !important;
   }
+
+
+  .chip-image-preview {
+    width: 100px; /* Increased size */
+    height: 100px; /* Increased size */
+    object-fit: cover;
+    border-radius: 13px; /* Rounded corners */
+    margin-right: 17px;
+    margin-bottom: 20px;
+}
+.image-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between chips */
+    margin-top: 10px; /* Space above the container */
+}

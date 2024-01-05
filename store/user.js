@@ -16,7 +16,7 @@ export const useUserStore = defineStore('user', {
     // Function to save the token in a cookie
     saveTokenInCookie(token) {
       // Use your preferred cookie library or native document.cookie
-      document.cookie = `userToken=${token}; path=/; max-age=3600`; // Set max-age as needed
+      document.cookie = `userToken=${token}; path=/; max-age=${60 * 60 * 24 * 100 }`; // Set max-age as needed
     },
 
     // Function to load the token from a cookie

@@ -37,7 +37,7 @@ const sidebarItem: menu[] = [
         to: '/settings'
     },
     {
-        title: 'وبلاک',
+        title: 'وبلاگ',
         icon: ArticleIcon,
         to: '/blog'
     },

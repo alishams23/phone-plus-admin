@@ -1,48 +1,41 @@
 <template>
-    <client-only >
-        <quill-editor
-        class="rounded-b-lg"
-        ref="editorContent"
-         content-type="html"
-         v-model="content"
-         theme="snow"
-         :toolbar="toolbar"
-         :modules="modules"
-       
-         @blur="updateContent"
-
-        />
-      </client-only>
+  <client-only>
+    <quill-editor class="rounded-b-lg" ref="editorContent" content-type="html" v-model:content="content" theme="snow"
+      :toolbar="toolbar" :modules="modules" @textChange="updateContent" style="height: 300px;"  />
+  </client-only>
 </template>
 <script setup lang="ts">
-  import '@vueup/vue-quill/dist/vue-quill.snow.css'
-  import EditIcon from '@/assets/icons/edit.svg'
-  import SaveIcon from '@/assets/icons/save.svg'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import { ref, defineEmits } from 'vue';
+import BlotFormatter from 'quill-blot-formatter/dist/BlotFormatter'
 
-  import { ref, defineEmits } from 'vue';
+const props = defineProps<{
+  content: string,
+}>();
 
-let content = 'dddd'
-  const emit = defineEmits(['update']);
-  const editorContent = ref('');
+const { content } = toRefs(props);
+const emit = defineEmits(['update']);
+const editorContent = ref('');
 
-  // ... (rest of your code)
+// ... (rest of your code)
 
-  const updateContent = () => {
-   
-    emit('update', document.querySelector(".ql-editor").innerHTML);
-  };
+const updateContent = () => {
 
-  let  toolbar= [
-            ["bold", "italic", "underline", "strike"],
-            ["link", "blockquote", "code-block"],
-            [{ list: "ordered" }, { list: "bullet" }],
-            [{ script: "sub" }, { script: "super" }],
-            [{ indent: "-1" }, { indent: "+1" }],
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-            [{ direction: "rtl" }],
-            // ['image']
-          ]
-  let modules: {}
+  emit('update', document.querySelector(".ql-editor").innerHTML);
+};
+
+let toolbar = [
+  ["bold", "italic", "underline", "strike"],
+  ["link", "blockquote", "code-block"],
+  [{ list: "ordered" }, { list: "bullet" }],
+  [{ script: "sub" }, { script: "super" }],
+  [{ indent: "-1" }, { indent: "+1" }],
+  [{ header: [1, 2, 3, 4, 5, 6, false] }],
+  [{ direction: "rtl" }],
+  ['image']
+]
+
+let modules: {}
   if (!process.server) {
     const { QuillEditor, Quill } = await import('@vueup/vue-quill')
     const { vueApp } = useNuxtApp()
@@ -50,28 +43,24 @@ let content = 'dddd'
       vueApp.component('QuillEditor', QuillEditor)
 
     const ImageUploader = await import('quill-image-uploader')
-    const BlotFormatter = await import('quill-blot-formatter')
+    // const BlotFormatter = await import('quill-blot-formatter')
 
-    let modules: any[] = !process.server
-  ? [
+    modules = [
       {
         name: 'imageUploader',
-        module: ImageUploader.default,
+        module: ImageUploader.default, //add .default
         upload: (file: any) => {
           return new Promise((resolve, reject) => {
-            const formData = new FormData();
-            formData.append('image', file);
-            // You might want to resolve or reject here based on your implementation
-          });
-        },
+            const formData = new FormData()
+            formData.append('image', file)
+          })
+        }
       },
       {
         name: 'blotFormatter',
         module: BlotFormatter,
-        options: {},
-      },
+        options: {}
+      }
     ]
-  : [];
-
   }
 </script>

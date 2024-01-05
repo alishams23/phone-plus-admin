@@ -23,7 +23,7 @@
         <v-col>
             <v-text-field
             label="قیمت محصول"
-            v-model= "price"
+            v-model="price"
             required
             rounded="lg"
             type="number"
@@ -85,11 +85,8 @@
         <div class="image-preview-container">
             <template v-for="(preview, index) in imagePreviews" :key="index">
                     <img :src="preview" class="chip-image-preview" />
-
             </template>
         </div>
-        
-
             <v-file-input
                 rounded="lg"
                 accept=".mp4"
@@ -198,10 +195,8 @@ import { useUserStore } from '~/store/user';
         async sendDataFunc(){
             if (this.images && this.images.length) {
                 this.images.forEach((file, index) => {
-                    let imageFormData = new FormData();
-                    
+                    let imageFormData = new FormData();  
                     imageFormData.append(`photo`, file);
-
                     try {
                     axios.post('http://192.168.1.107:8000/api/product/AddImageApi/', imageFormData, {
                     headers: {
@@ -212,16 +207,12 @@ import { useUserStore } from '~/store/user';
                         this.imageIds.push(data.data.id)
 
                     })
-
-                
                 } catch (error) {
                     console.error('Error uploading images:', error);
                     return; 
                 }
                 return 
                 })
-
-            
                 }
             },
         async sendImage() {
@@ -239,7 +230,6 @@ import { useUserStore } from '~/store/user';
         },
         async sendData() {
             console.log(this.selectedCategories)
-
             let formDic = {}
             formDic['category'] = this.selectedCategories
             formDic['image'] = this.imageIds
@@ -271,18 +261,5 @@ import { useUserStore } from '~/store/user';
 .ql-toolbar.ql-snow{
     border-radius: 13px 13px 0px 0px !important;
 }
-.chip-image-preview {
-    width: 100px; /* Increased size */
-    height: 100px; /* Increased size */
-    object-fit: cover;
-    border-radius: 13px; /* Rounded corners */
-    margin-right: 17px;
-    margin-bottom: 20px;
-}
-.image-preview-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Space between chips */
-    margin-top: 10px; /* Space above the container */
-}
+
 </style>
