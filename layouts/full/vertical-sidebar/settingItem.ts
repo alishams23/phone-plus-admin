@@ -1,6 +1,7 @@
 import {
     ApertureIcon,
     CopyIcon,
+    Settings2Icon,
     UserCircleIcon, LogoutIcon
 } from 'vue-tabler-icons';
 export interface menu {
@@ -19,12 +20,17 @@ export interface menu {
 }
 
 const sidebarItem: menu[] = [
-
+    {
+        title: 'اطلاعات کاربری',
+        icon: Settings2Icon,
+        to: '/settings/'
+    },
     {
         title: 'تغییر نام کاربری',
         icon: UserCircleIcon,
-        to: '/settings/changeUserName'
+        to: '/settings/changeUsername'
     },
+    
     {
         title: 'خروج',
         icon: LogoutIcon,

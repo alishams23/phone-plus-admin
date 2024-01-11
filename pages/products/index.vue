@@ -1,13 +1,11 @@
 <template>
   <v-container>
-
     <v-row align="center">
       <v-col cols="4">
         <v-locale-provider rtl>
           <v-text-field v-model="search_text" @update:model-value="searchData" label="جستجو" rounded="lg" persistent-hint variant="outlined" color="primary" dense
             class="mt-5 text-body-2">
             <template v-slot:prepend-inner>
-
               <SearchIcon color="gray" />
             </template>
             <template v-slot:prepend>
@@ -34,24 +32,41 @@
     </div>
     </v-alert>
     <v-row>
-     
       <v-col v-for="product in data" v-if="!loading" :key="product.id" cols="6">
-        <v-card elevation="10" rounded="lg" class="my-5 rtl mx-3">
+        <v-card elevation="10" rounded="lg" class="my-5 rtl mx-3"
+        :loading="loadingItem == product.id"
+        >
           <div class="d-flex flex-no-wrap justify-space-between">
             <div class="pa-5 d-flex align-start flex-column ">
               <v-card-title class="text-h5 font-weight-bold">
                 {{ product.title }}
               </v-card-title>
               <v-card-text class="text-line-1">
-                {{ product.description }}
+                <div v-html=" product.description">
+                </div>
               </v-card-text>
               <v-card-actions class="mt-auto">
-                <v-btn class="px-10" variant="flat" rounded="xl" color="primary">
+                <v-btn :to="'/products/' +product.id " class="px-10" variant="flat" rounded="xl" color="primary">
                   ویرایش
                   <template v-slot:append>
                     <PencilIcon size="15" />
                   </template>
                 </v-btn>
+                <v-avatar
+                size="30"
+                variant="tonal"
+                class="mx-3"
+                @click="removeItem(product.id)"
+              
+                color="red-darken-2"
+                icon=""
+                
+            >
+                
+               
+                <TrashIcon size="15"  />
+         
+            </v-avatar>
               </v-card-actions>
             </div>
             <v-avatar size="230" rounded="0">
@@ -63,7 +78,6 @@
     </v-row>
   </v-container>
   <VLayoutItem model-value position="bottom" class="text-end" size="88">
-
     <v-dialog width="900">
       <template v-slot:activator="{ props }">
         <div class="ma-4">
@@ -74,7 +88,6 @@
           </VBtn>
         </div>
       </template>
-
       <template v-slot:default="{ isActive }">
         <v-card class="px-15 rounded-lg my-20 " title="">
           <AddProduct />
@@ -88,7 +101,7 @@
     </div>
 </template>
 <script>
-import { PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon} from 'vue-tabler-icons';
+import {TrashIcon, PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon} from 'vue-tabler-icons';
 import proimg1 from '@/assets/images/products/s4.jpg';
 import proimg2 from '@/assets/images/products/s5.jpg';
 import AddProduct from '@/pages/products/add_product.vue';
@@ -104,6 +117,7 @@ export default {
     BoxIcon,
     SearchIcon,
     FilterCogIcon,
+    TrashIcon,
     AddProduct
   },
   name: "ProductCard",
@@ -113,6 +127,8 @@ export default {
       loading: true,
       search_text:'',
       order : false,
+      loadingItem : 0,
+
     };
 
   },
@@ -130,6 +146,19 @@ export default {
       }).then((response) => {
         this.loading = false
         this.data = response.data
+      })
+    },removeItem(id){
+      this.loadingItem = id
+      axios.delete(`http://192.168.1.106:8000/api/product/ProductRemove/${id}/`, {
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Token ${useUserStore().userToken}`
+        },
+      }).then((response) => {
+       
+        this.searchData()
+        this.loadingItem = 0
       })
     }
   }, async mounted() {
