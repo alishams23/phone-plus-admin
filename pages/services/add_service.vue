@@ -225,7 +225,7 @@
                         persistent-hint
                         variant="outlined"
                         color="primary"
-                        
+                        @change="handleCsvUpload"
                         v-model="video"
                         placeholder="اضافه لیست"
                         label="لیست محصول"
@@ -245,11 +245,41 @@
                             </template>
                         </template>
                     </v-file-input>
+                </v-locale-provider>
+                    <v-table
+                    v-if="csvData.length!=0"
+                    fixed-header
+                    height="300px"
+                    dense>
+                        <thead>
+                            <tr>
+                                <th v-for="(header, index) in tableHeaders" :key="index" class="text-left">
+                                {{ header }}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="row in csvData" :key="row.id">
+                                <td v-for="(value, key) in row" :key="key">{{ value }}</td>
+                                <td class="text-center">
+                                    <v-avatar 
+                                        small 
+                                        color="red" 
+                                        @click="deleteRow(index)"
+                                        variant="tonal">
+                                        <TrashIcon class="text-red"/>
+                                    </v-avatar>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </v-table>
+                    <v-locale-provider rtl>
 
                     <v-checkbox
                             v-model="discount"
                             label="دارای تخفیف"
                         ></v-checkbox>
+                        
                 </v-locale-provider>
 
                 <v-slide-y-transition>
@@ -285,22 +315,55 @@
 
 </template>
 <script>
-import {PhotoIcon, VideoIcon, FileImportIcon } from 'vue-tabler-icons';
+import Papa from 'papaparse';
+import {PhotoIcon, VideoIcon, FileImportIcon, TrashIcon} from 'vue-tabler-icons';
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 import TextEditor from '@/components/shared/TextEditor.vue';
 
   export default {
-    components:{PhotoIcon, VideoIcon, FileImportIcon, TextEditor},
+    components:{PhotoIcon, VideoIcon, FileImportIcon,TrashIcon, TextEditor, },
+    computed: {
+        tableHeaders() {
+        return this.csvData.length > 0 ? Object.keys(this.csvData[0]) : [];
+        }
+    },
     methods: {
-      handleTextChange(newText) {
-        this.body = newText;
-      },
+        handleTextChange(newText) {
+          this.body = newText;
+        },
+        deleteRow(index) {
+            this.csvData.splice(index, 1);
+        },
+        handleCsvUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.readAsText(file, 'UTF-8');
+                reader.onload = (e) => {
+                    Papa.parse(e.target.result, {
+                        complete: (result) => {
+                            this.csvData = result.data;
+                        },
+                        header: true,
+                        skipEmptyLines: true,
+                        error: (error) => {
+                            console.error('Error parsing CSV:', error);
+                        }
+                    });
+                };
+                reader.onerror = (error) => {
+                    console.error('Error reading file:', error);
+                };
+            }
+        },
+
     },
     data: () => ({
         price: 0,
         title: null,
+        csvData: [],
         description: null,
         images: [],
         imageIds : [],
