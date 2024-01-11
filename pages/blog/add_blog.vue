@@ -103,7 +103,7 @@ import { PhotoIcon, } from 'vue-tabler-icons';
         console.log(this.photo)
         await axios
           .post(
-            `http://192.168.1.107:8000/api/blog/CreateImage/`,
+            `http://192.168.1.106:8000/api/blog/CreateImage/`,
             this.fd,
   
             {
@@ -124,7 +124,7 @@ import { PhotoIcon, } from 'vue-tabler-icons';
             this.imageId = response.data.id;
             axios
               .post(
-                `http://192.168.1.107:8000/api/blog/createBlog/`,
+                `http://192.168.1.106:8000/api/blog/createBlog/`,
                 {
                   title: this.title,
                   body: this.body,
@@ -149,7 +149,6 @@ import { PhotoIcon, } from 'vue-tabler-icons';
                 this.$router.push(`/blog`);
               });
           });
-  
         this.loading = false;
       },
     },

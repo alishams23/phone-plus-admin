@@ -19,6 +19,7 @@
     "@vueuse/nuxt": "^10.6.1",
     "apexcharts": "^3.42.0",
     "axios": "^1.6.2",
+    "papaparse": "^5.4.1",
     "pinia": "^2.1.7",
     "quill-blot-formatter": "^1.0.5",
     "quill-image-resize-module": "^3.0.0",

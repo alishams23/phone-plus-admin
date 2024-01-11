@@ -27,7 +27,7 @@ console.log(newText);
 },
 async fetchCategories() {
 try {
-const response = await axios.get('http://192.168.1.107:8000/api/product/ListCategories/');
+const response = await axios.get('http://192.168.1.106:8000/api/product/ListCategories/');
 this.categories = response.data; // Assuming the API returns an array
 } catch (error) {
 console.error('Error fetching categories:', error);
@@ -41,7 +41,7 @@ let imageFormData = new FormData();
 imageFormData.append(`photo`, file);
 
 try {
-axios.post('http://192.168.1.107:8000/api/product/AddImageApi/', imageFormData, {
+axios.post('http://192.168.1.106:8000/api/product/AddImageApi/', imageFormData, {
 headers: {
 'Content-Type': 'multipart/form-data',
 Authorization: `Token ${useUserStore().userToken}`
@@ -84,7 +84,7 @@ formDic['description'] = this.description;
 formDic['price'] = this.price;
 formDic['discount'] = this.value;
 
-axios.post('http://192.168.1.107:8000/api/product/AddProductApi/', formDic, {
+axios.post('http://192.168.1.106:8000/api/product/AddProductApi/', formDic, {
 headers: {
 Authorization: `Token ${useUserStore().userToken}`
 },

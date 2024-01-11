@@ -146,7 +146,7 @@ export default {
  methods: {
     searchData() {
       this.loading = true
-      axios.get(`http://192.168.1.107:8000/api/blog/Blog_List/?search=${this.search_text}&ordering=${this.order == false ? '-id' : 'id'}`, {
+      axios.get(`http://192.168.1.106:8000/api/blog/Blog_List/?search=${this.search_text}&ordering=${this.order == false ? '-id' : 'id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
@@ -159,7 +159,7 @@ export default {
     }
     ,removeItem(id){
       this.loadingItem = id
-      axios.delete(`http://192.168.1.107:8000/api/blog/BlogRemove/${id}/`, {
+      axios.delete(`http://192.168.1.106:8000/api/blog/BlogRemove/${id}/`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",

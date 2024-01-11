@@ -60,6 +60,7 @@
                         <th class="text-subtitle-1 font-weight-bold text-right">مبلغ</th>
                     </tr>
                 </thead>
+                
                 <tbody>
                     <tr v-for="item in data"  v-if="!loading" :key="item.name" class="month-item">
                         <td>
@@ -153,7 +154,7 @@ export default {
     methods: {
         searchData() {
         this.loading = true
-        axios.get(`http://192.168.1.107:8000/api/order/Order_payed_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}&is_finished=${this.sended}`, {
+        axios.get(`http://192.168.1.106:8000/api/order/Order_payed_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}&is_finished=${this.sended}`, {
             headers: {
             "Content-type": "application/json",
             Accept: "application/json",

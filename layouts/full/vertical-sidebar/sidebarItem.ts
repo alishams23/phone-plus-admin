@@ -25,12 +25,12 @@ const sidebarItem: menu[] = [
         icon: LayoutDashboardIcon,
         to: '/'
     },
-    { header: 'عمومی' },
-    {
-        title: 'پروفایل',
-        icon: UserCircleIcon,
-        to: '/profile'
-    },
+    // { header: 'عمومی' },
+    // {
+    //     title: 'پروفایل',
+    //     icon: UserCircleIcon,
+    //     to: '/profile'
+    // },
     {
         title: 'تنظیمات',
         icon: Settings2Icon,
@@ -58,11 +58,11 @@ const sidebarItem: menu[] = [
         icon: ToolIcon,
         to: '/services'
     },
-    {
-        title: 'ارسال کالا',
-        icon: CubeSendIcon,
-        to: '/transport'
-    },
+    // {
+    //     title: 'ارسال کالا',
+    //     icon: CubeSendIcon,
+    //     to: '/transport'
+    // },
     { header: 'ارتباط' },
     {
         title: 'گفت و گو',
