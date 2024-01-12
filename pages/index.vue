@@ -6,7 +6,7 @@ import YearlyBreakup from '~/components/dashboard/YearlyBreakup.vue';
 import MonthlyEarning from '~/components/dashboard/MonthlyEarnings.vue';
 import RecentTransaction from '~/components/dashboard/RecentTransaction.vue';
 import PaymentTable from '~/components/dashboard/PaymentTable.vue';
-import ProductCards from '~/components/dashboard/ProductCards.vue';
+import RecentProduct from '~/components/dashboard/RecentProduct.vue';
 
 
 export default {
@@ -18,7 +18,7 @@ YearlyBreakup,
 MonthlyEarning,
 RecentTransaction,
 PaymentTable,
-ProductCards}}
+RecentProduct}}
 </script>
 <template>
     
@@ -51,14 +51,14 @@ ProductCards}}
                 <v-col cols="12">
                    <div class="d-flex justify-space-between align-center">
                     
-                    <v-btn variant="outlined"  rounded="xl" size="small">
+                    <v-btn variant="outlined" to="/products" rounded="xl" size="small">
                        همه ی محصولات
                     </v-btn>
                     <div class="rtl font-weight-black py-5">
                         محصولات اخیر
                     </div>
                    </div>
-                    <ProductCards />
+                    <RecentProduct />
                 </v-col>
             </v-row>
         </v-col>

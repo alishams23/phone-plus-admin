@@ -39,19 +39,23 @@
                     </template>
                 </v-file-input>
                 <div class="d-flex flex-wrap">
-                    <template v-for="(preview, index) in imagePreviews" :key="index">
+                    <!-- <template v-for="(preview, index) in imagePreviews" :key="index">
                         <v-img cover :src="preview" class="chip-image-preview" :aspect-ratio="1 / 1" />
-                    </template>
-                    <template v-for="(preview, index) in imageUrl" :key="index">
-                        <v-img :src="preview.photo" cover :aspect-ratio="1 / 1" class="chip-image-preview">
-                            <v-avatar size="30" class="ma-3"
+                    </template> -->
+                    <div class="image-preview-container">
+                        <template v-for="(preview, index) in imagePreviews" :key="index">
+                            <v-img :src="preview" class="chip-image-preview"></v-img>
+                        </template>
+                    </div>
+                    <div class="image-preview-container">
+                        <template v-for="(preview, index) in imageUrl" :key="index">
+                            <v-img :src="preview.photo" class="chip-image-preview"><v-avatar size="30" class="ma-3"
                                 @click="imageIds.splice(imageIds.indexOf(preview.id), 1); imageUrl.splice(index, 1)"
                                 color="red-darken-2" icon="">
                                 <TrashIcon size="15" />
-                            </v-avatar>
-                        </v-img>
-
-                    </template>
+                            </v-avatar></v-img>
+                        </template>
+                    </div>
                 </div>
 
                 <v-file-input rounded="lg" accept=".mp4" persistent-hint variant="outlined" color="primary" v-model="video"
