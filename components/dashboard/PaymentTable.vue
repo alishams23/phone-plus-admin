@@ -1,47 +1,6 @@
-
 <template>
+    acoaos
     <v-container>
-        <v-row align="center">
-            <v-col cols="5">
-                <v-locale-provider rtl>
-                    <v-text-field v-model="search_text" @update:model-value="searchData" label="جستجو" rounded="lg"
-                        persistent-hint variant="outlined" color="primary" dense class="mt-5 text-body-2">
-                        <template v-slot:prepend-inner>
-
-                            <SearchIcon color="gray" />
-                        </template>
-                        <template v-slot:prepend>
-                            <v-btn @click="order = !order; searchData()" variant="tonal" color="primary" rounded="lg"
-                                size="50">
-                                <SortDescending2Icon v-if="order" />
-                                <SortAscending2Icon v-if="!order" />
-                            </v-btn>
-                            <v-btn @click=" statusCheck == '' ? statusCheck = 'none' : statusCheck = ''; searchData()"
-                                :variant="statusCheck == '' ? 'tonal' : 'outlined'" color="primary" height="50px"
-                                class="ms-3 " rounded="lg">
-                                <div class="d-flex justify-center " v-if="statusCheck == 'none'">
-                                    <CheckIcon class="me-3" />
-                                    <div>
-                                        ارسال نشده‌ها
-                                    </div>
-                                </div>
-                                <span v-else>ارسال نشده‌ها</span>
-                            </v-btn>
-
-                        </template>
-                    </v-text-field>
-                </v-locale-provider>
-
-            </v-col>
-            <v-col cols="7" class="rtl d-flex align-center">
-                <v-avatar color="primary" rounded="lg" size="50">
-                    <CoinsIcon />
-                </v-avatar>
-                <div class=" px-5 font-weight-bold text-h4">
-                    پرداخت‌ها
-                </div>
-            </v-col>
-        </v-row>
         <v-alert v-if="data.length == 0 && loading == false" color="primary" icon="fa fa-info" variant="tonal"
             border="start" class="rtl border-opacity-100 my-10">
             <div class="text-sm  font-weight-black irsa">
@@ -65,7 +24,7 @@
                         </tr>
                     </thead>
                     <div v-for="item in data" :key="item.name">
-                        <PaymentRow :data="item" />
+                        <PaymentRow :data="item"></PaymentRow>
                     </div>
                 </v-table>
             </v-card-item>
@@ -77,26 +36,14 @@
         </v-progress-circular>
     </div>
 </template>
-
-
-<script>
-import EditPayment from '@/pages/payment/edit_payment.vue';
+<script >
 import { PaymentRow } from '@/components/shared/PaymentRow.vue';
-import { CoinsIcon, SearchIcon, SortDescending2Icon, SortAscending2Icon, CheckIcon, PencilIcon,UserIcon } from 'vue-tabler-icons';
 import { useUserStore } from '~/store/user';
 import axios from "axios";
 
 export default {
     components: {
         PaymentRow,
-        SortDescending2Icon,
-        SortAscending2Icon,
-        CoinsIcon,
-        SearchIcon,
-        CheckIcon,
-        PencilIcon,
-        UserIcon,
-        EditPayment,
     },
     data() {
         return {
