@@ -4,7 +4,7 @@
 import SalesOverview from '~/components/dashboard/SalesOverview.vue';
 import YearlyBreakup from '~/components/dashboard/YearlyBreakup.vue';
 import MonthlyEarning from '~/components/dashboard/MonthlyEarnings.vue';
-// import RecentNotification from '~/components/dashboard/RecentNotification.vue';
+import RecentNotification from '~/components/dashboard/RecentNotification.vue';
 import PaymentTable from '~/components/dashboard/PaymentTable.vue';
 import RecentProduct from '~/components/dashboard/RecentProduct.vue';
 
@@ -14,7 +14,7 @@ name: "index",
 components: {SalesOverview,
 YearlyBreakup,
 MonthlyEarning,
-// RecentNotification,
+RecentNotification,
 PaymentTable,
 RecentProduct}}
 </script>

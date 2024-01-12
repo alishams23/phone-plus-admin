@@ -1,7 +1,7 @@
 
 <template>
     {{ data }}
-    <!-- <v-card rounded="lg" elevation="10" >
+    <v-card rounded="lg" elevation="10" >
         <v-card-item class="pb-0">
             <v-card-title class="text-h5 rtl pt-sm-2">اعلان‌های اخیر</v-card-title>
             <div class="recent-transaction mt-10 px-3 rtl">
@@ -27,7 +27,7 @@
                 </div>
             </div>
         </v-card-item>
-    </v-card> -->
+    </v-card>
 </template>
 
 <script>
