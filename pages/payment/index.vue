@@ -74,32 +74,87 @@
                                 <div class="">
                                     <v-dialog width="900">
                                         <template v-slot:activator="{ props }">
-                                            <h6 v-bind="props" class="text-body-1 text-muted">{{ item.author.full_name }}
-                                            </h6>
-                                            <div v-bind="props" class="text-13 mt-1 text-muted">{{ item.author.username }}
-                                            </div>
+                                            <v-sheet v-bind="props" 
+                                            >
+                                                <h6  class=" text-body-1 font-weight-bold text-muted">{{ item.author.full_name }}
+                                                </h6>
+                                                <div  class="text-13 text-body-2 mt-1 text-muted">{{ item.author.username }}
+                                                </div>
+                                            </v-sheet>
                                         </template>
 
                                         <template v-slot:default="{ isActive }">
-                                            <v-card class="px-15 rounded-lg my-20 " title="">
-                                                <EditPayment />
-                                            </v-card>
+                                            <v-locale-provider rtl  >
+                                            
+            <v-card
+        
+          
+            class=" rounded-xl  pa-5  "
+          
+          >
+          <v-list-item class="  pa-2 pe-4"  >
+            <template v-slot:prepend>
+              <v-avatar size="x-large" class="" >
+               <UserIcon />
+              </v-avatar>
+            </template>
+            <v-list-item-title class=" font-weight-bold  text-nauto">{{ item.author.username }}</v-list-item-title>
+            <v-list-item-subtitle class="text-body-2 text-nauto">{{ item.author.full_name  }}</v-list-item-subtitle>
+          </v-list-item>
+
+         
+        <v-row class="pt-5">
+            <v-col  cols="4">
+
+                <v-list-item class="  py-3 px-5"  >
+                    
+                    <v-list-item-title class=" font-weight-bold  text-nauto">استان</v-list-item-title>
+                    <div class="text-xs text-body-2 text-nauto pt-2">{{ item.author.state  }}</div>
+                  </v-list-item>
+              </v-col>
+            <v-col  cols="4">
+  
+                <v-list-item class="  py-3 px-5"  >
+                    
+                    <v-list-item-title class=" font-weight-bold  text-nauto">شهر</v-list-item-title>
+                    <div class="text-xs text-body-2 text-nauto pt-2">{{ item.author.city  }}</div>
+                  </v-list-item>
+              </v-col>
+            <v-col  cols="4">
+  
+                <v-list-item class="  py-3 px-5"  >
+                    
+                    <v-list-item-title class=" font-weight-bold  text-nauto">خیابان</v-list-item-title>
+                    <div class="text-xs text-body-2 text-nauto pt-2">{{ item.author.street  }}</div>
+                  </v-list-item>
+              </v-col>
+            <v-col  cols="4">
+  
+                <v-list-item class="  py-3 px-5"  >
+                    
+                    <v-list-item-title class=" font-weight-bold  text-nauto">کوچه</v-list-item-title>
+                    <div class="text-xs text-body-2 text-nauto pt-2">{{ item.author.alley  }}</div>
+                  </v-list-item>
+              </v-col>
+            <v-col  cols="4">
+  
+                <v-list-item class="  py-3 px-5"  >
+                    
+                    <v-list-item-title class=" font-weight-bold  text-nauto">کدپستی</v-list-item-title>
+                    <div class="text-xs text-body-2 text-nauto pt-2">{{ item.author.zipCode  }}</div>
+                  </v-list-item>
+              </v-col>
+        </v-row>
+            <!-- <v-card-text  class="rtl text-nauto" v-if="data.teacher.bio">{{data.teacher.bio}}</v-card-text> -->
+          </v-card>
+        </v-locale-provider>
+                                    
                                         </template>
                                     </v-dialog>
                                 </div>
                             </td>
                             <td>
-                                <v-dialog width="900">
-                                    <template v-slot:activator="{ props }">
-                                        <h6 v-bind="props" class="text-body-1 text-muted">{{ item.product.title }}</h6>
-                                    </template>
-
-                                    <template v-slot:default="{ isActive }">
-                                        <v-card class="px-15 rounded-lg my-20 " title="">
-                                            <EditPayment />
-                                        </v-card>
-                                    </template>
-                                </v-dialog>
+                                <h6 v-bind="props" class="text-body-1 text-muted">{{ item.product.title }}</h6>
                             </td>
                             <td>
                                 <h6 class="text-body-1 text-muted">{{ item.count }}</h6>
@@ -174,7 +229,7 @@
 <script>
 import EditPayment from '@/pages/payment/edit_payment.vue';
 import { productPerformance } from '@/data/dashboard/dashboardData';
-import { CoinsIcon, SearchIcon, SortDescending2Icon, SortAscending2Icon, CheckIcon, PencilIcon } from 'vue-tabler-icons';
+import { CoinsIcon, SearchIcon, SortDescending2Icon, SortAscending2Icon, CheckIcon, PencilIcon,UserIcon } from 'vue-tabler-icons';
 import { useUserStore } from '~/store/user';
 import axios from "axios";
 
@@ -186,6 +241,7 @@ export default {
         SearchIcon,
         CheckIcon,
         PencilIcon,
+        UserIcon,
         EditPayment,
     },
     data() {

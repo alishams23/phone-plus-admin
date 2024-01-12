@@ -317,9 +317,7 @@
 <script>
 import Papa from 'papaparse';
 import {PhotoIcon, VideoIcon, FileImportIcon, TrashIcon} from 'vue-tabler-icons';
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
+
 import TextEditor from '@/components/shared/TextEditor.vue';
 
   export default {

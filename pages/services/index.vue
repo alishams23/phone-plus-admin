@@ -93,11 +93,7 @@
 </template>
 <script>
 import { PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon } from 'vue-tabler-icons';
-import adsl from '@/assets/images/services/adsl.png';
-import telephone from '@/assets/images/services/telephone.png';
-import payment from '@/assets/images/services/payment.jpg';
-import security from '@/assets/images/services/security.jpg';
-import management from '@/assets/images/services/management.png';
+
 import AddService from '@/pages/services/add_service.vue';
 
 export default {
