@@ -167,8 +167,6 @@ export default {
             })
             this.loadingStatus = 0
         },
-    }, async mounted() {
-        this.searchData()
     }
 }
 </script>
