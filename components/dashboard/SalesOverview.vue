@@ -1,17 +1,47 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+
+
+
+
+
+
+
+import { ref, onMounted } from 'vue';
 import { computed } from 'vue';
 import { useTheme } from 'vuetify';
+import { useUserStore } from '~/store/user';
+
+import axios from 'axios'; // Import axios for API requests
+
 const theme = useTheme();
 const primary = theme.current.value.colors.primary;
 const secondary = theme.current.value.colors.secondary;
 
-const chartOptions = computed(() => {
-    return {
+const chartData = ref([]); // Create a ref to store API data
 
+// Fetch data from API on component mount
+onMounted(async () => {
+    try {
+        const response = await axios.get('http://192.168.1.106:8000/api/order/last-week-sales/', {
+            headers: {
+                "Content-type": "application/json",
+                Accept: "application/json",
+                Authorization: `Token ${useUserStore().userToken}`
+            },
+        }); // Replace with your API endpoint
+        chartData.value = response.data; // Set chartData with API response
+    } catch (error) {
+        console.error('Error fetching data from API', error);
+    }
+});
+
+const chartOptions = computed(() => {
+    const categories = chartData.value.map(item => item.day); // Extract days from API response
+    const seriesData = chartData.value.map(item => item.total_price); // Extract total_price from API response
+
+    return {
         series: [
-            { name: "درآمد:", data: [355, 390, 300, 350, 390, 180, 355,] },
-        
+            { name: "درآمد:", data: seriesData },
         ],
         chartOptions: {
             grid: {
@@ -41,7 +71,7 @@ const chartOptions = computed(() => {
             legend: { show: false },
             xaxis: {
                 type: "category",
-                categories: ["16/08", "17/08", "18/08", "19/08", "20/08", "21/08", "22/08",],
+                categories: categories,
                 labels: {
                     style: { cssClass: "grey--text lighten-2--text fill-color" },
                 },
@@ -49,7 +79,7 @@ const chartOptions = computed(() => {
             yaxis: {
                 show: true,
                 min: 0,
-                max: 400,
+
                 tickAmount: 4,
                 labels: {
                     style: {
@@ -66,18 +96,17 @@ const chartOptions = computed(() => {
             tooltip: { theme: "light" },
 
             responsive: [
-            {
-                breakpoint: 600,
-                options: {
-                    plotOptions: {
-                        bar: {
-                            borderRadius: 3,
-                        }
-                    },
+                {
+                    breakpoint: 600,
+                    options: {
+                        plotOptions: {
+                            bar: {
+                                borderRadius: 3,
+                            }
+                        },
+                    }
                 }
-            }
-        ]
-
+            ]
         },
     };
 });
@@ -87,13 +116,13 @@ const chartOptions = computed(() => {
         <v-card-item>
             <div class="rtl d-sm-flex align-center justify-space-between pt-sm-2">
                 <div><v-card-title class="text-h5 irsa"> فروش هفته ی اخیر</v-card-title></div>
-               
+
             </div>
             <div class="mt-6">
                 <ClientOnly>
-                <apexchart type="bar" height="370px" :options="chartOptions.chartOptions" :series="chartOptions.series">
-                </apexchart>
-            </ClientOnly>
+                    <apexchart type="bar" height="370px" :options="chartOptions.chartOptions" :series="chartOptions.series">
+                    </apexchart>
+                </ClientOnly>
             </div>
         </v-card-item>
     </v-card>
