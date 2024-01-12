@@ -8,6 +8,7 @@
     <v-container class="mt-10">
         <v-row>
           <v-col cols="12">
+            <v-locale-provider rtl>
             <v-text-field
               v-model="username"
               label="یوزرنیم"
@@ -18,6 +19,7 @@
               variant="outlined"
               color="primary"
             ></v-text-field>
+        </v-locale-provider>
           </v-col>
         </v-row>
         <v-row>

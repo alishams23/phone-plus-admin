@@ -1,9 +1,4 @@
 <script setup lang="ts">
-
-
-
-
-
 import { ref, onMounted } from 'vue';
 import { computed } from 'vue';
 import { useTheme } from 'vuetify';
@@ -13,7 +8,7 @@ import axios from 'axios'; // Import axios for API requests
 
 const theme = useTheme();
 const secondary = theme.current.value.colors.secondary;
-
+const totalPriceSum = ref(0);
 /* Chart */
 const areachartOptions = computed(() => {
   return {
@@ -77,6 +72,12 @@ const fetchData = async () => {
             },
         })// Replace with your API endpoint
     const data = await response.data;
+   
+
+    for (const entry of data) {
+        totalPriceSum.value += entry.total_price;
+    }
+
     updateChartData(data);
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -102,7 +103,7 @@ onMounted(() => {
             <v-row>
                 <v-col cols="12">
                     <div class="mt-2 ">
-                        <h3 class="text-h3">6,000,000</h3>
+                        <h3 class="text-h3">{{totalPriceSum}}</h3>
                        
                     </div>
                 </v-col>
@@ -110,7 +111,7 @@ onMounted(() => {
         </v-card-item>
         <div class="mt-3">
             <ClientOnly>
-            <apexchart type="area" height="100" :options="areachartOptions" :series="areaChart.series"> </apexchart>
+            <apexchart type="area" height="103" :options="areachartOptions" :series="areaChart.series"> </apexchart>
         </ClientOnly>
         </div>
     </v-card>
