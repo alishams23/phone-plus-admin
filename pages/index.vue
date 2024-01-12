@@ -4,19 +4,17 @@
 import SalesOverview from '~/components/dashboard/SalesOverview.vue';
 import YearlyBreakup from '~/components/dashboard/YearlyBreakup.vue';
 import MonthlyEarning from '~/components/dashboard/MonthlyEarnings.vue';
-import RecentTransaction from '~/components/dashboard/RecentTransaction.vue';
+// import RecentNotification from '~/components/dashboard/RecentNotification.vue';
 import PaymentTable from '~/components/dashboard/PaymentTable.vue';
 import RecentProduct from '~/components/dashboard/RecentProduct.vue';
 
 
 export default {
-
-  
-  name: "index",
-  components: {SalesOverview,
+name: "index",
+components: {SalesOverview,
 YearlyBreakup,
 MonthlyEarning,
-RecentTransaction,
+// RecentNotification,
 PaymentTable,
 RecentProduct}}
 </script>
@@ -41,7 +39,7 @@ RecentProduct}}
                 </v-col>
                 <!-- Recent transaction -->
                 <v-col cols="12" lg="4">
-                    <RecentTransaction />
+                    <RecentNotification />
                 </v-col>
                 <!-- Payment Table -->
                 <v-col cols="12" lg="8">
