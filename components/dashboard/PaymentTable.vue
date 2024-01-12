@@ -1,5 +1,6 @@
 <template>
-    acoaos
+    
+  <v-card elevation="10" rounded="lg" height="480px">
     <v-container>
         <v-alert v-if="data.length == 0 && loading == false" color="primary" icon="fa fa-info" variant="tonal"
             border="start" class="rtl border-opacity-100 my-10">
@@ -23,9 +24,11 @@
                             <th class="text-subtitle-1 font-weight-bold text-right">مبلغ</th>
                         </tr>
                     </thead>
-                    <div v-for="item in data" :key="item.name">
-                        <PaymentRow :data="item"></PaymentRow>
-                    </div>
+                    <tbody>
+                    <tr v-for="item in data" :key="item.name" class="month-item ">
+                        <PaymentRow :data="item"/>
+                    </tr>
+                    </tbody>
                 </v-table>
             </v-card-item>
         </v-card>
@@ -35,9 +38,10 @@
             indeterminate>
         </v-progress-circular>
     </div>
+  </v-card>
 </template>
 <script >
-import { PaymentRow } from '@/components/shared/PaymentRow.vue';
+import  PaymentRow  from '~/components/shared/PaymentRow.vue';
 import { useUserStore } from '~/store/user';
 import axios from "axios";
 

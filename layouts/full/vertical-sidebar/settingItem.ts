@@ -21,12 +21,12 @@ export interface menu {
 
 const sidebarItem: menu[] = [
     {
-        title: 'اطلاعات کاربری',
+        title: 'تنظیمات  فروشگاه',
         icon: Settings2Icon,
         to: '/settings/'
     },
     {
-        title: 'تغییر نام کاربری',
+        title: ' نام کاربری فروشگاه',
         icon: UserCircleIcon,
         to: '/settings/changeUsername'
     },

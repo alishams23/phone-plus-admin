@@ -15,14 +15,7 @@ export default {
     
         loadingImage:false,
         imagePreviews: [], 
-
-
-  
         image: null,
-     
-        
-       
-       
     }),}
 </script>
 <template>
@@ -42,31 +35,7 @@ export default {
      
    
             <v-row class="mt-5 mb-5">
-            <v-col>
-                <v-text-field
-                label=" نام"
-                v-model="first_name"
-                required
-                rounded="lg"
-               
-                persistent-hint
-                variant="outlined"
-                color="primary"
-                />
-            </v-col>
-            <v-col>
-                <v-text-field
-                label=" نام خانوادگی"
-                v-model="last_name"
-                required
-                rounded="lg"
-               
-                persistent-hint
-                variant="outlined"
-                color="primary"
-                />
-    
-            </v-col>
+         
             </v-row>
            
     

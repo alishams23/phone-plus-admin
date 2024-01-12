@@ -1,5 +1,5 @@
 <template>
-    <tr v-if="!loading" :key="data.name" class="month-item">
+ 
         <td>
             <p class="text-15 font-weight-medium">{{ data.id }}</p>
         </td>
@@ -129,7 +129,7 @@
         <td>
             <h6 class="text-h6 text-right">{{ data.price }} تومان</h6>
         </td>
-    </tr>
+ 
    
 </template>
 <script>
@@ -139,7 +139,7 @@
     import axios from "axios";
 
 export default {
-    name: 'PaymentRow',
+  
     components: {
         UserIcon,
     },

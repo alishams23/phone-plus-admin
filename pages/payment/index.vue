@@ -64,9 +64,11 @@
                             <th class="text-subtitle-1 font-weight-bold text-right">مبلغ</th>
                         </tr>
                     </thead>
-                    <div v-for="item in data" :key="item.name">
+                    <tbody>
+                    <tr v-for="item in data" :key="item.name" class="month-item ">
                         <PaymentRow :data="item" />
-                    </div>
+                    </tr>
+                </tbody>
                 </v-table>
             </v-card-item>
         </v-card>
@@ -81,7 +83,7 @@
 
 <script>
 import EditPayment from '@/pages/payment/edit_payment.vue';
-import { PaymentRow } from '@/components/shared/PaymentRow.vue';
+import  PaymentRow  from '@/components/shared/PaymentRow.vue';
 import { CoinsIcon, SearchIcon, SortDescending2Icon, SortAscending2Icon, CheckIcon, PencilIcon,UserIcon } from 'vue-tabler-icons';
 import { useUserStore } from '~/store/user';
 import axios from "axios";
