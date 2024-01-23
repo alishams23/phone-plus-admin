@@ -133,7 +133,7 @@ export default {
       this.loading = true;
       const userStore = useUserStore();
       try {
-        const response = await axios.post("http://127.0.0.1:8000/api/account/login/", {
+        const response = await axios.post("http://192.168.225.128:8000/api/account/login/", {
           username: this.username,
           password: this.password,
         });
