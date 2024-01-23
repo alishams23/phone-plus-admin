@@ -86,7 +86,7 @@ import { useUserStore } from '~/store/user';
         this.username = this.username.toLowerCase();
 
         this.loading = true
-        await axios.post('http://192.168.1.106:8000/api/account/check-username-shop/', { username: this.username },{
+        await axios.post('http://127.0.0.1:8000/api/account/check-username-shop/', { username: this.username },{
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
@@ -108,7 +108,7 @@ import { useUserStore } from '~/store/user';
         this.username = this.username.toLowerCase();
 
         this.loading = true
-        await axios.put('http://192.168.1.106:8000/api/account/change-username/', { username: this.username },{
+        await axios.put('http://127.0.0.1:8000/api/account/change-username/', { username: this.username },{
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",

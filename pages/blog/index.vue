@@ -40,13 +40,13 @@
         <v-locale-provider rtl>
             <v-row>
                 <v-col  v-for="blog in data"
-                :key="blog.id" cols="4">
+                :key="blog.id" cols="12">
                 <v-card
                 :loading="loadingItem == blog.id"
-                    elevation="0"
-                    rounded="lg"
-                    class="mx-auto my-5"
-                    max-width="350">
+                    elevation="10"
+                    rounded="xl"
+                    class="  "
+                   >
                     <template v-slot:loader="{ isActive }">
                         <v-progress-linear
                             :active="isActive"
@@ -55,48 +55,54 @@
                             indeterminate
                         ></v-progress-linear>
                     </template>
+                   <div class="d-flex ">
+                  <div>
                     <v-img
-                        cover
-                        class="rounded-xl"
-                        height="250"
-                        :src="blog.imageBlog.photo">
-                    </v-img>
-                    <v-card-item>
-                        <v-card-title class="text-h6 ">{{blog.title}}</v-card-title>
-
-                        
-                    </v-card-item>
-                                      
-          
-                    <v-card-actions class="mt-auto" >
-                        <v-btn
-                            class="px-10 ml-4"
-                            variant="flat"
-                            :to="'/blog/'+ blog.id"
-                            rounded="xl"
-                            size="small"
-                            color="primary"
-                        >
-                            ویرایش
-                            <template v-slot:append>
-                            <PencilIcon size="15" />
-                            </template>
-                        </v-btn>
-                        <v-avatar
-                        size="30"
-                        variant="tonal"
-                        @click="removeItem(blog.id)"
-                      
-                        color="red-darken-2"
-                        icon=""
-                        
-                    >
-                        
-                       
-                        <TrashIcon size="15"  />
-                 
-                    </v-avatar>
-                    </v-card-actions>
+                    height="170"
+                    width="250"
+                    cover
+                    :src="blog.imageBlog.photo">
+                </v-img>
+                  </div>
+             <div class=" d-flex flex-column flex-fill ">
+              <v-card-item>
+                <v-card-title class="text-h6 ">{{blog.title}}</v-card-title>
+                 <div v-html="blog.body" class="text-line-1  text-body-2"></div>
+                
+            </v-card-item>
+                              
+  
+            <v-card-actions class="mt-auto mr-auto px-10" >
+                <v-btn
+                    class="px-10 ml-4"
+                    variant="flat"
+                    :to="'/blog/'+ blog.id"
+                    rounded="xl"
+                    size="small"
+                    color="primary"
+                >
+                    ویرایش
+                    <template v-slot:append>
+                    <PencilIcon size="15" />
+                    </template>
+                </v-btn>
+                <v-avatar
+                size="30"
+                variant="tonal"
+                @click="removeItem(blog.id)"
+              
+                color="red-darken-2"
+                icon=""
+                
+            >
+                <TrashIcon size="15"  />
+            </v-avatar>
+            <v-sheet class="px-3  text-body-2" >
+              {{blog.updated_at}}
+            </v-sheet>
+            </v-card-actions>
+             </div>
+                   </div>
                 </v-card>      
             </v-col>
         </v-row>    
@@ -108,7 +114,6 @@
           <PlusIcon />
         </v-icon>
       </VBtn>
-
       </VLayoutItem>
 </template>
 <script>
@@ -146,7 +151,7 @@ export default {
  methods: {
     searchData() {
       this.loading = true
-      axios.get(`http://192.168.1.106:8000/api/blog/Blog_List/?search=${this.search_text}&ordering=${this.order == false ? '-id' : 'id'}`, {
+      axios.get(`http://127.0.0.1:8000/api/blog/Blog_List/?search=${this.search_text}&ordering=${this.order == false ? '-id' : 'id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
@@ -159,7 +164,7 @@ export default {
     }
     ,removeItem(id){
       this.loadingItem = id
-      axios.delete(`http://192.168.1.106:8000/api/blog/BlogRemove/${id}/`, {
+      axios.delete(`http://127.0.0.1:8000/api/blog/BlogRemove/${id}/`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",

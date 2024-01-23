@@ -158,7 +158,7 @@ export default {
     methods: {
         changeStatus(id, status) {
             this.loadingStatus = id
-            axios.put(`http://192.168.1.106:8000/api/order/OrderUpdateStatus/${id}/`, { status: status }, {
+            axios.put(`http://127.0.0.1:8000/api/order/OrderUpdateStatus/${id}/`, { status: status }, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",

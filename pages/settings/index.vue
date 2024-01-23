@@ -21,7 +21,7 @@ export default {
     },
     methods: {
         getData() {
-            axios.get(`http://192.168.1.106:8000/api/account/shop-retrieve/`, {
+            axios.get(`http://127.0.0.1:8000/api/account/shop-retrieve/`, {
                 headers: {
                     Accept: "application/json",
                     Authorization: `Token ${useUserStore().userToken}`
@@ -44,7 +44,7 @@ export default {
                 console.log(this.image)
                 await axios
                     .put(
-                        `http://192.168.1.106:8000/api/account/shop-update/`,
+                        `http://127.0.0.1:8000/api/account/shop-update/`,
                         this.fd,
                         {
                             headers: {

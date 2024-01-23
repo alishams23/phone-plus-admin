@@ -182,7 +182,7 @@ import { useUserStore } from '~/store/user';
         async fetchCategories() {
             try {
                 const userToken = useUserStore().userToken; // Get the token from your user store
-                const response = await axios.get('http://192.168.1.106:8000/api/product/ListCategories/', {
+                const response = await axios.get('http://127.0.0.1:8000/api/product/ListCategories/', {
                     headers: {
                         Authorization: `Token ${userToken}`
                     }
@@ -198,7 +198,7 @@ import { useUserStore } from '~/store/user';
                     let imageFormData = new FormData();  
                     imageFormData.append(`photo`, file);
                     try {
-                    axios.post('http://192.168.1.106:8000/api/product/AddImageApi/', imageFormData, {
+                    axios.post('http://127.0.0.1:8000/api/product/AddImageApi/', imageFormData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                         Authorization: `Token ${useUserStore().userToken}`
@@ -238,7 +238,7 @@ import { useUserStore } from '~/store/user';
             formDic['price'] = this.price
             formDic['discount'] = this.value
 
-            axios.post('http://192.168.1.106:8000/api/product/AddProductApi/', formDic, {
+            axios.post('http://127.0.0.1:8000/api/product/AddProductApi/', formDic, {
                 headers: {
                 
                 Authorization: `Token ${useUserStore().userToken}`

@@ -12,7 +12,6 @@
                  <form  @submit.prevent="Login" >
                   <v-row align="center" justify="center">
                     <v-col cols="12" sm="8">
-
                       <v-text-field label="یوزرنیم" required rounded="lg" v-model="username" persistent-hint variant="outlined"
                         color="primary" class="mt-16" />
                       <v-text-field label="پسورد" required v-model="password" rounded="lg" persistent-hint variant="outlined"
@@ -62,12 +61,10 @@
                 </div>
               </div>
             </v-col>
-
             <v-col cols="12" md="6" class="h-100">
               <v-card-text class="mt-12">
                 <h4 class="text-center text-h4 my-10 font-weight-black">ثبت نام </h4>
                 <v-locale-provider rtl>
-
                   <v-row align="center" justify="center">
                     <v-col cols="12" sm="8">
                       <v-row>
@@ -93,7 +90,6 @@
                     </v-col>
                   </v-row>
                 </v-locale-provider>
-
               </v-card-text>
             </v-col>
           </v-row>
@@ -137,7 +133,7 @@ export default {
       this.loading = true;
       const userStore = useUserStore();
       try {
-        const response = await axios.post("http://192.168.1.106:8000/api/account/login/", {
+        const response = await axios.post("http://127.0.0.1:8000/api/account/login/", {
           username: this.username,
           password: this.password,
         });
