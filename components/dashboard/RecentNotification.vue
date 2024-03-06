@@ -60,7 +60,7 @@ export default {
 
         getData() {
             this.loading = true
-            axios.get(`http://192.168.225.128:8000/api/account/notification-list/`, {
+            axios.get(`http://127.0.0.1:8000/api/account/notification-list/`, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",

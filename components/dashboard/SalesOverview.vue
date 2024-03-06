@@ -22,7 +22,7 @@ const chartData = ref([]); // Create a ref to store API data
 // Fetch data from API on component mount
 onMounted(async () => {
     try {
-        const response = await axios.get('http://192.168.225.128:8000/api/order/last-week-sales/', {
+        const response = await axios.get('http://127.0.0.1:8000/api/order/last-week-sales/', {
             headers: {
                 "Content-type": "application/json",
                 Accept: "application/json",

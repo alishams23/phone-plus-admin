@@ -6,7 +6,6 @@
           <v-text-field v-model="search_text" @update:model-value="searchData" label="جستجو" rounded="lg" persistent-hint variant="outlined" color="primary" dense
             class="mt-5 text-body-2">
             <template v-slot:prepend-inner>
-
               <SearchIcon color="gray" />
             </template>
             <template v-slot:prepend>
@@ -119,7 +118,7 @@ export default {
   methods: { 
     searchData() {
       this.loading = true
-      axios.get(`http://192.168.225.128:8000/api/product/Products_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+      axios.get(`http://127.0.0.1:8000/api/product/Products_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",

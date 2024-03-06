@@ -70,7 +70,7 @@
               </v-card-actions>
             </div>
             <v-avatar size="230" rounded="0">
-              <v-img :src="product.image[0].photo"></v-img>
+              <v-img :src="product.image[0].photo" cover></v-img>
             </v-avatar>
           </div>
         </v-card>
@@ -137,7 +137,7 @@ export default {
     
     searchData() {
       this.loading = true
-      axios.get(`http://192.168.225.128:8000/api/product/Products_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+      axios.get(`http://127.0.0.1:8000/api/product/Products_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
@@ -149,7 +149,7 @@ export default {
       })
     },removeItem(id){
       this.loadingItem = id
-      axios.delete(`http://192.168.225.128:8000/api/product/ProductRemove/${id}/`, {
+      axios.delete(`http://127.0.0.1:8000/api/product/ProductRemove/${id}/`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",

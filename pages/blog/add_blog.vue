@@ -103,7 +103,7 @@ import { PhotoIcon, } from 'vue-tabler-icons';
         console.log(this.photo)
         await axios
           .post(
-            `http://192.168.225.128:8000/api/blog/CreateImage/`,
+            `http://127.0.0.1:8000/api/blog/CreateImage/`,
             this.fd,
   
             {
@@ -124,7 +124,7 @@ import { PhotoIcon, } from 'vue-tabler-icons';
             this.imageId = response.data.id;
             axios
               .post(
-                `http://192.168.225.128:8000/api/blog/createBlog/`,
+                `http://127.0.0.1:8000/api/blog/createBlog/`,
                 {
                   title: this.title,
                   body: this.body,

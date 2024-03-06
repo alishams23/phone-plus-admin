@@ -1,8 +1,9 @@
 import {
     ApertureIcon,
-    CopyIcon,
+    WalletIcon,
     Settings2Icon,
-    UserCircleIcon, LogoutIcon
+    CheckIcon,
+    UserCircleIcon, LogoutIcon,MenuOrderIcon
 } from 'vue-tabler-icons';
 export interface menu {
     header?: string;
@@ -29,6 +30,21 @@ const sidebarItem: menu[] = [
         title: ' نام کاربری فروشگاه',
         icon: UserCircleIcon,
         to: '/settings/changeUsername'
+    },
+    {
+        title: ' درگاه پرداخت  ',
+        icon: WalletIcon,
+        to: '/settings/wallet'
+    },
+    {
+        title: ' احزار هویت  ',
+        icon: CheckIcon,
+        to: '/settings/Authentication'
+    },
+    {
+        title: ' نمایش پروفایل   ',
+        icon: MenuOrderIcon,
+        to: '/settings/show-profile'
     },
     
     {
