@@ -4,6 +4,7 @@ import { computed } from 'vue';
 import { useTheme } from 'vuetify';
 import { CurrencyDollarIcon } from 'vue-tabler-icons';
 import { useUserStore } from '~/store/user';
+import { apiStore } from '~/store/api';
 import axios from 'axios'; // Import axios for API requests
 
 const theme = useTheme();
@@ -64,7 +65,7 @@ const updateChartData = (apiResponse) => {
 // Fetch data from the API
 const fetchData = async () => {
   try {
-    const response = await axios.get('http://192.168.225.128:8000/api/order/last-week-sales/', {
+    const response = await axios.get(`${apiStore().address}/api/order/last-week-sales/`, {
             headers: {
                 "Content-type": "application/json",
                 Accept: "application/json",

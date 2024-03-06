@@ -154,6 +154,7 @@ import {PhotoIcon, VideoIcon ,CheckboxIcon} from 'vue-tabler-icons';
 import TextEditor from '@/components/shared/TextEditor.vue';
 import axios from 'axios';
 import { useUserStore } from '~/store/user';
+import { apiStore } from '~/store/api';
 
   export default {
     components:{PhotoIcon, VideoIcon,CheckboxIcon,TextEditor},
@@ -182,7 +183,7 @@ import { useUserStore } from '~/store/user';
         async fetchCategories() {
             try {
                 const userToken = useUserStore().userToken; // Get the token from your user store
-                const response = await axios.get('http://192.168.225.128:8000/api/product/ListCategories/', {
+                const response = await axios.get('${apiStore().address}/api/product/ListCategories/', {
                     headers: {
                         Authorization: `Token ${userToken}`
                     }
@@ -198,7 +199,7 @@ import { useUserStore } from '~/store/user';
                     let imageFormData = new FormData();  
                     imageFormData.append(`photo`, file);
                     try {
-                    axios.post('http://192.168.225.128:8000/api/product/AddImageApi/', imageFormData, {
+                    axios.post(`${apiStore().address}/api/product/AddImageApi/`, imageFormData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                         Authorization: `Token ${useUserStore().userToken}`
@@ -238,7 +239,7 @@ import { useUserStore } from '~/store/user';
             formDic['price'] = this.price
             formDic['discount'] = this.value
 
-            axios.post('http://192.168.225.128:8000/api/product/AddProductApi/', formDic, {
+            axios.post(`${apiStore().address}/api/product/AddProductApi/`, formDic, {
                 headers: {
                 
                 Authorization: `Token ${useUserStore().userToken}`

@@ -59,6 +59,7 @@
 
 import TextEditor from '@/components/shared/TextEditor.vue';
 import { useUserStore } from '~/store/user';
+import { apiStore } from '~/store/api';
 import axios from "axios";
 import { PhotoIcon, } from 'vue-tabler-icons';
 
@@ -103,7 +104,7 @@ import { PhotoIcon, } from 'vue-tabler-icons';
         console.log(this.photo)
         await axios
           .post(
-            `http://192.168.225.128:8000/api/blog/CreateImage/`,
+            `${apiStore().address}/api/blog/CreateImage/`,
             this.fd,
   
             {
@@ -124,7 +125,7 @@ import { PhotoIcon, } from 'vue-tabler-icons';
             this.imageId = response.data.id;
             axios
               .post(
-                `http://192.168.225.128:8000/api/blog/createBlog/`,
+                `${apiStore().address}/api/blog/create-blog-admin/`,
                 {
                   title: this.title,
                   body: this.body,

@@ -65,6 +65,7 @@
 
 import TextEditor from '@/components/shared/TextEditor.vue';
 import { useUserStore } from '~/store/user';
+import { apiStore } from '~/store/api';
 import axios from "axios";
 import { PhotoIcon, } from 'vue-tabler-icons';
 
@@ -107,7 +108,7 @@ export default {
         async fetchCategories() {
       try {
         const userToken = useUserStore().userToken; // Get the token from your user store
-        const response = await axios.get('http://192.168.225.128:8000/api/blog/List_category/', {
+        const response = await axios.get(`${apiStore().address}/api/blog/List_category/`, {
           headers: {
             Authorization: `Token ${userToken}`
           }
@@ -129,7 +130,7 @@ export default {
     },
         getData() {
 
-            axios.get(`http://192.168.225.128:8000/api/blog/blog_retrieve/${this.$route.params.id}/`, {
+            axios.get(`${apiStore().address}/api/blog/blog_retrieve/${this.$route.params.id}/`, {
                 headers: {
 
                     Accept: "application/json",
@@ -153,7 +154,7 @@ export default {
                 console.log(this.photo)
                 await axios
                     .post(
-                        `http://192.168.225.128:8000/api/blog/CreateImage/`,
+                        `${apiStore().address}/api/blog/CreateImage/`,
                         this.fd,
 
                         {
@@ -195,7 +196,7 @@ export default {
             if (this.imageId) data['imageBlog'] = this.imageId
             await axios
                 .put(
-                    `http://192.168.225.128:8000/api/blog/BlogUpdate/${this.$route.params.id}/`,
+                    `${apiStore().address}/api/blog/BlogUpdate/${this.$route.params.id}/`,
                     data,
                     {
                         headers: {

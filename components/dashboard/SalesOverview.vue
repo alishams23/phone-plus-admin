@@ -10,6 +10,7 @@ import { ref, onMounted } from 'vue';
 import { computed } from 'vue';
 import { useTheme } from 'vuetify';
 import { useUserStore } from '~/store/user';
+import { apiStore } from '~/store/api';
 
 import axios from 'axios'; // Import axios for API requests
 
@@ -22,7 +23,7 @@ const chartData = ref([]); // Create a ref to store API data
 // Fetch data from API on component mount
 onMounted(async () => {
     try {
-        const response = await axios.get('http://192.168.225.128:8000/api/order/last-week-sales/', {
+        const response = await axios.get(`${apiStore().address}/api/order/last-week-sales/`, {
             headers: {
                 "Content-type": "application/json",
                 Accept: "application/json",

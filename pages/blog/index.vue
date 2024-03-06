@@ -34,7 +34,7 @@
         </div>
         <v-alert v-if="data.length == 0 && loading == false"  color="primary" icon="fa fa-info" variant="tonal" border="start"  class="rtl border-opacity-100 my-10">
             <div class="text-sm  font-weight-black irsa">
-            محصولی وجود ندارد
+            مقاله ای وجود ندارد
             </div>
         </v-alert>
         <v-locale-provider rtl>
@@ -124,6 +124,7 @@ import AddBlog from '@/pages/blog/add_blog.vue';
 import axios from "axios";
 import ShowTextEditor from '~/components/shared/ShowTextEditor.vue';
 import { useUserStore } from '~/store/user';
+import { apiStore } from '~/store/api';
 
 export default {
  components:{
@@ -151,7 +152,7 @@ export default {
  methods: {
     searchData() {
       this.loading = true
-      axios.get(`http://192.168.225.128:8000/api/blog/Blog_List/?search=${this.search_text}&ordering=${this.order == false ? '-id' : 'id'}`, {
+      axios.get(`${apiStore().address}/api/blog/Blog-List-admin/?search=${this.search_text}&ordering=${this.order == false ? '-id' : 'id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
@@ -164,7 +165,7 @@ export default {
     }
     ,removeItem(id){
       this.loadingItem = id
-      axios.delete(`http://192.168.225.128:8000/api/blog/BlogRemove/${id}/`, {
+      axios.delete(`${apiStore().address}/api/blog/BlogRemove/${id}/`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",

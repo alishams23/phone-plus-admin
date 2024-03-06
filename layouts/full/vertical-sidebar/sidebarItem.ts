@@ -1,8 +1,10 @@
 import {
     ApertureIcon,
     CopyIcon,
-    LayoutDashboardIcon, Settings2Icon, UserCircleIcon, CoinsIcon, MessageCircleIcon,CubeIcon, CubeSendIcon, ToolIcon, ArticleIcon
+    LayoutDashboardIcon, Settings2Icon, UserCircleIcon, CoinsIcon, MessageCircleIcon,CubeIcon, LogoutIcon, CubeSendIcon, ToolIcon, ArticleIcon
 } from 'vue-tabler-icons';
+
+
 export interface menu {
     header?: string;
     title?: string;
@@ -25,12 +27,6 @@ const sidebarItem: menu[] = [
         icon: LayoutDashboardIcon,
         to: '/'
     },
-    // { header: 'عمومی' },
-    // {
-    //     title: 'پروفایل',
-    //     icon: UserCircleIcon,
-    //     to: '/profile'
-    // },
     {
         title: 'تنظیمات',
         icon: Settings2Icon,
@@ -58,17 +54,16 @@ const sidebarItem: menu[] = [
         icon: ToolIcon,
         to: '/services'
     },
-    // {
-    //     title: 'ارسال کالا',
-    //     icon: CubeSendIcon,
-    //     to: '/transport'
-    // },
+
     { header: 'ارتباط' },
     {
         title: 'گفت و گو',
         icon: MessageCircleIcon,
         to: '/chat'
     },
+   
+
 ];
+
 
 export default sidebarItem;

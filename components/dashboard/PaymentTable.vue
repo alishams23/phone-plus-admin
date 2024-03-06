@@ -43,6 +43,7 @@
 <script >
 import  PaymentRow  from '~/components/shared/PaymentRow.vue';
 import { useUserStore } from '~/store/user';
+import { apiStore } from '~/store/api';
 import axios from "axios";
 
 export default {
@@ -69,7 +70,7 @@ export default {
     methods: {
         changeStatus(id, status) {
             this.loadingStatus = id
-            axios.put(`http://192.168.225.128:8000/api/order/OrderUpdateStatus/${id}/`, { status: status }, {
+            axios.put(`${apiStore().address}/api/order/OrderUpdateStatus/${id}/`, { status: status }, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",
@@ -82,7 +83,7 @@ export default {
         searchData() {
             this.loading = true
 
-            axios.get(`http://192.168.225.128:8000/api/order/Order_payed_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}&status=${this.statusCheck}`, {
+            axios.get(`${apiStore().address}/api/order/Order_payed_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}&status=${this.statusCheck}`, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",

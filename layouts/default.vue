@@ -1,29 +1,10 @@
-<!-- <script setup lang="ts">
-import { ref, shallowRef } from 'vue';
-import sidebarItems from '@/layouts/full/vertical-sidebar/sidebarItem';
-import NavGroup from '@/layouts/full/vertical-sidebar/NavGroup/index.vue';
-import NavItem from '@/layouts/full/vertical-sidebar/NavItem/index.vue';
-import ExtraBox from '@/layouts/full/vertical-sidebar/extrabox/ExtraBox.vue';
-import Icon from '@/layouts/full/vertical-sidebar/Icon.vue';
 
-import { Menu2Icon, } from 'vue-tabler-icons';
-
-import NotificationDD from '@/layouts/full/vertical-header/NotificationDD.vue';
-import ProfileDD from '@/layouts/full/vertical-header/ProfileDD.vue';
-const sidebarMenu = shallowRef(sidebarItems);
-const sDrawer = ref(true);
-const drawer =  ref(false);
-const items= [
-            { active: true, title: 'آرتا', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg' },
-            { active: true, title: 'کامران', avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg' },
-            { title: 'شایان', avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg' },
-            { title: 'کیوان', avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg' },
-        ]
-</script> -->
 
 <script>
-import sidebarItems from '@/layouts/full/vertical-sidebar/sidebarItem';
+
 import settingItems from '@/layouts/full/vertical-sidebar/settingItem';
+import sidebarItems from '@/layouts/full/vertical-sidebar/sidebarItem';
+import sidebarItemUnregister from '@/layouts/full/vertical-sidebar/sidebarItemUnregister';
 import NavGroup from '@/layouts/full/vertical-sidebar/NavGroup/index.vue';
 import NavItem from '@/layouts/full/vertical-sidebar/NavItem/index.vue';
 import ExtraBox from '@/layouts/full/vertical-sidebar/extrabox/ExtraBox.vue';
@@ -34,12 +15,12 @@ import { Menu2Icon,SearchIcon,Settings2Icon } from 'vue-tabler-icons';
 // dropdown imports
 import NotificationDD from '@/layouts/full/vertical-header/NotificationDD.vue';
 import ProfileDD from '@/layouts/full/vertical-header/ProfileDD.vue';
-
+import { useUserStore } from '~/store/user'; 
 export default {
     components: { Menu2Icon, NavGroup, NavItem, ExtraBox, Icon,Settings2Icon,SearchIcon,NotificationDD ,ProfileDD},
   data (){
     return{
-        sidebarMenu : shallowRef(sidebarItems),
+        sidebarMenu :useUserStore().status == 's' ?  shallowRef(sidebarItems) :  shallowRef(sidebarItemUnregister) ,
         settingMenu : shallowRef(settingItems),
         sDrawer : true,
         chat_drawer:false,
@@ -55,7 +36,15 @@ export default {
     currentRouteCheck(url) {
       return this.$route.name.split("-").includes(url.split('/')[1]);
     },
-  }
+  },
+  beforeCreate() {
+    const userStore = useUserStore();
+    if (!userStore.userToken) {
+      // If the userToken does not exist, redirect to the login page
+      this.$router.push('/auth');
+    }else if (userStore.status != 's')
+      this.$router.push('/authentication');
+  },
     }
 </script>
 

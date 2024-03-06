@@ -34,7 +34,7 @@ const sidebarItem: menu[] = [
     {
         title: 'خروج',
         icon: LogoutIcon,
-        to: '/settings/exit'
+        to: '/auth/logOut/'
     },
 ];
 
