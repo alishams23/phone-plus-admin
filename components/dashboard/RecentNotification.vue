@@ -42,6 +42,7 @@
 <script>
 import axios from "axios";
 import { useUserStore } from '~/store/user';
+import { apiStore } from '~/store/api';
 import { CircleIcon } from 'vue-tabler-icons'
 export default {
     components: {
@@ -60,7 +61,7 @@ export default {
 
         getData() {
             this.loading = true
-            axios.get(`http://127.0.0.1:8000/api/account/notification-list/`, {
+            axios.get(`${apiStore().address}/api/account/notification-list/`, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",

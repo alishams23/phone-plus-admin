@@ -47,6 +47,7 @@
   <script>
 import axios from "axios";
 import { useUserStore } from '~/store/user';
+import { apiStore } from '~/store/api';
 
   export default {
     data() {
@@ -86,7 +87,7 @@ import { useUserStore } from '~/store/user';
         this.username = this.username.toLowerCase();
 
         this.loading = true
-        await axios.post('http://127.0.0.1:8000/api/account/check-username-shop/', { username: this.username },{
+        await axios.post(`${apiStore().address}/api/account/check-username-shop/`, { username: this.username },{
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
@@ -108,7 +109,7 @@ import { useUserStore } from '~/store/user';
         this.username = this.username.toLowerCase();
 
         this.loading = true
-        await axios.put('http://127.0.0.1:8000/api/account/change-username/', { username: this.username },{
+        await axios.put(`${apiStore().address}/api/account/change-username/`, { username: this.username },{
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",

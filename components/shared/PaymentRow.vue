@@ -214,6 +214,7 @@
   
     import { UserIcon } from 'vue-tabler-icons';
     import { useUserStore } from '~/store/user';
+import { apiStore } from '~/store/api';
     import axios from "axios";
     import { PencilIcon } from 'vue-tabler-icons';
 
@@ -239,7 +240,7 @@ export default {
     methods: {
         changeStatus(id, status) {
             this.loadingStatus = id
-            axios.put(`http://127.0.0.1:8000/api/order/OrderUpdateStatus/${id}/`, { status: status }, {
+            axios.put(`${apiStore().address}/api/order/OrderUpdateStatus/${id}/`, { status: status }, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",

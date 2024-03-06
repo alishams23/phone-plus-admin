@@ -98,7 +98,7 @@ export default {
     async getCategories() {
       try {
         const userToken = useUserStore().userToken; // Get the token from your user store
-        const response = await axios.get('http://127.0.0.1:8000/api/product/ListCategories/', {
+        const response = await axios.get(`${apiStore().address}/api/product/ListCategories/`, {
           headers: {
             Authorization: `Token ${userToken}`
           }

@@ -25,7 +25,7 @@ beforeMount() {
     const userStore = useUserStore();
 
     // Load token from cookie when the layout is created
-    userStore.loadTokenFromCookie();
+    userStore.loadTokenAndUsernameFromCookie();
   },
 }
 </script>

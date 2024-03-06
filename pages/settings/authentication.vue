@@ -54,6 +54,7 @@
 import { PhotoIcon, } from 'vue-tabler-icons';
 import axios from 'axios';
 import { useUserStore } from '~/store/user';
+import { apiStore } from '~/store/api';
 
 export default {
     components: { PhotoIcon, },
@@ -73,7 +74,7 @@ export default {
     },
     methods: {
         getData() {
-            axios.get(`http://127.0.0.1:8000/api/account/shop-retrieve/`, {
+            axios.get(`${apiStore().address}/api/account/shop-retrieve/`, {
                 headers: {
                     Accept: "application/json",
                     Authorization: `Token ${useUserStore().userToken}`
@@ -96,7 +97,7 @@ export default {
                 console.log(this.image)
                 await axios
                     .put(
-                        `http://127.0.0.1:8000/api/account/shop-update/`,
+                        `${apiStore().address}/api/account/shop-update/`,
                         this.fd,
                         {
                             headers: {

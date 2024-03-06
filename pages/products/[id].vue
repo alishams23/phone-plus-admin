@@ -92,6 +92,7 @@ import { PhotoIcon, VideoIcon, CheckboxIcon, TrashIcon } from 'vue-tabler-icons'
 import TextEditor from '@/components/shared/TextEditor.vue';
 import axios from 'axios';
 import { useUserStore } from '~/store/user';
+import { apiStore } from '~/store/api';
 
 export default {
     components: { PhotoIcon, VideoIcon, CheckboxIcon, TrashIcon, TextEditor },
@@ -122,7 +123,7 @@ export default {
         async fetchCategories() {
             try {
                 const userToken = useUserStore().userToken; // Get the token from your user store
-                const response = await axios.get('http://127.0.0.1:8000/api/product/ListCategories/', {
+                const response = await axios.get(`${apiStore().address}/api/product/ListCategories/`, {
                     headers: {
                         Authorization: `Token ${userToken}`
                     }
@@ -138,7 +139,7 @@ export default {
                     let imageFormData = new FormData();
                     imageFormData.append(`photo`, file);
                     try {
-                        axios.post('http://127.0.0.1:8000/api/product/AddImageApi/', imageFormData, {
+                        axios.post(`${apiStore().address}/api/product/AddImageApi/`, imageFormData, {
                             headers: {
                                 'Content-Type': 'multipart/form-data',
                                 Authorization: `Token ${useUserStore().userToken}`
@@ -178,7 +179,7 @@ export default {
             formDic['price'] = this.price
             formDic['discount'] = this.value
 
-            axios.put(`http://127.0.0.1:8000/api/product/ProductUpdateApi/${this.$route.params.id}/`, formDic, {
+            axios.put(`${apiStore().address}/api/product/ProductUpdateApi/${this.$route.params.id}/`, formDic, {
                 headers: {
                     Authorization: `Token ${useUserStore().userToken}`
                 },
@@ -193,7 +194,7 @@ export default {
                 });
         },
         getData() {
-            axios.get(`http://127.0.0.1:8000/api/product/Product_retrieve/${this.$route.params.id}/`, {
+            axios.get(`${apiStore().address}/api/product/Product_retrieve/${this.$route.params.id}/`, {
                 headers: {
                     Accept: "application/json",
                     Authorization: `Token ${useUserStore().userToken}`

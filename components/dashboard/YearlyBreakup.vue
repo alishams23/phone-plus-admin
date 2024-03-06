@@ -30,6 +30,7 @@
 import { ref, onMounted } from 'vue';
 import { ArrowDownIcon, WalletIcon } from 'vue-tabler-icons';
 import { useUserStore } from '~/store/user';
+import { apiStore } from '~/store/api';
 import axios from 'axios';
 
 export default {
@@ -42,7 +43,7 @@ export default {
 
         onMounted(async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/wallet/wallet-info/', {
+                const response = await axios.get(`${apiStore().address}/api/wallet/wallet-info/`, {
                     headers: {
                         'Content-type': 'application/json',
                         Accept: 'application/json',
