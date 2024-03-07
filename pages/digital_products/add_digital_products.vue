@@ -1,6 +1,8 @@
 <template>
      <div>
-        <form >        
+        {{ selectedCategories }}
+        {{ categories }}
+        <form  @submit.prevent="sendData" >        
             <v-locale-provider rtl  >
                 <v-text-field
                     label="نام"
@@ -8,8 +10,9 @@
                     persistent-hint
                     variant="outlined"
                     color="primary"
-                    class="mt-10"/>
-                
+                    class="mt-10"
+                    v-model="title"
+                    required/>
                     </v-locale-provider>
                     <TextEditor
                         @update="handleTextChange" 
@@ -18,6 +21,8 @@
                 <v-text-field
                     label="قیمت"
                     rounded="lg"
+                    v-model="price"
+                    required
                     type="number"
                     persistent-hint
                     variant="outlined"
@@ -31,9 +36,10 @@
                     variant="outlined"
                     color="primary"
                     class="mt-5"
+                    v-model="selectedCategories"
                     clearable
                     chips
-                    :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                    :items="categories"
                     multiple>
                 </v-autocomplete>
 
@@ -41,10 +47,13 @@
                     rounded="lg"
                     accept=".png,.jpg"
                     :rules="rules"
+                    required
+                    multiple
                     persistent-hint
                     variant="outlined"
                     color="primary"
-                    v-model="image"
+                    @change="sendImage"
+                    v-model="images"
                     placeholder="Upload your documents"
                     label="عکس‌"
                 >
@@ -66,6 +75,11 @@
                         </template>
                     </template>
                 </v-file-input>
+                <div class="image-preview-container">
+                    <template v-for="(preview, index) in imagePreviews" :key="index">
+                            <img :src="preview" class="chip-image-preview" />
+                    </template>
+                </div>
 
                 <v-combobox
                     rounded="lg"
@@ -75,7 +89,7 @@
                     color="primary"
                     v-model="file_type"
                     label="انتخاب نوع فایل"
-                    :items="['لیست لایسنس‌ها', 'فایل زیپ', 'فیلم']"
+                    :items="['لیست لایسنس‌ها', 'فایل زیپ']"
                 ></v-combobox>
 
                 <v-file-input
@@ -85,7 +99,7 @@
                     variant="outlined"
                     color="primary"
                     v-if="file_type=='فایل زیپ'"
-                    v-model="video"
+                    v-model="file"
                     placeholder="اضافه کردن فایل"
                     label="فایل محصول"
                     >
@@ -112,7 +126,7 @@
                         color="primary"
                         v-if="file_type=='لیست لایسنس‌ها'"
                         @change="handleCsvUpload"
-                        v-model="video"
+                        v-model="file"
                         placeholder="اضافه لیست"
                         label="لیست محصول"
                         >
@@ -203,6 +217,8 @@
 import Papa from 'papaparse';
 import {PhotoIcon, VideoIcon, FileImportIcon, TrashIcon} from 'vue-tabler-icons';
 import axios from "axios";
+import { useUserStore } from '~/store/user';
+import { apiStore } from '~/store/api';
 import TextEditor from '@/components/shared/TextEditor.vue';
 
   export default {
@@ -212,6 +228,7 @@ import TextEditor from '@/components/shared/TextEditor.vue';
         price: 0,
         title: null,
         csvData: [],
+        formattedDate:[],
         description: null,
         images: [],
         imageIds : [],
@@ -222,8 +239,8 @@ import TextEditor from '@/components/shared/TextEditor.vue';
         file_type : null,
         tab: null,
         discount: false,
-        image: null,
-        video: null,
+        images: [],
+        file: null,
         value: 0,
         body: '',
         editorOptions: {
@@ -242,6 +259,18 @@ import TextEditor from '@/components/shared/TextEditor.vue';
         this.fetchCategories();
     },
     methods: {
+        convertDataToHtmlFormattedStrings() {
+            return this.csvData.map(row => {
+            // Dynamically constructing the string with all keys in the row object
+            let formattedString = Object.keys(row).map(key => {
+                // Assuming row[key] is the value for each column
+                // Replace 'key' with your logic to transform key names if necessary
+                return `${key}: ${row[key]}`;
+            }).join('<br>'); // Joining all key-value pairs with HTML line breaks
+            console.log(formattedString);
+            this.formattedDate.push(formattedString);
+            });
+        },
         handleTextChange(newText) {
           this.body = newText;
         },
@@ -278,10 +307,75 @@ import TextEditor from '@/components/shared/TextEditor.vue';
                         Authorization: `Token ${userToken}`
                     }
                 });
+                console.log('aspc',response.data);
                 this.categories = response.data; // Assuming the API returns an array
             } catch (error) {
                 console.error('Error fetching categories:', error);
             }
+        },
+        async sendDataFunc(){
+            if (this.images && this.images.length) {
+                this.images.forEach((file, index) => {
+                    let imageFormData = new FormData();  
+                    imageFormData.append(`photo`, file);
+                    try {
+                    axios.post(`${apiStore().address}/api/product/admin/add-image/`, imageFormData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Token ${useUserStore().userToken}`
+                    },
+                    }).then((data) => {
+                        console.log('upload image');
+                        this.imageIds.push(data.data.id)
+
+                    })
+                } catch (error) {
+                    console.error('Error uploading images:', error);
+                    return; 
+                }
+                return 
+                })
+            }
+        },
+        async sendImage() {
+            this.loadingImage = true;
+            this.imagePreviews = [];
+            this.images.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                this.imagePreviews.push(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            });
+            this.sendDataFunc();
+            this.loadingImage = false;      
+        },
+        async sendData() {
+            this.convertDataToHtmlFormattedStrings()
+            let formDic = {}
+            formDic['category'] = this.selectedCategories
+            formDic['image'] = this.imageIds
+            formDic['title'] = this.title
+            formDic['file'] = this.file
+            formDic['list_subsets'] = this.formattedDate
+            formDic['description'] = this.description
+            formDic['price'] = this.price
+            formDic['discount'] = this.value
+
+            axios.post(`${apiStore().address}/api/product/admin/digital-product-list-create/`, formDic, {
+                headers: {
+                "Content-type": "application/json",
+                Authorization: `Token ${useUserStore().userToken}`
+                },
+            })
+            .then(response => {
+             
+                // this.$emit('close')
+            })
+            .catch(error => {
+                // handle error
+                console.error('Error:', error);
+            });
         },
     },
     
