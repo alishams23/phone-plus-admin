@@ -140,7 +140,7 @@ export default {
   methods: {
     searchData() {
       this.loading = true
-      axios.get(`${apiStore().address}/api/blog/Blog-List-admin/?search=${this.search_text}&ordering=${this.order == false ? '-id' : 'id'}`, {
+      axios.get(`${apiStore().address}/api/blog/admin/blog-List-admin/?search=${this.search_text}&ordering=${this.order == false ? '-id' : 'id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
@@ -153,7 +153,7 @@ export default {
     }
     , removeItem(id) {
       this.loadingItem = id
-      axios.delete(`${apiStore().address}/api/blog/BlogRemove/${id}/`, {
+      axios.delete(`${apiStore().address}/api/blog/admin/blog-remove/${id}/`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",

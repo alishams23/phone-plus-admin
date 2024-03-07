@@ -139,7 +139,7 @@ export default {
                     let imageFormData = new FormData();
                     imageFormData.append(`photo`, file);
                     try {
-                        axios.post(`${apiStore().address}/api/product/AddImageApi/`, imageFormData, {
+                        axios.post(`${apiStore().address}/api/product/add-image-admin/`, imageFormData, {
                             headers: {
                                 'Content-Type': 'multipart/form-data',
                                 Authorization: `Token ${useUserStore().userToken}`

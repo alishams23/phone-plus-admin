@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container v-if="categories!=[]">
     <v-row justify="center">
       <v-col cols="12" md="9">
         <form class="px-3" @submit.prevent="sendData" enctype="multipart/form-data">
@@ -42,7 +42,7 @@
               {{ error }}
             </p>
             <div class="d-flex rtl m-3 mt-5">
-              <v-btn rounded="lg" persistent-hint variant="flat" color="primary"
+              <v-btn :loading="loading" rounded="lg" persistent-hint variant="flat" color="primary"
                 class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
                 افزودن
               </v-btn>
@@ -52,7 +52,6 @@
       </v-col>
     </v-row>
   </v-container>
-  {{ selectedCategories }}
 </template>
   
 <script>
@@ -76,6 +75,8 @@ import { PhotoIcon, } from 'vue-tabler-icons';
         title: "",
         error: "",
         body: "",
+        categories: [],
+        selectedCategories: [],
         imageId: null,
         fd: null,
         editorOptions: {
@@ -85,10 +86,22 @@ import { PhotoIcon, } from 'vue-tabler-icons';
       };
     },
     methods: {
-        handleTextChange(newText) {
-    this.body = newText;
-   
-  },
+      handleTextChange(newText) {
+        this.body = newText;
+      },
+      async fetchCategories() {
+        try {
+            const userToken = useUserStore().userToken; // Get the token from your user store
+            const response = await axios.get(`${apiStore().address}/api/blog/List_category/`, {
+                headers: {
+                    Authorization: `Token ${userToken}`
+                }
+            });
+            this.categories = response.data; // Assuming the API returns an array
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+        }
+      },
       async sendData() {
         if (
           this.body == null ||
@@ -104,7 +117,7 @@ import { PhotoIcon, } from 'vue-tabler-icons';
         console.log(this.photo)
         await axios
           .post(
-            `${apiStore().address}/api/blog/CreateImage/`,
+            `${apiStore().address}/api/blog/admin/create-image/`,
             this.fd,
   
             {
@@ -125,11 +138,12 @@ import { PhotoIcon, } from 'vue-tabler-icons';
             this.imageId = response.data.id;
             axios
               .post(
-                `${apiStore().address}/api/blog/create-blog-admin/`,
+                `${apiStore().address}/api/blog/admin/create-blog-admin/`,
                 {
                   title: this.title,
                   body: this.body,
                   imageBlog: this.imageId,
+                  category : this.selectedCategories
                 },
                 {
                   headers: {
@@ -152,6 +166,10 @@ import { PhotoIcon, } from 'vue-tabler-icons';
           });
         this.loading = false;
       },
+      
+    },
+    mounted() {
+      this.fetchCategories()
     },
   };
   </script>

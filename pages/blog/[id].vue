@@ -1,7 +1,7 @@
 <template>
     <v-container>
       
-        <v-row justify="center">
+        <v-row justify="center" v-if="loadingData == false">
             <v-col cols="12" md="9">
 
                 <form class="px-3" @submit.prevent="sendData" enctype="multipart/form-data">
@@ -49,7 +49,7 @@
                         {{ error }}
                     </p>
                     <div class="d-flex rtl m-3 mt-5">
-                        <v-btn rounded="lg" persistent-hint variant="flat" color="primary"
+                        <v-btn :loading="loading" rounded="lg" persistent-hint variant="flat" color="primary"
                             class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
                             اپدیت
                         </v-btn>
@@ -58,6 +58,10 @@
                 </form>
             </v-col>
         </v-row>
+    <div class="d-flex justify-center">
+      <v-progress-circular v-if="loadingData" bg-color="transparent" :size="55" class="ma-10" :width="7" color="primary"
+        indeterminate></v-progress-circular>
+    </div>
     </v-container>
 </template>
    
@@ -154,7 +158,7 @@ export default {
                 console.log(this.photo)
                 await axios
                     .post(
-                        `${apiStore().address}/api/blog/CreateImage/`,
+                        `${apiStore().address}/api/blog/admin/create-image/`,
                         this.fd,
 
                         {
@@ -196,7 +200,7 @@ export default {
             if (this.imageId) data['imageBlog'] = this.imageId
             await axios
                 .put(
-                    `${apiStore().address}/api/blog/BlogUpdate/${this.$route.params.id}/`,
+                    `${apiStore().address}/api/blog/admin/blog-update/${this.$route.params.id}/`,
                     data,
                     {
                         headers: {

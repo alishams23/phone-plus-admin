@@ -138,7 +138,7 @@ export default {
     
     searchData() {
       this.loading = true
-      axios.get(`${apiStore().address}/api/product/Products_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+      axios.get(`${apiStore().address}/api/product/products-list-admin-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",

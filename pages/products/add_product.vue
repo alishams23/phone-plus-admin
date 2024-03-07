@@ -199,7 +199,7 @@ import { apiStore } from '~/store/api';
                     let imageFormData = new FormData();  
                     imageFormData.append(`photo`, file);
                     try {
-                    axios.post(`${apiStore().address}/api/product/AddImageApi/`, imageFormData, {
+                    axios.post(`${apiStore().address}/api/product/add-image-admin/`, imageFormData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                         Authorization: `Token ${useUserStore().userToken}`
@@ -239,7 +239,7 @@ import { apiStore } from '~/store/api';
             formDic['price'] = this.price
             formDic['discount'] = this.value
 
-            axios.post(`${apiStore().address}/api/product/AddProductApi/`, formDic, {
+            axios.post(`${apiStore().address}/api/product/add-product-admin/`, formDic, {
                 headers: {
                 
                 Authorization: `Token ${useUserStore().userToken}`
