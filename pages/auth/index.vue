@@ -241,7 +241,7 @@ export default {
         // Ensure the phone number is not empty
         this.loading = true
         if (this.code ) {
-            const apiUrl = `${apiStore().address}/api/account/code-check-admin/`;
+            const apiUrl = `${apiStore().address}/api/account/admin/code-check/`;
             const data = {
                 number: this.phoneNumber, // Assuming the API expects the full number with country code
                 code  : this.code

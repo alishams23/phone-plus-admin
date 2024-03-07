@@ -20,7 +20,7 @@
             ></TextEditor>
         <v-locale-provider rtl  >
         <v-row class="mt-10 mb-5">
-        <v-col>
+        <v-col cols="12" md="6">
             <v-text-field
             label="قیمت محصول"
             v-model="price"
@@ -32,7 +32,7 @@
             color="primary"
             />
         </v-col>
-        <v-col>
+        <v-col cols="12" md="6">
             <v-autocomplete
                 label="دسته بندی‌ها"
                 rounded="lg"
@@ -87,33 +87,17 @@
                     <img :src="preview" class="chip-image-preview" />
             </template>
         </div>
-            <v-file-input
+            <v-text-field
+                label="لینک آی‌فریم ویدیو محصول" 
+                v-model="video"
                 rounded="lg"
-                accept=".mp4"
-                persistent-hint
+
                 variant="outlined"
                 color="primary"
-                v-model="video"
-                placeholder="اضافه کردن ویدئو"
-                label="فیلم محصول"
-                multiple
-               >
-                <template v-slot:prepend>
-                    <VideoIcon style="margin-left: -20px;" class="  text-grey" />
-                </template>
-                <template v-slot:selection="{ fileNames }">
-                        <template v-for="fileName in fileNames" :key="fileName">
-                            <v-chip
-                            size="small"
-                            label
-                            color="primary"
-                            >
-                            {{ fileName }}
-                        </v-chip>
-                    </template>
-                </template>
-            </v-file-input>
+                class="mt-10"/>
+
             <v-checkbox
+                    @click="discount == false? value=0: ''" 
                     v-model="discount"
                     color="primary"
                     label="دارای تخفیف"
@@ -199,12 +183,13 @@ import { apiStore } from '~/store/api';
                     let imageFormData = new FormData();  
                     imageFormData.append(`photo`, file);
                     try {
-                    axios.post(`${apiStore().address}/api/product/add-image-admin/`, imageFormData, {
+                    axios.post(`${apiStore().address}/api/product/admin/add-image/`, imageFormData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                         Authorization: `Token ${useUserStore().userToken}`
                     },
                     }).then((data) => {
+                        console.log('upload imge');
                         this.imageIds.push(data.data.id)
 
                     })
@@ -227,27 +212,28 @@ import { apiStore } from '~/store/api';
                 reader.readAsDataURL(file);
             });
             this.sendDataFunc();
-            this.loadingImage = false;
+            this.loadingImage = false;      
         },
         async sendData() {
             console.log(this.selectedCategories)
             let formDic = {}
             formDic['category'] = this.selectedCategories
             formDic['image'] = this.imageIds
+            formDic['video'] = this.video
             formDic['title'] = this.title
             formDic['description'] = this.description
             formDic['price'] = this.price
             formDic['discount'] = this.value
 
-            axios.post(`${apiStore().address}/api/product/add-product-admin/`, formDic, {
+            axios.post(`${apiStore().address}/api/product/admin/add-product/`, formDic, {
                 headers: {
-                
+                "Content-type": "application/json",
                 Authorization: `Token ${useUserStore().userToken}`
                 },
             })
             .then(response => {
-                // handle success
-                console.log(response.data);
+             
+                this.$emit('close')
             })
             .catch(error => {
                 // handle error

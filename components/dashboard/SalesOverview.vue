@@ -23,7 +23,7 @@ const chartData = ref([]); // Create a ref to store API data
 // Fetch data from API on component mount
 onMounted(async () => {
     try {
-        const response = await axios.get(`${apiStore().address}/api/order/last-week-sales/`, {
+        const response = await axios.get(`${apiStore().address}/api/order/admin/last-week-sales/`, {
             headers: {
                 "Content-type": "application/json",
                 Accept: "application/json",

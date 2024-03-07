@@ -22,59 +22,63 @@
                         شماره سفارش:     {{ data.order_id }}
                        
                        </div>
+                    <div class=" text-body-1 font-weight-bold px-3 py-5 border-t">
+                        شماره تماس:     {{ data.author.phone_number }}
+                       
+                       </div>
                       
                     <div class=" text-body-1 font-weight-bold px-3 pt-5 border-t">
                         آدرس:
                        </div>
 
                     <v-row class="pt-5 mb-3">
-                        <v-col cols="4">
+                        <v-col cols="6" md="4">
 
                             <v-list-item class="  py-3 px-5">
 
                                 <v-list-item-title
                                     class="   text-body-1 text-nauto">استان</v-list-item-title>
-                                <div class="font-weight-bold text-xs text-body-1 text-nauto pt-2">{{ data.author.state }}
+                                <div class="font-weight-bold text-xs text-body-1 text-nauto pt-2">{{ data.state }}
                                 </div>
                             </v-list-item>
                         </v-col>
-                        <v-col cols="4">
+                        <v-col cols="6" md="4">
 
                             <v-list-item class="  py-3 px-5">
 
                                 <v-list-item-title
                                     class="   text-body-1 text-nauto">شهر</v-list-item-title>
-                                <div class="font-weight-bold text-xs text-body-1 text-nauto pt-2">{{ data.author.city }}
+                                <div class="font-weight-bold text-xs text-body-1 text-nauto pt-2">{{ data.city }}
                                 </div>
                             </v-list-item>
                         </v-col>
-                        <v-col cols="4">
+                        <v-col cols="12" md="4">
 
                             <v-list-item class="  py-3 px-5">
 
                                 <v-list-item-title
                                     class="   text-body-1 text-nauto">خیابان</v-list-item-title>
-                                <div class="font-weight-bold text-xs text-body-1 text-nauto pt-2">{{ data.author.street }}
+                                <div class="font-weight-bold text-xs text-body-1 text-nauto pt-2">{{ data.street }}
                                 </div>
                             </v-list-item>
                         </v-col>
-                        <v-col cols="4">
+                        <v-col cols="12" md="4">
 
                             <v-list-item class="  py-3 px-5">
 
                                 <v-list-item-title
                                     class="   text-body-1 text-nauto">کوچه</v-list-item-title>
-                                <div class="font-weight-bold text-xs text-body-1 text-nauto pt-2">{{ data.author.alley }}
+                                <div class="font-weight-bold text-xs text-body-1 text-nauto pt-2">{{ data.alley }}
                                 </div>
                             </v-list-item>
                         </v-col>
-                        <v-col cols="4">
+                        <v-col cols="12" md="4">
 
                             <v-list-item class="  py-3 px-5">
 
                                 <v-list-item-title
                                     class="   text-body-1 text-nauto">کدپستی</v-list-item-title>
-                                <div class="font-weight-bold text-xs text-body-1 text-nauto pt-2">{{ data.author.zipCode }}
+                                <div class="font-weight-bold text-xs text-body-1 text-nauto pt-2">{{ data.zipCode }}
                                 </div>
                             </v-list-item>
                         </v-col>
@@ -114,8 +118,13 @@
             <v-card elevation="0"  class="my-5 rtl mx-3"
      
             >
-              <div class="d-flex flex-no-wrap justify-space-between">
-                <div class="pa-5 d-flex align-start flex-column ">
+              <v-row class="d-flex flex-no-wrap justify-space-between">
+                <v-col cols="12" md="4">
+                    <v-avatar size="230" rounded="xl">
+                      <v-img :src="data.product.image[0].photo" cover></v-img>
+                    </v-avatar>
+                </v-col >
+                <v-col cols="12" md="8">
                     
                   <v-card-title class="text-h5 font-weight-bold">
                     {{ data.product.title }}
@@ -124,20 +133,20 @@
                     <div v-html=" data.product.description">
                     </div>
                   </v-card-text>
-                 <div class="d-flex">
-                    <div class="text-body-1 font-weight-bold px-3">
-                        تعداد:
-                    </div>
-                    <div class="px-5 font-weight-bold">
-                        {{ data.count }}
-                    </div>
-                 </div>
                 
-                </div>
-                <v-avatar size="230" rounded="xl">
-                  <v-img :src="data.product.image[0].photo" cover></v-img>
-                </v-avatar>
-              </div>
+                </v-col>
+                
+                   <v-col cols="1s2">
+                     <div class="d-flex">
+                        <div class="text-body-1 font-weight-bold px-3">
+                            تعداد:
+                        </div>
+                        <div class="px-5 font-weight-bold">
+                            {{ data.count }}
+                        </div>
+                     </div>
+                   </v-col>
+              </v-row>
             </v-card>
            </div>
            <div class="py-5 border-t">
@@ -151,7 +160,7 @@
       
     </v-dialog>
         <td>
-            <p class="text-15 font-weight-medium">{{ data.id }}</p>
+            <p class="text-15 font-weight-medium">{{ data.order_id }}</p>
         </td>
         <td>
             <div class="">
@@ -240,7 +249,7 @@ export default {
     methods: {
         changeStatus(id, status) {
             this.loadingStatus = id
-            axios.put(`${apiStore().address}/api/order/OrderUpdateStatus/${id}/`, { status: status }, {
+            axios.put(`${apiStore().address}/api/order/admin/order-update-status/${id}/`, { status: status }, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",

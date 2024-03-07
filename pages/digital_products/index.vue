@@ -83,7 +83,7 @@
   <template v-slot:default="{ isActive }">
     <v-card class="rounded-lg  " title="">
       <v-container>
-        <AddService />
+        <AddDigitalProducts />
       </v-container>
     </v-card>
   </template>
@@ -94,7 +94,7 @@
 import { PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon } from 'vue-tabler-icons';
 
 import { apiStore } from '~/store/api';
-import AddService from '@/pages/services/add_service.vue';
+import AddDigitalProducts from '@/pages/digital_products/add_digital_products.vue';
 
 export default {
   components:{
@@ -105,7 +105,7 @@ export default {
     BoxIcon,
     SearchIcon,
     FilterCogIcon,
-    AddService
+    AddDigitalProducts
   },
   name: "ProductCard",
   data() {
@@ -119,7 +119,7 @@ export default {
   methods: { 
     searchData() {
       this.loading = true
-      axios.get(`${apiStore().address}/api/product/products-list-admin-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+      axios.get(`${apiStore().address}/api/product/admin/digital-product-list-create/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
@@ -129,8 +129,24 @@ export default {
         this.loading = false
         this.data = response.data
       })
+    },
+    removeItem(id) {
+      this.loadingItem = id
+      axios.delete(`${apiStore().address}/api/product/admin/product-retrieve-update-destroy/${id}/`, {
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Token ${useUserStore().userToken}`
+        },
+      }).then((response) => {
+
+        this.searchData()
+        this.loadingItem = 0
+      })
     }
-  }, async mounted() {
+    
+  }, 
+  async mounted() {
     this.searchData()
   }
 };

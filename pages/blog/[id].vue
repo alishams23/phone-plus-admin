@@ -4,7 +4,7 @@
         <v-row justify="center" v-if="loadingData == false">
             <v-col cols="12" md="9">
 
-                <form class="px-3" @submit.prevent="sendData" enctype="multipart/form-data">
+                <form class="px-md-3" @submit.prevent="sendData" enctype="multipart/form-data">
                     <v-locale-provider rtl  >
                     <div class="mt-3 mb-5">
 

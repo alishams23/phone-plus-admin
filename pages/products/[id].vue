@@ -1,7 +1,7 @@
 <template>
     <v-container>
 
-        <form @submit.prevent="sendData" class="px-10">
+        <form @submit.prevent="sendData" class="px-md-10">
             <v-locale-provider rtl>
                 <v-text-field label="نام محصول" v-model="title" rounded="lg" required persistent-hint variant="outlined"
                     color="primary" class="mt-10" />
@@ -48,9 +48,11 @@
                         </template>
                     </div>
                     <div class="image-preview-container">
+                     
                         <template v-for="(preview, index) in imageUrl" :key="index">
-                            <v-img :src="preview.photo" class="chip-image-preview"><v-avatar size="30" class="ma-3"
-                                @click="imageIds.splice(imageIds.indexOf(preview.id), 1); imageUrl.splice(index, 1)"
+
+                            <v-img :src="address + '/api/product/product-image/'+preview+'/ '" class="chip-image-preview"><v-avatar size="30" class="ma-3"
+                                @click="imageIds.splice(imageIds.indexOf(preview), 1); imageUrl.splice(index, 1)"
                                 color="red-darken-2" icon="">
                                 <TrashIcon size="15" />
                             </v-avatar></v-img>
@@ -58,20 +60,15 @@
                     </div>
                 </div>
 
-                <v-file-input rounded="lg" accept=".mp4" persistent-hint variant="outlined" color="primary" v-model="video"
-                    placeholder="اضافه کردن ویدئو" label="فیلم محصول" multiple>
-                    <template v-slot:prepend>
-                        <VideoIcon style="margin-left: -20px;" class="  text-grey" />
-                    </template>
-                    <template v-slot:selection="{ fileNames }">
-                        <template v-for="fileName in fileNames" :key="fileName">
-                            <v-chip size="small" label color="primary">
-                                {{ fileName }}
-                            </v-chip>
-                        </template>
-                    </template>
-                </v-file-input>
-                <v-checkbox v-model="discount" color="primary" label="دارای تخفیف">
+                <v-text-field
+                label="ویدیو محصول"
+                v-model="video"
+                rounded="lg"
+
+                variant="outlined"
+                color="primary"
+                class="mt-10"/>
+                <v-checkbox v-model="discount" @click="discount == false? value=0:''" color="primary" label="دارای تخفیف">
                 </v-checkbox>
 
             </v-locale-provider>
@@ -96,7 +93,11 @@ import { apiStore } from '~/store/api';
 
 export default {
     components: { PhotoIcon, VideoIcon, CheckboxIcon, TrashIcon, TextEditor },
-
+    computed:{
+        address(){
+            return apiStore().address
+        }
+    },
     data: () => ({
         price: 0,
         title: null,
@@ -129,6 +130,7 @@ export default {
                     }
                 });
                 this.categories = response.data; // Assuming the API returns an array
+                console.log('categories', this.categories);
             } catch (error) {
                 console.error('Error fetching categories:', error);
             }
@@ -139,7 +141,7 @@ export default {
                     let imageFormData = new FormData();
                     imageFormData.append(`photo`, file);
                     try {
-                        axios.post(`${apiStore().address}/api/product/add-image-admin/`, imageFormData, {
+                        axios.post(`${apiStore().address}/api/product/admin/add-image/`, imageFormData, {
                             headers: {
                                 'Content-Type': 'multipart/form-data',
                                 Authorization: `Token ${useUserStore().userToken}`
@@ -174,17 +176,19 @@ export default {
             let formDic = {}
             formDic['category'] = this.selectedCategories
             formDic['image'] = this.imageIds
+            formDic['video'] = this.video
             formDic['title'] = this.title
             formDic['description'] = this.description
             formDic['price'] = this.price
             formDic['discount'] = this.value
 
-            axios.put(`${apiStore().address}/api/product/ProductUpdateApi/${this.$route.params.id}/`, formDic, {
+            axios.put(`${apiStore().address}/api/product/admin/product-retrieve-update-destroy/${this.$route.params.id}/`, formDic, {
                 headers: {
                     Authorization: `Token ${useUserStore().userToken}`
                 },
             })
                 .then(response => {
+                    this.$router.push(`/products`);
                     // handle success
                     console.log(response.data);
                 })
@@ -194,7 +198,7 @@ export default {
                 });
         },
         getData() {
-            axios.get(`${apiStore().address}/api/product/Product_retrieve/${this.$route.params.id}/`, {
+            axios.get(`${apiStore().address}/api/product/admin/product-retrieve-update-destroy/${this.$route.params.id}/`, {
                 headers: {
                     Accept: "application/json",
                     Authorization: `Token ${useUserStore().userToken}`
@@ -204,17 +208,21 @@ export default {
                 this.loadingData = false
                 this.description = response.data.description
                 this.title = response.data.title
+                this.video = response.data.video
                 response.data.image.forEach(element => {
 
-                    this.imageIds.push(element.id)
+                    this.imageIds.push(element)
                 });
                 response.data.image.forEach(element => {
 
                     this.imageUrl.push(element)
                 });
-                this.category = response.data.selectedCategories
+                this.selectedCategories = response.data.category
+           
+                console.log(this.categories);
                 this.price = response.data.price
                 this.value = response.data.discount
+                if (response.data.discount) this.discount = true
 
             }
             )

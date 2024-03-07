@@ -52,7 +52,7 @@ const sidebarItem: menu[] = [
     {
         title: 'محصولات دیجیتال',
         icon: ToolIcon,
-        to: '/services'
+        to: '/digital_products'
     },
 
     { header: 'ارتباط' },

@@ -46,32 +46,24 @@
         <template v-slot:loader="{ isActive }">
           <v-progress-linear :active="isActive" color="deep-purple" height="4" indeterminate></v-progress-linear>
         </template>
-
         <v-row>
-          <v-col cols="12" md="3" >
-          
-              <v-img cover height="140px"  class="" :src="blog.imageBlog.photo">
-              </v-img>
-           
+          <v-col cols="12" md="3">
+            <v-img cover height="140px" class="" :src="blog.imageBlog.photo">
+            </v-img>
           </v-col>
-           <v-col>
+          <v-col>
             <div class="d-flex ">
               <div>
-             
               </div>
               <div class=" d-flex flex-column flex-fill ">
                 <v-card-item>
                   <v-card-title class="text-h6 ">{{ blog.title }}</v-card-title>
                   <div v-html="blog.body" class="text-line-1  text-body-2"></div>
-
                 </v-card-item>
-
-
                 <v-card-actions class="mt-auto mr-auto px-10">
                   <v-btn class="px-10 ml-4" variant="flat" :to="'/blog/' + blog.id" rounded="xl" size="small"
                     color="primary">
                     ویرایش
-
                     <template v-slot:append>
                       <PencilIcon size="15" />
                     </template>
@@ -88,15 +80,15 @@
               </div>
 
             </div>
-           </v-col>
-       
+          </v-col>
+
         </v-row>
       </v-card>
 
     </v-locale-provider>
   </v-container>
   <VLayoutItem model-value position="bottom" class="text-end" size="88">
-    <VBtn to="/blog/add_blog" icon="" class="mx-5" size="large" color="primary" elevation="8">
+    <VBtn to="/blog/add_blog" icon="" class="mx-2 mx-md-5" size="large" color="primary" elevation="8">
       <v-icon>
         <PlusIcon />
       </v-icon>

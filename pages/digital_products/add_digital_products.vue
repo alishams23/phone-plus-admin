@@ -164,33 +164,7 @@
                     title="نکته"
                     text="برای ثبت لایسنس‌های خود، لطفاً فایل CSV را با دقت تکمیل کنید. هر ردیف فایل باید حاوی اطلاعات یک لایسنس باشد. پس از تکمیل، فایل خود را در بخش مربوطه در وب‌سایت آپلود کنید تا لایسنس‌های شما به سرعت و به طور موثر ثبت شوند."
                 ></v-alert>
-                <v-file-input
-                    rounded="lg"
-                    accept=".mp4"
-                    persistent-hint
-                    variant="outlined"
-                    color="primary"
-                    v-if="file_type=='فیلم'"
-                    v-model="video"
-                    placeholder="اضافه کردن ویدئو"
-                    label="فیلم محصول"
-                    multiple
-                >
-                    <template v-slot:prepend>
-                        <VideoIcon style="margin-left: -20px;" class="  text-grey" />
-                    </template>
-                    <template v-slot:selection="{ fileNames }">
-                            <template v-for="fileName in fileNames" :key="fileName">
-                                <v-chip
-                                size="small"
-                                label
-                                color="primary"
-                                >
-                                {{ fileName }}
-                            </v-chip>
-                        </template>
-                    </template>
-                </v-file-input>
+
                 <v-checkbox
                     v-model="discount"
                     label="دارای تخفیف"
@@ -234,10 +208,38 @@ import TextEditor from '@/components/shared/TextEditor.vue';
   export default {
     components:{PhotoIcon, VideoIcon, FileImportIcon,TrashIcon, TextEditor, },
     props:["data"],
+    data: () => ({
+        price: 0,
+        title: null,
+        csvData: [],
+        description: null,
+        images: [],
+        imageIds : [],
+        loadingImage:false,
+        imagePreviews: [], 
+        categories: [],
+        selectedCategories: [],
+        file_type : null,
+        tab: null,
+        discount: false,
+        image: null,
+        video: null,
+        value: 0,
+        body: '',
+        editorOptions: {
+        theme: "snow",
+        rules: [
+            files => !files || !files.some(file => file.size > 2_097_152) || 'Avatar size should be less than 2 MB!'
+        ],
+      },
+    }),
     computed: {
         tableHeaders() {
         return this.csvData.length > 0 ? Object.keys(this.csvData[0]) : [];
         }
+    },
+    mounted() {
+        this.fetchCategories();
     },
     methods: {
         handleTextChange(newText) {
@@ -268,33 +270,21 @@ import TextEditor from '@/components/shared/TextEditor.vue';
                 };
             }
         },
-
+        async fetchCategories() {
+            try {
+                const userToken = useUserStore().userToken; // Get the token from your user store
+                const response = await axios.get(`${apiStore().address}/api/product/list-digital-categories/`, {
+                    headers: {
+                        Authorization: `Token ${userToken}`
+                    }
+                });
+                this.categories = response.data; // Assuming the API returns an array
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        },
     },
-    data: () => ({
-        price: 0,
-        title: null,
-        csvData: [],
-        description: null,
-        images: [],
-        imageIds : [],
-        loadingImage:false,
-        imagePreviews: [], 
-        categories: [],
-        selectedCategories: [],
-        file_type : null,
-        tab: null,
-        discount: false,
-        image: null,
-        video: null,
-        value: 0,
-        body: '',
-        editorOptions: {
-        theme: "snow",
-        rules: [
-            files => !files || !files.some(file => file.size > 2_097_152) || 'Avatar size should be less than 2 MB!'
-        ],
-      },
-    }),
+    
     
   }
 </script>

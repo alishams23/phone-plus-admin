@@ -56,7 +56,7 @@
                 <v-table class="month-table rtl">
                     <thead>
                         <tr>
-                            <th class="text-subtitle-1 font-weight-bold"></th>
+                            <th class="text-subtitle-1 font-weight-bold">شماره سفارش</th>
                             <th class="text-subtitle-1 font-weight-bold">خریدار</th>
                             <th class="text-subtitle-1 font-weight-bold">محصول</th>
                             <th class="text-subtitle-1 font-weight-bold">تعداد</th>
@@ -121,7 +121,7 @@ export default {
     methods: {
         changeStatus(id, status) {
             this.loadingStatus = id
-            axios.put(`${apiStore().address}/api/order/OrderUpdateStatus/${id}/`, { status: status }, {
+            axios.put(`${apiStore().address}/api/order/admin/order-update-status/${id}/`, { status: status }, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",
@@ -134,7 +134,7 @@ export default {
         searchData() {
             this.loading = true
 
-            axios.get(`${apiStore().address}/api/order/Order_payed_list_admin_search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}&status=${this.statusCheck}`, {
+            axios.get(`${apiStore().address}/api/order/admin/order-payed-list-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}&status=${this.statusCheck}`, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",
