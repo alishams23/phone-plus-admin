@@ -1,7 +1,6 @@
 <template>
+    {{ selectedCategories    }}
      <div>
-        {{ selectedCategories }}
-        {{ categories }}
         <form  @submit.prevent="sendData" >        
             <v-locale-provider rtl  >
                 <v-text-field
@@ -18,30 +17,22 @@
                         @update="handleTextChange" 
                     ></TextEditor>
                     <v-locale-provider rtl>
-                <v-text-field
-                    label="قیمت"
-                    rounded="lg"
-                    v-model="price"
-                    required
-                    type="number"
-                    persistent-hint
-                    variant="outlined"
-                    color="primary"
-                    class="mt-5"/>
-        
-                <v-autocomplete
-                    label="دسته بندی‌ها"
-                    rounded="lg"
-                    persistent-hint
-                    variant="outlined"
-                    color="primary"
-                    class="mt-5"
-                    v-model="selectedCategories"
-                    clearable
-                    chips
-                    :items="categories"
-                    multiple>
-                </v-autocomplete>
+                <v-row class="mt-10 mb-5">
+                    <v-col cols="12" md="6">
+                        <v-text-field
+                            label="قیمت"
+                            rounded="lg"
+                            v-model="price"
+                            required
+                            type="number"
+                            persistent-hint
+                            variant="outlined"
+                            color="primary"/>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <AddCategories @change="(data) => {selectedCategories = data }" :selected="selectedCategories" url="/api/product/admin/category-list-create/" />
+                    </v-col>
+                </v-row>
 
                 <v-file-input
                     rounded="lg"
@@ -220,9 +211,9 @@ import axios from "axios";
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 import TextEditor from '@/components/shared/TextEditor.vue';
-
+import AddCategories from '@/components/section/product/AddCategories.vue';
   export default {
-    components:{PhotoIcon, VideoIcon, FileImportIcon,TrashIcon, TextEditor, },
+    components:{PhotoIcon, VideoIcon, FileImportIcon,TrashIcon, TextEditor, AddCategories},
     props:["data"],
     data: () => ({
         price: 0,
@@ -351,6 +342,7 @@ import TextEditor from '@/components/shared/TextEditor.vue';
             this.loadingImage = false;      
         },
         async sendData() {
+            
             this.convertDataToHtmlFormattedStrings()
             let formDic = {}
             formDic['category'] = this.selectedCategories
@@ -369,7 +361,7 @@ import TextEditor from '@/components/shared/TextEditor.vue';
                 },
             })
             .then(response => {
-             
+                console.log('send Data', response);
                 // this.$emit('close')
             })
             .catch(error => {

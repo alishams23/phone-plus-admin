@@ -29,6 +29,7 @@
     <v-row>
       <v-col  v-for="product in data"
       :key="product.id" cols="6">
+      {{ product.id }}
         <v-card
         elevation="10"
         rounded="lg"
@@ -48,6 +49,7 @@
                     variant="flat"
                     rounded="xl"
                     color="primary"
+                    :to="'/digital_products/' + product.id"
                   >
                     ویرایش
                     <template v-slot:append>
