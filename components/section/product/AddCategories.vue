@@ -34,7 +34,7 @@ import { apiStore } from '~/store/api';
 import axios from 'axios';
 
 export default {
-    props: ["selected","url","urlCreate"],
+    props: ["selected","url",],
     components: {
         PlusIcon
     },
@@ -65,7 +65,7 @@ export default {
         },
         async createCategory() {
             this.loadingCreate = true
-            axios.post(`${apiStore().address}${this.urlCreate}`,
+            axios.post(`${apiStore().address}${this.url}`,
                 {
                     title: this.text,
                 }, {
