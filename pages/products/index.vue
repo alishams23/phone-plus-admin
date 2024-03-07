@@ -40,7 +40,7 @@
           
             <v-row >
               <v-col cols="12" md="4" rounded="0">
-                <v-img height="140px" :src="product.image[0].photo" cover></v-img>
+                <v-img height="150px" :src="product.image[0].photo" cover></v-img>
               </v-col>
               <v-col cols="12" md="8">
                 <div class="d-flex ">
