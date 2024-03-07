@@ -60,7 +60,8 @@
                 size="230"
                 rounded="0"
               >
-                <v-img :src="product.image"></v-img>
+              
+                <v-img :src="address + '/api/product/product-image/'+product.image[0].id+'/'"></v-img>
               </v-avatar>
           </div>
       </v-card>
@@ -92,7 +93,8 @@
 </template>
 <script>
 import { PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon } from 'vue-tabler-icons';
-
+import axios from 'axios'
+import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 import AddDigitalProducts from '@/pages/digital_products/add_digital_products.vue';
 
@@ -116,6 +118,11 @@ export default {
         order : false,
       };
   },
+  computed:{
+    address(){
+        return apiStore().address
+    }
+  },
   methods: { 
     searchData() {
       this.loading = true
@@ -126,13 +133,14 @@ export default {
           Authorization: `Token ${useUserStore().userToken}`
         },
       }).then((response) => {
+        console.log('get data',response.data);
         this.loading = false
         this.data = response.data
       })
     },
     removeItem(id) {
       this.loadingItem = id
-      axios.delete(`${apiStore().address}/api/product/admin/product-retrieve-update-destroy/${id}/`, {
+      axios.delete(`${apiStore().address}/api/product/admin/digital-product-retrieve-update-destroy/${id}/`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
