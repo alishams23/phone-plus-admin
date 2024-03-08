@@ -1,3 +1,156 @@
+<template>
+    <v-container>
+        <form  @submit.prevent="sendData">
+            <v-locale-provider rtl>
+
+                <v-file-input 
+                    required
+                    rounded="lg" 
+                    accept=".png,.jpg" 
+                    persistent-hint 
+                    @change="sendImage" 
+                    variant="outlined"
+                    :disabled="loadingImage" 
+                    color="primary" 
+                    v-model="profile" 
+                    placeholder="Upload your documents"
+                    label="پروفایل فروشگاه" 
+                    class="mt-10">
+                    <template v-slot:prepend>
+                        <PhotoIcon style="margin-left: -20px;" class="text-grey" />
+                    </template>
+                    <template v-slot:selection="{ fileNames }">
+                        <template v-for="(preview, index) in imagePreviews" :key="index">
+                            <v-chip class="mx-1" size="small" label color="primary">
+                                {{ fileNames[index] }}
+                            </v-chip>
+
+                        </template>
+                    </template>
+                </v-file-input>
+
+                <v-text-field 
+                    label="نام فروشگاه" 
+                    v-model="shop_name"  
+                    rounded="lg"    
+                    required    
+                    persistent-hint 
+                    variant="outlined"
+                    color="primary" />
+
+                <v-textarea 
+                    label="بیو"
+                    v-model="shop_bio"
+                    color="primary" 
+                    rounded="lg" 
+                    variant="outlined" />
+
+                <v-file-input  
+                    required
+                    rounded="lg" 
+                    accept=".png,.jpg" 
+                    persistent-hint 
+                    @change="sendImage" 
+                    variant="outlined"
+                    :disabled="loadingImage" 
+                    color="primary" 
+                    v-model="N_card" 
+                    placeholder="Upload your documents"
+                    label="عکس کارت ملی" 
+                    >
+                    <template v-slot:prepend>
+                        <PhotoIcon style="margin-left: -20px;" class="text-grey" />
+                    </template>
+                    <template v-slot:selection="{ fileNames }">
+                        <template v-for="(preview, index) in imagePreviews" :key="index">
+                            <v-chip class="mx-1" size="small" label color="primary">
+                                {{ fileNames[index] }}
+                            </v-chip>
+
+                        </template>
+                    </template>
+                </v-file-input>
+
+                <v-file-input 
+                    required 
+                    rounded="lg" 
+                    accept=".png,.jpg" 
+                    persistent-hint 
+                    @change="sendImage" 
+                    variant="outlined"
+                    :disabled="loadingImage" 
+                    color="primary" 
+                    v-model="N_card_face" 
+                    placeholder="Upload your documents"
+                    label=" عکس کارت ملی خود را در مجاور خود گرفته به صورتی که واضح باشد  " 
+                    >
+                    <template v-slot:prepend>
+                        <PhotoIcon style="margin-left: -20px;" class="text-grey" />
+                    </template>
+                    <template v-slot:selection="{ fileNames }">
+                        <template v-for="(preview, index) in imagePreviews" :key="index">
+                            <v-chip class="mx-1" size="small" label color="primary">
+                                {{ fileNames[index] }}
+                            </v-chip>
+
+                        </template>
+                    </template>
+                </v-file-input>
+                
+                <v-file-input 
+                    rounded="lg" 
+                    accept=".png,.jpg" 
+                    persistent-hint 
+                    @change="sendImage" 
+                    variant="outlined"
+                    :disabled="loadingImage" 
+                    color="primary" 
+                    v-model="shop_card" 
+                    placeholder="Upload your documents"
+                    label=" کارت مغازه " 
+                    >
+                    <template v-slot:prepend>
+                        <PhotoIcon style="margin-left: -20px;" class="text-grey" />
+                    </template>
+                    <template v-slot:selection="{ fileNames }">
+                        <template v-for="(preview, index) in imagePreviews" :key="index">
+                            <v-chip class="mx-1" size="small" label color="primary">
+                                {{ fileNames[index] }}
+                            </v-chip>
+
+                        </template>
+                    </template>
+                </v-file-input>
+
+                <v-text-field 
+                    label="مرچنت آیدی زرین‌پال" 
+                    v-model="merchant_id_zarinpal"  
+                    rounded="lg"    
+                    required    
+                    persistent-hint 
+                    variant="outlined"
+                    color="primary" />
+
+            </v-locale-provider>
+            <v-btn rounded="lg" persistent-hint variant="flat" color="primary"
+                class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
+                ثبت
+            </v-btn>
+        </form>
+        <v-alert 
+            color="info" 
+            icon="fa fa-info" 
+            variant="tonal"
+            rounded="lg"
+            class="rtl border-opacity-100 my-3">
+
+            <div class="text-sm  font-weight-black irsa">
+                پس از ثبت اطلاعات منتظر پیامک تایید بمانید 
+            </div>
+        </v-alert>
+    </v-container>
+</template>
+
 <script >
 import { PhotoIcon, } from 'vue-tabler-icons';
 import axios from 'axios';
@@ -8,13 +161,29 @@ export default {
     data() {
         return {
             loading: false,
-            image: null,
-            name: "",
-            bio: "",
-         
+            loadingImage: false,
             loadingData: true,
+            
+            profile: null,
+            shop_name: null,
+            shop_bio: null,
+            N_card: null,
+            N_card_face: null,
+            shop_card: null,
+            merchant_id_zarinpal: null,
+         
             imagePreviews: [],
         };
+    },
+    beforeCreate() {
+        // const userStore = useUserStore();
+        // if (!userStore.userToken) {
+        //     // If the userToken does not exist, redirect to the login page
+        //     this.$router.push('/auth');
+        // }else if (userStore.status == 's'){
+        //     useUserStore().logout()
+        //     this.$router.push('/auth');
+        // }
     },
     mounted() {
         this.getData()
@@ -28,19 +197,24 @@ export default {
                 },
             }).then((response) => {
                 console.log(response)
-                this.loadingData = false
-                this.name = response.data[0].name
-                this.bio = response.data[0].bio
-                this.image = response.data[0].image
+                // this.loadingData = false
+                // this.name = response.data[0].name
+                // this.bio = response.data[0].bio
+                // this.image = response.data[0].image
             }
             )
         },
         async sendData() {
             this.fd = new FormData();
             if (this.image) {
-                this.fd.append("image", this.image)
-                this.fd.append("name", this.name);
-                this.fd.append("bio", this.bio);
+                this.fd.append("profile", this.profile)
+                this.fd.append("shop_name", this.shop_name)
+                this.fd.append("shop_bio", this.shop_bio)
+                this.fd.append("N_card", this.N_card)
+                this.fd.append("N_card_face", this.N_card_face)
+                this.fd.append("shop_card", this.shop_card)
+                this.fd.append("merchant_id_zarinpal", this.merchant_id_zarinpal)
+
                 console.log(this.image)
                 await axios
                     .put(
@@ -71,36 +245,3 @@ export default {
     },
 }
 </script>
-<template>
-    <v-container>
-        <form>
-            <v-locale-provider rtl>
-                <v-text-field label="نام فروشگاه" v-model="name" rounded="lg" required persistent-hint variant="outlined"
-                    color="primary" class="mt-10" />
-                <v-textarea color="primary" rounded="lg" variant="outlined" label="بیو"></v-textarea>
-                <v-file-input rounded="lg" accept=".png,.jpg" persistent-hint required variant="outlined" color="primary"
-                    v-model="image" placeholder="Upload your documents" label="عکس‌ پروفایل فروشگاه">
-                    <template v-slot:prepend>
-                        <PhotoIcon style="margin-left: -20px;" class="text-grey" />
-                    </template>
-                    <template v-slot:selection="{ fileNames }">
-                        <template v-for="(preview, index) in imagePreviews" :key="index">
-                            <v-chip class="mx-1" size="small" label color="primary">
-                                {{ fileNames[index] }}
-                            </v-chip>
-                        </template>
-                    </template>
-                </v-file-input>
-                <div class="image-preview-container">
-                    <template v-for="(preview, index) in imagePreviews" :key="index">
-                        <img :src="preview" class="chip-image-preview" />
-                    </template>
-                </div>
-            </v-locale-provider>
-            <v-btn rounded="lg" persistent-hint variant="flat" color="primary"
-                class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
-                ثبت
-            </v-btn>
-        </form>
-    </v-container>
-</template>

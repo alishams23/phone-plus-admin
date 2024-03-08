@@ -1,7 +1,7 @@
 import {
     ApertureIcon,
     CopyIcon,
-    LayoutDashboardIcon, Settings2Icon, UserCircleIcon, CoinsIcon, MessageCircleIcon,CubeIcon, LogoutIcon, CubeSendIcon, ToolIcon, ArticleIcon
+    Settings2Icon, CoinsIcon, MessageCircleIcon,CubeIcon, ToolIcon, ArticleIcon, MenuIcon, ThreedCubeSphereIcon
 } from 'vue-tabler-icons';
 
 
@@ -24,7 +24,7 @@ const sidebarItem: menu[] = [
     { header: 'خانه' },
     {
         title: 'داشبورد',
-        icon: LayoutDashboardIcon,
+        icon: MenuIcon,
         to: '/'
     },
     {
@@ -51,7 +51,7 @@ const sidebarItem: menu[] = [
     },
     {
         title: 'محصولات دیجیتال',
-        icon: ToolIcon,
+        icon: ThreedCubeSphereIcon,
         to: '/digital_products'
     },
 

@@ -12,15 +12,19 @@
             <TextEditor :content="description" @update="handleTextChange"></TextEditor>
             <v-locale-provider rtl>
                 <v-row class="mt-10 mb-5">
-                    <v-col>
-                        <v-text-field label="قیمت محصول" v-model="price" required rounded="lg" type="number" persistent-hint
-                            variant="outlined" color="primary" />
+                    <v-col cols="12" md="6">
+                        <v-text-field
+                            label="قیمت"
+                            rounded="lg"
+                            v-model="price"
+                            required
+                            type="number"
+                            persistent-hint
+                            variant="outlined"
+                            color="primary"/>
                     </v-col>
-                    <v-col>
-                        <v-autocomplete label="دسته بندی‌ها" rounded="lg" persistent-hint variant="outlined" color="primary"
-                            clearable chips v-model="selectedCategories" :items="categories" item-text="name"
-                            item-value="id" multiple>
-                        </v-autocomplete>
+                    <v-col cols="12" md="6">
+                        <AddCategories @change="(data) => {selectedCategories = data }" :selected="selectedCategories" url="/api/product/admin/category-digital-product-list-create/" />
                     </v-col>
                 </v-row>
                 <v-file-input rounded="lg" accept=".png,.jpg" persistent-hint @change="sendImage" variant="outlined"
@@ -60,14 +64,103 @@
                     </div>
                 </div>
 
-                <v-text-field
-                label="ویدیو محصول"
-                v-model="video"
-                rounded="lg"
+                <v-combobox
+                    rounded="lg"
+                    accept=".zip,.rar"
+                    persistent-hint
+                    variant="outlined"
+                    color="primary"
+                    v-model="file_type"
+                    label="انتخاب نوع فایل"
+                    :items="['لیست لایسنس‌ها', 'فایل زیپ']"
+                ></v-combobox>
 
-                variant="outlined"
-                color="primary"
-                class="mt-10"/>
+                <v-file-input
+                    rounded="lg"
+                    accept=".zip,.rar"
+                    persistent-hint
+                    variant="outlined"
+                    color="primary"
+                    v-if="file_type=='فایل زیپ'"
+                    v-model="file"
+                    placeholder="اضافه کردن فایل"
+                    label="فایل محصول"
+                    >
+                    <template v-slot:prepend>
+                        <FileImportIcon style="margin-left: -20px;" class="  text-grey" />
+                    </template>
+                    <template v-slot:selection="{ fileNames }">
+                            <template v-for="fileName in fileNames" :key="fileName">
+                                <v-chip
+                                size="small"
+                                label
+                                color="primary"
+                                >
+                                {{ fileName }}
+                            </v-chip>
+                        </template>
+                    </template>
+                </v-file-input>
+                <v-file-input
+                        rounded="lg"
+                        accept=".csv"
+                        persistent-hint
+                        variant="outlined"
+                        color="primary"
+                        v-if="file_type=='لیست لایسنس‌ها'"
+                        @change="handleCsvUpload"
+                        v-model="file"
+                        placeholder="اضافه لیست"
+                        label="لیست محصول"
+                        >
+                        <template v-slot:prepend>
+                            <FileImportIcon style="margin-left: -20px;" class="  text-grey" />
+                        </template>
+                        <template v-slot:selection="{ fileNames }">
+                                <template v-for="fileName in fileNames" :key="fileName">
+                                    <v-chip
+                                    size="small"
+                                    label
+                                    color="primary"
+                                    >
+                                    {{ fileName }}
+                                </v-chip>
+                            </template>
+                        </template>
+                </v-file-input>
+                <v-table
+                v-if="csvData.length!=0"
+                fixed-header
+                height="300px"
+                dense>
+                    <thead>
+                        <tr>
+                            <th v-for="(header, index) in tableHeaders" :key="index" class="text-left">
+                            {{ header }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="row in csvData" :key="row.id">
+                            <td v-for="(value, key) in row" :key="key">{{ value }}</td>
+                            <td class="text-center">
+                                <v-avatar 
+                                    small 
+                                    color="red" 
+                                    @click="deleteRow(index)"
+                                    variant="tonal">
+                                    <TrashIcon class="text-red"/>
+                                </v-avatar>
+                            </td>
+                        </tr>
+                    </tbody>
+                </v-table>
+                <v-alert
+                    v-if="file_type=='لیست لایسنس‌ها'"
+                    class="mt-2 rounded-lg"
+                    title="نکته"
+                    text="برای ثبت لایسنس‌های خود، لطفاً فایل CSV را با دقت تکمیل کنید. هر ردیف فایل باید حاوی اطلاعات یک لایسنس باشد. پس از تکمیل، فایل خود را در بخش مربوطه در وب‌سایت آپلود کنید تا لایسنس‌های شما به سرعت و به طور موثر ثبت شوند."
+                ></v-alert>
                 <v-checkbox v-model="discount" @click="discount == false? value=0:''" color="primary" label="دارای تخفیف">
                 </v-checkbox>
 
@@ -77,7 +170,7 @@
                 <v-slider v-if="discount" label="درصد تخفیف" variant="outlined" color="primary" class="mt-5" v-model="value"
                     :min="0" :max="100" :step="1" thumb-label></v-slider>
             </v-slide-y-transition>
-            <v-btn rounded="lg" persistent-hint variant="flat" color="primary" :disabled="loadingImage"
+            <v-btn rounded="lg" persistent-hint variant="flat" color="primary" :disabled="loadingImage || imageIds.length==0"
                 class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
                 ثبت
             </v-btn>
@@ -90,9 +183,10 @@ import TextEditor from '@/components/shared/TextEditor.vue';
 import axios from 'axios';
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
+import AddCategories from '@/components/section/product/AddCategories.vue';
 
 export default {
-    components: { PhotoIcon, VideoIcon, CheckboxIcon, TrashIcon, TextEditor },
+    components: { PhotoIcon, VideoIcon, CheckboxIcon, TrashIcon, TextEditor, AddCategories },
     computed:{
         address(){
             return apiStore().address
@@ -101,25 +195,66 @@ export default {
     data: () => ({
         price: 0,
         title: null,
+        csvData: [],
+        formattedDate:[],
         description: null,
-        discount: false,
         images: [],
-        imageUrl: [],
-        video: null,
-        value: 0,
-        imageIds: [],
-        loadingImage: false,
-        imagePreviews: [],
+        imageIds : [],
+        loadingImage:false,
+        imagePreviews: [], 
         categories: [],
         selectedCategories: [],
+        file_type : null,
+        tab: null,
+        discount: false,
+        images: [],
+        file: null,
+        value: 0,
+        body: '',
+        editorOptions: {
+            theme: "snow",
+            rules: [
+                files => !files || !files.some(file => file.size > 2_097_152) || 'Avatar size should be less than 2 MB!'
+            ],
+        }
     }),
+    computed: {
+        tableHeaders() {
+        return this.csvData.length > 0 ? Object.keys(this.csvData[0]) : [];
+        }
+    },
     mounted() {
         this.fetchCategories();
         this.getData()
     },
     methods: {
         handleTextChange(newText) {
-            this.description = newText;
+          this.body = newText;
+        },
+        deleteRow(index) {
+            this.csvData.splice(index, 1);
+        },
+        handleCsvUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.readAsText(file, 'UTF-8');
+                reader.onload = (e) => {
+                    Papa.parse(e.target.result, {
+                        complete: (result) => {
+                            this.csvData = result.data;
+                        },
+                        header: true,
+                        skipEmptyLines: true,
+                        error: (error) => {
+                            console.error('Error parsing CSV:', error);
+                        }
+                    });
+                };
+                reader.onerror = (error) => {
+                    console.error('Error reading file:', error);
+                };
+            }
         },
         async fetchCategories() {
             try {
@@ -182,13 +317,13 @@ export default {
             formDic['price'] = this.price
             formDic['discount'] = this.value
 
-            axios.put(`${apiStore().address}/api/product/admin/product-retrieve-update-destroy/${this.$route.params.id}/`, formDic, {
+            axios.put(`${apiStore().address}/api/product/admin/digital-product-retrieve-update-destroy/${this.$route.params.id}/`, formDic, {
                 headers: {
                     Authorization: `Token ${useUserStore().userToken}`
                 },
             })
                 .then(response => {
-                    this.$router.push(`/products`);
+                    this.$router.push(`/digital_products`);
                     // handle success
                     console.log(response.data);
                 })
@@ -213,10 +348,7 @@ export default {
 
                     this.imageIds.push(element)
                 });
-                response.data.image.forEach(element => {
-
-                    this.imageUrl.push(element)
-                });
+                console.log('images', this.imageIds);
                 this.selectedCategories = response.data.category
            
                 console.log(this.categories);
