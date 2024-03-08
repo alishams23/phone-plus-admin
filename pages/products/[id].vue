@@ -51,7 +51,7 @@
                      
                         <template v-for="(preview, index) in imageUrl" :key="index">
 
-                            <v-img :src="address + '/api/product/product-image/'+preview+'/ '" class="chip-image-preview"><v-avatar size="30" class="ma-3"
+                            <v-img :src="address + '/api/product/product-image/'+preview.id+'/ '" class="chip-image-preview"><v-avatar size="30" class="ma-3"
                                 @click="imageIds.splice(imageIds.indexOf(preview), 1); imageUrl.splice(index, 1)"
                                 color="red-darken-2" icon="">
                                 <TrashIcon size="15" />
@@ -68,16 +68,47 @@
                 variant="outlined"
                 color="primary"
                 class="mt-10"/>
-                <v-checkbox v-model="discount" @click="discount == false? value=0:''" color="primary" label="دارای تخفیف">
-                </v-checkbox>
-
+               
+                <v-expansion-panels rounded="xl" class="mb-10 mt-5  ">
+                    <v-expansion-panel elevation="0">
+                        <v-expansion-panel-title color="grey-lighten-4" class=" ">
+                            <div class="d-flex w-100 justify-space-between align-center">
+                                <div>
+                                    ویژگی های محصول
+                                </div>
+                                <div class="font-weight-bold">
+                                    +
+                                </div>
+                            </div>
+    
+                        </v-expansion-panel-title>
+                        <v-expansion-panel-text>
+                            <AddSpecification :data="list_specification"
+                                @change="(data) => { list_color = list_specification }" />
+                        </v-expansion-panel-text>
+                    </v-expansion-panel>
+                    <v-expansion-panel elevation="0">
+                        <v-expansion-panel-title color="grey-lighten-4" class="">
+                            <div class="d-flex w-100 justify-space-between  align-center">
+                                <div>
+                                    افزودن رنگ
+                                </div>
+                                <div class="font-weight-bold">
+                                    +
+                                </div>
+                            </div>
+                        </v-expansion-panel-title>
+                        <v-expansion-panel-text class="border-b ">
+                            <AddColor :data="list_color" @change="(data) => { list_color = data }" />
+                        </v-expansion-panel-text>
+    
+                    </v-expansion-panel>
+                </v-expansion-panels>
             </v-locale-provider>
+            <AddDiscount :value="value" @change="(data) => { value = data }" />
 
-            <v-slide-y-transition>
-                <v-slider v-if="discount" label="درصد تخفیف" variant="outlined" color="primary" class="mt-5" v-model="value"
-                    :min="0" :max="100" :step="1" thumb-label></v-slider>
-            </v-slide-y-transition>
-            <v-btn rounded="lg" persistent-hint variant="flat" color="primary" :disabled="loadingImage"
+           
+            <v-btn rounded="lg" persistent-hint variant="flat" color="primary" :disabled="loadingImage || list_color.length == 0"
                 class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
                 ثبت
             </v-btn>
@@ -90,9 +121,16 @@ import TextEditor from '@/components/shared/TextEditor.vue';
 import axios from 'axios';
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
+import AddCategories from '@/components/section/product/AddCategories.vue';
+import AddColor from '@/components/section/product/AddColor.vue';
+import AddSpecification from '@/components/section/product/AddSpecification.vue';
+import AddDiscount from '@/components/section/product/AddDiscount.vue';
 
 export default {
-    components: { PhotoIcon, VideoIcon, CheckboxIcon, TrashIcon, TextEditor },
+    components: { PhotoIcon, VideoIcon, CheckboxIcon, TrashIcon, TextEditor ,AddCategories,
+AddColor,
+AddSpecification,
+AddDiscount},
     computed:{
         address(){
             return apiStore().address
@@ -110,31 +148,20 @@ export default {
         imageIds: [],
         loadingImage: false,
         imagePreviews: [],
-        categories: [],
+        categories : [],
         selectedCategories: [],
+        list_specification: [],
+        list_color: [],
     }),
     mounted() {
-        this.fetchCategories();
+
         this.getData()
     },
     methods: {
         handleTextChange(newText) {
             this.description = newText;
         },
-        async fetchCategories() {
-            try {
-                const userToken = useUserStore().userToken; // Get the token from your user store
-                const response = await axios.get(`${apiStore().address}/api/product/ListCategories/`, {
-                    headers: {
-                        Authorization: `Token ${userToken}`
-                    }
-                });
-                this.categories = response.data; // Assuming the API returns an array
-                console.log('categories', this.categories);
-            } catch (error) {
-                console.error('Error fetching categories:', error);
-            }
-        },
+  
         async sendDataFunc() {
             if (this.images && this.images.length) {
                 this.images.forEach((file, index) => {
@@ -219,9 +246,10 @@ export default {
                 });
                 this.selectedCategories = response.data.category
            
-                console.log(this.categories);
                 this.price = response.data.price
                 this.value = response.data.discount
+                 this.list_specification = response.data.Specification
+                this.list_color = response.data.colors
                 if (response.data.discount) this.discount = true
 
             }

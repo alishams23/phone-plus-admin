@@ -51,13 +51,25 @@
                     </v-card-item>
 
                     <v-card-actions class="mt-auto mr-auto px-10">
-                      <v-btn class="px-10 ml-4" variant="flat" :to="'/products/' + product.id" rounded="xl" size="small"
-                        color="primary">
-                        ویرایش
-                        <template v-slot:append>
-                          <PencilIcon size="15" />
+                      <v-dialog width="900" >
+                        <template v-slot:activator="{ props: activatorProps }">
+                          <div class="ma-4">
+                            <v-btn class="px-10 ml-4" v-bind="activatorProps" variant="flat" rounded="xl" size="small"
+                            color="primary">
+                            ویرایش
+                            <template v-slot:append>
+                              <PencilIcon size="15" />
+                            </template>
+                          </v-btn>
+                          </div>
                         </template>
-                      </v-btn>
+                        <template v-slot:default="{ isActive }">
+                          <v-card class="px-3 px-md-15 rounded-lg my-20 " title="">
+                            <AddProduct :id="product.id" @close="open = false; searchData()" />
+                          </v-card>
+                        </template>
+                      </v-dialog>
+                    
                       <v-avatar size="30" variant="tonal" @click="removeItem(product.id)" color="red-darken-2" icon="">
                         <TrashIcon size="15" />
                       </v-avatar>

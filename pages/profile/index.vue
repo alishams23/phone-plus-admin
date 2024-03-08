@@ -55,21 +55,7 @@
       </v-tabs>
   
       <v-card-text>
-        <v-window v-model="tab">
-          <v-window-item value="one">
-            <ProductCards />
-          </v-window-item>
-          
-          <v-window-item value="two">
-            <physicalProductsCard />
-            <ProductCards />
-          </v-window-item>
-          
-          <v-window-item value="three">
-            <learningsCard />
-            <ProductCards />
-          </v-window-item>
-        </v-window>
+      
       </v-card-text>
     </v-card>
 
@@ -79,7 +65,6 @@
 <script>
 
 /*Call Components*/
-import ProductCards from '~/components/dashboard/ProductCards.vue';
 import learningsCard from '~/components/dashboard/LearningsCards.vue';
 import physicalProductsCard from '~/components/dashboard/PhysicalProductsCards.vue';
 import { BrandInstagramIcon, BrandTelegramIcon } from 'vue-tabler-icons';

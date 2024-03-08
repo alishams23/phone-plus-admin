@@ -1,4 +1,5 @@
 <template>
+
     <form @submit.prevent="sendData">
         <v-locale-provider rtl>
             <v-text-field label="نام محصول" v-model="title" rounded="lg" required persistent-hint variant="outlined"
@@ -8,15 +9,17 @@
                 توضیحات محصول
             </div>
         </v-locale-provider>
+        
         <TextEditor @update="handleTextChange"></TextEditor>
         <v-locale-provider rtl>
             <v-row class="mt-10 mb-5">
                 <v-col cols="12" md="6">
-                    <v-text-field label="قیمت محصول" v-model="price" required rounded="lg" type="number" persistent-hint
-                        variant="outlined" color="primary" />
+                    <v-text-field label="قیمت محصول" v-model="price" min="1" required rounded="lg" type="number"
+                        persistent-hint variant="outlined" color="primary" />
                 </v-col>
                 <v-col cols="12" md="6">
-                    <AddCategories @change="(data) => {selectedCategories = data }" :selected="selectedCategories" url="/api/product/admin/category-list-create/" url-create="/api/product/admin/category-list-create/" />
+                    <AddCategories @change="(data) => { selectedCategories = data }" :selected="selectedCategories"
+                        url="/api/product/admin/category-product-list-create/" />
                 </v-col>
             </v-row>
 
@@ -40,12 +43,27 @@
                     <img :src="preview" class="chip-image-preview" />
                 </template>
             </div>
+            <div class="image-preview-container">
+
+                <template v-for="(preview, index) in imageUrl" :key="index">
+
+                    <v-img :src="address + '/api/product/product-image/' + (preview.id ? preview.id : preview) + '/ '"
+                        class="chip-image-preview">
+
+                        <v-avatar size="30" class="ma-3"
+                            @click="imageIds.splice(imageIds.indexOf(preview), 1); imageUrl.splice(index, 1)"
+                            color="red-darken-2" icon="">
+
+                            <TrashIcon size="15" />
+                        </v-avatar></v-img>
+                </template>
+
+            </div>
             <v-text-field label="کد آی‌فریم ویدیو محصول" v-model="video" rounded="lg" variant="outlined" color="primary"
                 class="mt-10" />
-
-            <v-expansion-panels rounded="xl" class="mb-10 mt-5">
+            <v-expansion-panels rounded="xl" class="mb-10 mt-5  ">
                 <v-expansion-panel elevation="0">
-                    <v-expansion-panel-title color="grey-lighten-4 rounded-lg">
+                    <v-expansion-panel-title color="grey-lighten-4" class=" ">
                         <div class="d-flex w-100 justify-space-between align-center">
                             <div>
                                 ویژگی های محصول
@@ -57,86 +75,73 @@
 
                     </v-expansion-panel-title>
                     <v-expansion-panel-text>
-                        <v-row>
-                            <v-col cols="12" md="6">
-                                <v-text-field label="عنوان ویژگی" rounded="lg" v-model="title_specification"
-                                    variant="outlined" color="primary" class="mt-10" />
-                            </v-col>
-                            <v-col cols="12" md="6" class="d-flex align-center justify-center">
-                                <v-text-field label="مقدار ویژگی" rounded="lg" v-model="body_specification"
-                                    variant="outlined" color="primary" class="mt-10" />
-                                <v-btn @click="createSpecification" :loading="loadingSpecification" icon="" class="mt-4 mx-3" color="primary"
-                                    variant="flat" size="small">
-                                    <CheckIcon />
-                                </v-btn>
-                            </v-col>
-                        </v-row>
-
-                        <v-row v-for="data in list_specification" align="center">
-                            <v-col>عنوان : {{data.title}}</v-col>
-                            <v-col class="d-flex justify-space-between align-center">
-                                <div>
-                                    مقدار : {{data.body}}
-                                </div>
-                                <v-btn
-                                @click="list_specification.splice(data, 1)"
-                                icon="" variant="tonal" class="mx-3" elevation="0" color="red" size="small" >
-                                    <TrashIcon/>
-                            </v-btn>
-                            </v-col>
-                         
-                            
-                        </v-row>
+                        <AddSpecification :data="list_specification"
+                            @change="(data) => { list_color = list_specification }" />
+                    </v-expansion-panel-text>
+                </v-expansion-panel>
+                <v-expansion-panel elevation="0">
+                    <v-expansion-panel-title color="grey-lighten-4" class="">
+                        <div class="d-flex w-100 justify-space-between  align-center">
+                            <div>
+                                افزودن رنگ
+                            </div>
+                            <div class="font-weight-bold">
+                                +
+                            </div>
+                        </div>
+                    </v-expansion-panel-title>
+                    <v-expansion-panel-text class="border-b ">
+                        <AddColor :data="list_color" @change="(data) => { list_color = data }" />
                     </v-expansion-panel-text>
 
                 </v-expansion-panel>
             </v-expansion-panels>
-
-            <v-checkbox @click="discount == false ? value = 0 : ''" v-model="discount" color="primary" label="دارای تخفیف">
-            </v-checkbox>
-
         </v-locale-provider>
-
-        <v-slide-y-transition>
-            <v-slider v-if="discount" label="درصد تخفیف" variant="outlined" color="primary" class="mt-5" v-model="value"
-                :min="0" :max="100" :step="1" thumb-label></v-slider>
-        </v-slide-y-transition>
-
-        <v-btn rounded="lg"  persistent-hint variant="flat" color="primary" :disabled="loadingImage"
-            class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
+        <AddDiscount :value="value" @change="(data) => { value = data }" />
+        <v-btn rounded="lg" persistent-hint variant="flat" color="primary"
+            :disabled="loadingImage || list_color.length == 0" class="mx-2 px-10 text-body2 font-weight-bold mb-5"
+            type="submit">
             ثبت
         </v-btn>
     </form>
 </template>
 <script>
-import { PhotoIcon, VideoIcon, CheckboxIcon,TrashIcon, CheckIcon } from 'vue-tabler-icons';
+import { PhotoIcon, VideoIcon, CheckboxIcon, TrashIcon, CheckIcon } from 'vue-tabler-icons';
 import TextEditor from '@/components/shared/TextEditor.vue';
 import AddCategories from '@/components/section/product/AddCategories.vue';
+import AddColor from '@/components/section/product/AddColor.vue';
+import AddSpecification from '@/components/section/product/AddSpecification.vue';
+import AddDiscount from '@/components/section/product/AddDiscount.vue';
 import axios from 'axios';
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 
 export default {
-    components: { PhotoIcon, VideoIcon, CheckIcon,TrashIcon, CheckboxIcon, TextEditor,AddCategories },
-
+    components: { PhotoIcon, VideoIcon, CheckIcon, TrashIcon, CheckboxIcon, TextEditor, AddCategories, AddColor, AddSpecification, AddDiscount },
+    props: ['id'],
+    computed: {
+        address() {
+            return apiStore().address
+        }
+    },
     data: () => ({
         price: 0,
         title: null,
         description: null,
-        discount: false,
         images: [],
         video: null,
+        imageUrl: [],
         value: 0,
         imageIds: [],
         loadingImage: false,
         imagePreviews: [],
         selectedCategories: [],
-        loadingSpecification: false,
-        title_specification: null,
-        body_specification: null,
         list_specification: [],
+        list_color: [],
     }),
-
+    mounted() {
+        this.id != null ? this.getData() : ''
+    },
     methods: {
         handleTextChange(newText) {
             this.description = newText;
@@ -177,37 +182,16 @@ export default {
             this.sendDataFunc();
             this.loadingImage = false;
         },
-        async createSpecification() {
-            this.loadingSpecification = true
-            axios.post(`${apiStore().address}/api/product/admin/specification-list-create/`,
-                {
-                    title: this.title_specification,
-                    body: this.body_specification
-                }, {
-                headers: {
-                    "Content-type": "application/json",
-                    Authorization: `Token ${useUserStore().userToken}`
-                },
-            })
-                .then(response => {
-                    this.loadingSpecification = false
-                    this.list_specification.push({
-                        title: this.title_specification,
-                        body: this.body_specification,
-                        id:response.data.id
-                    })
-
-                })
-                .catch(error => {
-                    // handle error
-                    console.error('Error:', error);
-                });
-        },
         async sendData() {
             let list_specification_id = []
+            let list_color_id = []
             this.list_specification.forEach(element => {
                 list_specification_id.push(element.id)
             });
+            this.list_color.forEach(element => {
+                list_color_id.push(element.id)
+            });
+
             console.log(this.selectedCategories)
             let formDic = {}
             formDic['category'] = this.selectedCategories
@@ -218,21 +202,57 @@ export default {
             formDic['price'] = this.price
             formDic['discount'] = this.value
             formDic['Specification'] = list_specification_id
-
-            axios.post(`${apiStore().address}/api/product/admin/add-product/`, formDic, {
-                headers: {
+            formDic['colors'] = list_color_id
+            let header = {headers: {
                     "Content-type": "application/json",
                     Authorization: `Token ${useUserStore().userToken}`
-                },
-            })
-                .then(response => {
-
-                    this.$emit('close')
-                })
-                .catch(error => {
+                },}
+            let url = this.id != null ? `/api/product/admin/product-retrieve-update-destroy/${this.id}/` : '/api/product/admin/add-product/'
+            if(this.id != null ){
+                await  axios.put(`${apiStore().address}${url}`, formDic, header).catch(error => {
                     // handle error
                     console.error('Error:', error);
                 });
+
+            }  else {
+                await  axios.post(`${apiStore().address}${url}`, formDic, header).catch(error => {
+                    // handle error
+                    console.error('Error:', error);
+                });
+
+            }
+            this.$emit('close')
+        },
+        getData() {
+            axios.get(`${apiStore().address}/api/product/admin/product-retrieve-update-destroy/${this.id}/`, {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: `Token ${useUserStore().userToken}`
+                },
+            }).then((response) => {
+
+                this.loadingData = false
+                this.description = response.data.description
+                this.title = response.data.title
+                this.video = response.data.video
+                response.data.image.forEach(element => {
+
+                    this.imageIds.push(element.id)
+                });
+                response.data.image.forEach(element => {
+
+                    this.imageUrl.push(element.id)
+                });
+                this.selectedCategories = response.data.category
+
+                this.price = response.data.price
+                this.value = response.data.discount
+                this.list_specification = response.data.Specification
+                this.list_color = response.data.colors != null ? response.data.colors  : []
+                if (response.data.discount) this.discount = true
+
+            }
+            )
         },
     }
 };
