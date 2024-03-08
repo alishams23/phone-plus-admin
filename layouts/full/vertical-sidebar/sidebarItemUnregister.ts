@@ -30,7 +30,7 @@ const sidebarItemUnregister: menu[] = [
     },
     {
         title: 'خروج',
-        icon: ScanEyeIcon,
+        icon: LogoutIcon,
         to: '/auth/logOut'
     },
    
