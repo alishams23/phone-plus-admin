@@ -1,4 +1,5 @@
 <template>
+    {{ transformedData }}
     <div>
         <form @submit.prevent="sendData">
             <v-locale-provider rtl>
@@ -178,7 +179,7 @@ export default {
         },
         transformCSVData(data) {
             return data.map(row => {
-                return Object.keys(row).map(key => ({ header: key, body: row[key] }))
+                return Object.keys(row).map(key => ({ title: key, body: row[key] }))
             })
         },
         async fetchCategories() {
@@ -238,20 +239,21 @@ export default {
             formDic['category'] = this.selectedCategories
             formDic['image'] = this.imageIds
             formDic['title'] = this.title
-            formDic['file'] = this.file
-            formDic['list_subsets'] = this.formattedDate
+            if(this.file != null)  formDic['file'] = this.file
+            formDic['subsets_data'] = this.transformedData
             formDic['description'] = this.description
             formDic['price'] = this.price
             formDic['discount'] = this.value
 
             axios.post(`${apiStore().address}/api/product/admin/digital-product-list-create/`, formDic, {
                 headers: {
-                    "Content-type": "application/json",
+                    'Content-Type': 'multipart/form-data',
                     Authorization: `Token ${useUserStore().userToken}`
                 },
             })
                 .then(response => {
-                    console.log('send Data', response);
+
+                    console.log('send Data', this.transformedData);
                     // this.$emit('close')
                 })
                 .catch(error => {

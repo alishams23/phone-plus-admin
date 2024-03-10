@@ -23,7 +23,8 @@
           </v-avatar>
           <div class=" px-5 font-weight-bold text-h4">
             خدمات
-          </div> 
+          </div>
+          <!-- {{ data }}  -->
       </v-col>
     </v-row>
     <v-row>
@@ -33,8 +34,7 @@
         <v-card
         elevation="10"
         rounded="lg"
-        class="my-5 rtl mx-3"
-      >
+        class="my-5 rtl mx-3">
           <div class="d-flex flex-no-wrap justify-space-between">
               <div class="pa-5 d-flex align-start flex-column ">
                 <v-card-title class="text-h5 font-weight-bold">

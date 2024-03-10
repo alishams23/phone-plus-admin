@@ -53,10 +53,10 @@
                     </div>
                     <div class="image-preview-container">
                      
-                        <template v-for="(preview, index) in imageUrl" :key="index">
-
-                            <v-img :src="address + '/api/product/product-image/'+preview+'/ '" class="chip-image-preview"><v-avatar size="30" class="ma-3"
-                                @click="imageIds.splice(imageIds.indexOf(preview), 1); imageUrl.splice(index, 1)"
+                        <template v-for="(preview, index) in imageIds" :key="index">
+                          
+                            <v-img :src="address + '/api/product/product-image/'+preview.id+'/ '" class="chip-image-preview"><v-avatar size="30" class="ma-3"
+                                @click="imageIds.splice(imageIds.indexOf(preview), 1); imageIds.splice(index, 1)"
                                 color="red-darken-2" icon="">
                                 <TrashIcon size="15" />
                             </v-avatar></v-img>
@@ -66,12 +66,11 @@
 
                 <v-combobox
                     rounded="lg"
-                    accept=".zip,.rar"
                     persistent-hint
                     variant="outlined"
                     color="primary"
-                    v-model="file_type"
-                    label="انتخاب نوع فایل"
+                    disabled
+                    :label="get_file? 'فایل زیپ' : 'لیست لایسنس‌ها'"
                     :items="['لیست لایسنس‌ها', 'فایل زیپ']"
                 ></v-combobox>
 
@@ -81,7 +80,7 @@
                     persistent-hint
                     variant="outlined"
                     color="primary"
-                    v-if="file_type=='فایل زیپ'"
+                    v-if="get_file"
                     v-model="file"
                     placeholder="اضافه کردن فایل"
                     label="فایل محصول"
@@ -107,7 +106,7 @@
                         persistent-hint
                         variant="outlined"
                         color="primary"
-                        v-if="file_type=='لیست لایسنس‌ها'"
+                        v-if="get_file==null"
                         @change="handleCsvUpload"
                         v-model="file"
                         placeholder="اضافه لیست"
@@ -128,33 +127,29 @@
                             </template>
                         </template>
                 </v-file-input>
-                <v-table
-                v-if="csvData.length!=0"
-                fixed-header
-                height="300px"
-                dense>
-                    <thead>
-                        <tr>
-                            <th v-for="(header, index) in tableHeaders" :key="index" class="text-left">
-                            {{ header }}
-                            </th>
-                        </tr>
-                    </thead>
+                <v-table height="300px" fixed-header>
                     <tbody>
-                        <tr v-for="row in csvData" :key="row.id">
-                            <td v-for="(value, key) in row" :key="key">{{ value }}</td>
-                            <td class="text-center">
-                                <v-avatar 
-                                    small 
-                                    color="red" 
-                                    @click="deleteRow(index)"
-                                    variant="tonal">
-                                    <TrashIcon class="text-red"/>
-                                </v-avatar>
-                            </td>
+                        <tr v-for="items in transformedData" :key="items">
+                            <td v-for="item in items">{{ item.title }} : {{ item.body }}</td>
+                            <v-btn class="mt-2" icon="" color="red" variant="tonal" size="small"
+                                @click="transformedData.splice(transformedData.indexOf(items), 1)">
+                                <TrashIcon size="18" />
+                            </v-btn>
                         </tr>
                     </tbody>
                 </v-table>
+                <v-table height="300px" fixed-header>
+                    <tbody>
+                        <tr v-for="items in subset_product" :key="items">
+                            <td v-for="item in items.data">{{ item.title }} : {{ item.body }}</td>
+                            <v-btn class="mt-2" icon="" color="red" variant="tonal" size="small"
+                                @click="subset_product.splice(subset_product.indexOf(items), 1)">
+                                <TrashIcon size="18" />
+                            </v-btn>
+                        </tr>
+                    </tbody>
+                </v-table>
+                
                 <v-alert
                     v-if="file_type=='لیست لایسنس‌ها'"
                     class="mt-2 rounded-lg"
@@ -178,6 +173,7 @@
     </v-container>
 </template>
 <script>
+import Papa from 'papaparse';
 import { PhotoIcon, VideoIcon, CheckboxIcon, TrashIcon } from 'vue-tabler-icons';
 import TextEditor from '@/components/shared/TextEditor.vue';
 import axios from 'axios';
@@ -185,18 +181,28 @@ import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 import AddCategories from '@/components/section/product/AddCategories.vue';
 
-export default {
+export default {    
     components: { PhotoIcon, VideoIcon, CheckboxIcon, TrashIcon, TextEditor, AddCategories },
     computed:{
         address(){
             return apiStore().address
-        }
+        },
+        tableHeaders() {
+            return this.csvData.length > 0 ? Object.keys(this.csvData[0]) : [];
+        },
+        tableHeadersGetData() {
+            if (this.subset_product){
+                return this.subset_product.length > 0 ? Object.keys(this.subset_product.data) : [];
+            }
+        },
+
     },
     data: () => ({
         price: 0,
         title: null,
         csvData: [],
         formattedDate:[],
+        transformedData: [],    
         description: null,
         images: [],
         imageIds : [],
@@ -205,9 +211,11 @@ export default {
         categories: [],
         selectedCategories: [],
         file_type : null,
+        subset_product : null,
         tab: null,
         discount: false,
         images: [],
+        get_file: null,
         file: null,
         value: 0,
         body: '',
@@ -218,11 +226,7 @@ export default {
             ],
         }
     }),
-    computed: {
-        tableHeaders() {
-        return this.csvData.length > 0 ? Object.keys(this.csvData[0]) : [];
-        }
-    },
+
     mounted() {
         this.fetchCategories();
         this.getData()
@@ -235,26 +239,34 @@ export default {
             this.csvData.splice(index, 1);
         },
         handleCsvUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.readAsText(file, 'UTF-8');
-                reader.onload = (e) => {
-                    Papa.parse(e.target.result, {
-                        complete: (result) => {
-                            this.csvData = result.data;
-                        },
-                        header: true,
-                        skipEmptyLines: true,
-                        error: (error) => {
-                            console.error('Error parsing CSV:', error);
-                        }
-                    });
-                };
-                reader.onerror = (error) => {
-                    console.error('Error reading file:', error);
-                };
-            }
+            // Ensure a file was selected
+            if (!event.target.files || event.target.files.length === 0) return;
+
+            const file = event.target.files[0]; // Get the first file
+
+            // Use FileReader to read the file
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const content = e.target.result;
+
+                // Parse the CSV content
+                Papa.parse(content, {
+                    complete: (results) => {
+                        this.csvData = results.data; // Assuming you want to store the raw data
+                        this.transformedData = this.transformCSVData(results.data);
+                        console.log(this.transformedData);
+                        // Here you can update your data properties or methods as needed
+                    },
+                    header: true // This will use the first row as headers
+                });
+            };
+            reader.readAsText(file);
+        },
+        
+        transformCSVData(data) {
+            return data.map(row => {
+                return Object.keys(row).map(key => ({ title: key, body: row[key] }))
+            })
         },
         async fetchCategories() {
             try {
@@ -354,6 +366,8 @@ export default {
                 console.log(this.categories);
                 this.price = response.data.price
                 this.value = response.data.discount
+                this.get_file = response.data.file
+                this.subset_product = response.data.subset_product
                 if (response.data.discount) this.discount = true
 
             }
