@@ -2,6 +2,7 @@
     <v-container>
 
         <form @submit.prevent="sendData" class="px-md-10">
+        {{ imageIds }}
             <v-locale-provider rtl>
                 <v-text-field label="نام محصول" v-model="title" rounded="lg" required persistent-hint variant="outlined"
                     color="primary" class="mt-10" />
@@ -55,7 +56,7 @@
                      
                         <template v-for="(preview, index) in imageIds" :key="index">
                           
-                            <v-img :src="address + '/api/product/product-image/'+preview.id+'/ '" class="chip-image-preview"><v-avatar size="30" class="ma-3"
+                            <v-img :src="address + '/api/product/product-image/'+preview+'/ '" class="chip-image-preview"><v-avatar size="30" class="ma-3"
                                 @click="imageIds.splice(imageIds.indexOf(preview), 1); imageIds.splice(index, 1)"
                                 color="red-darken-2" icon="">
                                 <TrashIcon size="15" />
@@ -127,10 +128,10 @@
                             </template>
                         </template>
                 </v-file-input>
-                <v-table height="300px" fixed-header>
+                <v-table  fixed-header>
                     <tbody>
                         <tr v-for="items in transformedData" :key="items">
-                            <td v-for="item in items">{{ item.title }} : {{ item.body }}</td>
+                            <td class="bg-grey-lighten-5 rounded-pill text-center" v-for="item in items">{{ item.title }} : {{ item.body }}</td>
                             <v-btn class="mt-2" icon="" color="red" variant="tonal" size="small"
                                 @click="transformedData.splice(transformedData.indexOf(items), 1)">
                                 <TrashIcon size="18" />
@@ -138,10 +139,10 @@
                         </tr>
                     </tbody>
                 </v-table>
-                <v-table height="300px" fixed-header>
+                <v-table  fixed-header>
                     <tbody>
-                        <tr v-for="items in subset_product" :key="items">
-                            <td v-for="item in items.data">{{ item.title }} : {{ item.body }}</td>
+                        <tr v-for="items in subset_product" :key="items" class="" >
+                            <td class="bg-red-lighten-5 rounded-pill text-center" v-for="item in items.data">{{ item.title }} : {{ item.body }}</td>
                             <v-btn class="mt-2" icon="" color="red" variant="tonal" size="small"
                                 @click="subset_product.splice(subset_product.indexOf(items), 1)">
                                 <TrashIcon size="18" />
@@ -228,7 +229,7 @@ export default {
     }),
 
     mounted() {
-        this.fetchCategories();
+    
         this.getData()
     },
     methods: {
@@ -268,20 +269,7 @@ export default {
                 return Object.keys(row).map(key => ({ title: key, body: row[key] }))
             })
         },
-        async fetchCategories() {
-            try {
-                const userToken = useUserStore().userToken; // Get the token from your user store
-                const response = await axios.get(`${apiStore().address}/api/product/ListCategories/`, {
-                    headers: {
-                        Authorization: `Token ${userToken}`
-                    }
-                });
-                this.categories = response.data; // Assuming the API returns an array
-                console.log('categories', this.categories);
-            } catch (error) {
-                console.error('Error fetching categories:', error);
-            }
-        },
+     
         async sendDataFunc() {
             if (this.images && this.images.length) {
                 this.images.forEach((file, index) => {
@@ -319,18 +307,25 @@ export default {
             this.loadingImage = false;
         },
         async sendData() {
+            let subset = []
+            this.subset_product.forEach((element) => {
+                subset.push(element.id)
+            })
             console.log(this.selectedCategories)
             let formDic = {}
-            formDic['category'] = this.selectedCategories
+            console.log(this.imageIds)
             formDic['image'] = this.imageIds
-            formDic['video'] = this.video
             formDic['title'] = this.title
+            if(this.file != null)  formDic['file'] = this.file
+            formDic['subsets_data'] = this.transformedData
+            formDic['subset_product'] = subset
             formDic['description'] = this.description
             formDic['price'] = this.price
             formDic['discount'] = this.value
 
             axios.put(`${apiStore().address}/api/product/admin/digital-product-retrieve-update-destroy/${this.$route.params.id}/`, formDic, {
                 headers: {
+                    'Content-Type': 'multipart/form-data',
                     Authorization: `Token ${useUserStore().userToken}`
                 },
             })
@@ -358,7 +353,7 @@ export default {
                 this.video = response.data.video
                 response.data.image.forEach(element => {
 
-                    this.imageIds.push(element)
+                    this.imageIds.push(element.id)
                 });
                 console.log('images', this.imageIds);
                 this.selectedCategories = response.data.category
