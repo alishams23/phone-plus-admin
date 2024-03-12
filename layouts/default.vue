@@ -9,6 +9,7 @@ import NavGroup from '@/layouts/full/vertical-sidebar/NavGroup/index.vue';
 import NavItem from '@/layouts/full/vertical-sidebar/NavItem/index.vue';
 import ExtraBox from '@/layouts/full/vertical-sidebar/extrabox/ExtraBox.vue';
 import Icon from '@/layouts/full/vertical-sidebar/Icon.vue';
+import Side from '@/components/section/chat/side.vue';
 // import Logo from '@/assets//logo/Logo.vue';
 // Icon Imports
 import { Menu2Icon,SearchIcon,Settings2Icon } from 'vue-tabler-icons';
@@ -17,7 +18,7 @@ import NotificationDD from '@/layouts/full/vertical-header/NotificationDD.vue';
 import ProfileDD from '@/layouts/full/vertical-header/ProfileDD.vue';
 import { useUserStore } from '~/store/user'; 
 export default {
-    components: { Menu2Icon, NavGroup, NavItem, ExtraBox, Icon,Settings2Icon,SearchIcon,NotificationDD ,ProfileDD},
+    components: { Menu2Icon, NavGroup, NavItem, ExtraBox, Icon,Settings2Icon,SearchIcon,NotificationDD ,ProfileDD,Side},
   data (){
     return{
         sidebarMenu :useUserStore().status == 's' ?  shallowRef(sidebarItems) :  shallowRef(sidebarItemUnregister) ,
@@ -114,27 +115,7 @@ export default {
     </v-navigation-drawer>
 
     <v-navigation-drawer  location="right" color="transparent" elevation="0" :class="currentRouteCheck('/chat') ? ' bg-white-important ' : 'curved-white  border-0'"  :temporary="currentRouteCheck('/chat') ? false : true" v-model="chat_drawer" :width="300">
-        <v-text-field class="shadow-none px-3 pt-0 mt-10 border-0" bg-color="grey-lighten-3" base-color="primary" label=" search..."
-            rounded="pill" variant="solo" elevation="0">
-            <template v-slot:append-inner>
-                <v-avatar size="48" color="transparent">
-                    <SearchIcon class="text-primary" />
-                </v-avatar>
-            </template>
-        </v-text-field>
-        <v-list subheader>
-            <v-list-item v-for="item,index in items" :to="'/chat/' + index" :key="item.title" class="py-3 rtl mx-3 rounded-lg my-1">
-                <template v-slot:prepend>
-                    <v-avatar size="50" color="grey-lighten-1">
-                        <v-img :src="item.avatar"></v-img>
-                    </v-avatar>
-                </template>
-                <template v-slot:append>
-                    <v-avatar size="20" class=" text-body-2" color="primary" v-if="item.active"> 1</v-avatar>
-                </template>
-                <v-list-item-title v-text="item.title"></v-list-item-title>
-            </v-list-item>
-        </v-list>
+       <Side/>
     </v-navigation-drawer>
     
     <v-navigation-drawer  color="transparent" elevation="0" :class="currentRouteCheck('/settings') ? 'curved-white  border-0 ' : 'curved-white  border-0'" location="right" :temporary="currentRouteCheck('/settings') ? false : true" v-model="setting_drawer" :width="300">

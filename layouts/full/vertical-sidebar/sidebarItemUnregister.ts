@@ -29,6 +29,11 @@ const sidebarItemUnregister: menu[] = [
         to: '/authentication'
     },
     {
+        title: 'قوانین',
+        icon: ArticleIcon,
+        to: '/terms'
+    },
+    {
         title: 'خروج',
         icon: LogoutIcon,
         to: '/auth/logOut'

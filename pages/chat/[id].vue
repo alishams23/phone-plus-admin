@@ -36,8 +36,6 @@
                 <div class=" font-weight-bold text-h5">آرتا</div>
             </v-app-bar>
             <v-list>
-
-
                 <v-list-item v-for="(item, i) in messages" :key="i" :class="(item.sent ? 'text-right' : '')">
                     <v-card pill v-if="item.sent">
                         <div class="d-flex justify-end align-center">
@@ -47,7 +45,6 @@
                             <v-avatar right>
                                 <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
                             </v-avatar>
-
                         </div>
                     </v-card>
                     <v-card pill v-else>
@@ -58,7 +55,6 @@
                             <div class="bg-grey-lighten-3 mx-3  rounded-bs-0 rounded-pill px-5 py-3">
                                 {{ item.msg }}
                             </div>
-
                         </div>
                     </v-card>
                 </v-list-item>

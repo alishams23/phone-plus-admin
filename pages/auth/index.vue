@@ -296,7 +296,7 @@ export default {
                     // Handle success response
                     console.log(response);
                     const userStore = useUserStore();
-                    userStore.setToken(response.data.token,response.data.username,response.data.status);
+                    userStore.setToken(response.data.token,response.data.username,response.data.username_shop , response.data.status);
                     this.$router.push(`/`);
                     // You can change the dialog page or show a success message here
                 })
@@ -367,7 +367,7 @@ export default {
                 .then(response => {
                     // Handle success response
                     const userStore = useUserStore();
-                    userStore.setToken(response.data.token, response.data.username);
+                    userStore.setToken(response.data.token, response.data.username , null, 'b');
                     this.$emit("close")
                     
                     // You can change the dialog page or show a success message here
