@@ -1,7 +1,6 @@
 <template>
   <v-app height="100%">
     <v-card height="100%" elevation="0">
-
       <v-window v-model="step"   state='login' class=" h-100">
         <v-window-item :value="1" class=" h-100">
           <v-row class="h-100">
@@ -62,7 +61,7 @@
                       <div v-if="isCooldownActive" class="text-indigo-accent-2 d-flex  justify-center pt-5">
                         {{ Math.floor(cooldownTime / 60) }}:{{ ('0' + cooldownTime % 60).slice(-2) }}  تا تلاش مجدد
                       </div>
-                      <div v-else @click="state='login'" class="text-indigo-accent-4 d-flex justify-center cursor-pointer pt-5">
+                      <div v-else @click="sendLoginSms" class="text-indigo-accent-4 d-flex justify-center cursor-pointer pt-5">
                         دریافت مجدد کد
                       </div>
                     </v-col>
@@ -123,7 +122,7 @@
                         </v-row>
                         <v-text-field v-model="phoneNumber" label="شماره تلفن" rounded="lg" persistent-hint variant="outlined" color="primary" />
                     
-                        <v-btn :loading="loading" class="mt-16" size="large" elevation="0" rounded color="primary" dark block tile>ثبت
+                        <v-btn :loading="loading" type="submit"  class="mt-16" size="large" elevation="0" rounded color="primary" dark block tile>ثبت
                           نام</v-btn>                    
                       </v-col>
                     </v-row>
@@ -140,7 +139,7 @@
                         label="کد را وارد کنید" required rounded="lg"
                         persistent-hint variant="outlined"
                           color="primary" class="mt-16" />
-                      <div @click="state='login'"  class="  text-indigo-accent-4 d-flex justify-end pl-3 pt-1 cursor-pointer">
+                      <div @click="state='signup'"  class="  text-indigo-accent-4 d-flex justify-end pl-3 pt-1 cursor-pointer">
                         تغییر شماره  {{ phoneNumber }} 
                       </div>
                         
@@ -164,7 +163,7 @@
                         <div v-if="isCooldownActive" class="text-indigo-accent-2 d-flex  justify-center pt-5">
                           {{ Math.floor(cooldownTime / 60) }}:{{ ('0' + cooldownTime % 60).slice(-2) }}  تا تلاش مجدد
                         </div>
-                        <div v-else @click="state='login'" class="text-indigo-accent-4 d-flex justify-center cursor-pointer pt-5">
+                        <div v-else @click="sendSingUpSms" class="text-indigo-accent-4 d-flex justify-center cursor-pointer pt-5">
                           دریافت مجدد کد
                         </div>
                       </v-col>
@@ -192,6 +191,7 @@ export default {
   data: () => ({
     error: null,
     isCooldownActive: false,
+    cooldownInterval : null,
     cooldownTime: 120, // 2 minutes in seconds
     state: 'login',
     first_name: '',
@@ -226,7 +226,7 @@ export default {
   },
   methods: {
     startCooldown() {
-      const intervalId = setInterval(() => {
+      this.cooldownInterval = setInterval(() => {
         if (this.cooldownTime > 0) {
           // Decrease the cooldown time
           this.cooldownTime -= 1;
@@ -234,7 +234,7 @@ export default {
           // Reset cooldown state and time, then clear interval
           this.isCooldownActive = false;
           this.cooldownTime = 120; // Reset to 2 minutes
-          clearInterval(intervalId);
+          clearInterval(this.cooldownInterval);
         }
       }, 1000); // Update every second
     },
@@ -260,6 +260,8 @@ export default {
                     this.error = null
                     this.loading = false
                     this.isCooldownActive = true;
+                    this.cooldownTime= 120
+                    clearInterval(this.cooldownInterval)
                     this.startCooldown();
 
                     // You can change the dialog page or show a success message here
@@ -314,6 +316,7 @@ export default {
         }
     },
     sendSingUpSms() {
+      console.log('sendSingUpSms' ,this.phoneNumber );
         // Ensure the phone number is not empty
         if (this.phoneNumber) {
             const apiUrl = `${apiStore().address}/api/account/sign-up-sms/`;
@@ -335,6 +338,8 @@ export default {
                     this.state =  'get_code_signup'
                     this.loading = false
                     this.isCooldownActive = true;
+                    this.cooldownTime= 120
+                    clearInterval(this.cooldownInterval)
                     this.startCooldown();
                     // You can change the dialog page or show a success message here
                 })
@@ -368,6 +373,7 @@ export default {
                     // Handle success response
                     const userStore = useUserStore();
                     userStore.setToken(response.data.token, response.data.username , null, 'b');
+                    this.$router.push(`/authentication/`);
                     this.$emit("close")
                     
                     // You can change the dialog page or show a success message here
