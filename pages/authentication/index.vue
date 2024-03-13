@@ -1,16 +1,14 @@
 <template>
     <v-container>
-        <form  @submit.prevent="sendData">
+        <form  @submit.prevent="createData">
             <v-locale-provider rtl>
-
+                {{ profile }}
                 <v-file-input 
                     required
                     rounded="lg" 
                     accept=".png,.jpg" 
                     persistent-hint 
-                    @change="sendImage" 
                     variant="outlined"
-                    :disabled="loadingImage" 
                     color="primary" 
                     v-model="profile" 
                     placeholder="Upload your documents"
@@ -19,14 +17,7 @@
                     <template v-slot:prepend>
                         <PhotoIcon style="margin-left: -20px;" class="text-grey" />
                     </template>
-                    <template v-slot:selection="{ fileNames }">
-                        <template v-for="(preview, index) in imagePreviews" :key="index">
-                            <v-chip class="mx-1" size="small" label color="primary">
-                                {{ fileNames[index] }}
-                            </v-chip>
-
-                        </template>
-                    </template>
+                    
                 </v-file-input>
 
                 <v-text-field 
@@ -38,21 +29,15 @@
                     variant="outlined"
                     color="primary" />
 
-                <v-textarea 
-                    label="بیو"
-                    v-model="shop_bio"
-                    color="primary" 
-                    rounded="lg" 
-                    variant="outlined" />
 
                 <v-file-input  
                     required
                     rounded="lg" 
                     accept=".png,.jpg" 
                     persistent-hint 
-                    @change="sendImage" 
+          
                     variant="outlined"
-                    :disabled="loadingImage" 
+         
                     color="primary" 
                     v-model="N_card" 
                     placeholder="Upload your documents"
@@ -61,14 +46,7 @@
                     <template v-slot:prepend>
                         <PhotoIcon style="margin-left: -20px;" class="text-grey" />
                     </template>
-                    <template v-slot:selection="{ fileNames }">
-                        <template v-for="(preview, index) in imagePreviews" :key="index">
-                            <v-chip class="mx-1" size="small" label color="primary">
-                                {{ fileNames[index] }}
-                            </v-chip>
-
-                        </template>
-                    </template>
+                    
                 </v-file-input>
 
                 <v-file-input 
@@ -76,9 +54,9 @@
                     rounded="lg" 
                     accept=".png,.jpg" 
                     persistent-hint 
-                    @change="sendImage" 
+              
                     variant="outlined"
-                    :disabled="loadingImage" 
+               
                     color="primary" 
                     v-model="N_card_face" 
                     placeholder="Upload your documents"
@@ -87,23 +65,16 @@
                     <template v-slot:prepend>
                         <PhotoIcon style="margin-left: -20px;" class="text-grey" />
                     </template>
-                    <template v-slot:selection="{ fileNames }">
-                        <template v-for="(preview, index) in imagePreviews" :key="index">
-                            <v-chip class="mx-1" size="small" label color="primary">
-                                {{ fileNames[index] }}
-                            </v-chip>
-
-                        </template>
-                    </template>
+                    
                 </v-file-input>
                 
                 <v-file-input 
                     rounded="lg" 
                     accept=".png,.jpg" 
                     persistent-hint 
-                    @change="sendImage" 
+                 
                     variant="outlined"
-                    :disabled="loadingImage" 
+               
                     color="primary" 
                     v-model="shop_card" 
                     placeholder="Upload your documents"
@@ -112,14 +83,7 @@
                     <template v-slot:prepend>
                         <PhotoIcon style="margin-left: -20px;" class="text-grey" />
                     </template>
-                    <template v-slot:selection="{ fileNames }">
-                        <template v-for="(preview, index) in imagePreviews" :key="index">
-                            <v-chip class="mx-1" size="small" label color="primary">
-                                {{ fileNames[index] }}
-                            </v-chip>
-
-                        </template>
-                    </template>
+                    
                 </v-file-input>
 
                 <v-text-field 
@@ -163,14 +127,14 @@ export default {
             loading: false,
             loadingImage: false,
             loadingData: true,
-            
+
             profile: null,
             shop_name: null,
-            shop_bio: null,
             N_card: null,
             N_card_face: null,
             shop_card: null,
             merchant_id_zarinpal: null,
+
          
             imagePreviews: [],
         };
@@ -186,11 +150,11 @@ export default {
         // }
     },
     mounted() {
-        this.getData()
+        // this.getData()
     },
     methods: {
         getData() {
-            axios.get(`${apiStore().address}/api/account/admin/shop-retrieve/`, {
+            axios.get(`${apiStore().address}/api/account/admin/verify-shop-retrieve-update/<int:pk>/`, {
                 headers: {
                     Accept: "application/json",
                     Authorization: `Token ${useUserStore().userToken}`
@@ -204,21 +168,20 @@ export default {
             }
             )
         },
-        async sendData() {
+        async updateData() {
             this.fd = new FormData();
             if (this.image) {
-                this.fd.append("profile", this.profile)
-                this.fd.append("shop_name", this.shop_name)
-                this.fd.append("shop_bio", this.shop_bio)
-                this.fd.append("N_card", this.N_card)
-                this.fd.append("N_card_face", this.N_card_face)
+                this.fd.append("image", this.profile[0])
+                this.fd.append("name", this.shop_name)
+                this.fd.append("image_national_card", this.N_card)
+                this.fd.append("selfie_with_national_card", this.N_card_face)
                 this.fd.append("shop_card", this.shop_card)
-                this.fd.append("merchant_id_zarinpal", this.merchant_id_zarinpal)
+                this.fd.append("merchant_zarin", this.merchant_id_zarinpal)
 
                 console.log(this.image)
                 await axios
                     .put(
-                        `${apiStore().address}/api/account/admin/shop-update/`,
+                        `${apiStore().address}/api/account/admin/verify-shop-retrieve-update/<int:pk>/`,
                         this.fd,
                         {
                             headers: {
@@ -240,6 +203,40 @@ export default {
             } else {
                 return null
             }
+        },
+        async createData() {
+            console.log('createData');
+            this.fd = new FormData();
+
+                this.fd.append("image", this.profile[0])
+                this.fd.append("name", this.shop_name)
+                this.fd.append("image_national_card", this.N_card[0])
+                this.fd.append("selfie_with_national_card", this.N_card_face[0])
+                this.fd.append("shop_card", this.shop_card[0])
+                this.fd.append("merchant_zarin", this.merchant_id_zarinpal)
+
+                await axios
+                    .post(
+                        `${apiStore().address}/api/account/admin/verify-shop-create/`,
+                        this.fd,
+                        {
+                            headers: {
+                                'Content-Type': 'multipart/form-data',
+                                Authorization: `Token ${useUserStore().userToken}`
+                            },
+                        }
+                    )
+                    .catch(function (error) {
+                        if (error.response) {
+                            console.log(error.response.data);
+                            console.log(error.response.status);
+                            console.log(error.response.headers);
+                        }
+                    }).then((response) => {
+                      
+
+                    })
+
         },
 
     },
