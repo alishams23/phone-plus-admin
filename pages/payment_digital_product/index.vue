@@ -9,13 +9,13 @@
                         <template v-slot:prepend-inner>
                             <SearchIcon color="gray" />
                         </template>
-                        <!-- <template v-slot:prepend>
+                        <template v-slot:prepend>
                             <v-btn @click="order = !order; searchData()" variant="tonal" color="primary" rounded="lg"
                                 size="50">
                                 <SortDescending2Icon v-if="order" />
                                 <SortAscending2Icon v-if="!order" />
                             </v-btn>
-                            <v-btn @click=" statusCheck == '' ? statusCheck = 'none' : statusCheck = ''; searchData()"
+                            <!-- <v-btn @click=" statusCheck == '' ? statusCheck = 'none' : statusCheck = ''; searchData()"
                                 :variant="statusCheck == '' ? 'tonal' : 'outlined'" color="primary" height="50px"
                                 class="ms-3 " rounded="lg">
                                 <div class="d-flex justify-center " v-if="statusCheck == 'none'">
@@ -25,9 +25,9 @@
                                     </div>
                                 </div>
                                 <span v-else>ارسال نشده‌ها</span>
-                            </v-btn>
+                            </v-btn> -->
 
-                        </template> -->
+                        </template>
                     </v-text-field>
                 </v-locale-provider>
 
@@ -79,7 +79,6 @@
 
 
 <script>
-import EditPayment from '@/pages/payment/edit_payment.vue';
 import  PaymentRowDigitalProduct  from '@/components/shared/PaymentRowDigitalProduct.vue';
 import { CoinsIcon, SearchIcon, SortDescending2Icon, SortAscending2Icon, CheckIcon, PencilIcon,UserIcon } from 'vue-tabler-icons';
 import { useUserStore } from '~/store/user';
@@ -96,7 +95,7 @@ export default {
         CheckIcon,
         PencilIcon,
         UserIcon,
-        EditPayment,
+    
     },
     data() {
         return {
@@ -104,40 +103,20 @@ export default {
             loading: true,
             search_text: '',
             order: false,
-            loadingStatus: 0,
-
-            items: [
-                { title: 'تحویل داده شده', value: 'received' },
-                { title: 'ارسال شده ', value: 'sended' },
-                { title: 'ارسال نشده', value: 'none' },
-
-            ],
-            statusCheck: ''
         }
     },
     methods: {
-        changeStatus(id, status) {
-            this.loadingStatus = id
-            axios.put(`${apiStore().address}/api/order/admin/order-update-status/${id}/`, { status: status }, {
-                headers: {
-                    "Content-type": "application/json",
-                    Accept: "application/json",
-                    Authorization: `Token ${useUserStore().userToken}`
-                },
-            })
-            this.loadingStatus = 0
-
-        },
         searchData() {
             this.loading = true
 
-            axios.get(`${apiStore().address}/api/order/admin/order-payed-list-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}&status=${this.statusCheck}`, {
+            axios.get(`${apiStore().address}/api/order/admin/order-payed-digital-product-list-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",
                     Authorization: `Token ${useUserStore().userToken}`
                 },
             }).then((response) => {
+                console.log('search');
                 this.loading = false
                 this.data = response.data
             })

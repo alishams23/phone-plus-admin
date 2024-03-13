@@ -37,7 +37,7 @@ export default {
       return this.$route.name.split("-").includes(url.split('/')[1]);
     },
   },
-  beforeCreate() {
+  beforeMount() {
     const userStore = useUserStore();
     if (!userStore.userToken) {
       // If the userToken does not exist, redirect to the login page

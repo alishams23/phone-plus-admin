@@ -167,8 +167,7 @@
                 <v-sheet v-bind="props">
                     <h6 class=" text-body-1 font-weight-bold text-muted">{{ data.author.full_name }}
                     </h6>
-                    <div class="text-13 text-body-2 mt-1 text-muted">{{ data.author.username }}
-                    </div>
+
                 </v-sheet>
                
             </div>

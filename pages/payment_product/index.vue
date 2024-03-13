@@ -82,7 +82,6 @@
 
 
 <script>
-import EditPayment from '@/pages/payment/edit_payment.vue';
 import  PaymentRow  from '@/components/shared/PaymentRow.vue';
 import { CoinsIcon, SearchIcon, SortDescending2Icon, SortAscending2Icon, CheckIcon, PencilIcon,UserIcon } from 'vue-tabler-icons';
 import { useUserStore } from '~/store/user';
@@ -99,7 +98,6 @@ export default {
         CheckIcon,
         PencilIcon,
         UserIcon,
-        EditPayment,
     },
     data() {
         return {
