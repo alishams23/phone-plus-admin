@@ -65,8 +65,6 @@
 <script>
 
 /*Call Components*/
-import learningsCard from '~/components/dashboard/LearningsCards.vue';
-import physicalProductsCard from '~/components/dashboard/PhysicalProductsCards.vue';
 import { BrandInstagramIcon, BrandTelegramIcon } from 'vue-tabler-icons';
 
 export default {

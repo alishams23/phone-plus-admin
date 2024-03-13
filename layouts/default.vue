@@ -14,11 +14,10 @@ import Side from '@/components/section/chat/side.vue';
 // Icon Imports
 import { Menu2Icon,SearchIcon,Settings2Icon } from 'vue-tabler-icons';
 // dropdown imports
-import NotificationDD from '@/layouts/full/vertical-header/NotificationDD.vue';
 import ProfileDD from '@/layouts/full/vertical-header/ProfileDD.vue';
 import { useUserStore } from '~/store/user'; 
 export default {
-    components: { Menu2Icon, NavGroup, NavItem, ExtraBox, Icon,Settings2Icon,SearchIcon,NotificationDD ,ProfileDD,Side},
+    components: { Menu2Icon, NavGroup, NavItem, ExtraBox, Icon,Settings2Icon,SearchIcon ,ProfileDD,Side},
   data (){
     return{
         sidebarMenu :useUserStore().status == 's' ?  shallowRef(sidebarItems) :  shallowRef(sidebarItemUnregister) ,
@@ -178,7 +177,7 @@ export default {
                     <Menu2Icon size="20" stroke-width="1.5" />
                 </v-btn>
                 <!-- Notification -->
-                <NotificationDD />
+              
             </div>
             <div>
                 <!-- User Profile -->

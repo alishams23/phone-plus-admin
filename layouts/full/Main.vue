@@ -4,11 +4,10 @@ import sidebarItems from './vertical-sidebar/sidebarItem';
 import NavGroup from './vertical-sidebar/NavGroup/index.vue';
 import NavItem from './vertical-sidebar/NavItem/index.vue';
 import ExtraBox from './vertical-sidebar/extrabox/ExtraBox.vue';
-import Logo from './logo/Logo.vue';
+
 // Icon Imports
 import { Menu2Icon, BellRingingIcon } from 'vue-tabler-icons';
 // dropdown imports
-import NotificationDD from './vertical-header/NotificationDD.vue';
 import ProfileDD from './vertical-header/ProfileDD.vue';
 const sidebarMenu = shallowRef(sidebarItems);
 const sDrawer = ref(true);
@@ -18,9 +17,7 @@ const sDrawer = ref(true);
     <!------Sidebar-------->
     <v-navigation-drawer left elevation="0"  app class="leftSidebar "  v-model="sDrawer">
         <!---Logo part -->
-        <div class="pa-5">
-            <Logo />
-        </div>
+      
         <!-- ---------------------------------------------- -->
         <!---Navigation -->
         <!-- ---------------------------------------------- -->
@@ -50,8 +47,7 @@ const sDrawer = ref(true);
                     size="small">
                     <Menu2Icon size="20" stroke-width="1.5" />
                 </v-btn>
-                <!-- Notification -->
-                <NotificationDD />
+           
             </div>
             <div>
                 <!-- Upgrade button -->
