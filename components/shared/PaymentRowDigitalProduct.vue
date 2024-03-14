@@ -8,14 +8,12 @@
             <v-sheet v-bind="props">
                 <h6 class=" text-body-1 font-weight-bold text-muted">{{ data.author.full_name }}
                 </h6>
-                <div class="text-13 text-body-2 mt-1 text-muted">{{ data.author.username }}
-                </div>
             </v-sheet>
 
         </div>
     </td>
     <td>
-        <h6 v-bind="props" class="text-body-1 text-muted">{{ data.product.title }}</h6>
+        <h6 v-bind="props" class="text-body-1 text-muted">{{ data.digital_product.title }}</h6>
     </td>
     <td>
         <h6 class="text-h6 text-right">{{ data.price }} تومان</h6>

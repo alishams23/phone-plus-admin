@@ -39,9 +39,14 @@ const sidebarItem: menu[] = [
     },
     { header: 'مالی' },
     {
-        title: 'پرداخت‌ها',
+        title: 'پرداخت‌ محصولات',
         icon: CoinsIcon,
-        to: '/payment'
+        to: '/payment_product'
+    },
+    {
+        title: 'پرداخت‌ فایل ها ',
+        icon: CoinsIcon,
+        to: '/payment_digital_product'
     },
     { header: 'محصولات' },
     {
