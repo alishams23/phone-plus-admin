@@ -20,7 +20,9 @@ export default {
     components: { Menu2Icon, NavGroup, NavItem, ExtraBox, Icon,Settings2Icon,SearchIcon ,ProfileDD,Side},
   data (){
     return{
-        sidebarMenu :useUserStore().status == 's' ?  shallowRef(sidebarItems) :  shallowRef(sidebarItemUnregister) ,
+        sidebarMenu: shallowRef([]),
+        sidebarItemsData : sidebarItems,
+        sidebarItemUnregisterData : sidebarItemUnregister,
         settingMenu : shallowRef(settingItems),
         sDrawer : true,
         chat_drawer:false,
@@ -32,7 +34,14 @@ export default {
             { title: 'کیوان', avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg' },
         ]
     }
-  },methods:{
+  },
+  mounted(){
+
+        this.sidebarMenu =  useUserStore().status == 's' ?  this.sidebarItemsData :  this.sidebarItemUnregisterData 
+
+  },
+
+  methods:{
     currentRouteCheck(url) {
       return this.$route.name.split("-").includes(url.split('/')[1]);
     },

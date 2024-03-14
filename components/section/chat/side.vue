@@ -32,10 +32,11 @@
 </template>
 <script>
 import { useUserStore } from '~/store/user';
+import {  SearchIcon, } from 'vue-tabler-icons';
 
 
-import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
-import { XMarkIcon } from '@heroicons/vue/24/outline'
+import { EllipsisVerticalIcon, } from '@heroicons/vue/20/solid'
+import { XMarkIcon, } from '@heroicons/vue/24/outline'
 import { apiStore } from '~/store/api';
 
 export default {
@@ -50,6 +51,7 @@ export default {
   
     EllipsisVerticalIcon,
     XMarkIcon,
+    SearchIcon
  
   },
 
