@@ -11,19 +11,9 @@
                     <template v-slot:prepend>
                         <PhotoIcon style="margin-left: -20px;" class="text-grey" />
                     </template>
-                    <template v-slot:selection="{ fileNames }">
-                        <template v-for="(preview, index) in imagePreviews" :key="index">
-                            <v-chip class="mx-1" size="small" label color="primary">
-                                {{ fileNames[index] }}
-                            </v-chip>
-                        </template>
-                    </template>
+                  
                 </v-file-input>
-                <div class="image-preview-container">
-                    <template v-for="(preview, index) in imagePreviews" :key="index">
-                        <img :src="preview" class="chip-image-preview" />
-                    </template>
-                </div>
+ 
             </v-locale-provider>
             <v-btn :loading="loading" type="submit" rounded="lg" persistent-hint variant="flat" color="primary"
                 class="mx-2 px-10 text-body2 font-weight-bold mb-5" >
@@ -73,7 +63,7 @@ export default {
             this.loading = true
 
             this.fd = new FormData();
-                if(this.image)  this.fd.append("image", this.image)
+                if(this.image)  this.fd.append("image", this.image[0])
                 this.fd.append("name", this.name);
                 this.fd.append("bio", this.bio);
                 console.log(this.image)
@@ -95,7 +85,7 @@ export default {
                             console.log(error.response.headers);
                         }
                     }).then((response) => {
-                      
+                        window.location.reload(true)
                         this.loading = false
                     })
            

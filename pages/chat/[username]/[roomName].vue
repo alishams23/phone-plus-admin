@@ -1,19 +1,20 @@
 <template>
-  <v-app-bar :elevation="0" class=" border-b rtl">
+  <v-app-bar :elevation="0" class=" border-b rtl " >
     <v-btn color="transparent" class="hidden-lg-and-up mr-5 ms-md-3 ms-sm-5 ms-3 text-muted" @click="drawer = !drawer"
       icon variant="flat" size="small">
       <Menu2Icon size="20" stroke-width="1.5" />
     </v-btn>
-    <v-avatar color="indigo-darken-4" size="48" style="font-size:9px" class="me-9  ms-md-4">
-      <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
+    <v-avatar color="indigo-lighten-4" size="48" style="font-size:9px" class="me-9  ms-md-4">
+      <v-icon size="20">
+        <UserIcon  />
+      </v-icon>
+      <!-- <v-img :src="address + '/api/account/shop-profile/' + username + '/'"></v-img> -->
     </v-avatar>
-    <div class=" font-weight-bold text-h5">آرتا</div>
+    <div class=" font-weight-bold text-h5">{{username}}</div>
   </v-app-bar>
   <v-app>
     <!--  message-->
-
     <v-main>
-
       <div v-if="username == null" class="pt-5 mt-5 px-5">
         <div class="flex items-center justify-center">
           <div>گفت و گوی جدیدی را آغاز کنید</div>
@@ -22,18 +23,15 @@
       <v-list>
         <v-list-item v-for="data, index in messages" :key="data.id + 'message-chat-'"
           :class="(data.username == userSelf ? 'text-right' : '')">
-
           <v-card elevation="0" v-if="data.username == userSelf">
             <div class="d-flex justify-end align-center">
               <div v-if="data.content" class="bg-primary mx-3  rounded-be-0 rounded-pill px-5 py-3">
                 {{ data.content }}
               </div>
-
             </div>
           </v-card>
           <v-card elevation="0" v-else>
             <div class="d-flex justify-start align-center">
-
               <div v-if="data.content" class="bg-grey-lighten-3 mx-3  rounded-bs-0 rounded-pill px-5 py-3">
                 {{ data.content }}
               </div>
@@ -81,9 +79,6 @@
           </div>
         </div>
       </div>
-
-
-
     </v-main>
   </v-app>
   <v-bottom-navigation v-if="username != null && loadingGetMessage == false" height="70" elevation="0"
@@ -99,7 +94,6 @@
         </v-avatar>
       </v-col>
     </v-row>
-
   </v-bottom-navigation>
 </template>
 
@@ -110,10 +104,10 @@ import {
   PaperAirplaneIcon
 } from '@heroicons/vue/24/outline'
 import { useUserStore } from '~/store/user';
-import { Circle0FilledIcon, SendIcon, SearchIcon, Home2Icon, Logout2Icon, Menu2Icon } from 'vue-tabler-icons';
+import { Circle0FilledIcon, SendIcon, SearchIcon, Home2Icon, Logout2Icon, Menu2Icon,UserIcon } from 'vue-tabler-icons';
 
 export default {
-  components: { PaperAirplaneIcon, Circle0FilledIcon, SendIcon, SearchIcon, Home2Icon, Logout2Icon, Menu2Icon },
+  components: { UserIcon,PaperAirplaneIcon, Circle0FilledIcon, SendIcon, SearchIcon, Home2Icon, Logout2Icon, Menu2Icon },
 
   data() {
     return {
@@ -237,5 +231,10 @@ export default {
 
   },
 
+  computed:{
+    address(){
+        return apiStore().address
+    },
+  },
 }
 </script>

@@ -16,6 +16,8 @@ import { Menu2Icon,SearchIcon,Settings2Icon } from 'vue-tabler-icons';
 // dropdown imports
 import ProfileDD from '@/layouts/full/vertical-header/ProfileDD.vue';
 import { useUserStore } from '~/store/user'; 
+import { apiStore } from '~/store/api';
+
 export default {
     components: { Menu2Icon, NavGroup, NavItem, ExtraBox, Icon,Settings2Icon,SearchIcon ,ProfileDD,Side},
   data (){
@@ -40,6 +42,14 @@ export default {
         this.sidebarMenu =  useUserStore().status == 's' ?  this.sidebarItemsData :  this.sidebarItemUnregisterData 
 
   },
+  computed:{
+    address(){
+        return apiStore().address
+    },
+    shop_username(){
+        return useUserStore().usernameShop
+    },
+  },
 
   methods:{
     currentRouteCheck(url) {
@@ -54,82 +64,74 @@ export default {
     }else if (userStore.status != 's')
       this.$router.push('/authentication');
   },
-  watch: {
-        setting_drawer: {
-            handler: function (val, oldVal) {
-                if(val == true)this.sDrawer = false
-            },
-            },
-        },
     }
 </script>
 
 <template>
  <v-app>
        <!------Sidebar-------->
-       <v-navigation-drawer location="right" elevation="0"  app class="leftSidebar  border-0 curved" :color="chat_drawer == true | setting_drawer == true ? 'white' : 'transparent'"  v-model="sDrawer">
-        <!---Logo part -->
-        <div class=" pa-5  ">
-            <!-- <Logo /> -->
-           <v-sheet class="d-flex justify-center align-center ml-5" color="transparent">
-            <v-avatar size="100" justify="center">
-                    <img src="@/assets/images/users/avatar-1.jpg" height="100" alt="user" />
-                </v-avatar>
-            </v-sheet>
-        </div>
-        <!-- ---------------------------------------------- -->
-        <!---Navigation -->
-        <!-- ---------------------------------------------- -->
-        <div>
-            <v-list class="">
-                <!---Menu Loop -->
-                <template v-for="(item, i) in sidebarMenu">
-                
-                    <!---Item Sub Header -->
-                    <NavGroup :item="item" v-if="item.header" :key="item.title" />
-                    <!---Single Item-->
-                    
-                        <v-list-item
-                        v-else 
-                        :to="item.to == '/chat' || item.to == '/settings'? ''  :   item.to"
-                        
-                        
-                        variant="flat"
-                        @click="item.to == '/chat' ? (chat_drawer = true,setting_drawer = false)   : item.to == '/settings'? (setting_drawer = true,chat_drawer = false) : null"
-                        class="mb-1 text-white rounded-e-lg bg-transparent ml-n5 mr-n3"
-                        :class="currentRouteCheck(item.to)? 'bg-white-important  text-primary' :''"
-                        active-class="bg-white-important  text-primary"
-                        :disabled="item.disabled"
-                    
-                        :target="item.type === 'external' ? '_blank' : ''">
-                        <!---If icon-->
-                        <template v-slot:append>
-                            <Icon :item="item.icon" class="ml-3"  />
-                        </template>
-                        <v-list-item-title  class="rtl text-right ">{{item.title }}</v-list-item-title>
-                        <!---If Caption-->
-                        <v-list-item-subtitle v-if="item.subCaption" class="text-caption mt-n1 hide-menu">
-                            {{ item.subCaption }}
-                        </v-list-item-subtitle>
-                        <!---If any chip or label-->
-                        <template v-slot:append v-if="item.chip">
-                            <v-chip
-                                :color="item.chipColor"
-                                class="sidebarchip hide-menu"
-                                :size="'small'"
-                                :variant="item.chipVariant"
-                                :prepend-icon="item.chipIcon">
-                                {{ item.chip }}
-                            </v-chip>
-                        </template>
-                    </v-list-item>
-                    <!---End Single Item-->
-                </template>
-            </v-list>
-        </div>
-    </v-navigation-drawer>
+   <div :class="setting_drawer == true || chat_drawer == true  ? 'd-none d-md-block  ' : ''" >
+        <v-navigation-drawer location="right" elevation="0"  app class="leftSidebar  border-0 curved" :color="chat_drawer == true | setting_drawer == true ? 'white' : 'transparent'"   v-model="sDrawer">
+         <!---Logo part -->
+         <div class=" pa-5  ">
+             <!-- <Logo /> -->
+            <v-sheet class="d-flex justify-center align-center ml-5" color="transparent">
+             <v-avatar size="100" justify="center" color="indigo">
+                     <v-img :src="address + '/api/account/shop-profile/' + shop_username + '/'" height="100" alt="user" />
+                 </v-avatar>
+             </v-sheet>
+         </div>
+         <!-- ---------------------------------------------- -->
+         <!---Navigation -->
+         <!-- ---------------------------------------------- -->
+         <div>
+             <v-list class="">
+                 <!---Menu Loop -->
+                 <template v-for="(item, i) in sidebarMenu">
+                 
+                     <!---Item Sub Header -->
+                     <NavGroup :item="item" v-if="item.header" :key="item.title" />
+                     <!---Single Item-->
+                     
+                         <v-list-item
+                         v-else 
+                         :to="item.to == '/chat' || item.to == '/settings'? ''  :   item.to"
+                         variant="flat"
+                         @click="item.to == '/chat' ? (chat_drawer = true,setting_drawer = false)   : item.to == '/settings'? (setting_drawer = true,chat_drawer = false) : null"
+                         class="mb-1 text-white rounded-e-lg bg-transparent ml-n5 mr-n3"
+                         :class="currentRouteCheck(item.to)? 'bg-white-important  text-primary' :''"
+                         active-class="bg-white-important  text-primary"
+                         :disabled="item.disabled"
+                         :target="item.type === 'external' ? '_blank' : ''">
+                         <!---If icon-->
+                         <template v-slot:append>
+                             <Icon :item="item.icon" class="ml-3"  />
+                         </template>
+                         <v-list-item-title  class="rtl text-right ">{{item.title }}</v-list-item-title>
+                         <!---If Caption-->
+                         <v-list-item-subtitle v-if="item.subCaption" class="text-caption mt-n1 hide-menu">
+                             {{ item.subCaption }}
+                         </v-list-item-subtitle>
+                         <!---If any chip or label-->
+                         <template v-slot:append v-if="item.chip">
+                             <v-chip
+                                 :color="item.chipColor"
+                                 class="sidebarchip hide-menu"
+                                 :size="'small'"
+                                 :variant="item.chipVariant"
+                                 :prepend-icon="item.chipIcon">
+                                 {{ item.chip }}
+                             </v-chip>
+                         </template>
+                     </v-list-item>
+                     <!---End Single Item-->
+                 </template>
+             </v-list>
+         </div>
+     </v-navigation-drawer>
+   </div>
 
-    <v-navigation-drawer  location="right" color="transparent" elevation="0" :class="currentRouteCheck('/chat') ? ' bg-white-important ' : 'curved-white  border-0'"  :temporary="currentRouteCheck('/chat') ? false : true" v-model="chat_drawer" :width="300">
+    <v-navigation-drawer  location="right" color="transparent" elevation="0" :class="currentRouteCheck('/chat') ? 'curved-white  border-0 ' : 'curved-white  border-0'"  :temporary="currentRouteCheck('/chat') ? false : true" v-model="chat_drawer" :width="300">
        <Side/>
     </v-navigation-drawer>
     

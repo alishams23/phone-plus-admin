@@ -1,7 +1,5 @@
 <template>
-
     <div>
-        {{ imageIds }}
         <form @submit.prevent="sendData">
             <v-locale-provider rtl>
                 <v-text-field label="نام" rounded="lg" persistent-hint variant="outlined" color="primary" class="mt-10"
@@ -36,11 +34,19 @@
                             </v-chip>
                         </template>
                     </template>
+
                 </v-file-input>
+               
                 <div class="image-preview-container">
-                    <template v-for="(preview, index) in imagePreviews" :key="index">
-                        <img :src="preview" class="chip-image-preview" />
-                    </template>
+                     
+                    <div v-for="(preview, index) in imageIds" :key="index">
+    
+                        <v-img :src="address + '/api/product/product-image/'+preview+'/ '" class="chip-image-preview"><v-avatar size="30" class="ma-3"
+                            @click="imageIds.splice(imageIds.indexOf(preview), 1); imageIds.splice(index, 1)"
+                            color="red-darken-2" icon="">
+                            <TrashIcon size="15" />
+                        </v-avatar></v-img>
+                    </div>
                 </div>
 
                 <v-combobox rounded="lg" accept=".zip,.rar" persistent-hint variant="outlined" color="primary"
@@ -76,7 +82,7 @@
                 <!-- Show CSV data -->
 
 
-                <v-table height="300px" fixed-header>
+                <v-table height="auto" fixed-header>
 
                     <tbody>
                         <tr v-for="items in transformedData" :key="items">
@@ -118,7 +124,7 @@ import TextEditor from '@/components/shared/TextEditor.vue';
 import AddCategories from '@/components/section/product/AddCategories.vue';
 export default {
     components: { PhotoIcon, VideoIcon, FileImportIcon, TrashIcon, TextEditor, AddCategories },
-    props: ["data"],
+    props: ["id"],
     data: () => ({
         price: 0,
         title: null,
@@ -146,9 +152,12 @@ export default {
         },
     }),
     computed: {
+        address(){
+            return apiStore().address
+        },
     },
     mounted() {
-        this.fetchCategories();
+        this.id != null ? this.getData() : ''
     },
     methods: {
         handleTextChange(newText) {
@@ -182,20 +191,6 @@ export default {
             return data.map(row => {
                 return Object.keys(row).map(key => ({ title: key, body: row[key] }))
             })
-        },
-        async fetchCategories() {
-            try {
-                const userToken = useUserStore().userToken; // Get the token from your user store
-                const response = await axios.get(`${apiStore().address}/api/product/list-digital-categories/`, {
-                    headers: {
-                        Authorization: `Token ${userToken}`
-                    }
-                });
-                console.log('aspc', response.data);
-                this.categories = response.data; // Assuming the API returns an array
-            } catch (error) {
-                console.error('Error fetching categories:', error);
-            }
         },
         async sendDataFunc() {
             if (this.images && this.images.length) {
@@ -231,37 +226,72 @@ export default {
                 };
                 reader.readAsDataURL(file);
             });
-            this.imageIds = []
             this.sendDataFunc();
             this.loadingImage = false;
         },
         async sendData() {
 
-            let formDic = {}
-            formDic['category'] = this.selectedCategories
-            formDic['image'] = this.imageIds
-            formDic['title'] = this.title
-            if(this.file != null)  formDic['file'] = this.file
-            formDic['subsets_data'] = this.transformedData
-            formDic['description'] = this.description
-            formDic['price'] = this.price
-            formDic['discount'] = this.value
-            console.log('ready to send', this.imageIds);
-            axios.post(`${apiStore().address}/api/product/admin/digital-product-list-create/`, formDic, {
-                headers: {
+            
+            let formData = new FormData();
+            this.imageIds.forEach(element => {
+                formData.append(`image`, element);
+            });
+            
+            formData.append(`title`, this.title);
+            formData.append(`price`, this.price);
+            // formData.append(`category`, this.selectedCategories);
+            formData.append(`subsets_data`, this.transformedData);
+            formData.append(`description`, this.description);
+            formData.append(`discount`, this.value);
+            if(this.file != null)  formData.append(`file`, this.file[0]);
+                let header = {headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Token ${useUserStore().userToken}`
-                },
-            })
-                .then(response => {
-
-                    console.log('send Data', this.transformedData);
-                    // this.$emit('close')
-                })
-                .catch(error => {
+                },}
+                let url = this.id != null ? `/api/product/admin/digital-product-retrieve-update-destroy/${this.id}/` : '/api/product/admin/digital-product-list-create/'
+                if(this.id != null ){
+                await  axios.patch(`${apiStore().address}${url}`, formData, header).catch(error => {
                     // handle error
                     console.error('Error:', error);
                 });
+
+            }  else {
+                await  axios.post(`${apiStore().address}${url}`, formData, header).catch(error => {
+                    // handle error
+                    console.error('Error:', error);
+                });                                                                                                                 
+            }
+            this.$emit('close')
+
+        },
+        getData() {
+            axios.get(`${apiStore().address}/api/product/admin/digital-product-retrieve-update-destroy/${this.id}/`, {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: `Token ${useUserStore().userToken}`
+                },
+            }).then((response) => {
+                console.log('getData',response)
+                this.loadingData = false
+                this.description = response.data.description
+                this.title = response.data.title
+                this.video = response.data.video
+                response.data.image.forEach(element => {
+
+                    this.imageIds.push(element.id)
+                });
+                console.log('images', this.imageIds);
+                this.selectedCategories = response.data.category
+           
+                console.log(this.categories);
+                this.price = response.data.price
+                this.value = response.data.discount
+                this.get_file = response.data.file
+                this.subset_product = response.data.subset_product
+                if (response.data.discount) this.discount = true
+
+            }
+            )
         },
     },
 
