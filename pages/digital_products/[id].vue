@@ -2,7 +2,6 @@
     <v-container>
 
         <form @submit.prevent="sendData" class="px-md-10">
-        {{ imageIds }}
             <v-locale-provider rtl>
                 <v-text-field label="نام محصول" v-model="title" rounded="lg" required persistent-hint variant="outlined"
                     color="primary" class="mt-10" />

@@ -1,6 +1,7 @@
 <template>
-    {{ transformedData }}
+
     <div>
+        {{ imageIds }}
         <form @submit.prevent="sendData">
             <v-locale-provider rtl>
                 <v-text-field label="نام" rounded="lg" persistent-hint variant="outlined" color="primary" class="mt-10"
@@ -230,6 +231,7 @@ export default {
                 };
                 reader.readAsDataURL(file);
             });
+            this.imageIds = []
             this.sendDataFunc();
             this.loadingImage = false;
         },
@@ -244,7 +246,7 @@ export default {
             formDic['description'] = this.description
             formDic['price'] = this.price
             formDic['discount'] = this.value
-
+            console.log('ready to send', this.imageIds);
             axios.post(`${apiStore().address}/api/product/admin/digital-product-list-create/`, formDic, {
                 headers: {
                     'Content-Type': 'multipart/form-data',

@@ -47,17 +47,19 @@
                             <v-img :src="preview" class="chip-image-preview"></v-img>
                         </template>
                     </div>
+                    
                     <div class="image-preview-container">
-                     
                         <template v-for="(preview, index) in imageUrl" :key="index">
-
-                            <v-img :src="address + '/api/product/product-image/'+preview.id+'/ '" class="chip-image-preview"><v-avatar size="30" class="ma-3"
-                                @click="imageIds.splice(imageIds.indexOf(preview), 1); imageUrl.splice(index, 1)"
-                                color="red-darken-2" icon="">
-                                <TrashIcon size="15" />
-                            </v-avatar></v-img>
+                            <v-img :src="address + '/api/product/product-image/'+preview.id+'/ '" class="chip-image-preview">
+                                <v-avatar size="30" class="ma-3"
+                                    @click="imageIds.splice(imageIds.indexOf(preview), 1); imageUrl.splice(index, 1)"
+                                    color="red-darken-2" icon="">
+                                    <TrashIcon size="15" />
+                                </v-avatar>
+                            </v-img>
                         </template>
                     </div>
+                    
                 </div>
 
                 <v-text-field

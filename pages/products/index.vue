@@ -40,8 +40,8 @@
           
             <v-row >
               <v-col cols="12" md="4" rounded="0">
-                <v-img height="150px" :src="product.image[0].photo" cover></v-img>
-              </v-col>
+                <v-img height="175px" :src="product.image[0].photo" cover></v-img>
+              </v-col>  
               <v-col cols="12" md="8">
                 <div class="d-flex ">
                   <div class=" d-flex flex-column flex-fill ">
@@ -68,7 +68,7 @@
                             <AddProduct :id="product.id" @close="open = false; searchData()" />
                           </v-card>
                         </template>
-                      </v-dialog>
+                      </v-dialog>                                                                                                               
                     
                       <v-avatar size="30" variant="tonal" @click="removeItem(product.id)" color="red-darken-2" icon="">
                         <TrashIcon size="15" />
@@ -109,8 +109,7 @@
 </template>
 <script>
 import { TrashIcon, PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon } from 'vue-tabler-icons';
-import proimg1 from '@/assets/images/products/s4.jpg';
-import proimg2 from '@/assets/images/products/s5.jpg';
+
 import AddProduct from '@/pages/products/add_product.vue';
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';

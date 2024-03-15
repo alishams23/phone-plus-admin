@@ -45,18 +45,16 @@
             </div>
             <div class="image-preview-container">
 
-                <template v-for="(preview, index) in imageUrl" :key="index">
-
+                <div v-for="(preview, index) in imageUrl" :key="index">
                     <v-img :src="address + '/api/product/product-image/' + (preview.id ? preview.id : preview) + '/ '"
                         class="chip-image-preview">
-
                         <v-avatar size="30" class="ma-3"
                             @click="imageIds.splice(imageIds.indexOf(preview), 1); imageUrl.splice(index, 1)"
                             color="red-darken-2" icon="">
-
                             <TrashIcon size="15" />
-                        </v-avatar></v-img>
-                </template>
+                        </v-avatar>
+                    </v-img>
+                </div>
 
             </div>
             <v-text-field label="کد آی‌فریم ویدیو محصول" v-model="video" rounded="lg" variant="outlined" color="primary"
@@ -218,8 +216,7 @@ export default {
                 await  axios.post(`${apiStore().address}${url}`, formDic, header).catch(error => {
                     // handle error
                     console.error('Error:', error);
-                });
-
+                });                                                                                                                 
             }
             this.$emit('close')
         },
