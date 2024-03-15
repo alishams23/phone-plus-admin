@@ -54,6 +54,13 @@ export default {
     }else if (userStore.status != 's')
       this.$router.push('/authentication');
   },
+  watch: {
+        setting_drawer: {
+            handler: function (val, oldVal) {
+                if(val == true)this.sDrawer = false
+            },
+            },
+        },
     }
 </script>
 

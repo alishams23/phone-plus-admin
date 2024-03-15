@@ -36,11 +36,7 @@ const sidebarItem: menu[] = [
         icon: WalletIcon,
         to: '/settings/wallet'
     },
-    {
-        title: ' احزار هویت  ',
-        icon: CheckIcon,
-        to: '/settings/Authentication'
-    },
+
     {
         title: ' نمایش پروفایل   ',
         icon: MenuOrderIcon,
