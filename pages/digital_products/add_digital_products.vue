@@ -10,7 +10,7 @@
             <v-locale-provider rtl>
                 <v-row class="mt-10 mb-5">
                     <v-col cols="12" md="6">
-                        <v-text-field label="قیمت" rounded="lg" v-model="price" required type="number" persistent-hint
+                        <v-text-field :label="file_type=='لیست لایسنس‌ها'?' قیمت هر ردیف':'قیمت'" rounded="lg" v-model="price" required type="number" persistent-hint
                             variant="outlined" color="primary" />
                     </v-col>
                     <v-col cols="12" md="6">
@@ -41,7 +41,7 @@
                      
                     <div v-for="(preview, index) in imageIds" :key="index">
     
-                        <v-img :src="address + '/api/product/product-image/'+preview+'/ '" class="chip-image-preview"><v-avatar size="30" class="ma-3"
+                        <v-img :src="address + '/api/product/product-image/'+preview+'/ '" class="chip-image-preview object-cover " ><v-avatar size="30" class="ma-3"
                             @click="imageIds.splice(imageIds.indexOf(preview), 1)"
                             color="red-darken-2" icon="">
                             <TrashIcon size="15" />
@@ -50,6 +50,7 @@
                 </div>                      
 
                 <v-combobox 
+                    v-if="id==null"
                     rounded="lg" 
                     accept=".zip,.rar" 
                     persistent-hint 
@@ -60,7 +61,7 @@
                     :label="id?get_file? 'فایل زیپ' : 'لیست لایسنس‌ها':'انتخاب نوع فایل'" 
                     :items="['لیست لایسنس‌ها', 'فایل زیپ']">
                 </v-combobox>
-                {{ get_file }}
+
                 <v-file-input 
                     rounded="lg" 
                     accept=".zip,.rar" persistent-hint 
@@ -68,7 +69,7 @@
                     color="primary"
                     v-if="id?get_file:file_type == 'فایل زیپ'" 
                     v-model="file" placeholder="اضافه کردن فایل" 
-                    label="فایل محصول">
+                    :label="id?'تعویض فایل محصول':'فایل محصول'">
                     <template v-slot:prepend>
                         <FileImportIcon style="margin-left: -20px;" class="  text-grey" />
                     </template>
@@ -80,6 +81,11 @@
                         </template>
                     </template>
                 </v-file-input>
+
+                    <a v-if="get_file" :href="get_file" class="d-flex justify-start w-100 ps-15">
+                        دانلود فایل فعلی
+                    </a>
+
                 <v-file-input 
                     rounded="lg" 
                     accept=".csv" 
@@ -88,7 +94,7 @@
                     v-if="id?get_file==null:file_type == 'لیست لایسنس‌ها'" 
                     @change="handleCsvUpload" 
                     placeholder="اضافه لیست"
-                    label="لیست محصول">
+                    :label="id? 'اضافه کردن به لیست محصول': 'لیست محصول'">
                     <template v-slot:prepend>
                         <FileImportIcon style="margin-left: -20px;" class="  text-grey" />
                     </template>
