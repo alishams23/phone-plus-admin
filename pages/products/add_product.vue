@@ -10,7 +10,7 @@
             </div>
         </v-locale-provider>
         
-        <TextEditor @update="handleTextChange"></TextEditor>
+        <TextEditor :content="description" @update="handleTextChange"></TextEditor>
         <v-locale-provider rtl>
             <v-row class="mt-10 mb-5">
                 <v-col cols="12" md="6">

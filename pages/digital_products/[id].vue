@@ -235,9 +235,6 @@ export default {
         handleTextChange(newText) {
           this.body = newText;
         },
-        deleteRow(index) {
-            this.csvData.splice(index, 1);
-        },
         handleCsvUpload(event) {
             // Ensure a file was selected
             if (!event.target.files || event.target.files.length === 0) return;
@@ -262,13 +259,11 @@ export default {
             };
             reader.readAsText(file);
         },
-        
         transformCSVData(data) {
             return data.map(row => {
                 return Object.keys(row).map(key => ({ title: key, body: row[key] }))
             })
         },
-     
         async sendDataFunc() {
             if (this.images && this.images.length) {
                 this.images.forEach((file, index) => {

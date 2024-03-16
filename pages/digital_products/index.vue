@@ -37,50 +37,49 @@
           <template v-slot:loader="{ isActive }">
             <v-progress-linear :active="isActive" color="deep-purple" height="4" indeterminate></v-progress-linear>
           </template>
+            
+            <v-row >
+              <v-col cols="12" md="4" rounded="0">
+                <v-img height="175px" :src="address + product.image[0].photo" cover></v-img>
+              </v-col>  
+              <v-col cols="12" md="8">
+                <div class="d-flex ">
+                  <div class=" d-flex flex-column flex-fill ">
+                    <v-card-item>
+                      <v-card-title class="text-h6 ">{{ product.title }}</v-card-title>
+                      <div v-html="product.description" class="text-line-1  text-body-2"></div>
+                    </v-card-item>
 
-          <v-row>
-            <v-col cols="12" md="4" rounded="0">
-              <v-img v-if="product.image.length > 0 " height="175px" :src="address + product.image[0].photo" cover></v-img>
-            </v-col>
-            <v-col cols="12" md="8">
-              <div class="d-flex ">
-                <div class=" d-flex flex-column flex-fill ">
-                  <v-card-item>
-                    <v-card-title class="text-h6 ">{{ product.title }}</v-card-title>
-                    <div v-html="product.description" class="text-line-1  text-body-2"></div>
-                  </v-card-item>
-
-                  <v-card-actions class="mt-auto mr-auto px-10">
-                    <v-dialog width="900" >
-                      <template v-slot:activator="{ props: activatorProps }">
-                        <div class="ma-4">
-                          <v-btn class="px-10 ml-4" v-bind="activatorProps" variant="flat" rounded="xl" size="small"
-                          color="primary">
-                          ویرایش
-                          <template v-slot:append>
-                            <PencilIcon size="15" />
-                          </template>
-                        </v-btn>
-                        </div>
-                      </template>
-                      <template v-slot:default="{ isActive }">
-                        <v-card class="px-3 px-md-15 rounded-lg my-20 " title="">
-                          <AddDigitalProducts :id="product.id" @close="open = false; searchData()" />
-                        </v-card>
-                      </template>
-                    </v-dialog>                                                                                                               
-                  
-
-                    <v-avatar class="ms-10" size="30" variant="tonal" @click="removeItem(product.id)" color="red-darken-2" icon="">
-                      <TrashIcon size="15" />
-                    </v-avatar>
-                  </v-card-actions>
+                    <v-card-actions class="mt-auto mr-auto px-10">
+                      <v-dialog width="900" >
+                        <template v-slot:activator="{ props: activatorProps }">
+                          <div class="ma-4">
+                            <v-btn class="px-10 ml-4" v-bind="activatorProps" variant="flat" rounded="xl" size="small"
+                            color="primary">
+                            ویرایش
+                            <template v-slot:append>
+                              <PencilIcon size="15" />
+                            </template>
+                          </v-btn>
+                          </div>
+                        </template>
+                        <template v-slot:default="{ isActive }">
+                          <v-card class="px-3 px-md-15 rounded-lg my-20 " title="">
+                            <AddDigitalProducts :id="product.id" @close="open = false; searchData()" />
+                          </v-card>
+                        </template>
+                      </v-dialog>                                                                                                               
+                    
+                      <v-avatar size="30" variant="tonal" @click="removeItem(product.id)" color="red-darken-2" icon="">
+                        <TrashIcon size="15" />
+                      </v-avatar>
+                    </v-card-actions>
+                  </div>
                 </div>
-              </div>
-            </v-col>
+              </v-col>
 
-          </v-row>
-
+            </v-row>
+       
         </v-card>
       </v-col>
     </v-row>
@@ -101,7 +100,7 @@
       <template v-slot:default="{ isActive }">
         <v-card class="rounded-lg  " title="">
           <v-container>
-            <AddDigitalProducts />
+            <AddDigitalProducts @close="open = false; searchData()" />
           </v-container>
         </v-card>
       </template>
@@ -109,7 +108,7 @@
   </VLayoutItem>
 </template>
 <script>
-import { TrashIcon, PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon } from 'vue-tabler-icons';
+import { TrashIcon, PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon, Ad2Icon } from 'vue-tabler-icons';
 import axios from 'axios'
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';

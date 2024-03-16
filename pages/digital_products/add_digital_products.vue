@@ -5,7 +5,8 @@
                 <v-text-field label="نام" rounded="lg" persistent-hint variant="outlined" color="primary" class="mt-10"
                     v-model="title" required />
             </v-locale-provider>
-            <TextEditor @update="handleTextChange"></TextEditor>
+            <TextEditor :content="description" @update="handleTextChange"></TextEditor>
+
             <v-locale-provider rtl>
                 <v-row class="mt-10 mb-5">
                     <v-col cols="12" md="6">
@@ -17,8 +18,7 @@
                             url="/api/product/admin/category-digital-product-list-create/" />
                     </v-col>
                 </v-row>
-
-                <v-file-input rounded="lg" accept=".png,.jpg" :rules="rules" required multiple persistent-hint
+                <v-file-input rounded="lg" accept=".png,.jpg" :rules="rules" :required="id?imageIds.length!=0?false:true:true" multiple persistent-hint
                     variant="outlined" color="primary" @change="sendImage" v-model="images"
                     placeholder="Upload your documents" label="عکس‌">
                     <template v-slot:prepend>
@@ -42,18 +42,33 @@
                     <div v-for="(preview, index) in imageIds" :key="index">
     
                         <v-img :src="address + '/api/product/product-image/'+preview+'/ '" class="chip-image-preview"><v-avatar size="30" class="ma-3"
-                            @click="imageIds.splice(imageIds.indexOf(preview), 1); imageIds.splice(index, 1)"
+                            @click="imageIds.splice(imageIds.indexOf(preview), 1)"
                             color="red-darken-2" icon="">
                             <TrashIcon size="15" />
                         </v-avatar></v-img>
                     </div>
-                </div>
+                </div>                      
 
-                <v-combobox rounded="lg" accept=".zip,.rar" persistent-hint variant="outlined" color="primary"
-                    v-model="file_type" label="انتخاب نوع فایل" :items="['لیست لایسنس‌ها', 'فایل زیپ']"></v-combobox>
-
-                <v-file-input rounded="lg" accept=".zip,.rar" persistent-hint variant="outlined" color="primary"
-                    v-if="file_type == 'فایل زیپ'" v-model="file" placeholder="اضافه کردن فایل" label="فایل محصول">
+                <v-combobox 
+                    rounded="lg" 
+                    accept=".zip,.rar" 
+                    persistent-hint 
+                    variant="outlined" 
+                    color="primary"
+                    v-model="file_type" 
+                    :disabled="id?true:false"
+                    :label="id?get_file? 'فایل زیپ' : 'لیست لایسنس‌ها':'انتخاب نوع فایل'" 
+                    :items="['لیست لایسنس‌ها', 'فایل زیپ']">
+                </v-combobox>
+                {{ get_file }}
+                <v-file-input 
+                    rounded="lg" 
+                    accept=".zip,.rar" persistent-hint 
+                    variant="outlined" 
+                    color="primary"
+                    v-if="id?get_file:file_type == 'فایل زیپ'" 
+                    v-model="file" placeholder="اضافه کردن فایل" 
+                    label="فایل محصول">
                     <template v-slot:prepend>
                         <FileImportIcon style="margin-left: -20px;" class="  text-grey" />
                     </template>
@@ -65,8 +80,14 @@
                         </template>
                     </template>
                 </v-file-input>
-                <v-file-input rounded="lg" accept=".csv" persistent-hint variant="outlined" color="primary"
-                    v-if="file_type == 'لیست لایسنس‌ها'" @change="handleCsvUpload" v-model="file" placeholder="اضافه لیست"
+                <v-file-input 
+                    rounded="lg" 
+                    accept=".csv" 
+                    persistent-hint variant="outlined" 
+                    color="primary"
+                    v-if="id?get_file==null:file_type == 'لیست لایسنس‌ها'" 
+                    @change="handleCsvUpload" 
+                    placeholder="اضافه لیست"
                     label="لیست محصول">
                     <template v-slot:prepend>
                         <FileImportIcon style="margin-left: -20px;" class="  text-grey" />
@@ -82,13 +103,23 @@
                 <!-- Show CSV data -->
 
 
-                <v-table height="auto" fixed-header>
-
+                <v-table  fixed-header>
                     <tbody>
-                        <tr v-for="items in transformedData" :key="items">
-                            <td v-for="item in items">{{ item.header }} : {{ item.body }}</td>
+                        <tr v-for="items in transformedData" :key="items" class="p\y-2">
+                            <td class="bg-grey-lighten-5 rounded-pill text-center" v-for="item in items">{{ item.title }} : {{ item.body }}</td>
                             <v-btn class="mt-2" icon="" color="red" variant="tonal" size="small"
                                 @click="transformedData.splice(transformedData.indexOf(items), 1)">
+                                <TrashIcon size="18" />
+                            </v-btn>
+                        </tr>
+                    </tbody>
+                </v-table>
+                <v-table  fixed-header>
+                    <tbody v-if="subset_product">
+                        <tr v-for="items in subset_product" :key="items" class="" >
+                            <td class="bg-red-lighten-5 rounded-pill text-center" v-for="item in items.data">{{ item.title }} : {{ item.body }}</td>
+                            <v-btn class="mt-2" icon="" color="red" variant="tonal" size="small"
+                                @click="subset_product.splice(subset_product.indexOf(items), 1) ; removeSubsetProduct(items)">
                                 <TrashIcon size="18" />
                             </v-btn>
                         </tr>
@@ -129,6 +160,7 @@ export default {
         price: 0,
         title: null,
         csvData: [],
+        formattedDate:[],
         transformedData: [],
         description: null,
         images: [],
@@ -138,9 +170,11 @@ export default {
         categories: [],
         selectedCategories: [],
         file_type: null,
+        subset_product : null,
         tab: null,
         discount: false,
         images: [],
+        get_file: null,
         file: null,
         value: 0,
         body: '',
@@ -161,7 +195,7 @@ export default {
     },
     methods: {
         handleTextChange(newText) {
-            this.body = newText;
+            this.description = newText;
         },
         handleCsvUpload(event) {
             // Ensure a file was selected
@@ -186,6 +220,14 @@ export default {
                 });
             };
             reader.readAsText(file);
+        },
+        removeSubsetProduct(item){
+            axios.delete(`${apiStore().address}/api/product/admin/remove-row-subset-digital-product/${item.id}`,{
+                            headers: {
+                                'Content-Type': 'multipart/form-data',
+                                Authorization: `Token ${useUserStore().userToken}`
+                            },
+                        })
         },
         transformCSVData(data) {
             return data.map(row => {
@@ -229,40 +271,95 @@ export default {
             this.sendDataFunc();
             this.loadingImage = false;
         },
-        async sendData() {
+        // async sendData() {
 
+        //     let  formDic = {}
+        //     let formData = new FormData();
+        //     // this.imageIds.forEach((element , index) => {
+        //     //     formData.append(`image`, element);
+        //     //     formDic[`image`] = element
+        //     // });
+        //     formDic[`image`] = this.imageIds
             
+        //     // this.selectedCategories.forEach(element => {
+        //     //     formData.append(`category`, element);
+        //     // });
+        //     console.log(this.transformedData);
+        //     formDic[`title`] =  this.title
+        //     formDic[`price`] =  this.price
+        //     formDic[`subsets_data`] =  this.transformedData
+        //     formDic[`description`] =  this.description
+        //     formDic[`discount`] =  this.value
+
+        //     if(this.file != null)   formDic[`file`] =  this.file[0]
+        //         let header = {headers: {
+        //             'Content-Type': 'multipart/form-data',
+        //             Authorization: `Token ${useUserStore().userToken}`
+        //         },}
+        //         let url = this.id != null ? `/api/product/admin/digital-product-retrieve-update-destroy/${this.id}/` : '/api/product/admin/digital-product-list-create/'
+        //         if(this.id != null ){
+        //         await  axios.patch(`${apiStore().address}${url}`, formDic, header).catch(error => {
+        //             // handle error
+        //             console.error('Error:', error);
+        //         });
+
+        //     }  else {
+        //         await  axios.post(`${apiStore().address}${url}`, formDic, header).catch(error => {
+        //             // handle error
+        //             console.error('Error:', error);
+        //         });                                                                                                                 
+        //     }
+        //     this.$emit('close')
+
+        // },
+        async sendData() {
             let formData = new FormData();
-            this.imageIds.forEach(element => {
-                formData.append(`image`, element);
+
+            // Add files to formData
+            if (this.file != null) {
+                formData.append('file', this.file[0]);
+            }
+
+            // Add other fields to formData
+            formData.append('title', this.title);
+            formData.append('price', this.price);
+            formData.append('description', this.description);
+            formData.append('discount', this.value);
+
+            // Assuming this.transformedData is an array or object
+            formData.append('subsets_data', JSON.stringify(this.transformedData));
+
+            // Assuming this.imageIds is an array
+            console.log('send data image ids list', this.imageIds);
+            this.imageIds.forEach((element) => {
+                formData.append('image', element);
             });
-            
-            formData.append(`title`, this.title);
-            formData.append(`price`, this.price);
-            // formData.append(`category`, this.selectedCategories);
-            formData.append(`subsets_data`, this.transformedData);
-            formData.append(`description`, this.description);
-            formData.append(`discount`, this.value);
-            if(this.file != null)  formData.append(`file`, this.file[0]);
-                let header = {headers: {
+             this.selectedCategories.forEach(element => {
+                formData.append(`category`, element);
+            });
+
+
+            // Set headers for multipart/form-data
+            let header = {
+                headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Token ${useUserStore().userToken}`
-                },}
-                let url = this.id != null ? `/api/product/admin/digital-product-retrieve-update-destroy/${this.id}/` : '/api/product/admin/digital-product-list-create/'
-                if(this.id != null ){
-                await  axios.patch(`${apiStore().address}${url}`, formData, header).catch(error => {
-                    // handle error
-                    console.error('Error:', error);
-                });
+                },
+            };
 
-            }  else {
-                await  axios.post(`${apiStore().address}${url}`, formData, header).catch(error => {
-                    // handle error
-                    console.error('Error:', error);
-                });                                                                                                                 
+            let url = this.id != null ? `/api/product/admin/digital-product-retrieve-update-destroy/${this.id}/` : '/api/product/admin/digital-product-list-create/';
+            try {
+                if (this.id != null) {
+                    await axios.patch(`${apiStore().address}${url}`, formData, header);
+                } else {
+                    await axios.post(`${apiStore().address}${url}`, formData, header).then((response)=> {
+                        this.$emit('close');
+                    });
+                }
+                this.$emit('close');
+            } catch (error) {
+                console.error('Error:', error);
             }
-            this.$emit('close')
-
         },
         getData() {
             axios.get(`${apiStore().address}/api/product/admin/digital-product-retrieve-update-destroy/${this.id}/`, {
@@ -281,7 +378,9 @@ export default {
                     this.imageIds.push(element.id)
                 });
                 console.log('images', this.imageIds);
-                this.selectedCategories = response.data.category
+                response.data.category.forEach(element => {
+                    this.selectedCategories.push(element.id)
+                })
            
                 console.log(this.categories);
                 this.price = response.data.price
