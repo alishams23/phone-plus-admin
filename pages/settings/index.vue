@@ -7,7 +7,7 @@
                     color="primary" class="mt-10" />
                 <v-textarea color="primary" v-model="bio" rounded="lg" variant="outlined" label="بیو"></v-textarea>
                 <v-file-input rounded="lg" accept=".png,.jpg" persistent-hint  variant="outlined" color="primary"
-                    v-model="image" placeholder="Upload your documents" label="عکس‌ پروفایل فروشگاه">
+                    v-model="image" placeholder="Upload your documents" label="تغییر عکس‌ پروفایل فروشگاه">
                     <template v-slot:prepend>
                         <PhotoIcon style="margin-left: -20px;" class="text-grey" />
                     </template>

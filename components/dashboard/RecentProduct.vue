@@ -1,6 +1,6 @@
 <template>
     <v-row v-if="loading ==false">
-        <v-col cols="12" lg="3" sm="6" v-for="item in data.slice(-4)" :key="item.title">
+        <v-col cols="12" lg="3" sm="6"  v-for="item in data.slice(-4)" :key="item.title">
           
             <v-card elevation="10" class="rtl" rounded="lg">
                 <RouterLink :to="'/'">
@@ -30,8 +30,8 @@
                 
                    
                 </div>
-                <v-card-item class="pt-0">
-                    <h6 class="text-h6" v-text="item.title"></h6>
+                <v-card-item  class="pt-0">
+                    <v-card-title class="text-h6" v-text="item.title"></v-card-title>
                     <div class="d-flex align-center justify-space-between mt-1">
                         <div>
                             <span class="text-h6" v-text=" item.price"></span>
