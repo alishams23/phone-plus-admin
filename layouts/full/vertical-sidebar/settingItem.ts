@@ -40,7 +40,7 @@ const sidebarItem: menu[] = [
     {
         title: ' نمایش پروفایل   ',
         icon: MenuOrderIcon,
-        to: '/settings/show-profile'
+        to: '/settings/showProfile'
     },
     
     {

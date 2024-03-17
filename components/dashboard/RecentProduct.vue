@@ -1,5 +1,5 @@
 <template>
-    <v-row>
+    <v-row v-if="loading ==false">
         <v-col cols="12" lg="3" sm="6" v-for="item in data.slice(-4)" :key="item.title">
           
             <v-card elevation="10" class="rtl" rounded="lg">
@@ -7,17 +7,28 @@
                     <v-img :src="item.image[0].photo" height="100%" class="rounded-t-md"></v-img>
                 </RouterLink>
                 <div class="d-flex justify-end ml-4 mt-n5 " >
-                    <v-btn size="40" icon class="bg-primary d-flex"
-                    :to="'/products/' +item.id ">
-                        <v-avatar size="30" class="text-white">
-                            <PencilIcon size="15" />
-                        </v-avatar>
-                        <v-tooltip
-                            activator="parent"
-                            location="bottom"
-                            >ویرایش
-                        </v-tooltip>
-                    </v-btn>
+                  <v-dialog width="900" >
+                    <template v-slot:activator="{ props: activatorProps }">
+                      <v-btn size="40" icon class="bg-primary d-flex" v-bind="activatorProps"
+                          >
+                          <v-avatar size="30" class="text-white">
+                              <PencilIcon size="15" />
+                          </v-avatar>
+                          <v-tooltip
+                              activator="parent"
+                              location="bottom"
+                              >ویرایش
+                          </v-tooltip>
+                      </v-btn>
+                    </template>
+                    <template v-slot:default="{ isActive }">
+                      <v-card class="px-3 px-md-15 rounded-lg my-20 " title="">
+                        <AddChangeProduct :id="item.id" @close="searchData()" />
+                      </v-card>
+                    </template>
+                  </v-dialog>                                                                                                               
+                
+                   
                 </div>
                 <v-card-item class="pt-0">
                     <h6 class="text-h6" v-text="item.title"></h6>
@@ -38,6 +49,8 @@
 import {TrashIcon, PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon} from 'vue-tabler-icons';
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
+import AddChangeProduct from '@/components/section/AddChangeProduct.vue';
+
 import axios from "axios";
 
 export default {
@@ -50,6 +63,7 @@ export default {
     SearchIcon,
     FilterCogIcon,
     TrashIcon,
+    AddChangeProduct
   },
   name: "ProductCard",
   data() {

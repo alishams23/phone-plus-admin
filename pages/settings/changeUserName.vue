@@ -109,7 +109,7 @@ import { apiStore } from '~/store/api';
         this.username = this.username.toLowerCase();
 
         this.loading = true
-        await axios.put(`${apiStore().address}/api/account/admin/change-username-shop/`, { username: this.username },{
+        await axios.put(`${apiStore().address}/api/account/admin/changeUsername-shop/`, { username: this.username },{
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",

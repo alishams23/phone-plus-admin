@@ -2,7 +2,7 @@
 
 
 <v-locale-provider rtl>
-  <v-text-field v-model="searchInput" @input="ListUserMessageApi" class="shadow-none px-3 pt-0 mt-10 border-0 text-right" bg-color="grey-lighten-3" base-color="primary" label=" جستجو"
+  <v-text-field v-model="searchInput" @input="ListUserMessageApi" class="shadow-none px-3 pl-7 pt-0 mt-10 border-0 text-right" bg-color="grey-lighten-3" base-color="primary" label=" جستجو"
   rounded="pill" variant="solo" elevation="0">
   <template v-slot:append-inner>
       <v-avatar size="48" color="transparent">
@@ -12,7 +12,7 @@
 </v-text-field>
 </v-locale-provider>
 
-<v-list subheader>
+<v-list subheader class="pl-4">
   <v-list-item  v-for="person,index in contacts" :key="person" :to="'/chat/' + person.contact.username + '/' + person.room_name" @click="$emit('get-selected-user', person); selected_user = person.contact.username"  class="py-3 rtl mx-3 rounded-lg my-1">
     {{ selected_user == person.contact.username ? $emit('get-selected-user', person) : '' }}
       <template v-slot:prepend>

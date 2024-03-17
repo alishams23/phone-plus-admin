@@ -110,7 +110,7 @@
 <script>
 import { TrashIcon, PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon } from 'vue-tabler-icons';
 
-import AddProduct from '@/pages/products/add_product.vue';
+import AddProduct from '@/components/section/AddChangeProduct.vue';
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 import axios from "axios";

@@ -59,6 +59,8 @@
             </div>
             <v-text-field label="کد آی‌فریم ویدیو محصول" v-model="video" rounded="lg" variant="outlined" color="primary"
                 class="mt-10" />
+                <v-checkbox  v-model="pin_profile" color="primary"
+                label="پین بودن در صفحه ی پروفایل شما"/>
             <v-expansion-panels rounded="xl" class="mb-10 mt-5  ">
                 <v-expansion-panel elevation="0">
                     <v-expansion-panel-title color="grey-lighten-4" class=" ">
@@ -70,7 +72,6 @@
                                 +
                             </div>
                         </div>
-
                     </v-expansion-panel-title>
                     <v-expansion-panel-text>
                         <AddSpecification :data="list_specification"
@@ -96,6 +97,8 @@
             </v-expansion-panels>
         </v-locale-provider>
         <AddDiscount :value="value" @change="(data) => { value = data }" />
+         
+            
         <v-btn rounded="lg" persistent-hint variant="flat" color="primary"
             :disabled="loadingImage || list_color.length == 0" class="mx-2 px-10 text-body2 font-weight-bold mb-5"
             type="submit">
@@ -130,6 +133,7 @@ export default {
         video: null,
         imageUrl: [],
         value: 0,
+        pin_profile:false,
         imageIds: [],
         loadingImage: false,
         imagePreviews: [],
@@ -199,6 +203,7 @@ export default {
             formDic['description'] = this.description
             formDic['price'] = this.price
             formDic['discount'] = this.value
+            formDic['pin_profile'] = this.pin_profile
             formDic['Specification'] = list_specification_id
             formDic['colors'] = list_color_id
             let header = {headers: {
@@ -232,6 +237,7 @@ export default {
                 this.description = response.data.description
                 this.title = response.data.title
                 this.video = response.data.video
+                this.pin_profile = response.data.pin_profile
                 response.data.image.forEach(element => {
 
                     this.imageIds.push(element.id)

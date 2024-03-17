@@ -41,12 +41,12 @@ const sidebarItem: menu[] = [
     {
         title: 'پرداخت‌ محصولات',
         icon: CoinsIcon,
-        to: '/payment_product'
+        to: '/paymentProduct'
     },
     {
         title: 'پرداخت‌ فایل ها ',
         icon: CoinsIcon,
-        to: '/payment_digital_product'
+        to: '/paymentDigitalProduct'
     },
     { header: 'محصولات' },
     {
@@ -57,7 +57,7 @@ const sidebarItem: menu[] = [
     {
         title: 'محصولات دیجیتال',
         icon: ThreedCubeSphereIcon,
-        to: '/digital_products'
+        to: '/digitalProducts'
     },
 
     { header: 'ارتباط' },

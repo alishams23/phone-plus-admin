@@ -65,7 +65,7 @@
                         </template>
                         <template v-slot:default="{ isActive }">
                           <v-card class="px-3 px-md-15 rounded-lg my-20 " title="">
-                            <AddDigitalProducts :id="product.id" @close="open = false; searchData()" />
+                            <AddDigitalProducts :id="product.id" @close=" searchData()" />
                           </v-card>
                         </template>
                       </v-dialog>                                                                                                               
@@ -86,7 +86,7 @@
   </v-container>
   <VLayoutItem model-value position="bottom" class="text-end" size="88">
 
-    <v-dialog width="900">
+    <v-dialog width="900" v-model="open">
       <template v-slot:activator="{ props }">
         <div class="ma-4">
           <VBtn v-bind="props" icon="" size="large" color="primary" elevation="8">
@@ -100,7 +100,7 @@
       <template v-slot:default="{ isActive }">
         <v-card class="rounded-lg  " title="">
           <v-container>
-            <AddDigitalProducts @close="open = false; searchData()" />
+            <AddDigitalProducts @close="open=false; searchData()" />
           </v-container>
         </v-card>
       </template>
@@ -112,7 +112,7 @@ import { TrashIcon, PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, So
 import axios from 'axios'
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
-import AddDigitalProducts from '@/pages/digital_products/add_digital_products.vue';
+import AddDigitalProducts from '@/components/section/AddChangeDigitalProduct.vue' ;
 
 export default {
   components: {
@@ -133,6 +133,7 @@ export default {
       loading: true,
       search_text: '',
       order: false,
+      open: false,
     };
   },
   computed: {

@@ -56,6 +56,7 @@ import { apiStore } from '~/store/api';
 import axios from 'axios';
 
 export default {
+    emits: ["change"],
     props: ["data",],
     components: {
         PlusIcon, TrashIcon,

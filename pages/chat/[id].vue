@@ -1,30 +1,7 @@
 <template>
     <v-app>
-        <!-- <v-navigation-drawer class=" hidden-sm-and-down" location="right" rail-width="90" rail
-            style="position:fixed; top:0; right:0; ">
-            <div class="d-flex bg-primary flex-column justify-center align-center" style="height: 100%;">
-          
-                <v-btn v-for="(item, index) in menu" variant="flat" :key="item + '+sidebar'" elevation="0" size="x-small"
-                    width="50" height="50" class="my-3 custom-rounded-1" color="transparent">
-                    <v-icon size="40">
-                        <component :is="item.icon" stroke-width="1.5" class="text-white"></component>
-                    </v-icon>
 
-                </v-btn>
-
-                <v-btn rounded="xl" elevation="0" size="small" width="45" height="45" class="mt-auto mb-5 custom-rounded-1"
-                    color="indigo-darken-3" icon="">
-                    <v-icon >
-                        <Logout2Icon />
-                    </v-icon>
-
-                </v-btn>
-            </div>
-        </v-navigation-drawer> -->
-       
         <v-main>
-            
-          
             <v-app-bar :elevation="0" class=" border-b rtl">
                 <v-btn color="transparent" class="hidden-lg-and-up mr-5 ms-md-3 ms-sm-5 ms-3 text-muted" @click="drawer = !drawer" icon variant="flat"
                 size="small">
@@ -58,10 +35,7 @@
                         </div>
                     </v-card>
                 </v-list-item>
-
-
             </v-list>
-
             <v-bottom-navigation height="70" elevation="0" color="transparent">
                 <v-row class="px-3 py-2">
                     <v-col cols="9" sm="10" md="11">
@@ -74,10 +48,8 @@
                         </v-avatar>
                     </v-col>
                 </v-row>
-
             </v-bottom-navigation>
         </v-main>
-
     </v-app>
 </template>
 

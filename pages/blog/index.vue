@@ -88,7 +88,7 @@
     </v-locale-provider>
   </v-container>
   <VLayoutItem model-value position="bottom" class="text-end" size="88">
-    <VBtn to="/blog/add_blog" icon="" class="mx-2 mx-md-5" size="large" color="primary" elevation="8">
+    <VBtn to="/blog/addBlog" icon="" class="mx-2 mx-md-5" size="large" color="primary" elevation="8">
       <v-icon>
         <PlusIcon />
       </v-icon>
@@ -100,7 +100,7 @@
 import { PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon, ArticleIcon, TrashIcon } from 'vue-tabler-icons';
 
 
-import AddBlog from '@/pages/blog/add_blog.vue';
+import AddBlog from '@/pages/blog/addBlog.vue';
 import axios from "axios";
 import ShowTextEditor from '~/components/shared/ShowTextEditor.vue';
 import { useUserStore } from '~/store/user';

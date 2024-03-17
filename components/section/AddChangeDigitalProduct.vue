@@ -129,6 +129,8 @@
 
                 <v-alert v-if="file_type == 'لیست لایسنس‌ها'" class="mt-2 rounded-lg" title="نکته"
                     text="برای ثبت لایسنس‌های خود، لطفاً فایل CSV را با دقت تکمیل کنید. هر ردیف فایل باید حاوی اطلاعات یک لایسنس باشد. پس از تکمیل، فایل خود را در بخش مربوطه در وب‌سایت آپلود کنید تا لایسنس‌های شما به سرعت و به طور موثر ثبت شوند."></v-alert>
+                <v-checkbox  v-model="pin_profile" color="primary"
+                label="پین بودن در صفحه ی پروفایل شما"/>
 
                 <v-checkbox v-model="discount" label="دارای تخفیف"></v-checkbox>
             </v-locale-provider>
@@ -174,6 +176,7 @@ export default {
         tab: null,
         discount: false,
         images: [],
+        pin_profile:false,
         get_file: null,
         file: null,
         value: 0,
@@ -325,6 +328,7 @@ export default {
             formData.append('price', this.price);
             formData.append('description', this.description);
             formData.append('discount', this.value);
+            formData.append('pin_profile', this.pin_profile);
 
             // Assuming this.transformedData is an array or object
             formData.append('subsets_data', JSON.stringify(this.transformedData));
@@ -373,6 +377,7 @@ export default {
                 this.description = response.data.description
                 this.title = response.data.title
                 this.video = response.data.video
+                this.pin_profile = response.data.pin_profile
                 response.data.image.forEach(element => {
 
                     this.imageIds.push(element.id)

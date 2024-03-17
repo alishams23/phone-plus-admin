@@ -34,6 +34,7 @@ import { apiStore } from '~/store/api';
 import axios from 'axios';
 
 export default {
+    emits: ["change","getData"],
     props: ["selected","url",],
     components: {
         PlusIcon
@@ -59,6 +60,8 @@ export default {
                 });
                 this.data = response.data; // Assuming the API returns an array
                 this.loading = false
+                this.$emit("getData", this.data)
+                
             } catch (error) {
                 console.error('Error fetching categories:', error);
             }

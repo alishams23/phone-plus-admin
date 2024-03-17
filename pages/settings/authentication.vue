@@ -69,9 +69,6 @@ export default {
             imagePreviews: [],
         };
     },
-    mounted() {
-
-    },
     methods: {
         getData() {
             axios.get(`${apiStore().address}/api/account/admin/shop-retrieve/`, {
