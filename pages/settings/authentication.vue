@@ -71,7 +71,7 @@ export default {
     },
     methods: {
         getData() {
-            axios.get(`${apiStore().address}/api/account/admin/shop-retrieve/`, {
+            axios.get(`${apiStore().address}/api/account/seller-panel/shop-retrieve/`, {
                 headers: {
                     Accept: "application/json",
                     Authorization: `Token ${useUserStore().userToken}`
@@ -94,7 +94,7 @@ export default {
                 console.log(this.image)
                 await axios
                     .put(
-                        `${apiStore().address}/api/account/admin/shop-update/`,
+                        `${apiStore().address}/api/account/seller-panel/shop-update/`,
                         this.fd,
                         {
                             headers: {

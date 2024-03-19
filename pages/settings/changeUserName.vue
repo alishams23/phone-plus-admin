@@ -76,7 +76,7 @@ export default {
 
       this.loading = true
       if (this.username.length >= 6) {
-        await axios.post(`${apiStore().address}/api/account/admin/check-username-shop/`, { username: this.username }, {
+        await axios.post(`${apiStore().address}/api/account/seller-panel/check-username-shop/`, { username: this.username }, {
           headers: {
             "Content-type": "application/json",
             Accept: "application/json",
@@ -99,7 +99,7 @@ export default {
       this.username = this.username.toLowerCase();
 
       this.loading = true
-      await axios.put(`${apiStore().address}/api/account/admin/change-username-shop/`, { username: this.username }, {
+      await axios.put(`${apiStore().address}/api/account/seller-panel/change-username-shop/`, { username: this.username }, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",

@@ -25,7 +25,12 @@
       </v-col>
 
     </v-row>
-    <v-alert v-if="data == null" color="primary" icon="fa fa-info" variant="tonal" border="start"
+    <div class="d-flex justify-center">
+      <v-progress-circular v-if="loading" bg-color="transparent" :size="55" class="ma-10" :width="7" color="primary"
+        indeterminate></v-progress-circular>
+    </div>
+    
+    <v-alert v-if="data.length == 0 && loading ==false" color="primary" icon="fa fa-info" variant="tonal" border="start"
       class="rtl border-opacity-100 my-10">
       <div class="text-sm  font-weight-black irsa">
         محصولی وجود ندارد
@@ -129,7 +134,7 @@ export default {
   name: "ProductCard",
   data() {
     return {
-      data: null,
+      data: [],
       loading: true,
       search_text: '',
       order: false,
@@ -144,7 +149,7 @@ export default {
   methods: {
     searchData() {
       this.loading = true
-      axios.get(`${apiStore().address}/api/product/admin/digital-product-list-create/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+      axios.get(`${apiStore().address}/api/product/seller-panel/digital-product-list-create/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
@@ -158,7 +163,7 @@ export default {
     },
     removeItem(id) {
       this.loadingItem = id
-      axios.delete(`${apiStore().address}/api/product/admin/digital-product-retrieve-update-destroy/${id}/`, {
+      axios.delete(`${apiStore().address}/api/product/seller-panel/digital-product-retrieve-update-destroy/${id}/`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",

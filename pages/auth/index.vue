@@ -8,7 +8,7 @@
               <v-card-text class="mt-12" height="100%">
                 <h4 class="text-center text-h4 my-10 font-weight-black">ورود به اکانت</h4>
                 <v-locale-provider rtl>
-                 <form v-if="state == 'login' " @submit.prevent="sendLoginSms" >
+                 <form v-if="state != 'get_login_code'" @submit.prevent="sendLoginSms" >
                   <v-row align="center" justify="center">
                     <v-col cols="12" sm="8">
                       <div v-if="error" class="  text-red-accent-4 d-flex justify-start pl-3 pt-1 ">
@@ -19,9 +19,9 @@
                         :rules="[rules.required, rules.phoneNumber]"
                        label="شماره موبایل" required rounded="lg"
                        persistent-hint variant="outlined"
-                        color="primary" class="mt-16" />
+                        color="primary" class="mt-12" />
 
-                      <v-btn type="submit" class="mt-16" size="large" elevation="0" rounded color="primary" :loading="loading" dark block tile> دریافت کد</v-btn>
+                      <v-btn type="submit" class="mt-12" size="large" elevation="0" rounded color="primary" :loading="loading" dark block tile> دریافت کد</v-btn>
                     </v-col>
                   </v-row>
                  </form>
@@ -67,10 +67,16 @@
                     </v-col>
                   </v-row>
                  </form>
+                  <div @click="step++" class="text-center pt-4 hidden-lg-and-up">
+                    <p>
+                      <span>اکانت نداری؟</span>
+                      <span class="text-indigo-lighten-1 px-2"> ثبت نام کن</span>
+                    </p>
+                  </div>
                 </v-locale-provider>
               </v-card-text>
             </v-col>
-            <v-col cols="12" md="6" class="bg-primary rounded-bl-xl h-100">
+            <v-col cols="12" md="6" class="bg-primary rounded-bl-xl h-100 hidden-sm-and-down">
               <div style="  text-align: center; padding: 180px 0;">
                 <v-card-text class="white--text">
                   <h3 class="text-center font-weight-black text-h3 rtl">اکانتی نداری؟</h3>
@@ -88,7 +94,7 @@
         </v-window-item>
         <v-window-item :value="2" class=" h-100">
           <v-row class=" h-100">
-            <v-col cols="12" md="6" class="bg-primary rounded-br-xl h-100">
+            <v-col cols="12" md="6" class="bg-primary rounded-br-xl h-100 hidden-sm-and-down">
               <div style="  text-align: center; padding: 180px 0;">
                 <v-card-text class="white--text">
                   <h3 class="text-center font-weight-black text-h3 rtl">اکانتی داری؟</h3>
@@ -107,20 +113,20 @@
               <v-card-text class="mt-12">
                 <h4 class="text-center text-h4 my-10 font-weight-black">ثبت نام </h4>
                 <v-locale-provider rtl>
-                  <form v-if="state == 'signup' " @submit.prevent="sendSingUpSms">
+                  <form v-if="state != 'get_code_signup' " @submit.prevent="sendSingUpSms">
                     <v-row align="center" justify="center">
                       <v-col cols="12" sm="8">
                         <v-row>
                           <v-col cols="12" sm="6">
                             <v-text-field v-model="first_name" label="نام" rounded="lg" persistent-hint variant="outlined" color="primary"
-                              class="mt-4" />
+                              class="mt-lg-4" />
                           </v-col>
-                          <v-col cols="12" sm="6">
+                          <v-col cols="12" sm="6" >
                             <v-text-field v-model="last_name"  label="نام خانوادگی" rounded="lg" persistent-hint variant="outlined"
-                              color="primary" class="mt-4" />
+                              color="primary" class="mt-lg-4" />
                           </v-col>
                         </v-row>
-                        <v-text-field v-model="phoneNumber" label="شماره تلفن" rounded="lg" persistent-hint variant="outlined" color="primary" />
+                        <v-text-field v-model="phoneNumber" class="mt-5 " label="شماره تلفن" rounded="lg" persistent-hint variant="outlined" color="primary" />
                     
                         <v-btn :loading="loading" type="submit"  class="mt-16" size="large" elevation="0" rounded color="primary" dark block tile>ثبت
                           نام</v-btn>                    
@@ -169,6 +175,13 @@
                       </v-col>
                     </v-row>
                   </form>
+                  <div @click="step--" class="text-center pt-4 hidden-lg-and-up">
+                    <p>
+                      <span>اکانت داری؟</span>
+                      <span class="text-indigo-lighten-1 px-2">وارد شو</span>
+                    </p>
+                  </div>
+
                 </v-locale-provider>
               </v-card-text>
             </v-col>
@@ -283,7 +296,7 @@ export default {
         // Ensure the phone number is not empty
         this.loading = true
         if (this.code ) {
-            const apiUrl = `${apiStore().address}/api/account/admin/code-check/`;
+            const apiUrl = `${apiStore().address}/api/account/seller-panel/code-check/`;
             const data = {
                 number: this.phoneNumber, // Assuming the API expects the full number with country code
                 code  : this.code

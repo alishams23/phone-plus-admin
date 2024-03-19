@@ -12,7 +12,7 @@
 
     <div v-else>
         <v-container>
-            <form  @submit.prevent="put_data ? updateData() : createData()">
+            <form  @submit.prevent="id!=null ? updateData() : createData()">
                 <v-locale-provider rtl>
                     <v-text-field 
                         class="mt-16"
@@ -40,7 +40,7 @@
                         </template>
                         
                     </v-file-input>
-                    <div class="image-preview-container ps-10">
+                    <div  v-if="N_card_preview" class="image-preview-container ps-10">
                         <img :src="N_card_preview" class="chip-image-preview" />
                     </div>
         
@@ -60,7 +60,7 @@
                         </template>
                         
                     </v-file-input>
-                    <div class="image-preview-container ps-10">
+                    <div v-if="N_card_face_preview" class="image-preview-container ps-10">
                         <img :src="N_card_face_preview" class="chip-image-preview" />
                     </div>
                     
@@ -79,7 +79,7 @@
                         </template>
                         
                     </v-file-input>
-                    <div class="image-preview-container ps-10">
+                    <div v-if="shop_card_preview" class="image-preview-container ps-10">
                         <img :src="shop_card_preview" class="chip-image-preview" />
                     </div>
         
@@ -163,26 +163,26 @@ export default {
         getData() {
             this.loadingData = true
             console.log('getData');
-            axios.get(`${apiStore().address}/api/account/admin/verify-shop-list`, {
+            axios.get(`${apiStore().address}/api/account/seller-panel/verify-shop-list`, {
                 headers: {
                     Accept: "application/json",
                     Authorization: `Token ${useUserStore().userToken}`
                 },
             }).then((response) => {
                 console.log('Data',response.data[0])
-
-                this.id                     = response.data[0].id;
-                this.is_verified            = response.data[0].is_verified;
-                this.shop_name              = response.data[0].name;
-                this.N_card_preview         = response.data[0].image_national_card;
-                this.N_card_face_preview    = response.data[0].selfie_with_national_card;
-                this.shop_card_preview      = response.data[0].shop_card;
-                this.merchant_id_zarinpal   = response.data[0].merchant_zarin;
-
+                if (response.data.length){
+                    this.id                     = response.data[0].id;
+                    this.is_verified            = response.data[0].is_verified;
+                    this.shop_name              = response.data[0].name;
+                    this.N_card_preview         = response.data[0].image_national_card;
+                    this.N_card_face_preview    = response.data[0].selfie_with_national_card;
+                    this.shop_card_preview      = response.data[0].shop_card;
+                    this.merchant_id_zarinpal   = response.data[0].merchant_zarin;
+                    this.put_data = true
+                }
                 if (this.is_verified){
                     this.$router.push("/auth/logOut/");
                 }
-                this.put_data = true
                 this.loadingData = false
 
             }).catch(error => {
@@ -203,7 +203,7 @@ export default {
             this.fd.append("merchant_zarin", this.merchant_id_zarinpal)
 
             await axios.patch(
-                `${apiStore().address}/api/account/admin/verify-shop-retrieve-update/${this.id}/`,
+                `${apiStore().address}/api/account/seller-panel/verify-shop-retrieve-update/${this.id}/`,
                 this.fd,
                 {
                     headers: {
@@ -233,7 +233,7 @@ export default {
             this.fd.append("merchant_zarin", this.merchant_id_zarinpal)
 
             await axios.post(
-                `${apiStore().address}/api/account/admin/verify-shop-create/`,
+                `${apiStore().address}/api/account/seller-panel/verify-shop-create/`,
                 this.fd,
                 {
                     headers: {

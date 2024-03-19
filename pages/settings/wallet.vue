@@ -45,7 +45,7 @@ export default {
     },
     methods: {
         getData() {
-            axios.get(`${apiStore().address}/api/account/admin/zarinpal-merchant-list/`, {
+            axios.get(`${apiStore().address}/api/account/seller-panel/zarinpal-merchant-list/`, {
                 headers: {
                     Accept: "application/json",
                     Authorization: `Token ${useUserStore().userToken}`
@@ -66,7 +66,7 @@ export default {
                 this.fd.append("merchant_id", this.merchant_id);
                 await axios
                     .patch(
-                        `${apiStore().address}/api/account/admin/zarinpal-merchant-update/${this.id}/`,
+                        `${apiStore().address}/api/account/seller-panel/zarinpal-merchant-update/${this.id}/`,
                         this.fd,
                         {
                             headers: {

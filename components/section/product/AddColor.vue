@@ -2,26 +2,26 @@
     <form @submit.prevent="createColor" class="pb-4">
         <v-row>
             <v-col cols="12" md="4">
-                <v-text-field required label="عنوان رنگ" rounded="lg" v-model="title_color" variant="outlined"
+                <v-text-field required label="نام رنگ" rounded="lg" v-model="title_color" variant="outlined"
                     color="primary" class="mt-10" />
             </v-col>
             <v-col cols="12" md="4" class="d-flex align-center justify-center">
-                <v-text-field required type="number" min="0" label="قیمت افزوده شده رنگ" rounded="lg" v-model="price_color"
-                    variant="outlined" color="primary" class="mt-10" />
+                <v-text-field required type="number" min="0" label="قیمت کالا با این رنگ(تومان)" rounded="lg"
+                    v-model="price_color" variant="outlined" color="primary" class="mt-10" />
 
             </v-col>
             <v-col cols="12" md="4" class="d-flex align-center justify-center">
-                <v-text-field required type="number" min="1" label=" تعداد موجودی این رنگ" rounded="lg" v-model="count_color"
-                    variant="outlined" color="primary" class="mt-10" />
+                <v-text-field required type="number" min="1" label=" تعداد موجودی این رنگ" rounded="lg"
+                    v-model="count_color" variant="outlined" color="primary" class="mt-10" />
 
             </v-col>
             <v-col cols="12" class="d-flex align-end justify-space-between">
 
-                <v-color-picker elevation="10" class="rounded-xl" required v-model="hexcolor"
-                    mode="hex"></v-color-picker>
-                <v-btn type="submit" :loading="loadingSpecification" class="mt-4 px-10 rounded-lg mx-3" color="primary"
+                <v-color-picker elevation="10" class="rounded-xl" required v-model="hexcolor" mode="hex">
+                </v-color-picker>
+                <v-btn type="submit" :disabled="hexcolor?false:true"  :loading="loadingSpecification" class="mt-4 px-10 rounded-lg mx-3" color="primary"
                     variant="flat">
-                    ثبت
+                    ثبت رنگ
                     <template v-slot:append>
                         <CheckIcon size="17" />
                     </template>
@@ -38,8 +38,8 @@
             <div>
                 تعداد : {{ item.count }}
             </div>
-            <v-btn @click="data.splice(data.indexOf(item), 1)" icon="" variant="tonal" class="mx-3" elevation="0" color="red"
-                size="small">
+            <v-btn @click="data.splice(data.indexOf(item), 1)" icon="" variant="tonal" class="mx-3" elevation="0"
+                color="red" size="small">
                 <TrashIcon size="17" />
             </v-btn>
         </v-col>
@@ -75,7 +75,7 @@ export default {
 
         async createColor() {
             this.loadingColor = true
-            axios.post(`${apiStore().address}/api/product/admin/product-color-list-create/`,
+            axios.post(`${apiStore().address}/api/product/seller-panel/product-color-list-create/`,
                 {
                     title: this.title_color,
                     price: this.price_color,

@@ -53,7 +53,7 @@ export default {
 
         async createSpecification() {
             this.loadingSpecification = true
-            axios.post(`${apiStore().address}/api/product/admin/specification-list-create/`,
+            axios.post(`${apiStore().address}/api/product/seller-panel/specification-list-create/`,
                 {
                     title: this.title_specification,
                     body: this.body_specification

@@ -34,7 +34,7 @@ export default {
     methods: {
         async createColor() {
             this.loadingColor = true
-            axios.post(`${apiStore().address}/api/product/admin/product-color-list-create/`,
+            axios.post(`${apiStore().address}/api/product/seller-panel/product-color-list-create/`,
                 {
                     title: this.title_color,
                     price: this.price_color,

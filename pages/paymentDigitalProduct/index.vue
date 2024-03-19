@@ -2,7 +2,15 @@
 <template>
     <v-container>
         <v-row align="center" class="rtl">
-            <v-col cols="12" md="5">
+            <v-col cols="12" md="7" class="rtl d-flex align-center">
+                <v-avatar color="primary" rounded="lg" size="50">
+                    <CoinsIcon />
+                </v-avatar>
+                <div class=" px-5 font-weight-bold text-h4">
+                    پرداخت‌ها
+                </div>
+            </v-col>
+            <v-col cols="12" md="5" >
                 <v-locale-provider rtl>
                     <v-text-field v-model="search_text" @update:model-value="searchData" label="جستجو" rounded="lg"
                         persistent-hint variant="outlined" color="primary" dense class="mt-5 text-body-2">
@@ -15,21 +23,11 @@
                                 <SortDescending2Icon v-if="order" />
                                 <SortAscending2Icon v-if="!order" />
                             </v-btn>
-                   
-
                         </template>
                     </v-text-field>
                 </v-locale-provider>
-
             </v-col>
-            <v-col cols="12" md="7" class="rtl d-flex align-center">
-                <v-avatar color="primary" rounded="lg" size="50">
-                    <CoinsIcon />
-                </v-avatar>
-                <div class=" px-5 font-weight-bold text-h4">
-                    پرداخت‌ها
-                </div>
-            </v-col>
+            
         </v-row>
         <v-alert v-if="data.length == 0 && loading == false" color="primary" icon="fa fa-info" variant="tonal"
             border="start" class="rtl border-opacity-100 my-10">
@@ -99,7 +97,7 @@ export default {
         searchData() {
             this.loading = true
 
-            axios.get(`${apiStore().address}/api/order/admin/order-payed-digital-product-list-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+            axios.get(`${apiStore().address}/api/order/seller-panel/order-payed-digital-product-list-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",

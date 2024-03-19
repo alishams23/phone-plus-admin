@@ -41,7 +41,7 @@ export default {
     },
     methods: {
         async getData() {
-            fetch(`${apiStore().address}/api/account/admin/terms-list-api/`, {
+            fetch(`${apiStore().address}/api/account/seller-panel/terms-list-api/`, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",

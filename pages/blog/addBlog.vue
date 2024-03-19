@@ -117,7 +117,7 @@ import { PhotoIcon, } from 'vue-tabler-icons';
         console.log(this.photo)
         await axios
           .post(
-            `${apiStore().address}/api/blog/admin/create-image/`,
+            `${apiStore().address}/api/blog/seller-panel/create-image/`,
             this.fd,
   
             {
@@ -138,7 +138,7 @@ import { PhotoIcon, } from 'vue-tabler-icons';
             this.imageId = response.data.id;
             axios
               .post(
-                `${apiStore().address}/api/blog/admin/create-blog-admin/`,
+                `${apiStore().address}/api/blog/seller-panel/create-blog-admin/`,
                 {
                   title: this.title,
                   body: this.body,

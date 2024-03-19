@@ -77,7 +77,7 @@ export default {
              <!-- <Logo /> -->
             <v-sheet class="d-flex justify-center align-center ml-5" color="transparent">
              <v-avatar size="100" justify="center" color="indigo">
-                     <v-img :src="address + '/api/account/shop-profile/' + shop_username + '/'" height="100" alt="user" />
+                     <v-img cover :src="address + '/api/account/shop-profile/' + shop_username + '/'" height="100" alt="user" />
                  </v-avatar>
              </v-sheet>
          </div>

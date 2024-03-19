@@ -158,7 +158,7 @@ export default {
                 console.log(this.photo)
                 await axios
                     .post(
-                        `${apiStore().address}/api/blog/admin/create-image/`,
+                        `${apiStore().address}/api/blog/seller-panel/create-image/`,
                         this.fd,
 
                         {
@@ -200,7 +200,7 @@ export default {
             if (this.imageId) data['imageBlog'] = this.imageId
             await axios
                 .put(
-                    `${apiStore().address}/api/blog/admin/blog-update/${this.$route.params.id}/`,
+                    `${apiStore().address}/api/blog/seller-panel/blog-update/${this.$route.params.id}/`,
                     data,
                     {
                         headers: {

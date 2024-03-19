@@ -10,12 +10,12 @@
             <v-locale-provider rtl>
                 <v-row class="mt-10 mb-5">
                     <v-col cols="12" md="6">
-                        <v-text-field :label="file_type=='لیست لایسنس‌ها'?' قیمت هر ردیف':'قیمت'" rounded="lg" v-model="price" required type="number" persistent-hint
+                        <v-text-field :label="file_type=='لیست لایسنس‌ها'?' قیمت هر ردیف(تومان)':'قیمت(تومان)'" rounded="lg" v-model="price" required type="number" persistent-hint
                             variant="outlined" color="primary" />
                     </v-col>
                     <v-col cols="12" md="6">
                         <AddCategories @change="(data) => { selectedCategories = data }" :selected="selectedCategories"
-                            url="/api/product/admin/category-digital-product-list-create/" />
+                            url="/api/product/seller-panel/category-digital-product-list-create/" />
                     </v-col>
                 </v-row>
                 <v-file-input rounded="lg" accept=".png,.jpg" :rules="rules" :required="id?imageIds.length!=0?false:true:true" multiple persistent-hint
@@ -231,7 +231,7 @@ export default {
             reader.readAsText(file);
         },
         removeSubsetProduct(item){
-            axios.delete(`${apiStore().address}/api/product/admin/remove-row-subset-digital-product/${item.id}`,{
+            axios.delete(`${apiStore().address}/api/product/seller-panel/remove-row-subset-digital-product/${item.id}`,{
                             headers: {
                                 'Content-Type': 'multipart/form-data',
                                 Authorization: `Token ${useUserStore().userToken}`
@@ -249,7 +249,7 @@ export default {
                     let imageFormData = new FormData();
                     imageFormData.append(`photo`, file);
                     try {
-                        axios.post(`${apiStore().address}/api/product/admin/add-image/`, imageFormData, {
+                        axios.post(`${apiStore().address}/api/product/seller-panel/add-image/`, imageFormData, {
                             headers: {
                                 'Content-Type': 'multipart/form-data',
                                 Authorization: `Token ${useUserStore().userToken}`
@@ -305,7 +305,7 @@ export default {
         //             'Content-Type': 'multipart/form-data',
         //             Authorization: `Token ${useUserStore().userToken}`
         //         },}
-        //         let url = this.id != null ? `/api/product/admin/digital-product-retrieve-update-destroy/${this.id}/` : '/api/product/admin/digital-product-list-create/'
+        //         let url = this.id != null ? `/api/product/seller-panel/digital-product-retrieve-update-destroy/${this.id}/` : '/api/product/seller-panel/digital-product-list-create/'
         //         if(this.id != null ){
         //         await  axios.patch(`${apiStore().address}${url}`, formDic, header).catch(error => {
         //             // handle error
@@ -357,7 +357,7 @@ export default {
                 },
             };
 
-            let url = this.id != null ? `/api/product/admin/digital-product-retrieve-update-destroy/${this.id}/` : '/api/product/admin/digital-product-list-create/';
+            let url = this.id != null ? `/api/product/seller-panel/digital-product-retrieve-update-destroy/${this.id}/` : '/api/product/seller-panel/digital-product-list-create/';
             try {
                 if (this.id != null) {
                     await axios.patch(`${apiStore().address}${url}`, formData, header);
@@ -372,7 +372,7 @@ export default {
             }
         },
         getData() {
-            axios.get(`${apiStore().address}/api/product/admin/digital-product-retrieve-update-destroy/${this.id}/`, {
+            axios.get(`${apiStore().address}/api/product/seller-panel/digital-product-retrieve-update-destroy/${this.id}/`, {
                 headers: {
                     Accept: "application/json",
                     Authorization: `Token ${useUserStore().userToken}`

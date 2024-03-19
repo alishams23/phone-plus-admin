@@ -248,7 +248,7 @@ export default {
     methods: {
         changeStatus(id, status) {
             this.loadingStatus = id
-            axios.put(`${apiStore().address}/api/order/admin/order-update-status/${id}/`, { status: status }, {
+            axios.put(`${apiStore().address}/api/order/seller-panel/order-update-status/${id}/`, { status: status }, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",

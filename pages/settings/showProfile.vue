@@ -30,7 +30,7 @@
 
         <v-dialog width="500">
           <template v-slot:activator="{ props }">
-            <v-btn v-bind="props" color="primary" elevation="0" variant="tonal" rounded="lg" class="px-8 mx-3">
+            <v-btn v-bind="props" color="primary" elevation="0" variant="tonal" rounded="lg" class="px-8 my-3 mx-3">
               افزودن دسته بندی محصول
               <template v-slot:prepend>
                 <PlusIcon size="15" />
@@ -46,7 +46,7 @@
 
                   <AddCategories @getData="(data) => { categories = data }"
                     @change="(data) => { selectedCategories = data }" :selected="selectedCategories"
-                    url="/api/product/admin/category-product-list-create/" />
+                    url="/api/product/seller-panel/category-product-list-create/" />
 
 
 
@@ -65,7 +65,7 @@
         </v-dialog>
         <v-dialog width="500">
           <template v-slot:activator="{ props }">
-            <v-btn v-bind="props" color="primary" elevation="0" variant="tonal" rounded="lg" class="px-8 mx-3">
+            <v-btn v-bind="props" color="primary" elevation="0" variant="tonal" rounded="lg" class="px-8  my-3 mx-3">
               افزودن دسته بندی محصول دیجیتال
               <template v-slot:prepend>
                 <PlusIcon size="15" />
@@ -80,7 +80,7 @@
                   <AddCategories @getData="(data) => { categoriesDigital = data }"
                     @change="(data) => { selectedCategoriesDigitalProduct = data }"
                     :selected="selectedCategoriesDigitalProduct"
-                    url="/api/product/admin/category-digital-product-list-create/" />
+                    url="/api/product/seller-panel/category-digital-product-list-create/" />
                 </v-card-text>
 
                 <v-card-actions>
@@ -133,7 +133,7 @@ export default {
   },
   methods: {
     getData() {
-    axios.get(`${apiStore().address}/api/account/admin/shop-retrieve/`, {
+    axios.get(`${apiStore().address}/api/account/seller-panel/shop-retrieve/`, {
       headers: {
         Accept: "application/json",
         Authorization: `Token ${useUserStore().userToken}`
@@ -157,7 +157,7 @@ export default {
 
     await axios
       .put(
-        `${apiStore().address}/api/account/admin/shop-order-update/${this.id}/`,
+        `${apiStore().address}/api/account/seller-panel/shop-order-update/${this.id}/`,
         formDict,
         {
           headers: {

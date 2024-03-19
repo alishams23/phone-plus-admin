@@ -1,8 +1,8 @@
 <template>
-    <v-row v-if="loading ==false">
+    <v-row  class="rtl" v-if="loading ==false">
         <v-col cols="12" lg="3" sm="6"  v-for="item in data.slice(-4)" :key="item.title">
           
-            <v-card elevation="10" class="rtl" rounded="lg">
+            <v-card elevation="10"  rounded="lg">
                 <RouterLink :to="'/'">
                     <v-img :src="item.image[0].photo" height="100%" class="rounded-t-md"></v-img>
                 </RouterLink>
@@ -82,7 +82,7 @@ export default {
     
     searchData() {
       this.loading = true
-      axios.get(`${apiStore().address}/api/product/admin/products-list-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+      axios.get(`${apiStore().address}/api/product/seller-panel/products-list-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
@@ -94,7 +94,7 @@ export default {
       })
     },removeItem(id){
       this.loadingItem = id
-      axios.delete(`${apiStore().address}/api/product/admin/product-retrieve-update-destroy/${id}/`, {
+      axios.delete(`${apiStore().address}/api/product/seller-panel/product-retrieve-update-destroy/${id}/`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",

@@ -13,13 +13,13 @@
         <TextEditor :content="description" @update="handleTextChange"></TextEditor>
         <v-locale-provider rtl>
             <v-row class="mt-10 mb-5">
-                <v-col cols="12" md="6">
+                <!-- <v-col cols="12" md="6">
                     <v-text-field label="قیمت محصول(تومان)" v-model="price" min="1000" required rounded="lg" type="number"
                         persistent-hint variant="outlined" color="primary" />
-                </v-col>
-                <v-col cols="12" md="6">
+                </v-col> -->
+                <v-col cols="12" md="12">
                     <AddCategories @change="(data) => { selectedCategories = data }" :selected="selectedCategories"
-                        url="/api/product/admin/category-product-list-create/" />
+                        url="/api/product/seller-panel/category-product-list-create/" />
                 </v-col>
             </v-row>
 
@@ -145,7 +145,7 @@ export default {
                     let imageFormData = new FormData();
                     imageFormData.append(`photo`, file);
                     try {
-                        axios.post(`${apiStore().address}/api/product/admin/add-image/`, imageFormData, {
+                        axios.post(`${apiStore().address}/api/product/seller-panel/add-image/`, imageFormData, {
                             headers: {
                                 'Content-Type': 'multipart/form-data',
                                 Authorization: `Token ${useUserStore().userToken}`
@@ -205,7 +205,7 @@ export default {
                         Authorization: `Token ${useUserStore().userToken}`
                     },
                 }
-                let url = this.id != null ? `/api/product/admin/product-retrieve-update-destroy/${this.id}/` : '/api/product/admin/add-product/'
+                let url = this.id != null ? `/api/product/seller-panel/product-retrieve-update-destroy/${this.id}/` : '/api/product/seller-panel/add-product/'
                 if (this.id != null) {
                     await axios.put(`${apiStore().address}${url}`, formDic, header).catch(error => {
                         // handle error
@@ -224,7 +224,7 @@ export default {
             }
         },
         getData() {
-            axios.get(`${apiStore().address}/api/product/admin/product-retrieve-update-destroy/${this.id}/`, {
+            axios.get(`${apiStore().address}/api/product/seller-panel/product-retrieve-update-destroy/${this.id}/`, {
                 headers: {
                     Accept: "application/json",
                     Authorization: `Token ${useUserStore().userToken}`
