@@ -109,10 +109,10 @@
                 <!-- Show CSV data -->
 
 
-                <v-table  fixed-header>
-                    <tbody>
+                <v-table fixed-header>
+                    <tbody >
                         <tr v-for="items in transformedData" :key="items" class="p\y-2">
-                            <td class="bg-grey-lighten-5 rounded-pill text-center" v-for="item in items">{{ item.title }} : {{ item.body }}</td>
+                            <td class="bg-grey-lighten-5 rounded-pill text-center" v-for="item in items">{{ item.title }}: {{ item.body }}</td>
                             <v-btn class="mt-2" icon="" color="red" variant="tonal" size="small"
                                 @click="transformedData.splice(transformedData.indexOf(items), 1)">
                                 <TrashIcon size="18" />
@@ -120,10 +120,10 @@
                         </tr>
                     </tbody>
                 </v-table>
-                <v-table  fixed-header>
+                <v-table fixed-header>
                     <tbody v-if="subset_product">
                         <tr v-for="items in subset_product" :key="items" class="" >
-                            <td class="bg-red-lighten-5 rounded-pill text-center" v-for="item in items.data">{{ item.title }} : {{ item.body }}</td>
+                            <td class="bg-red-lighten-5 rounded-pill text-center" v-for="item in items.data">{{ item.title }}: {{ item.body }}</td>
                             <v-btn class="mt-2" icon="" color="red" variant="tonal" size="small"
                                 @click="subset_product.splice(subset_product.indexOf(items), 1) ; removeSubsetProduct(items)">
                                 <TrashIcon size="18" />

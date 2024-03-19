@@ -2,16 +2,19 @@
     <v-row>
         <v-col cols="12" md="6">
             <v-text-field label="عنوان ویژگی" rounded="lg" v-model="title_specification" variant="outlined"
-                color="primary" class="mt-10" />
+                color="primary" class="mt-2 mt-lg-10" />
         </v-col>
         <v-col cols="12" md="6" class="d-flex align-center justify-center">
             <v-text-field label="مقدار ویژگی" rounded="lg" v-model="body_specification" variant="outlined"
-                color="primary" class="mt-10" />
-            <v-btn @click="createSpecification" :loading="loadingSpecification" icon="" class="mt-4 mx-3"
-                color="primary" variant="flat" size="small">
-                <CheckIcon size="17" />
-            </v-btn>
+                color="primary" class="mt-2 mt-lg-10" />
         </v-col>
+            <v-btn type="submit"  @click="createSpecification" :loading="loadingSpecification" class="my-4 px-10 rounded-lg mx-3" color="primary"
+                    variant="flat">
+                    ثبت ویژگی
+                    <template v-slot:append>
+                        <CheckIcon size="17" />
+                    </template>
+                </v-btn>
     </v-row>
 
     <v-row v-for="item in data" align="center">

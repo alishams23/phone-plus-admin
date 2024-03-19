@@ -3,30 +3,30 @@
         <v-row>
             <v-col cols="12" md="4">
                 <v-text-field required label="نام رنگ" rounded="lg" v-model="title_color" variant="outlined"
-                    color="primary" class="mt-10" />
+                    color="primary" class="mt-2 mt-lg-10" />
             </v-col>
             <v-col cols="12" md="4" class="d-flex align-center justify-center">
                 <v-text-field required type="number" min="0" label="قیمت کالا با این رنگ(تومان)" rounded="lg"
-                    v-model="price_color" variant="outlined" color="primary" class="mt-10" />
+                    v-model="price_color" variant="outlined" color="primary" class="mt-2 mt-lg-10" />
 
             </v-col>
             <v-col cols="12" md="4" class="d-flex align-center justify-center">
                 <v-text-field required type="number" min="1" label=" تعداد موجودی این رنگ" rounded="lg"
-                    v-model="count_color" variant="outlined" color="primary" class="mt-10" />
+                    v-model="count_color" variant="outlined" color="primary" class="mt-2 mt-lg-10" />
 
             </v-col>
             <v-col cols="12" class="d-flex align-end justify-space-between">
 
                 <v-color-picker elevation="10" class="rounded-xl" required v-model="hexcolor" mode="hex">
                 </v-color-picker>
-                <v-btn type="submit" :disabled="hexcolor?false:true"  :loading="loadingSpecification" class="mt-4 px-10 rounded-lg mx-3" color="primary"
+            </v-col>
+                <v-btn type="submit" :disabled="hexcolor?false:true"  :loading="loadingSpecification" class="my-4 px-10 rounded-lg mx-3" color="primary"
                     variant="flat">
                     ثبت رنگ
                     <template v-slot:append>
                         <CheckIcon size="17" />
                     </template>
                 </v-btn>
-            </v-col>
         </v-row>
 
     </form>
