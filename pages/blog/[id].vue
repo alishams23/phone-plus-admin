@@ -13,7 +13,9 @@
 
                     </div>
                 </v-locale-provider>
+            
                     <TextEditor @update="handleTextChange" :content="body"></TextEditor>
+                
                     <v-locale-provider rtl  >
                         <div class="my-4">
                             <div>دسته بندی</div>
@@ -67,7 +69,6 @@
    
 <script>
 
-import TextEditor from '@/components/shared/TextEditor.vue';
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 import axios from "axios";
@@ -77,7 +78,6 @@ import { PhotoIcon, } from 'vue-tabler-icons';
 export default {
 
     components: {
-        TextEditor,
         PhotoIcon
     },
     data() {

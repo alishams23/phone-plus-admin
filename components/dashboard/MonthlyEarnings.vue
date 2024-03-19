@@ -91,7 +91,7 @@ onMounted(() => {
 });
 </script>
 <template>
-    <v-card elevation="10" rounded="lg" class="withbg">
+    <v-card elevation="10" rounded="lg" >
         <v-card-item>
             <div class="d-flex align-center justify-space-between pt-sm-2 rtl">
                 <v-card-title class="text-h5">درآمد ماهانه</v-card-title>
@@ -112,7 +112,7 @@ onMounted(() => {
         </v-card-item>
         <div class="mt-3">
             <ClientOnly>
-            <apexchart type="area" height="103" :options="areachartOptions" :series="areaChart.series"> </apexchart>
+            <apexchart type="area" height="330" :options="areachartOptions" :series="areaChart.series"> </apexchart>
         </ClientOnly>
         </div>
     </v-card>

@@ -159,10 +159,9 @@ import { PhotoIcon, VideoIcon, FileImportIcon, TrashIcon } from 'vue-tabler-icon
 import axios from "axios";
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
-import TextEditor from '@/components/shared/TextEditor.vue';
 import AddCategories from '@/components/section/product/AddCategories.vue';
 export default {
-    components: { PhotoIcon, VideoIcon, FileImportIcon, TrashIcon, TextEditor, AddCategories },
+    components: { PhotoIcon, VideoIcon, FileImportIcon, TrashIcon, AddCategories },
     props: ["id"],
     data: () => ({
         price: 0,

@@ -11,7 +11,9 @@
   </template>
 </v-text-field>
 </v-locale-provider>
-
+<v-alert v-if="contacts.length == 0 " class="mx-7 font-weight-bold"  border="start"  variant="tonal" color="primary" >
+  گفتگویی وجود ندارد
+</v-alert>
 <v-list subheader class="pl-4">
   <v-list-item  v-for="person,index in contacts" :key="person" :to="'/chat/' + person.contact.username + '/' + person.room_name" @click="$emit('get-selected-user', person); selected_user = person.contact.username"  class="py-3 rtl mx-3 rounded-lg my-1">
     {{ selected_user == person.contact.username ? $emit('get-selected-user', person) : '' }}

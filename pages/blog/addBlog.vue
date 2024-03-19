@@ -56,7 +56,6 @@
   
 <script>
 
-import TextEditor from '@/components/shared/TextEditor.vue';
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 import axios from "axios";
@@ -65,7 +64,6 @@ import { PhotoIcon, } from 'vue-tabler-icons';
   
   export default {
     components: {
-        TextEditor,
         PhotoIcon
     },
     data() {

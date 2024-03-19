@@ -98,7 +98,6 @@
 </template>
 <script>
 import { PhotoIcon, VideoIcon, CheckboxIcon, TrashIcon, CheckIcon } from 'vue-tabler-icons';
-import TextEditor from '@/components/shared/TextEditor.vue';
 import AddCategories from '@/components/section/product/AddCategories.vue';
 import AddColor from '@/components/section/product/AddColor.vue';
 import AddSpecification from '@/components/section/product/AddSpecification.vue';
@@ -108,7 +107,7 @@ import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 
 export default {
-    components: { PhotoIcon, VideoIcon, CheckIcon, TrashIcon, CheckboxIcon, TextEditor, AddCategories, AddColor, AddSpecification, AddDiscount },
+    components: { PhotoIcon, VideoIcon, CheckIcon, TrashIcon, CheckboxIcon, AddCategories, AddColor, AddSpecification, AddDiscount },
     props: ['id'],
     computed: {
         address() {

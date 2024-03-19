@@ -94,30 +94,20 @@ let toolbar = [
 ]
 
 let modules: {}
-  if (!process.server) {
+ 
  
     const { QuillEditor, Quill } = await import('@vueup/vue-quill')
     const { vueApp } = useNuxtApp()
-    if (!vueApp._context.components.QuillEditor)
+   
       vueApp.component('QuillEditor', QuillEditor)
 
     const ImageUploader = await import('quill-image-uploader')
-    const BlotFormatter = await import('quill-blot-formatter')
+    const BlotFormatter = await import('quill-blot-formatter/dist/BlotFormatter')
 
-    // const BlotFormatter = await import('quill-blot-formatter')
  
 
     modules = [
-      // {
-      //   name: 'imageUploader',
-      //   module: ImageUploader.default, //add .default
-      //   upload: (file: any) => {
-      //     return new Promise((resolve, reject) => {
-      //       const formData = new FormData()
-      //       formData.append('image', file)
-      //     })
-      //   }
-      // },
+  
       {
         name: 'blotFormatter',
         module: BlotFormatter.default,
@@ -125,7 +115,7 @@ let modules: {}
       }
     ]
 
-  }
+ 
 </script>
 
 <style >

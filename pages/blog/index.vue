@@ -102,7 +102,6 @@ import { PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescendin
 
 import AddBlog from '@/pages/blog/addBlog.vue';
 import axios from "axios";
-import ShowTextEditor from '~/components/shared/ShowTextEditor.vue';
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 
@@ -117,7 +116,6 @@ export default {
     FilterCogIcon,
     ArticleIcon,
     AddBlog,
-    ShowTextEditor,
     TrashIcon
   },
   data() {
