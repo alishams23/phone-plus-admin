@@ -53,7 +53,7 @@
                         color="primary" 
                         v-model="N_card_face" 
                         placeholder="Upload your documents"
-                        label=" عکس کارت ملی خود را در مجاور خود گرفته به صورتی که واضح باشد  " 
+                        label=" عکس صورت همراه با کارت ملی " 
                         >
                         <template v-slot:prepend>
                             <PhotoIcon style="margin-left: -20px;" class="text-grey" />
@@ -63,7 +63,16 @@
                     <div v-if="N_card_face_preview" class="image-preview-container ps-10">
                         <img :src="N_card_face_preview" class="chip-image-preview" />
                     </div>
-                    
+                    <v-alert 
+                        color="warning" 
+                        icon="fa fa-info" 
+                        variant="tonal"
+                        rounded="lg"
+                        class=" border-opacity-100  py-2 my-3 mb-4">
+                        <div class="text-xs irsa">
+                        <p class="text-right"> عکس کارت ملی خود را در مجاور خود گرفته به صورتی که واضح باشد  </p>
+                        </div>
+                    </v-alert>
                     <v-file-input 
                         rounded="lg" 
                         accept=".png,.jpg" 
@@ -94,7 +103,7 @@
         
                 </v-locale-provider>
                 <v-btn rounded="lg" persistent-hint variant="flat" color="primary"
-                    class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
+                    class="mx-2 px-5 text-body2 font-weight-bold mb-5" type="submit">
                     تایید قوانین و ثبت
                 </v-btn>
             </form>
@@ -103,10 +112,9 @@
                 icon="fa fa-info" 
                 variant="tonal"
                 rounded="lg"
-                class="rtl border-opacity-100 my-3">
-        
-                <div class="text-sm  font-weight-black irsa">
-                    پس از ثبت اطلاعات منتظر تایید بمانید 
+                class=" border-opacity-100 my-3">
+                <div class="text-xs text-right font-weight-black irsa">
+                   <p class="text-right"> پس از ثبت اطلاعات منتظر تایید بمانید </p>
                 </div>
             </v-alert>
         </v-container>

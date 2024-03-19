@@ -70,7 +70,7 @@
                   <div @click="step++" class="text-center pt-4 hidden-lg-and-up">
                     <p>
                       <span>اکانت نداری؟</span>
-                      <span class="text-indigo-lighten-1 px-2"> ثبت نام کن</span>
+                      <span class="text-indigo-accent-4 px-2"> ثبت نام کن</span>
                     </p>
                   </div>
                 </v-locale-provider>
@@ -178,7 +178,7 @@
                   <div @click="step--" class="text-center pt-4 hidden-lg-and-up">
                     <p>
                       <span>اکانت داری؟</span>
-                      <span class="text-indigo-lighten-1 px-2">وارد شو</span>
+                      <span class="text-indigo-accent-4 px-2">وارد شو</span>
                     </p>
                   </div>
 
