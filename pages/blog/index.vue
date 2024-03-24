@@ -61,13 +61,24 @@
                   <div v-html="blog.body" class="text-line-1  text-body-2"></div>
                 </v-card-item>
                 <v-card-actions class="mt-auto mr-auto px-10">
-                  <v-btn class="px-10 ml-4" variant="flat" :to="'/blog/' + blog.id" rounded="xl" size="small"
-                    color="primary">
-                    ویرایش
-                    <template v-slot:append>
-                      <PencilIcon size="15" />
+                  <v-dialog width="900" >
+                    <template v-slot:activator="{ props: activatorProps }">
+                      <div class="ma-4">
+                        <v-btn class="px-10 ml-4" v-bind="activatorProps" variant="flat" rounded="xl" size="small"
+                        color="primary">
+                        ویرایش
+                        <template v-slot:append>
+                          <PencilIcon size="15" />
+                        </template>
+                      </v-btn>
+                      </div>
                     </template>
-                  </v-btn>
+                    <template v-slot:default="{ isActive }">
+                      <v-card class="px-3 px-md-15 rounded-lg my-20 " title="">
+                        <AddChangeBlog :id="blog.id" @close=" searchData()" />
+                      </v-card>
+                    </template>
+                  </v-dialog>  
                   <v-avatar size="30" variant="tonal" @click="removeItem(blog.id)" color="red-darken-2" icon="">
                     <TrashIcon size="15" />
                   </v-avatar>
@@ -88,19 +99,32 @@
     </v-locale-provider>
   </v-container>
   <VLayoutItem model-value position="bottom" class="text-end" size="88">
-    <VBtn to="/blog/addBlog" icon="" class="mx-2 mx-md-5" size="large" color="primary" elevation="8">
-      <v-icon>
-        <PlusIcon />
-      </v-icon>
-    </VBtn>
+    <v-dialog width="900" v-model="open">
+      <template v-slot:activator="{ props }">
+        <div class="ma-4">
+          <VBtn v-bind="props" icon="" size="large" color="primary" elevation="8">
+            <v-icon>
+              <PlusIcon />
+            </v-icon>
+          </VBtn>
+        </div>
+      </template>
+
+      <template v-slot:default="{ isActive }">
+        <v-card class="rounded-lg  " title="">
+          <v-container>
+            <AddChangeBlog @close="open=false; searchData()" />
+          </v-container>
+        </v-card>
+      </template>
+    </v-dialog>
   </VLayoutItem>
 </template>
 
 <script>
 import { PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon, ArticleIcon, TrashIcon } from 'vue-tabler-icons';
 
-
-import AddBlog from '@/pages/blog/addBlog.vue';
+import AddChangeBlog from '@/components/section/AddChangeBlog.vue';
 import axios from "axios";
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
@@ -115,20 +139,23 @@ export default {
     SearchIcon,
     FilterCogIcon,
     ArticleIcon,
-    AddBlog,
+    AddChangeBlog,
     TrashIcon
   },
   data() {
     return {
+
       data: [],
       loading: true,
       search_text: '',
       order: false,
       loadingItem: 0,
+      open: false,
     };
   },
   methods: {
     searchData() {
+      this.data = []
       this.loading = true
       axios.get(`${apiStore().address}/api/blog/seller-panel/blog-List-admin/?search=${this.search_text}&ordering=${this.order == false ? '-id' : 'id'}`, {
         headers: {
