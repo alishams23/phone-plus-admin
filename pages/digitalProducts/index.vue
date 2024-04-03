@@ -1,4 +1,61 @@
 <template>
+      <v-snackbar
+      :timeout="2000"
+      color="primary"
+      variant="tonal"
+      elevation="24"
+       v-model="snackbar_edit">
+      <div class="w-100 rtl">
+        <p>محصول با موفقیت ویرایش شد</p>
+      </div>
+      <template v-slot:actions>
+        <v-btn
+          color="red"
+          variant="text"
+          @click="snackbar_edit = false">
+          <XIcon/>
+        </v-btn>
+      </template>
+    </v-snackbar>
+
+    <v-snackbar
+      :timeout="2000"
+      color="primary"
+      variant="tonal"
+      elevation="24"
+       v-model="snackbar_save">
+      <div class="w-100 rtl">
+        <p>محصول با موفقیت ثبت شد</p>
+      </div>
+      <template v-slot:actions>
+        <v-btn
+          color="red"
+          variant="text"
+          @click="snackbar_save = false">
+          <XIcon/>
+        </v-btn>
+      </template>
+    </v-snackbar>
+
+    <v-snackbar
+      :timeout="2000"
+      color="red"
+      variant="tonal"
+      elevation="24"
+       v-model="snackbar_delete">
+      <div class="w-100 rtl">
+        <p>محصول با موفقیت حذف شد</p>
+      </div>
+      <template v-slot:actions>
+        <v-btn
+          color="red"
+          variant="text"
+          @click="snackbar_delete = false">
+          <XIcon/>
+        </v-btn>
+      </template>
+    </v-snackbar>
+
   <v-container>
     <v-row align="center" class="rtl">
       <v-col cols="12" md="8" class="rtl d-flex align-center">
@@ -70,12 +127,12 @@
                         </template>
                         <template v-slot:default="{ isActive }">
                           <v-card class="px-3 px-md-15 rounded-lg my-20 " title="">
-                            <AddDigitalProducts :id="product.id" @close=" searchData()" />
+                            <AddDigitalProducts :id="product.id" @close=" searchData();snackbar_edit = true" />
                           </v-card>
                         </template>
                       </v-dialog>                                                                                                               
                     
-                      <v-avatar size="30" variant="tonal" @click="removeItem(product.id)" color="red-darken-2" icon="">
+                      <v-avatar size="30" variant="tonal" @click="removeItem(product.id);snackbar_delete = true" color="red-darken-2" icon="">
                         <TrashIcon size="15" />
                       </v-avatar>
                     </v-card-actions>
@@ -105,7 +162,7 @@
       <template v-slot:default="{ isActive }">
         <v-card class="rounded-lg  " title="">
           <v-container>
-            <AddDigitalProducts @close="open=false; searchData()" />
+            <AddDigitalProducts @close="open=false; searchData();snackbar_save = true" />
           </v-container>
         </v-card>
       </template>
@@ -113,7 +170,7 @@
   </VLayoutItem>
 </template>
 <script>
-import { TrashIcon, PencilIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon, Ad2Icon } from 'vue-tabler-icons';
+import { TrashIcon, PencilIcon, XIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon, Ad2Icon } from 'vue-tabler-icons';
 import axios from 'axios'
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
@@ -121,6 +178,7 @@ import AddDigitalProducts from '@/components/section/AddChangeDigitalProduct.vue
 
 export default {
   components: {
+    XIcon,
     TrashIcon,
     PencilIcon,
     PlusIcon,
@@ -139,6 +197,9 @@ export default {
       search_text: '',
       order: false,
       open: false,
+      snackbar_edit:false,
+      snackbar_save:false,
+      snackbar_delete:false
     };
   },
   computed: {

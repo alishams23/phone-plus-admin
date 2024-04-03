@@ -18,7 +18,7 @@
                             url="/api/product/seller-panel/category-digital-product-list-create/" />
                     </v-col>
                 </v-row>
-                <v-file-input rounded="lg" accept=".png,.jpg" :rules="rules" :required="id?imageIds.length!=0?false:true:true" multiple persistent-hint
+                <v-file-input :loading="loadingImage" :disabled="loadingImage" rounded="lg" accept=".png,.jpg" :rules="rules" :required="id?imageIds.length!=0?false:true:true" multiple persistent-hint
                     variant="outlined" color="primary" @change="sendImage" v-model="images"
                     placeholder="Upload your documents" label="عکس‌">
                     <template v-slot:prepend>
@@ -146,7 +146,7 @@
                     v-model="value" :min="0" :max="100" :step="1" thumb-label></v-slider>
             </v-slide-y-transition>
 
-            <v-btn rounded="lg" persistent-hint variant="flat" color="primary"
+            <v-btn rounded="lg" :disabled="loadingImage?true:false" persistent-hint variant="flat" color="primary"
                 class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
                 ثبت
             </v-btn>
@@ -256,6 +256,7 @@ export default {
                         }).then((data) => {
                             console.log('upload image');
                             this.imageIds.push(data.data.id)
+                            this.loadingImage = false;
 
                         })
                     } catch (error) {
@@ -277,7 +278,7 @@ export default {
                 reader.readAsDataURL(file);
             });
             this.sendDataFunc();
-            this.loadingImage = false;
+            
         },
         // async sendData() {
 

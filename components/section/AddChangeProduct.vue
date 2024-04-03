@@ -25,7 +25,7 @@
 
 
             <v-file-input rounded="lg" accept=".png,.jpg" persistent-hint :required="id?imageIds.length!=0?false:true:true" @change="sendImage"
-                variant="outlined" :disabled="loadingImage" color="primary" v-model="images"
+                variant="outlined" :loading="loadingImage" :disabled="loadingImage" color="primary" v-model="images"
                 placeholder="Upload your documents" label="عکس‌های محصول" multiple>
                 <template v-slot:prepend>
                     <PhotoIcon style="margin-left: -20px;" class="text-grey" />
@@ -152,6 +152,7 @@ export default {
                         }).then((data) => {
                             console.log('upload imge');
                             this.imageIds.push(data.data.id)
+                            this.loadingImage = false;
                         })
                     } catch (error) {
                         console.error('Error uploading images:', error);
@@ -172,7 +173,7 @@ export default {
                 reader.readAsDataURL(file);
             });
             this.sendDataFunc();
-            this.loadingImage = false;
+            
         },
         async sendData() {
             let list_specification_id = []

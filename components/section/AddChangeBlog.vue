@@ -18,7 +18,7 @@
                 </v-col>
             </v-row>
 
-            <v-file-input rounded="lg" accept=".png,.jpg" persistent-hint :required="id ? imageId != 0 ? false : true : true"
+            <v-file-input rounded="lg" :loading="loadingImage" accept=".png,.jpg" persistent-hint :required="id ? imageId != 0 ? false : true : true"
                 @change="sendImage" variant="outlined" :disabled="loadingImage" color="primary" v-model="images"
                 placeholder="Upload your documents" label="عکس‌ مقاله" multiple>
                 <template v-slot:prepend>
@@ -45,7 +45,6 @@
             </div>
 
         </v-locale-provider>
-
 
         <v-btn rounded="lg" persistent-hint variant="flat" color="primary" :disabled="loadingImage"
             class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
@@ -111,6 +110,7 @@ export default {
                         }).then((data) => {
                             console.log('upload image');
                             this.imageId = data.data.id
+                            this.loadingImage = false;
                         })
                     } catch (error) {
                         console.error('Error uploading images:', error);
@@ -131,7 +131,7 @@ export default {
                 reader.readAsDataURL(file);
             });
             this.sendDataFunc();
-            this.loadingImage = false;
+            
         },
         async sendData() {
             let formDic = {}
