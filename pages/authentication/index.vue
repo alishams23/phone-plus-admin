@@ -11,7 +11,10 @@
 </div>
 
     <div v-else>
-        <v-container>
+        <v-container class="px-md-16">
+            <v-alert border="start" class="rtl mt-2 rounded-lg" title="نکته"
+                text="پروفایل شما به عنوان یک فروشنده تایید نشده است. شما ابتدا باید احراز هویت انجام داده و پس از آن میتوانید وارد پنل فروشندگان شوید.">
+            </v-alert>
             <form  @submit.prevent="id!=null ? updateData() : createData()">
                 <v-locale-provider rtl>
                     <v-text-field 
@@ -32,6 +35,7 @@
                         variant="outlined"
                         color="primary" 
                         v-model="N_card" 
+                        @change="handleNCardChange"
                         placeholder="Upload your documents"
                         label="عکس کارت ملی" 
                         >
@@ -52,6 +56,7 @@
                         variant="outlined"
                         color="primary" 
                         v-model="N_card_face" 
+                        @change="handleNCardFaceChange"
                         placeholder="Upload your documents"
                         label=" عکس صورت همراه با کارت ملی " 
                         >
@@ -60,19 +65,20 @@
                         </template>
                         
                     </v-file-input>
-                    <div v-if="N_card_face_preview" class="image-preview-container ps-10">
-                        <img :src="N_card_face_preview" class="chip-image-preview" />
-                    </div>
                     <v-alert 
+                        border="start"
                         color="warning" 
                         icon="fa fa-info" 
                         variant="tonal"
                         rounded="lg"
-                        class=" border-opacity-100  py-2 my-3 mb-4">
+                        class=" border-opacity-100  pb-2 my-3 mb-4">
                         <div class="text-xs irsa">
                         <p class="text-right"> عکس کارت ملی خود را در مجاور خود گرفته به صورتی که واضح باشد  </p>
                         </div>
                     </v-alert>
+                    <div v-if="N_card_face_preview" class="image-preview-container ps-10">
+                        <img :src="N_card_face_preview" class="chip-image-preview" />
+                    </div>
                     <v-file-input 
                         rounded="lg" 
                         accept=".png,.jpg" 
@@ -80,6 +86,7 @@
                         variant="outlined"
                         color="primary" 
                         v-model="shop_card" 
+                        @change="handleShopCardChange"
                         placeholder="Upload your documents"
                         label=" کارت مغازه " 
                         >
@@ -107,16 +114,34 @@
                     تایید قوانین و ثبت
                 </v-btn>
             </form>
+            <!-- <v-progress-linear
+                indeterminate
+                color="primary"
+                rounded="lg"
+                height="3"
+                class="negative-margin"
+            ></v-progress-linear> -->
             <v-alert 
+                v-if="id"
+                border="end"
                 color="info" 
                 icon="fa fa-info" 
                 variant="tonal"
                 rounded="lg"
-                class=" border-opacity-100 my-3">
+                class="border-opacity-100  my-3"
+                >
+                <template v-slot:prepend>
+                    <v-icon>
+                    fa fa-info
+                    </v-icon>
+                </template>
                 <div class="text-xs text-right font-weight-black irsa">
-                   <p class="text-right"> پس از ثبت اطلاعات منتظر تایید بمانید </p>
+                    <p class="text-right">
+                    اطلاعات شما با موفقیت ثبت شد منتظر تایید بمانید 
+                    </p>
                 </div>
             </v-alert>
+
         </v-container>
     </div>
 </template>
@@ -168,6 +193,26 @@ export default {
         this.getData()
     },
     methods: {
+        handleNCardChange(event) {
+            const files = event.target.files;
+            this.previewImage(files, 'N_card_preview');
+        },
+        handleNCardFaceChange(event) {
+            const files = event.target.files;
+            this.previewImage(files, 'N_card_face_preview');
+        },
+        handleShopCardChange(event) {
+            const files = event.target.files;
+            this.previewImage(files, 'shop_card_preview');
+        },
+        previewImage(files, previewTarget) {
+            if (!files || !files[0]) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                this[previewTarget] = e.target.result;
+            };
+            reader.readAsDataURL(files[0]);
+        },
         getData() {
             this.loadingData = true
             console.log('getData');
@@ -251,6 +296,7 @@ export default {
                 }
             ).then((response) => {
                 console.log('Update data', response.data);
+                this.get
             }).catch(function (error) {
                 if (error.response) {
                     console.log(error.response.data);
@@ -258,7 +304,12 @@ export default {
             })
 
         },
-
     },
 }
 </script>
+<style scoped>
+.negative-margin {
+  margin-bottom: -17px; 
+  width: 98%; /* Default to a relatively narrow width */
+}
+</style>
