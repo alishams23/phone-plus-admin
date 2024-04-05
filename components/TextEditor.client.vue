@@ -10,9 +10,7 @@
   <v-textarea
   label="کد فیلم شما"
   rounded="lg"
- 
   v-model="text"
-  
   variant="outlined"
   color="primary"
   class="mt-5"/>
@@ -31,14 +29,14 @@
     </template>
 </v-dialog>
   <client-only>
-    <quill-editor @ready="onEditorReady($event)" class="rounded-b-lg" :ref="editorContent" content-type="html" v-model:content="content" theme="snow"
-      :toolbar="toolbar" :modules="modules" @textChange="updateContent" style="min-height: 300px;"  />
+    <quill-editor  @ready="onEditorReady($event)" class="rounded-b-lg" :ref="editorContent" content-type="html" v-model:content="content" theme="snow"
+      :toolbar="toolbar"  :modules="modules" @textChange="updateContent"   />
   </client-only>
 </template>
 <script setup lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { ref, defineEmits } from 'vue';
-
+import quillEmoji from 'quill-emoji'
 const props = defineProps<{
   content: string,
 }>();
@@ -58,15 +56,19 @@ const updateContent = () => {
   
 };
 const doPaste  = () => {
-  console.log('dd')
+  
   if (editor) {
     editor.pasteHTML(`${document.querySelector(".ql-editor").innerHTML} ${text.value}`);
     dialog.value = false;
   } else {
     console.error('Quill editor is not ready yet. Wait for onEditorReady event.');
+
   }
+  
 
 }
+
+
 const onEditorReady = (data) =>  {
   editor = data
   const customButton = editor.getModule('toolbar').container.querySelector('.ql-custom');
@@ -79,10 +81,19 @@ const onEditorReady = (data) =>  {
       console.log('Custom button clicked!');
       dialog.value = true;
     });}
+    const rtlButton = document.querySelector('.ql-direction');
+  if (rtlButton) {
+    rtlButton.click();
+  } else {
+    console.error('RTL button not found');
+  }
+
 }
 
 let toolbar = [
   ["bold", "italic", "underline", "strike"],
+  [{ 'color': [] }, { 'background': [] }],
+  [{ 'align': [] },],
   ["link", "blockquote", "code-block"],
   [{ list: "ordered" }, { list: "bullet" }],
   [{ script: "sub" }, { script: "super" }],
@@ -90,7 +101,9 @@ let toolbar = [
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
   [{ direction: "rtl" }],
   ['image'],
-  [{ custom: 'insert custom' }]
+  [{ custom: 'insert custom' }],
+  
+
 ]
 
 let modules: {}
@@ -104,21 +117,51 @@ let modules: {}
     const ImageUploader = await import('quill-image-uploader')
     const BlotFormatter = await import('quill-blot-formatter/dist/BlotFormatter')
 
+    Quill.register(
+  {
+    'modules/emoji': quillEmoji,
+  
+  },
+  true
+);
  
 
     modules = [
-  
+   
       {
         name: 'blotFormatter',
         module: BlotFormatter.default,
         options: {}
-      }
+      },
+      
+      
+    //   {
+    //     name: 'quillEmoji',
+    //     module: quillEmoji,
+    //     options: {
+    //       "emoji-toolbar": true,
+    // "emoji-textarea": true,
+    // "emoji-shortname": true,
+    //     }
+    //   },
+   
+     
+      
+      
+      // {
+      //   name: 'quillEmoji',
+      //   module: quillEmoji,
+      //   options: {}
+      // }
     ]
 
  
 </script>
 
 <style >
+.ql-editor{
+    min-height:200px;
+}
 .ql-custom {
   width: 32px;
   height: 32px;
