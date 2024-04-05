@@ -15,11 +15,13 @@
   گفتگویی وجود ندارد
 </v-alert>
 <v-list subheader class="pl-4">
+ 
   <v-list-item  v-for="person,index in contacts" :key="person" :to="'/chat/' + person.contact.username + '/' + person.room_name" @click="$emit('get-selected-user', person); selected_user = person.contact.username"  class="py-3 rtl mx-3 rounded-lg my-1">
     {{ selected_user == person.contact.username ? $emit('get-selected-user', person) : '' }}
       <template v-slot:prepend>
           <v-avatar size="50" color="grey-lighten-1" >
-              <img :src="address + person.contact.shop.image" class="cover h-full w-full"/>
+              <img v-if="person.contact.shop" :src="address + person.contact.shop.image" class="cover h-full w-full"/>
+              <img v-else  class="cover h-full w-full"/>
           </v-avatar>
       </template>
       <template v-slot:append>
