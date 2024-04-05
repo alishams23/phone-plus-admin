@@ -1,7 +1,7 @@
 import {
     ApertureIcon,
     CopyIcon,
-    Settings2Icon, CoinsIcon, MessageCircleIcon,CubeIcon, ToolIcon, ArticleIcon, MenuIcon, ThreedCubeSphereIcon,BuildingStoreIcon
+    Settings2Icon, CoinsIcon, MessageCircleIcon,CubeIcon, ToolIcon, ArticleIcon, MenuIcon, ThreedCubeSphereIcon,BuildingStoreIcon,LogoutIcon
 } from 'vue-tabler-icons';
 
 
@@ -71,6 +71,11 @@ const sidebarItem: menu[] = [
         title: 'گفت و گو',
         icon: MessageCircleIcon,
         to: '/chat'
+    },
+    {
+        title: 'خروج',
+        icon: LogoutIcon,
+        to: '/auth/logOut/'
     },
    
 

@@ -38,16 +38,12 @@ const sidebarItem: menu[] = [
     },
 
     {
-        title: ' نمایش پروفایل   ',
+        title: '  چینش محصولات   ',
         icon: MenuOrderIcon,
         to: '/settings/showProfile'
     },
     
-    {
-        title: 'خروج',
-        icon: LogoutIcon,
-        to: '/auth/logOut/'
-    },
+    
 ];
 
 export default sidebarItem;
