@@ -1,7 +1,7 @@
 import {
     ApertureIcon,
     CopyIcon,
-    Settings2Icon, CoinsIcon, MessageCircleIcon,CubeIcon, ToolIcon, ArticleIcon, MenuIcon, ThreedCubeSphereIcon
+    Settings2Icon, CoinsIcon, MessageCircleIcon,CubeIcon, ToolIcon, ArticleIcon, MenuIcon, ThreedCubeSphereIcon,BuildingStoreIcon
 } from 'vue-tabler-icons';
 
 
@@ -31,6 +31,12 @@ const sidebarItem: menu[] = [
         title: 'تنظیمات',
         icon: Settings2Icon,
         to: '/settings'
+    },
+    {
+        title: 'مشاهده ی فروشگاه',
+        icon: BuildingStoreIcon,
+        to: '/shop'
+       
     },
     {
         title: 'وبلاگ',

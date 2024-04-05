@@ -36,7 +36,6 @@
 <script setup lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { ref, defineEmits } from 'vue';
-import quillEmoji from 'quill-emoji'
 const props = defineProps<{
   content: string,
 }>();
@@ -117,13 +116,7 @@ let modules: {}
     const ImageUploader = await import('quill-image-uploader')
     const BlotFormatter = await import('quill-blot-formatter/dist/BlotFormatter')
 
-    Quill.register(
-  {
-    'modules/emoji': quillEmoji,
-  
-  },
-  true
-);
+
  
 
     modules = [
