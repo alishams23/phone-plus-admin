@@ -154,10 +154,13 @@
             </v-slide-y-transition>
 
             
-
-            <v-btn rounded="lg" :disabled="loadingImage?true:false" persistent-hint variant="flat" color="primary"
+            <v-btn rounded="lg" persistent-hint variant="flat" color="primary" :disabled="loadingImage"
                 class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
                 ثبت
+            </v-btn>
+            <v-btn rounded="lg" persistent-hint variant="outline" color="primary" :disabled="loadingImage"
+                class="mx-2 px-10 text-body2 font-weight-bold mb-5" @click="$emit('cancel')">
+                برگشت
             </v-btn>
         </form>
     </div>
@@ -171,6 +174,7 @@ import { apiStore } from '~/store/api';
 import AddCategories from '@/components/section/product/AddCategories.vue';
 export default {
     components: { PhotoIcon, VideoIcon, FileImportIcon, TrashIcon, AddCategories },
+    emits:["close","cancel"],
     props: ["id"],
     data: () => ({
         price: 0,

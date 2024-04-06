@@ -110,7 +110,7 @@
                     </v-card-item>
 
                     <v-card-actions class="mt-auto mr-auto px-10">
-                      <v-dialog width="900" >
+                      <v-dialog persistent width="900" >
                         <template v-slot:activator="{ props: activatorProps }">
                           <div class="ma-4">
                             <v-btn class="px-10 ml-4" v-bind="activatorProps" variant="flat" rounded="xl" size="small"
@@ -124,7 +124,7 @@
                         </template>
                         <template v-slot:default="{ isActive }">
                           <v-card class="px-3 px-md-15 rounded-lg my-20 " title="">
-                            <AddDigitalProducts :id="product.id" @close=" searchData();snackbar_edit = true" />
+                            <AddDigitalProducts @cancel="searchData()" :id="product.id" @close=" searchData();snackbar_edit = true" />
                           </v-card>
                         </template>
                       </v-dialog>                                                                                                               
@@ -145,7 +145,7 @@
   </v-container>
   <VLayoutItem model-value position="bottom" class="text-end" size="88">
 
-    <v-dialog width="900" v-model="open">
+    <v-dialog width="900" persistent v-model="open">
       <template v-slot:activator="{ props }">
         <div class="ma-4">
           <VBtn v-bind="props" icon="" size="large" color="primary" elevation="8">
@@ -159,7 +159,7 @@
       <template v-slot:default="{ isActive }">
         <v-card class="rounded-lg  " title="">
           <v-container>
-            <AddDigitalProducts @close="open=false; searchData();snackbar_save = true" />
+            <AddDigitalProducts @cancel="open = false" @close="open=false; searchData();snackbar_save = true" />
           </v-container>
         </v-card>
       </template>

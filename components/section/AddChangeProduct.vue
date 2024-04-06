@@ -88,12 +88,16 @@
             </v-expansion-panels>
         </v-locale-provider>
         <AddDiscount :value="value" @change="(data) => { value = data }" />
-
-
+        
         <v-btn rounded="lg" persistent-hint variant="flat" color="primary" :disabled="loadingImage"
             class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
             ثبت
         </v-btn>
+        <v-btn rounded="lg" persistent-hint variant="outline" color="primary" :disabled="loadingImage"
+            class="mx-2 px-10 text-body2 font-weight-bold mb-5" @click="$emit('cancel')">
+            برگشت
+        </v-btn>
+        
     </form>
 </template>
 <script>
@@ -109,6 +113,7 @@ import { apiStore } from '~/store/api';
 export default {
     components: { PhotoIcon, VideoIcon, CheckIcon, TrashIcon, CheckboxIcon, AddCategories, AddColor, AddSpecification, AddDiscount },
     props: ['id'],
+    emits:["close","cancel"],
     computed: {
         address() {
             return apiStore().address
@@ -150,7 +155,6 @@ export default {
                                 Authorization: `Token ${useUserStore().userToken}`
                             },
                         }).then((data) => {
-                            console.log('upload imge');
                             this.imageIds.push(data.data.id)
                             this.loadingImage = false;
                         })
