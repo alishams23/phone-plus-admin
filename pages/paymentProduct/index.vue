@@ -1,5 +1,8 @@
 
 <template>
+    <v-snackbar v-model="snackbar" class=" rtl" color="success" elevation="24" rounded="lg">
+        وضعیت با موفقیت ویرایش شد
+    </v-snackbar>
     <v-container>
         <v-row align="center" class="rtl">
             <v-col cols="12" md="7" class="rtl d-flex align-center">
@@ -103,6 +106,7 @@ export default {
     data() {
         return {
             data: [],
+            snackbar: false,
             loading: true,
             search_text: '',
             order: false,
@@ -126,8 +130,12 @@ export default {
                     Accept: "application/json",
                     Authorization: `Token ${useUserStore().userToken}`
                 },
+            }).then((response) => {
+                this.snackbar = true
+                this.loadingStatus = 0
             })
-            this.loadingStatus = 0
+
+            
 
         },
         searchData() {

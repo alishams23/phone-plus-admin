@@ -1,8 +1,11 @@
 <template>
   <v-container>
+    <v-snackbar v-model="snackbar" class=" rtl" color="success" elevation="24" rounded="lg">
+        تغییرات اعمال شد
+    </v-snackbar>
     <v-alert rounded="lg" border="start" class="mb-10 rtl ">
       <div class="pa-3">
-        لطفا با درگ و دراپ ترتیب نمایش ایتم ها در صفحه ی پروفایل خود را مشخص کنید.
+        لطفا با جابجایی ترتیب نمایش ایتم ها در صفحه ی پروفایل خود را مشخص کنید.
       </div>
 
     </v-alert>
@@ -39,7 +42,7 @@
           </template>
 
           <template v-slot:default="{ isActive }"><v-locale-provider rtl>
-              <v-card title="Dialog">
+              <v-card rounded="lg">
 
                 <v-card-text>
 
@@ -74,7 +77,7 @@
           </template>
 
           <template v-slot:default="{ isActive }"><v-locale-provider rtl>
-              <v-card title="Dialog">
+              <v-card rounded="lg">
 
                 <v-card-text>
                   <AddCategories @getData="(data) => { categoriesDigital = data }"
@@ -118,6 +121,7 @@ export default {
   },
   data() {
     return {
+      snackbar: false,
       id: null,
       loading: true,
       items: [
@@ -173,6 +177,7 @@ export default {
           console.log(error.response.headers);
         }
       }).then((response) => {
+        this.snackbar = true
         this.loading = false
       })
 

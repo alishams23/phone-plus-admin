@@ -1,4 +1,7 @@
 <template>
+    <v-snackbar v-model="snackbar" class=" rtl" color="success" elevation="24" rounded="lg">
+        اطلاعات با موفقیت ویرایش شد
+    </v-snackbar>
     <v-container>
         <form @submit.prevent="updateData" class="mt-10">
             <v-locale-provider rtl>
@@ -35,6 +38,7 @@ export default {
     components: { PhotoIcon, },
     data() {
         return {
+            snackbar: false,
             loading: true,
             merchant_id: null,
             id : null,
@@ -82,9 +86,8 @@ export default {
                             console.log(error.response.headers);
                         }
                     }).then((response) => {
-            this.loading = false
-                      
-
+                        this.loading = false
+                        this.snackbar = true
                     })
            
         },

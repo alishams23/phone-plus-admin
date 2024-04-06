@@ -1,4 +1,7 @@
 <template>
+    <v-snackbar v-model="snackbar" class=" rtl" color="success" elevation="24" rounded="lg">
+        وضعیت با موفقیت ویرایش شد
+    </v-snackbar>
     <v-dialog scrollable width="900" v-model="dialog">
      
       
@@ -92,7 +95,6 @@
                         variant="flat" rounded="pill"
                         :class="data.status == 'received' ? 'bg-green' : data.status == 'sended' ? 'bg-primary' : 'bg-red'"
                         class="text-body-2">
-                        
                         {{ data.status == 'received' ? ' تحویل داده شده' : data.status == 'sended' ?
                         ' ارسال شده ' : ' ارسال نشده' }}
                     </v-btn>
@@ -235,6 +237,7 @@ export default {
     props:["data"],
     data() {
         return {
+            snackbar: false,
             loading: true,
             loadingStatus: 0,
             dialog:false,
@@ -254,8 +257,10 @@ export default {
                     Accept: "application/json",
                     Authorization: `Token ${useUserStore().userToken}`
                 },
+            }).then((response) => {
+                this.snackbar = true
+                this.loadingStatus = 0
             })
-            this.loadingStatus = 0
         },
     }
 }

@@ -1,5 +1,8 @@
 
 <template>
+    <v-snackbar v-model="snackbar" class=" rtl" color="success" elevation="24" rounded="lg">
+        اطلاعات با موفقیت ویرایش شد
+    </v-snackbar>
     <v-container>
         <form @submit.prevent="updateData">
             <v-locale-provider rtl>
@@ -31,6 +34,7 @@ export default {
     components: { PhotoIcon, },
     data() {
         return {
+            snackbar:false,
             loading: true,
             image: null,
             name: "",
@@ -85,8 +89,12 @@ export default {
                             console.log(error.response.headers);
                         }
                     }).then((response) => {
-                        window.location.reload(true)
-                        this.loading = false
+                        this.snackbar = true
+
+                        setTimeout(() => {
+                            window.location.reload(true)
+                            this.loading = false
+                        }, 3000);
                     })
            
         },

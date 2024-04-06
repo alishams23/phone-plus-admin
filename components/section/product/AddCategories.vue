@@ -1,4 +1,7 @@
 <template>
+    <v-snackbar v-model="snackbar" class=" rtl" color="success" elevation="24" rounded="lg">
+        دسته بندی با موفقیت ایجاد شد
+    </v-snackbar>
     <v-autocomplete :loading="loading" label="دسته بندی‌ها" rounded="lg" persistent-hint variant="outlined" color="primary" clearable chips
         v-model="selectedData"  :items="data" item-text="name" item-value="id" multiple>
         <template v-slot:no-data>
@@ -41,6 +44,7 @@ export default {
     },
     data() {
         return {
+            snackbar: false,
             dialog: false,
             data : [],
             text:null,
@@ -80,12 +84,10 @@ export default {
                 .then(response => {
                     this.dialog = false
                     this.selectedData.push(response.data.id)
-                  this.getCategories()
-                  this.text=null
-                  this.loadingCreate = false
-
-
-
+                    this.getCategories()
+                    this.text=null
+                    this.loadingCreate = false
+                    this.snackbar = true
                 })
                 .catch(error => {
                     // handle error

@@ -1,15 +1,28 @@
 <!-- UsernameCheck.vue -->
 <template>
-  <v-snackbar v-model="snackbar" class=" rtl" color="primary" elevation="24" rounded="lg">
+  <v-snackbar v-model="snackbar" class=" rtl" color="success" elevation="24" rounded="lg">
 
     یوزرنیم شما تغییر کرد
   </v-snackbar>
   <form @submit.prevent="sendData">
+    <v-overlay
+      :model-value="overlay"
+      class="align-center justify-center "
+    >
+      <v-container fluid>
+        <v-row justify="center">
+          <v-col cols="12" sm="6" md="4">
+            <v-progress-circular color="primary" size="32" indeterminate></v-progress-circular>
+          </v-col>
+            <p class="text-center text-white">!لطفا دوباره وارد شوید</p>
+        </v-row>
+      </v-container>
+    </v-overlay>
     <v-container class="mt-10">
       <v-row>
         <v-col cols="12">
           <v-locale-provider rtl>
-            <v-text-field v-model="username" label="یوزرنیم" :rules="usernameRules" rounded="lg" required
+            <v-text-field v-model="username" label="آیدی فروشگاه" :rules="usernameRules" rounded="lg" required
               persistent-hint variant="outlined" color="primary"></v-text-field>
           </v-locale-provider>
         </v-col>
@@ -29,6 +42,7 @@
       </v-btn>
     </v-container>
   </form>
+  
 </template>
 
 <script>
@@ -45,9 +59,15 @@ export default {
       alertType: '',
       alertMessage: '',
       loading: false,
+      overlay: false
     };
   },
   watch: {
+    overlay (val) {
+      val && setTimeout(() => {
+        this.overlay = false
+      }, 3000)
+    },
     username: {
       handler: function (val, oldVal) {
         this.checkUsername()
@@ -66,6 +86,7 @@ export default {
     },
   },
   methods: {
+   
     isValidUsername(username) {
       const disallowedCharsRegex = /[!@#$%^&*()\-\+?=,<>'/]/;
       const isLengthValid = username.length >= 6;
@@ -96,6 +117,7 @@ export default {
       }
     },
     async sendData() {
+      
       this.username = this.username.toLowerCase();
 
       this.loading = true
@@ -108,13 +130,20 @@ export default {
 
       })
         .then(response => {
-          this.$router.push('/auth/logOut')
-          this.snackbar = true
+          // this.snackbar = true
+          this.overlay=true
           this.loading = false
+          setTimeout(() => {
+            this.$router.push('/auth/logOut')
+          }, 3000);
+          
+        
 
         })
         .catch(error => {
           console.error('Error checking username:', error);
+          this.loading = false
+
         });
     },
     setAlertMessage() {
@@ -131,5 +160,9 @@ export default {
 </script>
 
 <style scoped>
-/* Add your custom styles here if needed */
+.overlay
+{
+    background-color: rgba(145, 150, 158, 0.6);
+    backdrop-filter: blur(1px);
+}
 </style>

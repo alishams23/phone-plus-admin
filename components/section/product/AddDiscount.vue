@@ -5,8 +5,16 @@
 </v-checkbox>
 </v-locale-provider>
 <v-slide-y-transition>
-    <v-slider v-if="discount" label="درصد تخفیف" variant="outlined" color="primary" class="mt-5" v-model="valueData"
-        :min="0" :max="100" :step="1" thumb-label></v-slider>
+    <v-row v-if="discount" class="mt-1 mb-5 rtl">
+        <v-col cols="12" md="3">
+            <v-text-field label="درصد تخفیف" rounded="lg" :max="100" min="1" v-model="valueData" required type="number" persistent-hint
+                variant="outlined" color="primary" />
+        </v-col>
+        <v-col cols="12" md="9" hidden>
+            <v-slider label="" variant="outlined" color="primary" class="mt-3"
+                v-model="valueData" :min="0" :max="100" :step="1" thumb-label></v-slider>
+        </v-col>
+    </v-row>
 </v-slide-y-transition>
 
 </template>

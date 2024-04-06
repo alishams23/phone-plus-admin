@@ -1,5 +1,7 @@
 <template>
-    
+    <v-snackbar v-model="snackbar" class=" rtl" color="success" elevation="24" rounded="lg">
+        وضعیت با موفقیت ویرایش شد
+    </v-snackbar>
   <v-card elevation="10" rounded="lg" height="480px">
     <v-container>
         <v-alert v-if="data.length == 0 && loading == false" color="primary" icon="fa fa-info" variant="tonal"
@@ -12,7 +14,7 @@
     <v-container>
         <v-card v-if="data.length != 0" elevation="0" class="">
             <v-card-item class="pa-6">
-                <v-card-title class="text-h5 rtl pt-sm-1 pb-3 font-weight-black"> تمامی فروش‌ها </v-card-title>
+                <v-card-title class="text-h5 rtl pt-sm-1 pb-3 font-weight-black">تمامی فروش‌ها </v-card-title>
                 <v-table class="month-table rtl">
                     <thead>
                         <tr>
@@ -52,6 +54,7 @@ export default {
     },
     data() {
         return {
+            snackbar: false,
             data: [],
             loading: true,
             search_text: '',
@@ -76,9 +79,10 @@ export default {
                     Accept: "application/json",
                     Authorization: `Token ${useUserStore().userToken}`
                 },
+            }).then((response) => {
+                this.snackbar = true
+                this.loadingStatus = 0
             })
-            this.loadingStatus = 0
-
         },
         searchData() {
             this.loading = true

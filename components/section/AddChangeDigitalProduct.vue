@@ -10,7 +10,7 @@
             <v-locale-provider rtl>
                 <v-row class="mt-10 mb-5">
                     <v-col cols="12" md="6">
-                        <v-text-field :label="file_type=='لیست لایسنس‌ها'?' قیمت هر ردیف(تومان)':'قیمت(تومان)'" rounded="lg" v-model="price" required type="number" persistent-hint
+                        <v-text-field :label="file_type=='لایسنس اکانت کد یکتا'?' قیمت هر ردیف(تومان)':'قیمت(تومان)'" rounded="lg" v-model="price" required type="number" persistent-hint
                             variant="outlined" color="primary" />
                     </v-col>
                     <v-col cols="12" md="6">
@@ -58,8 +58,8 @@
                     color="primary"
                     v-model="file_type" 
                     :disabled="id?true:false"
-                    :label="id?get_file? 'فایل زیپ' : 'لیست لایسنس‌ها':'انتخاب نوع فایل'" 
-                    :items="['لیست لایسنس‌ها', 'فایل زیپ']">
+                    :label="id?get_file? 'فایل' : 'لایسنس اکانت کد یکتا':'انتخاب نوع محصول'" 
+                    :items="['لایسنس اکانت کد یکتا', 'فایل']">
                 </v-combobox>
 
                 <v-file-input 
@@ -67,7 +67,7 @@
                     accept=".zip,.rar" persistent-hint 
                     variant="outlined" 
                     color="primary"
-                    v-if="id?get_file:file_type == 'فایل زیپ'" 
+                    v-if="id?get_file:file_type == 'فایل'" 
                     v-model="file" placeholder="اضافه کردن فایل" 
                     :label="id?'تعویض فایل محصول':'فایل محصول'">
                     <template v-slot:prepend>
@@ -91,7 +91,7 @@
                     accept=".csv" 
                     persistent-hint variant="outlined" 
                     color="primary"
-                    v-if="id?get_file==null:file_type == 'لیست لایسنس‌ها'" 
+                    v-if="id?get_file==null:file_type == 'لایسنس اکانت کد یکتا'" 
                     @change="handleCsvUpload" 
                     placeholder="اضافه لیست"
                     :label="id? 'اضافه کردن به لیست محصول': 'لیست محصول'">
@@ -133,18 +133,27 @@
                 </v-table>
 
 
-                <v-alert v-if="file_type == 'لیست لایسنس‌ها'" class="mt-2 rounded-lg" title="نکته"
+                <v-alert v-if="file_type == 'لایسنس اکانت کد یکتا'" class="mt-2 rounded-lg" title="نکته"
                     text="برای ثبت لایسنس‌های خود، لطفاً فایل CSV را با دقت تکمیل کنید. هر ردیف فایل باید حاوی اطلاعات یک لایسنس باشد. پس از تکمیل، فایل خود را در بخش مربوطه در وب‌سایت آپلود کنید تا لایسنس‌های شما به سرعت و به طور موثر ثبت شوند."></v-alert>
                 <v-checkbox  v-model="pin_profile" color="primary"
                 label="پین بودن در صفحه ی پروفایل شما"/>
 
                 <v-checkbox v-model="discount" label="دارای تخفیف"></v-checkbox>
             </v-locale-provider>
-
             <v-slide-y-transition>
-                <v-slider v-if="discount" label="درصد تخفیف" variant="outlined" color="primary" class="mt-5"
-                    v-model="value" :min="0" :max="100" :step="1" thumb-label></v-slider>
+                <v-row v-if="discount" class="mt-1 mb-5 rtl">
+                    <v-col cols="12" md="3">
+                        <v-text-field label="درصد تخفیف" rounded="lg" v-model="value" :max="100" min="1" required type="number" persistent-hint
+                            variant="outlined" color="primary" />
+                    </v-col>
+                    <v-col cols="12" md="9" hidden>
+                        <v-slider label="" variant="outlined" color="primary" class="mt-3"
+                            v-model="value" :min="0" :max="100" :step="1" thumb-label></v-slider>
+                    </v-col>
+                </v-row>
             </v-slide-y-transition>
+
+            
 
             <v-btn rounded="lg" :disabled="loadingImage?true:false" persistent-hint variant="flat" color="primary"
                 class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
