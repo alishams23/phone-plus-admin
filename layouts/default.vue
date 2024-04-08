@@ -187,7 +187,9 @@ export default {
     </v-navigation-drawer>
 
     <!------Header-------->
-    <v-app-bar elevation="0" class="rtl bg-glass" height="70" color="transparent" v-if="sDrawer == false" >
+    <div class="openchat" @click="chat_drawer = !chat_drawer">
+    </div>
+    <v-app-bar elevation="0" class="rtl bg-glass" height="70" color="transparent"  v-if="sDrawer == false &&  currentRouteCheck('/chat') != true" >
         <div class="d-flex align-center justify-space-between w-100">
             <div>
                 <v-btn color="transparent" class="hidden-lg-and-up ms-md-3 ms-sm-5 ms-3 text-muted" @click="sDrawer = !sDrawer" icon variant="flat"

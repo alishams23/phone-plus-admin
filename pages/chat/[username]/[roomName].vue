@@ -1,16 +1,28 @@
 <template>
-  <v-app-bar :elevation="0" class=" border-b rtl " >
-    <v-btn color="transparent" class="hidden-lg-and-up mr-5 ms-md-3 ms-sm-5 ms-3 text-muted" @click="drawer = !drawer"
-      icon variant="flat" size="small">
-      <Menu2Icon size="20" stroke-width="1.5" />
-    </v-btn>
-    <v-avatar color="indigo-lighten-4" size="48" style="font-size:9px" class="me-9  ms-md-4">
-      <v-icon size="20">
-        <UserIcon  />
-      </v-icon>
-      <!-- <v-img :src="address + '/api/account/shop-profile/' + username + '/'"></v-img> -->
-    </v-avatar>
-    <div class=" font-weight-bold text-h5">{{username}}</div>
+  <v-app-bar :elevation="0" class=" border-b rtl d-flex justify-space-between align-center" >
+  
+     <div class="d-flex align-center">
+      <v-btn @click=" openDrawer" color="transparent" class="hidden-lg-and-up mr-5 ms-md-3 ms-sm-5 ms-5 text-muted" 
+        icon variant="flat" size="small">
+        <Menu2Icon size="20" stroke-width="1.5" />
+      </v-btn>
+      <v-avatar  color="indigo-lighten-4" size="48" style="font-size:9px" class="me-9  ms-md-4">
+        <v-icon size="20">
+          <UserIcon  />
+        </v-icon>
+        <!-- <v-img :src="address + '/api/account/shop-profile/' + username + '/'"></v-img> -->
+      </v-avatar>
+      <div class=" font-weight-bold text-h5">{{username}}</div>
+     </div>
+    
+      <nuxt-link to="/" class="mr-auto ml-3" >
+        <v-btn @click=" openDrawer" color="transparent" class="hidden-lg-and-up mr-auto ms-md-3 ms-sm-5 ms-5 text-muted" 
+          icon variant="flat" size="small">
+          <Home2Icon size="20" class="text-black" stroke-width="1.5" />
+        </v-btn>
+      </nuxt-link>
+    
+
   </v-app-bar>
   <v-app>
     <!--  message-->
@@ -20,7 +32,7 @@
           <div>گفت و گوی جدیدی را آغاز کنید</div>
         </div>
       </div>
-      <v-list>
+      <v-list class="mt-12" v-else>
         <v-list-item v-for="data, index in messages" :key="data.id + 'message-chat-'"
           :class="(data.username == userSelf ? 'text-right' : '')">
           <v-card elevation="0" v-if="data.username == userSelf">
@@ -39,46 +51,7 @@
           </v-card>
         </v-list-item>
       </v-list>
-      <div>
-        <div></div>
-
-
-        <!-- my message-->
-        <div>
-
-          <div>
-
-
-            <!-- <div v-for="data, index in messages" :key="data.id + 'message-chat-'"
-              :class="data.username == userSelf ? 'flex-row-reverse' : ''" class="flex m-3 lg:items-center">
-              <div class="w-8 h-8 hidden sm:block"></div>
-              <div class="py-2 px-3 rounded-2xl relative h-full" :class="data.username == userSelf
-                  ? 'text-white bg-indigo-600 shadow-lg text-right'
-                  : 'text-gray-700 shadow-lg border-t text-right relative'
-                ">
-                <div v-if="data.content">{{ data.content }}</div>
-                <div>
-                  <div v-if="data.read == 'True'">
-                    <svg v-if="data.username == userSelf" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                      fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16">
-                      <path
-                        d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z" />
-                      <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z" />
-                    </svg>
-                  </div>
-                  <div v-else>
-                    <svg v-if="data.username == userSelf" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                      fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
-                      <path
-                        d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-          </div>
-        </div>
-      </div>
+     
     </v-main>
   </v-app>
   <v-bottom-navigation v-if="username != null && loadingGetMessage == false" height="70" elevation="0"
@@ -118,6 +91,7 @@ export default {
       username: this.$route.params.username,
       userSelf: useUserStore().username,
       scrollStatus: true,
+ 
       counter: 0,
       headers: {
         'Content-type': 'application/json',
@@ -164,6 +138,9 @@ export default {
     }
   },
   methods: {
+    openDrawer(){
+      document.getElementsByClassName("openchat")[0].click()
+    },
     sendMessage() {
       if (this.inputData != null && this.inputData != '') {
         this.chatSocket.send(
@@ -178,6 +155,7 @@ export default {
     },
     scrollMessage() {
       if (this.loadingGetMessage == false) {
+       
         window.scrollTo(0, document.body.scrollHeight);
       }
     },
