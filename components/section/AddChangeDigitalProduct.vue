@@ -88,7 +88,7 @@
 
                 <v-file-input 
                     rounded="lg" 
-                    accept=".csv" 
+                    accept=".xlsx"
                     persistent-hint variant="outlined" 
                     color="primary"
                     v-if="id?get_file==null:file_type == 'لایسنس اکانت کد یکتا'" 
@@ -106,9 +106,8 @@
                         </template>
                     </template>
                 </v-file-input>
+
                 <!-- Show CSV data -->
-
-
                 <v-table fixed-header>
                     <tbody >
                         <tr v-for="items in transformedData" :key="items" class="p\y-2">
@@ -172,6 +171,8 @@ import axios from "axios";
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 import AddCategories from '@/components/section/product/AddCategories.vue';
+import * as XLSX from 'xlsx';
+
 export default {
     components: { PhotoIcon, VideoIcon, FileImportIcon, TrashIcon, AddCategories },
     emits:["close","cancel"],
@@ -223,24 +224,73 @@ export default {
             if (!event.target.files || event.target.files.length === 0) return;
 
             const file = event.target.files[0]; // Get the first file
+            const fileType = file.name.split('.').pop();
 
-            // Use FileReader to read the file
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const content = e.target.result;
+            if (fileType === "csv") {
+                // Existing CSV handling code
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const content = e.target.result;
+                    Papa.parse(content, {
+                        complete: (results) => {
+                            this.csvData = results.data;
+                            this.transformedData = this.transformCSVData(results.data);
+                            console.log(this.transformedData);
+                        },
+                        header: true
+                    });
+                };
+                reader.readAsText(file);
+            } else if (fileType === "xlsx") {
+                // XLSX file handling
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, {type: 'array'});
+                    // Assuming you want to read the first sheet
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                    // Convert XLSX data to a similar format as CSV
+                    this.csvData = json;
+                    this.transformedData = this.transformXLSXData(json);
+                    console.log(this.transformedData);
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        },
+        transformXLSXData(data) {
+            if (data.length === 0) return [];
 
-                // Parse the CSV content
-                Papa.parse(content, {
-                    complete: (results) => {
-                        this.csvData = results.data; // Assuming you want to store the raw data
-                        this.transformedData = this.transformCSVData(results.data);
-                        console.log(this.transformedData);
-                        // Here you can update your data properties or methods as needed
-                    },
-                    header: true // This will use the first row as headers
-                });
-            };
-            reader.readAsText(file);
+            // The first row are headers
+            const headers = data[0];
+            
+            // Transform the rest of the rows
+            return data.slice(1).map(row => {
+                return headers.map((header, index) => {
+                    // Check if the cell is not empty
+                    const cell = row[index];
+                    if (cell !== undefined && cell !== null && cell !== '') {
+                        return { title: header, body: cell };
+                    }
+                    return null; // Return null for empty cells
+                }).filter(cell => cell !== null); // Remove the nulls (empty cells)
+            });
+        },
+        transformCSVData(data) {
+            const transformedData = data.map(row => {
+                // Map and filter out empty cells within each row
+                return Object.keys(row)
+                    .map(key => {
+                        if (row[key] !== '' && row[key] !== null && row[key] !== undefined) {
+                            return { title: key, body: row[key] };
+                        }
+                        return null;
+                    })
+                    .filter(item => item !== null);
+            });
+            // Filter out rows that are completely empty after the cell filtering
+            return transformedData.filter(row => row.length > 0);
         },
         removeSubsetProduct(item){
             axios.delete(`${apiStore().address}/api/product/seller-panel/remove-row-subset-digital-product/${item.id}`,{
@@ -250,11 +300,7 @@ export default {
                             },
                         })
         },
-        transformCSVData(data) {
-            return data.map(row => {
-                return Object.keys(row).map(key => ({ title: key, body: row[key] }))
-            })
-        },
+        
         async sendDataFunc() {
             if (this.images && this.images.length) {
                 this.images.forEach((file, index) => {
