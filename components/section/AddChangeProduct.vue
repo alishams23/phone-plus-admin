@@ -89,6 +89,7 @@
         </v-locale-provider>
         <AddDiscount :value="value" @change="(data) => { value = data }" />
         
+        {{selectedCategories}} 
         <v-btn rounded="lg" persistent-hint variant="flat" color="primary" :disabled="loadingImage"
             class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
             ثبت
@@ -191,7 +192,7 @@ export default {
                     list_color_id.push(element.id)
                 });
 
-                console.log(this.selectedCategories)
+                console.log('list_color_id: ',list_color_id)
                 let formDic = {}
                 formDic['category'] = this.selectedCategories
                 formDic['image'] = this.imageIds
@@ -248,7 +249,9 @@ export default {
 
                     this.imageUrl.push(element.id)
                 });
-                this.selectedCategories = response.data.category
+                response.data.category.forEach(element => {
+                    this.selectedCategories.push(element.id)
+                });
 
                 this.price = response.data.price
                 this.value = response.data.discount
