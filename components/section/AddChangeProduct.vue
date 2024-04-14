@@ -89,7 +89,6 @@
         </v-locale-provider>
         <AddDiscount :value="value" @change="(data) => { value = data }" />
         
-        {{selectedCategories}} 
         <v-btn rounded="lg" persistent-hint variant="flat" color="primary" :disabled="loadingImage"
             class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
             ثبت
