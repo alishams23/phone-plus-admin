@@ -27,5 +27,8 @@ beforeMount() {
     // Load token from cookie when the layout is created
     userStore.loadTokenAndUsernameFromCookie();
   },
+  mounted(){
+   
+  }
 }
 </script>

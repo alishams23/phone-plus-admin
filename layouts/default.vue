@@ -96,12 +96,16 @@ export default {
                          <v-list-item
                          v-else 
                          :to="item.to == '/chat' || item.to == '/settings'? ''  :   item.to"
-                         variant="flat"
+                         variant="elevated"
+                         elevation="0"
                          @click="item.to == '/chat' ? (chat_drawer = true,setting_drawer = false)   : item.to == '/settings'? (setting_drawer = true,chat_drawer = false) : null"
-                         class="mb-1 text-white rounded-e-lg bg-transparent ml-n5 mr-n3"
+                         class="mb-1 text-white  rounded-e-lg bg-transparent ml-n5 mr-n3"
                          :class="currentRouteCheck(item.to)? 'bg-white-important  text-primary' :''"
                          active-class="bg-white-important  text-primary"
                          :disabled="item.disabled"
+                         :ripple="false"
+                         
+                         
                          :target="item.type === 'external' ? '_blank' : ''">
                          <!---If icon-->
                          <template v-slot:append>
