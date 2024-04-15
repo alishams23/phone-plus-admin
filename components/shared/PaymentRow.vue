@@ -16,10 +16,10 @@
                                 <UserIcon />
                             </v-avatar>
                         </template>
-                        <v-list-item-title class=" font-weight-bold  text-nauto">{{ data.author.username
+                        <v-list-item-title class=" font-weight-bold  text-nauto">{{ data.author.full_name
                         }}</v-list-item-title>
-                        <v-list-item-subtitle class="text-body-2 text-nauto">{{ data.author.full_name
-                        }}</v-list-item-subtitle>
+                        <!-- <v-list-item-subtitle class="text-body-2 text-nauto">{{ data.author.username
+                        }}</v-list-item-subtitle> -->
                     </v-list-item>
                     <div class=" text-body-1 font-weight-bold px-3 py-5 border-t">
                         شماره سفارش:     {{ data.order_id }}
@@ -35,7 +35,7 @@
                        </div>
 
                     <v-row class="pt-5 mb-3">
-                        <v-col cols="6" md="4">
+                        <v-col cols="6" md="6">
 
                             <v-list-item class="  py-3 px-5">
 
@@ -45,7 +45,7 @@
                                 </div>
                             </v-list-item>
                         </v-col>
-                        <v-col cols="6" md="4">
+                        <v-col cols="6" md="6">
 
                             <v-list-item class="  py-3 px-5">
 
@@ -55,23 +55,13 @@
                                 </div>
                             </v-list-item>
                         </v-col>
-                        <v-col cols="12" md="4">
+                        <v-col cols="12" md="12">
 
                             <v-list-item class="  py-3 px-5">
 
                                 <v-list-item-title
-                                    class="   text-body-1 text-nauto">خیابان</v-list-item-title>
+                                    class="   text-body-1 text-nauto">محل سکونت</v-list-item-title>
                                 <div class="font-weight-bold text-xs text-body-1 text-nauto pt-2">{{ data.street }}
-                                </div>
-                            </v-list-item>
-                        </v-col>
-                        <v-col cols="12" md="4">
-
-                            <v-list-item class="  py-3 px-5">
-
-                                <v-list-item-title
-                                    class="   text-body-1 text-nauto">کوچه</v-list-item-title>
-                                <div class="font-weight-bold text-xs text-body-1 text-nauto pt-2">{{ data.alley }}
                                 </div>
                             </v-list-item>
                         </v-col>

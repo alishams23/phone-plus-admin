@@ -191,7 +191,7 @@ export default {
                     list_color_id.push(element.id)
                 });
 
-                console.log(this.selectedCategories)
+                console.log('list_color_id: ',list_color_id)
                 let formDic = {}
                 formDic['category'] = this.selectedCategories
                 formDic['image'] = this.imageIds
@@ -248,7 +248,9 @@ export default {
 
                     this.imageUrl.push(element.id)
                 });
-                this.selectedCategories = response.data.category
+                response.data.category.forEach(element => {
+                    this.selectedCategories.push(element.id)
+                });
 
                 this.price = response.data.price
                 this.value = response.data.discount
