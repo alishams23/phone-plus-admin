@@ -1,4 +1,21 @@
 <template>
+    <v-snackbar
+      :timeout="2000"
+      color="primary"
+      elevation="24"
+       v-model="snackbar_edit">
+      <div class="w-100 rtl">
+        <p>محصول با موفقیت ویرایش شد</p>
+      </div>
+      <template v-slot:actions>
+        <!-- <v-btn
+          color="red"
+          variant="text"
+          @click="snackbar_edit = false">
+          <XIcon/>
+        </v-btn> -->
+      </template>
+    </v-snackbar>
     <v-row  class="rtl" v-if="loading ==false">
         <v-col cols="12" lg="3" sm="6"  v-for="item in data.slice(-4)" :key="item.title">
           
@@ -7,7 +24,7 @@
                     <v-img :src="item.image[0].photo" height="100%" class="rounded-t-md"></v-img>
                 </RouterLink>
                 <div class="d-flex justify-end ml-4 mt-n5 " >
-                  <v-dialog width="900" >
+                  <v-dialog width="900" persistent>
                     <template v-slot:activator="{ props: activatorProps }">
                       <v-btn size="40" icon class="bg-primary d-flex" v-bind="activatorProps"
                           >
@@ -23,7 +40,7 @@
                     </template>
                     <template v-slot:default="{ isActive }">
                       <v-card class="px-3 px-md-15 rounded-lg my-20 " title="">
-                        <AddChangeProduct :id="item.id" @close="searchData()" />
+                        <AddChangeProduct :id="item.id" @cancel="searchData()" @close="open = false; searchData();snackbar_edit = true" />
                       </v-card>
                     </template>
                   </v-dialog>                                                                                                               
@@ -73,6 +90,7 @@ export default {
       search_text:'',
       order : false,
       loadingItem : 0,
+      snackbar_edit: false,
 
     };
 

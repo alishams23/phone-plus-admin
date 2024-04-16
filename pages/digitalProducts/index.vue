@@ -1,5 +1,5 @@
 <template>
-      <v-snackbar
+    <v-snackbar
       :timeout="2000"
       color="primary"
       elevation="24"
