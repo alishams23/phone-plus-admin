@@ -114,13 +114,13 @@
                     تایید قوانین و ثبت
                 </v-btn>
             </form>
-            <!-- <v-progress-linear
+            <v-progress-linear
                 indeterminate
                 color="primary"
                 rounded="lg"
                 height="3"
                 class="negative-margin"
-            ></v-progress-linear> -->
+            ></v-progress-linear>
             <v-alert 
                 v-if="id"
                 border="end"
@@ -137,7 +137,7 @@
                 </template>
                 <div class="text-xs text-right font-weight-black irsa">
                     <p class="text-right">
-                    اطلاعات شما با موفقیت ثبت شد منتظر تایید بمانید 
+                    (ممکن است تا ۴۸ ساعت طول بکشد) اطلاعات شما با موفقیت ثبت شد منتظر تایید بمانید 
                     </p>
                 </div>
             </v-alert>

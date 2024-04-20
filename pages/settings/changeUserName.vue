@@ -81,17 +81,25 @@ export default {
     usernameRules() {
       return [
         v => !!v || 'یوزرنیم اجباری است',
-        v => this.isValidUsername(v) || 'یوزرنیم حداقل باید شامل ۶ کاراکتر باشد و شامل کارکتر های !@#$%^&*()-+?=,<>/ نباشد ',
+        v => this.isValidUsername(v) || 'یوزرنیم حداقل باید شامل ۶ کاراکتر باشد و شامل کارکتر های !@#$%^&*()-+?=,<>/ و حروف فارسی نباشد ',
       ];
     },
   },
   methods: {
    
     isValidUsername(username) {
+      // Regex for disallowed characters.
       const disallowedCharsRegex = /[!@#$%^&*()\-\+?=,<>'/]/;
+      // Regex for allowing lowercase English letters and numbers.
+      const allowedCharsRegex = /^[a-z0-9]+$/;
+      // Check that the username is at least 6 characters long.
       const isLengthValid = username.length >= 6;
-      return isLengthValid && !disallowedCharsRegex.test(username);
+
+      // The username must pass the length check, not contain disallowed characters,
+      // and match the allowed characters regex.
+      return isLengthValid && !disallowedCharsRegex.test(username) && allowedCharsRegex.test(username);
     },
+
     async checkUsername() {
       this.username = this.username.toLowerCase();
 
@@ -148,11 +156,16 @@ export default {
     },
     setAlertMessage() {
       if (this.usernameExists == true) {
-        this.alertType = 'error';
-        this.alertMessage = 'یوزرنیم وجود دارد';
+        if (this.usernameExists == this.username.toLowerCase()) {
+          this.alertType = 'error';
+          this.alertMessage = 'این آیدی قبلا گرفته شده است';
+        }else {
+          this.alertType = 'info';
+          this.alertMessage = 'این آیدی از قبل برای شما ثبت شده';
+        }
       } else {
         this.alertType = 'success';
-        this.alertMessage = 'یوزرنیم وجود ندارد';
+        this.alertMessage = 'این آیدی قابل استفاده است';
       }
     },
   },

@@ -106,38 +106,53 @@
                         </template>
                     </template>
                 </v-file-input>
+                <v-alert v-if="file_type == 'لایسنس اکانت کد یکتا'" class="mt-2 mb-5 rounded-lg" title="نکته"
+                    text="برای ثبت لایسنس‌های خود، لطفاً فایل اکسل را با دقت تکمیل کنید. هر ردیف فایل باید حاوی اطلاعات یک لایسنس باشد. پس از تکمیل، فایل خود را در بخش مربوطه در وب‌سایت آپلود کنید تا لایسنس‌های شما به سرعت و به طور موثر ثبت شوند."></v-alert>
 
                 <!-- Show CSV data -->
-                <v-table fixed-header>
-                    <tbody >
-                        <tr v-for="items in transformedData" :key="items" class="p\y-2">
-                            <td class="bg-grey-lighten-5 rounded-pill text-center" v-for="item in items">{{ item.title }}: {{ item.body }}</td>
-                            <v-btn class="mt-2" icon="" color="red" variant="tonal" size="small"
-                                @click="transformedData.splice(transformedData.indexOf(items), 1)">
-                                <TrashIcon size="18" />
-                            </v-btn>
-                        </tr>
-                    </tbody>
-                </v-table>
-                <v-table fixed-header>
-                    <tbody v-if="subset_product">
-                        <tr v-for="items in subset_product" :key="items" class="" >
-                            <td class="bg-red-lighten-5 rounded-pill text-center" v-for="item in items.data">{{ item.title }}: {{ item.body }}</td>
-                            <v-btn class="mt-2" icon="" color="red" variant="tonal" size="small"
-                                @click="subset_product.splice(subset_product.indexOf(items), 1) ; removeSubsetProduct(items)">
-                                <TrashIcon size="18" />
-                            </v-btn>
-                        </tr>
-                    </tbody>
-                </v-table>
+                <div v-if="transformedData.length>0">
+                    <div class="d-flex items-center ">
+                        <p class="pt-5 pb-2"> ردیف های اضافه شده:</p>
+                        <p class="pt-5 pb-2 mx-3 text-sm-body-2 text-red cursor-pointer" @click="transformedData=[]"> پاک کردن همه </p>
+                    </div>
+                    <div class="scrollable-table-container ltr">
+                        <v-table fixed-header>
+                            <tbody class="scrollable-tbody">
+                                <tr v-for="items in transformedData" :key="items" class="py-2">
+                                    <td class="table-cell bg-grey-lighten-5 rounded-pill text-center" v-for="item in items">{{ item.title }}: {{ item.body }}</td>
+                                    <v-btn class="mt-2  me-5 ms-1" icon color="red" variant="tonal" size="small"
+                                        @click="transformedData.splice(transformedData.indexOf(items), 1)">
+                                        <TrashIcon size="18" />
+                                    </v-btn>
+                                </tr>
+                            </tbody>
+                        </v-table>
+                    </div>
+                </div>
+
+                <div v-if="subset_product.length>0">
+                    <p class="pt-5 pb-2"> ردیف های موجود از قبل:</p>
+                    <div class="scrollable-table-container ltr">
+                        <v-table fixed-header>
+                            <tbody class="scrollable-tbody" v-if="subset_product">
+                                <tr v-for="items in subset_product" :key="items">
+                                    <td class="table-cell bg-red-lighten-5 rounded-pill text-center " v-for="item in items.data">{{ item.title }}: {{ item.body }}</td>
+                                    <v-btn class="mt-2 me-5 ms-1" icon color="red" variant="tonal" size="small"
+                                        @click="subset_product.splice(subset_product.indexOf(items), 1); removeSubsetProduct(items)">
+                                        <TrashIcon size="18"  />
+                                    </v-btn>
+                                </tr>
+                            </tbody>
+                        </v-table>
+                    </div>
+                </div>
 
 
-                <v-alert v-if="file_type == 'لایسنس اکانت کد یکتا'" class="mt-2 rounded-lg" title="نکته"
-                    text="برای ثبت لایسنس‌های خود، لطفاً فایل اکسل را با دقت تکمیل کنید. هر ردیف فایل باید حاوی اطلاعات یک لایسنس باشد. پس از تکمیل، فایل خود را در بخش مربوطه در وب‌سایت آپلود کنید تا لایسنس‌های شما به سرعت و به طور موثر ثبت شوند."></v-alert>
-                <v-checkbox  v-model="pin_profile" color="primary"
-                label="پین بودن در صفحه ی پروفایل شما"/>
 
-                <v-checkbox v-model="discount" label="دارای تخفیف"></v-checkbox>
+
+
+                <v-checkbox  v-model="pin_profile" class="mt-7" color="primary" label="پین بودن در صفحه ی پروفایل شما"/>
+                <v-checkbox v-model="discount" label="دارای تخفیف"/>
             </v-locale-provider>
             <v-slide-y-transition>
                 <v-row v-if="discount" class="mt-1 mb-5 rtl">
@@ -191,7 +206,7 @@ export default {
         categories: [],
         selectedCategories: [],
         file_type: null,
-        subset_product : null,
+        subset_product : [],
         tab: null,
         discount: false,
         images: [],
@@ -467,3 +482,25 @@ export default {
 
 }
 </script>
+<style>
+.scrollable-table-container {
+    overflow-x: auto;  
+    overflow-y: auto;  
+    width: 100%;  
+}
+
+.scrollable-tbody {
+    display: block;
+    max-height: 250px;
+    overflow-x: hidden; 
+    overflow-y: auto;
+}
+
+.table-cell {
+    min-width: 120px; 
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: ellipsis;
+}
+
+</style>
