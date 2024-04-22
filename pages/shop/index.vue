@@ -6,7 +6,7 @@ import { useUserStore } from '~/store/user';
 export default{
     mounted(){
 
-        window.location.href = `http://192.168.237.128:8000:3001/${useUserStore().usernameShop}`;
+        window.location.href = `http://171.22.27.89:3001/${useUserStore().usernameShop}`;
     }
 }
 </script>
