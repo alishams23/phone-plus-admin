@@ -27,7 +27,6 @@ import axios from 'axios';
 
 export default {
     emits: ["change"],
-
     props: ["value",],
     components: {
         PlusIcon, TrashIcon,
@@ -39,37 +38,7 @@ export default {
             valueData:0
         }
     },
-    methods: {
-        async createColor() {
-            this.loadingColor = true
-            axios.post(`${apiStore().address}/api/product/seller-panel/product-color-list-create/`,
-                {
-                    title: this.title_color,
-                    price: this.price_color,
-                    count: this.count_color,
-                    hexcolor: this.hexcolor,
-                }, {
-                headers: {
-                    "Content-type": "application/json",
-                    Authorization: `Token ${useUserStore().userToken}`
-                },
-            })
-                .then(response => {
-                    this.loadingColor = false
-                    this.data.push({
-                        title: this.title_color,
-                        price: this.price_color,
-                        hexcolor: this.hexcolor,
-                        count: this.count_color,
-                        id: response.data.id
-                    })
-                })
-                .catch(error => {
-                    // handle error
-                    console.error('Error:', error);
-                });
-        },
-    },
+
     mounted() {
         this.valueData = this.value
     },

@@ -115,7 +115,7 @@
                         <p class="pt-5 pb-2"> ردیف های اضافه شده:</p>
                         <p class="pt-5 pb-2 mx-3 text-sm-body-2 text-red cursor-pointer" @click="transformedData=[]"> پاک کردن همه </p>
                     </div>
-                    <div class="scrollable-table-container ltr">
+                    <div class="scrollable-table-container ltr d-flex justify-end">
                         <v-table fixed-header>
                             <tbody class="scrollable-tbody">
                                 <tr v-for="items in transformedData" :key="items" class="py-2">
@@ -132,7 +132,7 @@
 
                 <div v-if="subset_product.length>0">
                     <p class="pt-5 pb-2"> ردیف های موجود از قبل:</p>
-                    <div class="scrollable-table-container ltr">
+                    <div class="scrollable-table-container ltr d-flex justify-end">
                         <v-table fixed-header>
                             <tbody class="scrollable-tbody" v-if="subset_product">
                                 <tr v-for="items in subset_product" :key="items">
@@ -148,8 +148,25 @@
                 </div>
 
 
-
-
+            <v-expansion-panels>
+                <v-expansion-panel elevation="0">
+                    <v-expansion-panel-title color="grey-lighten-4" class="mt-10">
+                        <div class="d-flex w-100 justify-space-between  align-center">
+                            <div>
+                                کد تخفیف
+                            </div>
+                            <div class="font-weight-bold">
+                                +
+                            </div>
+                        </div>
+                    </v-expansion-panel-title>
+                   
+                    <v-expansion-panel-text class="border-b ">
+                        <AddDiscountcodes :data="discount_codes" @change="(data) => { discount_codes = data }" />
+                    </v-expansion-panel-text>
+                    <p class="text-red text-body-1 pt-2">{{ error }}</p>
+                </v-expansion-panel>
+            </v-expansion-panels>
 
                 <v-checkbox  v-model="pin_profile" class="mt-7" color="primary" label="پین بودن در صفحه ی پروفایل شما"/>
                 <v-checkbox v-model="discount" label="دارای تخفیف"/>
@@ -186,10 +203,11 @@ import axios from "axios";
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 import AddCategories from '@/components/section/product/AddCategories.vue';
+import AddDiscountcodes from '@/components/section/product/AddDiscountcodes.vue';
 import * as XLSX from 'xlsx';
 
 export default {
-    components: { PhotoIcon, VideoIcon, FileImportIcon, TrashIcon, AddCategories },
+    components: { PhotoIcon, VideoIcon, FileImportIcon, TrashIcon, AddCategories, AddDiscountcodes },
     emits:["close","cancel"],
     props: ["id"],
     data: () => ({
@@ -206,6 +224,7 @@ export default {
         categories: [],
         selectedCategories: [],
         file_type: null,
+        discount_codes: [],
         subset_product : [],
         tab: null,
         discount: false,
@@ -397,16 +416,20 @@ export default {
         // },
         async sendData() {
             let formData = new FormData();
-
+            let discount_codes_id = []
             // Add files to formData
             if (this.file != null) {
                 formData.append('file', this.file[0]);
             }
-
+            this.discount_codes.forEach(element => {
+                discount_codes_id.push(element.id)
+            });
+            console.log('id', discount_codes_id);
             // Add other fields to formData
             formData.append('title', this.title);
             formData.append('price', this.price);
             formData.append('description', this.description);
+            formData.append('discount_codes', discount_codes_id)
             formData.append('discount', this.value);
             formData.append('pin_profile', this.pin_profile);
 
@@ -472,6 +495,7 @@ export default {
                 this.value = response.data.discount
                 this.get_file = response.data.file
                 this.subset_product = response.data.subset_product
+                this.discount_codes = response.data.discount_codes != null ? response.data.discount_codes : []
                 if (response.data.discount) this.discount = true
 
             }

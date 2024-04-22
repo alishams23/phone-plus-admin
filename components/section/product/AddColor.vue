@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="createColor" class="pb-4">
+    <form @submit.prevent="createColor" class="">
         <v-row>
             <v-col cols="12" md="4">
                 <v-text-field required label="نام رنگ" rounded="lg" v-model="title_color" variant="outlined"

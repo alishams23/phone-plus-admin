@@ -83,6 +83,23 @@
                     <v-expansion-panel-text class="border-b ">
                         <AddColor :data="list_color" @change="(data) => { list_color = data }" />
                     </v-expansion-panel-text>
+                    <p class="text-red text-body-1 ">{{ error }}</p>
+                </v-expansion-panel>
+                <v-expansion-panel elevation="0">
+                    <v-expansion-panel-title color="grey-lighten-4" class="">
+                        <div class="d-flex w-100 justify-space-between  align-center">
+                            <div>
+                                کد تخفیف
+                            </div>
+                            <div class="font-weight-bold">
+                                +
+                            </div>
+                        </div>
+                    </v-expansion-panel-title>
+                   
+                    <v-expansion-panel-text class="border-b ">
+                        <AddDiscountcodes :data="discount_codes" @change="(data) => { discount_codes = data }" />
+                    </v-expansion-panel-text>
                     <p class="text-red text-body-1 pt-2">{{ error }}</p>
                 </v-expansion-panel>
             </v-expansion-panels>
@@ -104,6 +121,7 @@
 import { PhotoIcon, VideoIcon, CheckboxIcon, TrashIcon, CheckIcon } from 'vue-tabler-icons';
 import AddCategories from '@/components/section/product/AddCategories.vue';
 import AddColor from '@/components/section/product/AddColor.vue';
+import AddDiscountcodes from '@/components/section/product/AddDiscountcodes.vue';
 import AddSpecification from '@/components/section/product/AddSpecification.vue';
 import AddDiscount from '@/components/section/product/AddDiscount.vue';
 import axios from 'axios';
@@ -111,7 +129,7 @@ import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 
 export default {
-    components: { PhotoIcon, VideoIcon, CheckIcon, TrashIcon, CheckboxIcon, AddCategories, AddColor, AddSpecification, AddDiscount },
+    components: { PhotoIcon, VideoIcon, CheckIcon, TrashIcon, CheckboxIcon, AddCategories, AddColor, AddDiscountcodes, AddSpecification, AddDiscount },
     props: ['id'],
     emits:["close","cancel"],
     computed: {
@@ -134,6 +152,7 @@ export default {
         imagePreviews: [],
         selectedCategories: [],
         list_specification: [],
+        discount_codes: [],
         list_color: [],
     }),
     mounted() {
@@ -182,14 +201,22 @@ export default {
         async sendData() {
             let list_specification_id = []
             let list_color_id = []
+            let discount_codes_id = []
             this.list_specification.forEach(element => {
                 list_specification_id.push(element.id)
+                
             });
 
-            if (this.list_color.length != 0) {
+            if (this.list_color.length != 0) { // check all func or not
                 this.list_color.forEach(element => {
                     list_color_id.push(element.id)
                 });
+
+          
+                this.discount_codes.forEach(element => {
+                    discount_codes_id.push(element.id)
+                });
+       
 
                 console.log('list_color_id: ',list_color_id)
                 let formDic = {}
@@ -200,9 +227,12 @@ export default {
                 formDic['description'] = this.description
                 formDic['price'] = this.price
                 formDic['discount'] = this.value
+                formDic['discount_codes'] = discount_codes_id
                 formDic['pin_profile'] = this.pin_profile
                 formDic['Specification'] = list_specification_id
                 formDic['colors'] = list_color_id
+                console.log(discount_codes_id);
+                console.log(formDic);
                 let header = {
                     headers: {
                         "Content-type": "application/json",
@@ -256,6 +286,7 @@ export default {
                 this.value = response.data.discount
                 this.list_specification = response.data.Specification
                 this.list_color = response.data.colors != null ? response.data.colors : []
+                this.discount_codes = response.data.discount_codes != null ? response.data.discount_codes : []
                 if (response.data.discount) this.discount = true
 
             }
