@@ -76,8 +76,6 @@ export default {
     },
   },
   computed: {
-
-
     usernameRules() {
       return [
         v => !!v || 'یوزرنیم اجباری است',
@@ -144,9 +142,6 @@ export default {
           setTimeout(() => {
             this.$router.push('/auth/logOut')
           }, 3000);
-          
-        
-
         })
         .catch(error => {
           console.error('Error checking username:', error);
