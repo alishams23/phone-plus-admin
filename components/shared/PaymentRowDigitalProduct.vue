@@ -6,8 +6,8 @@
     <td>
         <div class="">
             <v-sheet v-bind="props">
-                <h6 class=" text-body-1 font-weight-bold text-muted">{{ data.author.full_name }}
-                </h6>
+                <!-- <h6 class=" text-body-1 font-weight-bold text-muted">{{ data.author.full_name }}
+                </h6> -->
             </v-sheet>
 
         </div>

@@ -18,6 +18,10 @@ export const useUserStore = defineStore('user', {
       // Save the token and username in a cookie
       this.saveTokenAndUsernameInCookie(token, username, usernameShop,status);
     },
+    setNewShopUsername(usernameShop,) {
+      document.cookie = `usernameShop=${usernameShop};  path=/; max-age=${60 * 60 * 24 * 100 }`;
+      this.usernameShop = usernameShop;
+    },
 
     // Function to save the token and username in a cookie
     saveTokenAndUsernameInCookie(token, username,usernameShop,status) {

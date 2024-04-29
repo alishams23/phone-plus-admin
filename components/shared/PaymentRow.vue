@@ -156,7 +156,8 @@
         </td>
         <td>
             <div class="">
-                <v-sheet v-bind="props">
+                <v-sheet v-bind="props" v-if="data.author">
+                    
                     <h6 class=" text-body-1 font-weight-bold text-muted">{{ data.author.full_name }}
                     </h6>
 
@@ -202,7 +203,7 @@
             <h6 class="text-h6 text-right">{{ data.price }} تومان</h6>
         </td>
         <td>
-            <v-btn @click="dialog=true" class=" text-right text-xs" icon="" color="primary" size="x-small"  variant="tonal"
+            <v-btn @click="dialog=true" v-if="data.author" class=" text-right text-xs" icon="" color="primary" size="x-small"  variant="tonal"
             >
             <PencilIcon size="15"/>
         </v-btn>
