@@ -136,12 +136,12 @@ export default {
 
       })
         .then(response => {
-          // this.snackbar = true
-          this.overlay=true
+          this.snackbar = true
+          // this.overlay=true
           this.loading = false
-          setTimeout(() => {
-            this.$router.push('/auth/logOut')
-          }, 3000);
+          const userStore = useUserStore();
+          userStore.setNewShopUsername(this.username);
+          // window.location.reload(true)
         })
         .catch(error => {
           console.error('Error checking username:', error);

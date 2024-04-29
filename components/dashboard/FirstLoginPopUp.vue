@@ -172,11 +172,12 @@ export default {
                 },
             }).then(response => {
                 // this.snackbar = true
-                this.overlay=true
+                const userStore = useUserStore();
+                userStore.setNewShopUsername(this.username);
+                window.location.reload(true)
+
                 this.loading = false
-                setTimeout(() => {
-                    this.$router.push('/auth/logOut')
-                }, 3000);
+                
             }).catch(error => {
                 console.error('Error checking username:', error);
                 this.loading = false
