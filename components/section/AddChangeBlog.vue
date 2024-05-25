@@ -1,9 +1,17 @@
 <template>
+    <v-btn rounded="pill" icon variant="outline" color="primary" :disabled="loadingImage"
+        class="text-body2 hidden-sm-and-down font-weight-bold fixed-top-left" @click="$emit('cancel')">
+        <XIcon size="24" />
+    </v-btn>
+    <v-btn rounded="pill" icon variant="outline" color="primary" :disabled="loadingImage"
+        class="text-body2 font-weight-bold hidden-md-and-up" @click="$emit('cancel')">
+        <XIcon size="24" />
+    </v-btn>
 
     <form @submit.prevent="sendData">
         <v-locale-provider rtl>
             <v-text-field label="عنوان مقاله" v-model="title" :maxlength="80" rounded="lg" required persistent-hint
-                variant="outlined" color="primary" class="mt-10" />
+                variant="outlined" color="primary" class="mt-md-10" />
 
             <div class="px-5 py-3 ">
                 بدنه مقاله
@@ -32,32 +40,44 @@
                     </template>
                 </template>
             </v-file-input>
+            
             <div class="image-preview-container">
-
                 <div v-if="imageId" :key="index">
-
-                    <v-img :src="address + '/api/blog/blog-image/' + imageId + '/ '"
-                        class="chip-image-preview object-cover "><v-avatar size="30" class="ma-3" @click="imageId = null"
-                            color="red-darken-2" icon="">
-                            <TrashIcon size="15" />
-                        </v-avatar></v-img>
+                    <v-img 
+                    :src="address + '/api/blog/blog-image/' + imageId + '/'"
+                    class="chip-image-preview-wide" 
+                    cover
+                    >
+                    <v-avatar 
+                        size="30" 
+                        class="ma-3" 
+                        @click="imageId = null" 
+                        color="red-darken-2" 
+                        icon=""
+                    >
+                        <TrashIcon size="15" />
+                    </v-avatar>
+                    </v-img>
                 </div>
             </div>
 
+
         </v-locale-provider>
 
-        <v-btn rounded="lg" persistent-hint variant="flat" color="primary" :disabled="loadingImage"
-            class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
-            ثبت
-        </v-btn>
-        <v-btn rounded="lg" persistent-hint variant="outline" color="primary" :disabled="loadingImage"
-            class="mx-2 px-10 text-body2 font-weight-bold mb-5" @click="$emit('cancel')">
-            برگشت
-        </v-btn>
+        <div class="d-flex" >
+            <v-btn rounded="lg" persistent-hint variant="flat" color="primary" :disabled="loadingImage"
+                class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
+                ثبت
+            </v-btn>
+            <v-btn rounded="lg" persistent-hint variant="outline" color="primary" :disabled="loadingImage"
+                class=" px-10 text-body2  font-weight-bold mb-5" @click="$emit('cancel')">
+                برگشت
+            </v-btn>
+        </div>
     </form>
 </template>
 <script>
-import { PhotoIcon, VideoIcon, CheckboxIcon, TrashIcon, CheckIcon } from 'vue-tabler-icons';
+import { XIcon, PhotoIcon, VideoIcon, CheckboxIcon, TrashIcon, CheckIcon } from 'vue-tabler-icons';
 import AddCategories from '@/components/section/product/AddCategories.vue';
 import AddColor from '@/components/section/product/AddColor.vue';
 import AddSpecification from '@/components/section/product/AddSpecification.vue';
@@ -67,7 +87,7 @@ import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 
 export default {
-    components: { PhotoIcon, VideoIcon, CheckIcon, TrashIcon, CheckboxIcon, AddCategories, AddColor, AddSpecification, AddDiscount },
+    components: { XIcon, PhotoIcon, VideoIcon, CheckIcon, TrashIcon, CheckboxIcon, AddCategories, AddColor, AddSpecification, AddDiscount },
     props: ['id'],
     emits:["close","cancel"],
     computed: {

@@ -22,6 +22,10 @@
                         }}</v-list-item-subtitle> -->
                     </v-list-item>
                     <div class=" text-body-1 font-weight-bold px-3 py-5 border-t">
+                        تاریخ سفارش:    {{formattedCreatedAt(data.created_at)}}
+                       
+                       </div>
+                    <div class=" text-body-1 font-weight-bold px-3 py-5 border-t">
                         شماره سفارش:     {{ data.order_id }}
                        
                        </div>
@@ -81,14 +85,45 @@
             <v-menu>
                 <template v-slot:activator="{ props }">
                     
-                    <v-btn :loading="data.id == loadingStatus"  :ripple="false" v-bind="props"
-                        variant="flat" rounded="pill"
+                    <v-btn 
+                        v-if="data.is_payed" 
+                        :loading="data.id == loadingStatus" 
+                        density="compact" 
+                        :ripple="false" 
+                        v-bind="props"
+                        variant="flat" 
+                        rounded="pill"
                         :class="data.status == 'received' ? 'bg-green' : data.status == 'sended' ? 'bg-primary' : 'bg-red'"
-                        class="text-body-2">
-                        {{ data.status == 'received' ? ' تحویل داده شده' : data.status == 'sended' ?
-                        ' ارسال شده ' : ' ارسال نشده' }}
+                        class="pa-0">
+                    
+                        <v-chip 
+                            class="text-body-2 px-3 py-1  text-white " 
+                            size="x-small">
+                           
+                            {{ data.status == 'received' ? ' تحویل داده شده' : data.status == 'sended' ? ' ارسال شده ' : ' ارسال نشده' }}
+                        </v-chip>
+                    
                     </v-btn>
-
+                    <v-btn
+                        disabled
+                        v-else
+                        :loading="data.id == loadingStatus" 
+                        density="compact" 
+                        :ripple="false" 
+                        variant="flat" 
+                        rounded="pill"
+                        class="bg-grey-lighten-5 pa-0">
+                    
+                        <v-chip 
+                            class="text-body-2 px-3 py-1  text-white " 
+                            size="x-small">
+                           
+                            لفو شده
+                        </v-chip>
+                    
+                    </v-btn>
+                    
+                        
                 </template>
                 <v-list 
                 rounded="lg"
@@ -152,6 +187,9 @@
       
     </v-dialog>
         <td>
+            <p class="text-15 font-body-1">{{formattedCreatedAt(data.created_at)}}</p>
+        </td>
+        <td>
             <p class="text-15 font-weight-medium">{{ data.order_id }}</p>
         </td>
         <td>
@@ -172,18 +210,46 @@
             <h6 class="text-body-1 text-muted">{{ data.count }}</h6>
         </td>
         <td>
-
             <v-menu>
                 <template v-slot:activator="{ props }">
 
-                    <v-btn :loading="data.id == loadingStatus" density="compact" :ripple="false" v-bind="props"
-                        variant="flat" rounded="pill"
+                    <v-btn 
+                        v-if="data.is_payed" 
+                        :loading="data.id == loadingStatus" 
+                        density="compact" 
+                        :ripple="false" 
+                        v-bind="props"
+                        variant="flat" 
+                        rounded="pill"
                         :class="data.status == 'received' ? 'bg-green' : data.status == 'sended' ? 'bg-primary' : 'bg-red'"
                         class="pa-0">
-                        <v-chip class="text-body-2 px-3 py-1  text-white " size="x-small">
-                            {{ data.status == 'received' ? ' تحویل داده شده' : data.status == 'sended' ?
-                                ' ارسال شده ' : ' ارسال نشده' }}
-                        </v-chip></v-btn>
+                    
+                        <v-chip 
+                            class="text-body-2 px-3 py-1  text-white " 
+                            size="x-small">
+                           
+                            {{ data.status == 'received' ? ' تحویل داده شده' : data.status == 'sended' ? ' ارسال شده ' : ' ارسال نشده' }}
+                        </v-chip>
+                    
+                    </v-btn>
+                    <v-btn 
+                        v-else
+                        disabled
+                        :loading="data.id == loadingStatus" 
+                        density="compact" 
+                        :ripple="false" 
+                        variant="flat" 
+                        rounded="pill"
+                        class="bg-grey-lighten-5 pa-0">
+                    
+                        <v-chip 
+                            class="text-body-2 px-3 py-1  text-white " 
+                            size="x-small">
+                           
+                            لفو شده
+                        </v-chip>
+                    
+                    </v-btn>
 
                 </template>
                 <v-list 
@@ -200,30 +266,40 @@
             </v-menu>
         </td>
         <td>
-            <h6 class="text-h6 text-right">{{ data.price }} تومان</h6>
+            <h6 v-if="data.price!=0" class="text-h6 text-right">{{ data.price }} <span class="text-body-2 text-xs" >تومان</span></h6>
+            <h6 v-else class="text-h6 text-right">-</h6>
         </td>
         <td>
-            <v-btn @click="dialog=true" v-if="data.author" class=" text-right text-xs" icon="" color="primary" size="x-small"  variant="tonal"
-            >
-            <PencilIcon size="15"/>
-        </v-btn>
+            <v-btn 
+                @click="dialog=true" 
+                v-if="data.author" 
+                class=" text-right text-xs" 
+                icon="" 
+                color="primary" 
+                size="x-small"  
+                variant="tonal">
+
+                <EyeIcon size="15"/>
+            </v-btn>
         </td>
+        
  
    
 </template>
 <script>
   
-    import { UserIcon } from 'vue-tabler-icons';
-    import { useUserStore } from '~/store/user';
+import { UserIcon } from 'vue-tabler-icons';
+import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
-    import axios from "axios";
-    import { PencilIcon } from 'vue-tabler-icons';
+import axios from "axios";
+import { parseISO, format } from 'date-fns';
+import { EyeIcon } from 'vue-tabler-icons';
 
 export default {
   
     components: {
         UserIcon,
-        PencilIcon
+        EyeIcon
     },
     props:["data"],
     data() {
@@ -240,6 +316,9 @@ export default {
         }
     },
     methods: {
+        formattedCreatedAt(createdAt) {
+            return format(parseISO(createdAt), 'HH:mm yyyy-MM-dd');
+        },
         changeStatus(id, status) {
             this.loadingStatus = id
             axios.put(`${apiStore().address}/api/order/seller-panel/order-update-status/${id}/`, { status: status }, {

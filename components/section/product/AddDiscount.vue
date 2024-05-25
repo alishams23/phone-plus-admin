@@ -6,7 +6,7 @@
 </v-locale-provider>
 <v-slide-y-transition>
     <v-row v-if="discount" class="mt-1 mb-5 rtl">
-        <v-col cols="12" md="3">
+        <v-col cols="12" md="6">
             <v-text-field label="درصد تخفیف" rounded="lg" :max="100" min="1" v-model="valueData" required type="number" persistent-hint
                 variant="outlined" color="primary" />
         </v-col>

@@ -7,29 +7,16 @@
       <div class="pa-3">
         لطفا با جابجایی ترتیب نمایش ایتم ها در صفحه ی پروفایل خود را مشخص کنید.
       </div>
-
     </v-alert>
-    <div>
-      <div class="pa-5 rtl font-weight-bold ma-5">لیست ایتم های پروفایل فروشگاه</div>
-      <Container orientation="vertical" @drop="onDrop">
-        <Draggable v-for="(item, i) in items" :key="item.id" class="pb-8 px-5">
-          <v-sheet elevation="10"
-            class="bg-white rounded-xl  border-t   px-10 py-5  mx-3 d-flex justify-space-between align-center">
-            <div class="d-flex align-center">
-              <Menu2Icon size="20" />
-              <v-btn v-if="item.type != 'product' && item.type != 'digital' && item.type != 'blog'"
-                @click="items.splice(i, 1)" color="red" class="mx-3" icon="" variant="tonal" size="x-small">
-                <TrashIcon size="18" />
-              </v-btn>
-            </div>
-            <div>
-              <!-- {{ i + 1 }} -> -->
-
-              {{ item.title }}
-            </div>
-          </v-sheet>
-        </Draggable>
-
+    <v-btn 
+          text="ثبت" 
+          :loading="loading" 
+          @click="updateData" 
+          color="primary" 
+          rounded="lg" 
+          variant="flat" 
+          elevation="0"
+          class="px-10 mx-4 my-2"/>
 
         <v-dialog width="500">
           <template v-slot:activator="{ props }">
@@ -97,8 +84,26 @@
             </v-locale-provider>
           </template>
         </v-dialog>
-        <v-btn text="ثبت" :loading="loading" @click="updateData" color="primary" rounded="lg" variant="flat" elevation="0"
-          class="px-10 mx-4 my-2"></v-btn>
+    <div>
+      <div class="pa-5 rtl font-weight-bold ma-5">لیست ایتم های پروفایل فروشگاه</div>
+      <Container orientation="vertical" @drop="onDrop">
+        <Draggable v-for="(item, i) in items" :key="item.id" class="pb-8 px-5">
+          <v-sheet elevation="10"
+            class="bg-white rounded-xl  border-t   px-10 py-5  mx-3 d-flex justify-space-between align-center">
+            <div class="d-flex align-center">
+              <Menu2Icon size="20" />
+              <v-btn v-if="item.type != 'product' && item.type != 'digital' && item.type != 'blog'"
+                @click="items.splice(i, 1)" color="red" class="mx-3" icon="" variant="tonal" size="x-small">
+                <TrashIcon size="18" />
+              </v-btn>
+            </div>
+            <div>
+              <!-- {{ i + 1 }} -> -->
+
+              {{ item.title }}
+            </div>
+          </v-sheet>
+        </Draggable>
 
 
       </Container>

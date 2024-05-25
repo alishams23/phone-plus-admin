@@ -1,9 +1,17 @@
 <template>
+    <v-btn rounded="pill" icon variant="outline" color="primary" :disabled="loadingImage"
+        class="text-body2 hidden-sm-and-down font-weight-bold fixed-top-left" @click="$emit('cancel')">
+        <XIcon size="24" />
+    </v-btn>
+    <v-btn rounded="pill" icon variant="outline" color="primary" :disabled="loadingImage"
+        class="text-body2 font-weight-bold hidden-md-and-up" @click="$emit('cancel')">
+        <XIcon size="24" />
+    </v-btn>
 
     <form @submit.prevent="sendData">
         <v-locale-provider rtl>
             <v-text-field label="نام محصول" v-model="title" :maxlength="80" rounded="lg" required persistent-hint variant="outlined"
-                color="primary" class="mt-10" />
+                color="primary" class="mt-md-10" />
 
             <div class="px-5 py-3 ">
                 توضیحات محصول
@@ -51,7 +59,7 @@
                 </div>   
             <v-text-field label="کد آی‌فریم ویدیو محصول" v-model="video" rounded="lg" variant="outlined" color="primary"
                 class="mt-10" />
-            <v-checkbox v-model="pin_profile" color="primary" label="پین بودن در صفحه ی پروفایل شما" />
+            
             <v-expansion-panels rounded="xl" class="mb-10 mt-5  ">
                 <v-expansion-panel elevation="0">
                     <v-expansion-panel-title color="grey-lighten-4" class=" ">
@@ -103,22 +111,31 @@
                     <p class="text-red text-body-1 pt-2">{{ error }}</p>
                 </v-expansion-panel>
             </v-expansion-panels>
+            <v-row class="d-flex mt-7 w-full ltr">
+             <v-col>
+                   <v-checkbox v-model="pin_profile" color="primary" label="پین بودن در صفحه ی پروفایل شما" />
+             </v-col>
+              <v-col>
+                  <AddDiscount :value="value" @change="(data) => { value = data }" />
+              </v-col>
+            </v-row>
         </v-locale-provider>
-        <AddDiscount :value="value" @change="(data) => { value = data }" />
         
-        <v-btn rounded="lg" persistent-hint variant="flat" color="primary" :disabled="loadingImage"
-            class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
-            ثبت
-        </v-btn>
-        <v-btn rounded="lg" persistent-hint variant="outline" color="primary" :disabled="loadingImage"
-            class="mx-2 px-10 text-body2 font-weight-bold mb-5" @click="$emit('cancel')">
-            برگشت
-        </v-btn>
+        <div class="d-flex" >
+            <v-btn rounded="lg" persistent-hint variant="flat" color="primary" :disabled="loadingImage"
+                class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
+                ثبت
+            </v-btn>
+            <v-btn rounded="lg" persistent-hint variant="outline" color="primary" :disabled="loadingImage"
+                class=" px-10 text-body2  font-weight-bold mb-5" @click="$emit('cancel')">
+                برگشت
+            </v-btn>
+        </div>
         
     </form>
 </template>
 <script>
-import { PhotoIcon, VideoIcon, CheckboxIcon, TrashIcon, CheckIcon } from 'vue-tabler-icons';
+import { XIcon, PhotoIcon, VideoIcon, CheckboxIcon, TrashIcon, CheckIcon } from 'vue-tabler-icons';
 import AddCategories from '@/components/section/product/AddCategories.vue';
 import AddColor from '@/components/section/product/AddColor.vue';
 import AddDiscountcodes from '@/components/section/product/AddDiscountcodes.vue';
@@ -129,7 +146,7 @@ import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 
 export default {
-    components: { PhotoIcon, VideoIcon, CheckIcon, TrashIcon, CheckboxIcon, AddCategories, AddColor, AddDiscountcodes, AddSpecification, AddDiscount },
+    components: { XIcon, PhotoIcon, VideoIcon, CheckIcon, TrashIcon, CheckboxIcon, AddCategories, AddColor, AddDiscountcodes, AddSpecification, AddDiscount },
     props: ['id'],
     emits:["close","cancel"],
     computed: {
@@ -218,7 +235,9 @@ export default {
                 });
        
 
-                console.log('list_color_id: ',list_color_id)
+                if (discount_codes_id.length >0){
+                    formData.append('discount_codes', discount_codes_id)
+                }
                 let formDic = {}
                 formDic['category'] = this.selectedCategories
                 formDic['image'] = this.imageIds
@@ -227,12 +246,9 @@ export default {
                 formDic['description'] = this.description
                 formDic['price'] = this.price
                 formDic['discount'] = this.value
-                formDic['discount_codes'] = discount_codes_id
                 formDic['pin_profile'] = this.pin_profile
                 formDic['Specification'] = list_specification_id
                 formDic['colors'] = list_color_id
-                console.log(discount_codes_id);
-                console.log(formDic);
                 let header = {
                     headers: {
                         "Content-type": "application/json",
@@ -300,4 +316,11 @@ export default {
 .ql-toolbar.ql-snow {
     border-radius: 13px 13px 0px 0px !important;
 }
+.fixed-top-left {
+    position: fixed;
+    left: 10px; /* Adjust the right margin as necessary */
+    top: 10px; /* Adjust the bottom margin as necessary */
+    z-index: 1000; /* Ensures the button stays above other content */
+}
+
 </style>

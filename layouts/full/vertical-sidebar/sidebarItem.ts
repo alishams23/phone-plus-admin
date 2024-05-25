@@ -35,6 +35,7 @@ const sidebarItem: menu[] = [
     {
         title: 'مشاهده ی فروشگاه',
         icon: BuildingStoreIcon,
+        type: 'external',
         to: '/shop'
        
     },
@@ -45,15 +46,11 @@ const sidebarItem: menu[] = [
     },
     { header: 'مالی' },
     {
-        title: 'پرداخت‌ محصولات',
+        title: 'پرداخت‌ ها',
         icon: CoinsIcon,
         to: '/paymentProduct'
     },
-    {
-        title: 'پرداخت‌ فایل ها ',
-        icon: CoinsIcon,
-        to: '/paymentDigitalProduct'
-    },
+    
     { header: 'محصولات' },
     {
         title: 'محصولات',

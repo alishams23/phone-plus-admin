@@ -79,8 +79,24 @@ backdrop-filter: blur(15px);
   }
 
 
-  .chip-image-preview {
+.chip-image-preview {
     width: 100px; /* Increased size */
+    height: 100px; /* Increased size */
+    object-fit: cover;
+    border-radius: 13px; /* Rounded corners */
+    margin-right: 17px;
+    margin-bottom: 20px;
+}
+.chip-image-preview-wide {
+    width: 200px; /* Increased size */
+    height: 100px; /* Increased size */
+    object-fit: cover;
+    border-radius: 13px; /* Rounded corners */
+    margin-right: 17px;
+    margin-bottom: 20px;
+}
+.chip-image-preview-ultra-wide {
+    width: 250px; /* Increased size */
     height: 100px; /* Increased size */
     object-fit: cover;
     border-radius: 13px; /* Rounded corners */

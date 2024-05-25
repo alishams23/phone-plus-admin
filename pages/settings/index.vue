@@ -6,22 +6,122 @@
     <v-container>
         <form @submit.prevent="updateData">
             <v-locale-provider rtl>
-                <v-text-field label="نام فروشگاه" v-model="name" rounded="lg" required persistent-hint variant="outlined"
-                    color="primary" class="mt-10" />
-                <v-textarea color="primary" v-model="bio" rounded="lg" variant="outlined" label="بیو"></v-textarea>
-                <v-file-input rounded="lg" accept=".png,.jpg" persistent-hint  variant="outlined" color="primary"
-                    v-model="image" placeholder="Upload your documents" label="تغییر عکس‌ پروفایل فروشگاه">
+
+                <v-text-field 
+                    label="نام فروشگاه" 
+                    v-model="name" 
+                    rounded="lg" 
+                    required 
+                    persistent-hint 
+                    variant="outlined"
+                    color="primary" 
+                    class="mt-10" />
+
+                <v-textarea 
+                    color="primary" 
+                    v-model="bio" 
+                    rounded="lg" 
+                    variant="outlined" 
+                    label="اطلاعات فروشگاه"/>
+
+                
+                <v-file-input 
+                    rounded="lg" 
+                    accept=".png,.jpg" 
+                    persistent-hint  
+                    variant="outlined" 
+                    color="primary"
+                    v-model="image" 
+                    @change="imageChange"
+                    placeholder="Upload your documents" 
+                    label="تغییر عکس‌ پروفایل فروشگاه">
+
+                    <template v-slot:prepend>
+                        <PhotoIcon style="margin-left: -20px;" class="text-grey" />
+                    </template>
+
+                </v-file-input>
+
+                <div  
+                    v-if="image_preview" 
+                    class="image-preview-container ps-10">
+
+                    <img :src="image_preview" class="chip-image-preview" />
+                </div>
+
+                <v-file-input 
+                    rounded="lg" 
+                    accept=".png,.jpg" 
+                    persistent-hint  
+                    variant="outlined" 
+                    color="primary"
+                    v-model="background_image" 
+                    @change="backgroundImageChange"
+                    placeholder="Upload your documents" 
+                    label="تغییر عکس‌ زمینه پروفایل فروشگاه">
+
                     <template v-slot:prepend>
                         <PhotoIcon style="margin-left: -20px;" class="text-grey" />
                     </template>
                   
                 </v-file-input>
- 
+
+                
+                <div  
+                    v-if="background_image_preview" 
+                    class="image-preview-container ps-10">
+
+                    <img :src="background_image_preview" class="chip-image-preview-ultra-wide" />
+                </div>
+
+                <p class="text-8xl pt-5 pb-3 text-grey-darken-2" >
+                    راه ارتباطی با شبکه های اجتماعی:
+                </p>
+                
+                <v-text-field 
+                    color="primary" 
+                    v-model="telegram" 
+                    rounded="lg" 
+                    variant="outlined" 
+                    label="لینک تلگرام"/>
+
+                <v-text-field 
+                    color="primary" 
+                    v-model="whatsapp" 
+                    rounded="lg" 
+                    variant="outlined" 
+                    label="لینک واتساپ"/>
+
+                <v-text-field 
+                    color="primary" 
+                    v-model="instagram" 
+                    rounded="lg" 
+                    variant="outlined" 
+                    label="لینک اینستاگرام"/>
+
+                <v-text-field 
+                    color="primary" 
+                    v-model="twitter" 
+                    rounded="lg" 
+                    variant="outlined" 
+                    label="لینک توییتر"/>
+
+
             </v-locale-provider>
-            <v-btn :loading="loading" type="submit" rounded="lg" persistent-hint variant="flat" color="primary"
+
+            <v-btn 
+                :loading="loading" 
+                type="submit" 
+                rounded="lg" 
+                persistent-hint 
+                variant="flat" 
+                color="primary"
                 class="mx-2 px-10 text-body2 font-weight-bold mb-5" >
+                
                 ثبت
+
             </v-btn>
+
         </form>
     </v-container>
 </template>
@@ -37,17 +137,40 @@ export default {
             snackbar:false,
             loading: true,
             image: null,
+            background_image: null,
             name: "",
             bio: "",
+            instagram: "",
+            twitter: "",
+            telegram: "",
+            whatsapp: "",
+
             id : null,
       
-            imagePreviews: [],
+            image_preview: null,
+            background_image_preview: null,
         };
     },
     mounted() {
         this.getData()
     },
     methods: {
+        imageChange(event) {
+            const files = event.target.files;
+            this.previewImage(files, 'image_preview');
+        },
+        backgroundImageChange(event) {
+            const files = event.target.files;
+            this.previewImage(files, 'background_image_preview');
+        },
+        previewImage(files, previewTarget) {
+            if (!files || !files[0]) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                this[previewTarget] = e.target.result;
+            };
+            reader.readAsDataURL(files[0]);
+        },
         getData() {
             axios.get(`${apiStore().address}/api/account/seller-panel/shop-retrieve/`, {
                 headers: {
@@ -57,9 +180,15 @@ export default {
             }).then((response) => {
                 console.log(response)
                 this.loading = false
+                this.id = response.data[0].id
                 this.name = response.data[0].name
                 this.bio = response.data[0].bio
-                this.id = response.data[0].id
+                this.image_preview = response.data[0].image
+                this.background_image_preview = response.data[0].background_image
+                this.instagram = response.data[0].instagram
+                this.twitter = response.data[0].twitter
+                this.telegram = response.data[0].telegram
+                this.whatsapp = response.data[0].whatsapp
             }
             )
         },
@@ -68,9 +197,13 @@ export default {
 
             this.fd = new FormData();
                 if(this.image)  this.fd.append("image", this.image[0])
+                if(this.background_image)  this.fd.append("background_image", this.background_image[0])
                 this.fd.append("name", this.name);
                 this.fd.append("bio", this.bio);
-                console.log(this.image)
+                this.fd.append("instagram", this.instagram);
+                this.fd.append("twitter", this.twitter);
+                this.fd.append("telegram", this.telegram);
+                this.fd.append("whatsapp", this.whatsapp);
                 await axios
                     .patch(
                         `${apiStore().address}/api/account/seller-panel/shop-update/${this.id}/`,

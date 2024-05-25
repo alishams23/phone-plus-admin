@@ -1,6 +1,9 @@
 <template>
 
     <td>
+        <p class="text-15 font-body-1">{{formattedCreatedAt(data.created_at)}}</p>
+    </td>
+    <td>
         <p class="text-15 font-weight-medium">{{ data.order_id }}</p>
     </td>
     <td>
@@ -16,7 +19,46 @@
         <h6 v-bind="props" class="text-body-1 text-muted">{{ data.digital_product.title }}</h6>
     </td>
     <td>
-        <h6 class="text-h6 text-right">{{ data.price }} تومان</h6>
+        <v-btn 
+            v-if="data.is_payed"
+            
+            :loading="data.id == loadingStatus" 
+            density="compact" 
+            :ripple="false" 
+            variant="flat" 
+            rounded="pill"
+            class="bg-green pa-0 ">
+        
+            <v-chip 
+                class="text-body-2 px-3 py-1 text-white " 
+                size="x-small">
+                
+                پرداخت شده
+            </v-chip>
+        
+        </v-btn>
+        <v-btn 
+            v-else
+            disabled
+            :loading="data.id == loadingStatus" 
+            density="compact" 
+            :ripple="false" 
+            variant="flat" 
+            rounded="pill"
+            class="bg-grey-lighten-5 pa-0">
+        
+            <v-chip 
+                class="text-body-2 px-3 py-1  text-white " 
+                size="x-small">
+                
+                لفو شده
+            </v-chip>
+        
+        </v-btn>
+    </td>
+    <td>
+        <h6 v-if="data.price!=0" class="text-h6 text-right">{{ data.price }} تومان</h6>
+        <h6 v-else class="text-h6 text-right">-</h6>
     </td>
 
 
@@ -26,6 +68,7 @@
 
 import { UserIcon } from 'vue-tabler-icons';
 import { PencilIcon } from 'vue-tabler-icons';
+import { parseISO, format } from 'date-fns';
 
 export default {
 
@@ -41,6 +84,9 @@ export default {
         }
     },
     methods: {
+        formattedCreatedAt(createdAt) {
+            return format(parseISO(createdAt), 'HH:mm yyyy-MM-dd');
+        },
     }
 }
 </script>

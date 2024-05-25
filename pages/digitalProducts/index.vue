@@ -110,7 +110,7 @@
                     </v-card-item>
 
                     <v-card-actions class="mt-auto mr-auto px-10">
-                      <v-dialog persistent width="900" >
+                      <v-dialog persistent width="1300" >
                         <template v-slot:activator="{ props: activatorProps }">
                           <div class="ma-4">
                             <v-btn class="px-10 ml-4" v-bind="activatorProps" variant="flat" rounded="xl" size="small"
@@ -145,7 +145,7 @@
   </v-container>
   <VLayoutItem model-value position="bottom" class="text-end" size="88">
 
-    <v-dialog width="900" persistent v-model="open">
+    <v-dialog width="1300" persistent v-model="open">
       <template v-slot:activator="{ props }">
         <div class="ma-4">
           <VBtn v-bind="props" icon="" size="large" color="primary" elevation="8">
