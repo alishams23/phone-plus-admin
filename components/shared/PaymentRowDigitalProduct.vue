@@ -50,8 +50,7 @@
             <v-chip 
                 class="text-body-2 px-3 py-1  text-white " 
                 size="x-small">
-                
-                لفو شده
+                لغو شده
             </v-chip>
         
         </v-btn>

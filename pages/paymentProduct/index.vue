@@ -14,7 +14,7 @@
         </v-col>
     
     </v-row>
-    <v-tabs color="primary" v-model="model" align-tabs="center" grow>
+    <v-tabs color="primary" v-model="model" class="border-b" align-tabs="center" grow>
         <v-tab color="primary" :text="'محصولات دیجیتال'" :value="0"></v-tab>
         <v-tab color="primary" :text="'محصولات'" :value="1"></v-tab>
     </v-tabs>

@@ -51,7 +51,7 @@ let editor = null
 
 const updateContent = () => {
 
-  emit('update', document.querySelector(".ql-editor").innerHTML);
+  emit('update', editor.container.querySelector(".ql-editor").innerHTML);
   
 };
 const doPaste  = () => {
@@ -80,7 +80,7 @@ const onEditorReady = (data) =>  {
       console.log('Custom button clicked!');
       dialog.value = true;
     });}
-    const rtlButton = document.querySelector('.ql-direction');
+    const rtlButton = editor.getModule('toolbar').container.querySelector('.ql-direction');
   if (rtlButton) {
     rtlButton.click();
   } else {

@@ -33,6 +33,10 @@
                     v-model="title" required />
             </v-locale-provider>
             <TextEditor :content="description" @update="handleTextChange"></TextEditor>
+            <div class="mt-5">
+                <TextEditor :content="instructions" @update="handleTextChangeInstructions"></TextEditor>
+            </div>
+    
 
             <v-locale-provider rtl>
                 <v-row class="mt-10 mb-5">
@@ -304,6 +308,7 @@ export default {
         fileInputKey: Date.now(),
         title: null,
         body: '',
+        instructions:null,
         header: '',
         csvData: [],
         formattedDate:[],
@@ -362,6 +367,9 @@ export default {
         },
         handleTextChange(newText) {
             this.description = newText;
+        },
+        handleTextChangeInstructions(newText) {
+            this.instructions = newText;
         },
         handleCsvUpload(event) {
             // Ensure a file was selected
@@ -540,6 +548,7 @@ export default {
             formData.append('title', this.title);
             formData.append('price', this.price);
             formData.append('description', this.description);
+            formData.append('instructions', this.instructions);
             formData.append('discount', this.value);
             formData.append('pin_profile', this.pin_profile);
 
@@ -586,6 +595,7 @@ export default {
             }).then((response) => {
                 this.loadingData = false
                 this.description = response.data.description
+                this.instructions = response.data.instructions
                 this.title = response.data.title
                 this.video = response.data.video
                 this.pin_profile = response.data.pin_profile

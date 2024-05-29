@@ -87,7 +87,7 @@ export default {
         searchData() {
             this.loading = true
 
-            axios.get(`${apiStore().address}/api/order/seller-panel/order-payed-list-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}&status=${this.statusCheck}`, {
+            axios.get(`${apiStore().address}/api/order/seller-panel/order-list-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}&status=${this.statusCheck}`, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",
