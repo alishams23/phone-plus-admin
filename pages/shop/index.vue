@@ -7,7 +7,7 @@ import { apiStore } from '~/store/api';
 export default{
     mounted(){
 
-        window.location.href = `http://192.168.12.128:8000:3001/${useUserStore().usernameShop}`;
+        window.location.href = `http://171.22.27.89:3001/${useUserStore().usernameShop}`;
     }
 }
 </script>
