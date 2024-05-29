@@ -84,20 +84,20 @@
                     placeholder="telegram_id"
                     rounded="lg" 
                     variant="outlined" 
-                    
                     label="آیدی تلگرام"/>
 
                 <v-text-field 
                     color="primary" 
                     v-model="whatsapp" 
-                    placeholder="+989123334444"
+                    placeholder="989123334444+"
                     rounded="lg" 
                     variant="outlined" 
                     label="شماره واتساپ"/>
 
                 <v-text-field 
                     color="primary" 
-                    v-model="instagram" 
+                    v-model="instagram"
+                    placeholder="instagram_id" 
                     rounded="lg" 
                     variant="outlined" 
                     label="آیدی اینستاگرام"/>
@@ -105,9 +105,10 @@
                 <v-text-field 
                     color="primary" 
                     v-model="twitter" 
+                    placeholder="X_id" 
                     rounded="lg" 
                     variant="outlined" 
-                    label="آیدی توییتر"/>
+                    label="آیدی ایکس"/>
 
 
             </v-locale-provider>
