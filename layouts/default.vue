@@ -17,6 +17,7 @@ import { Menu2Icon,SearchIcon,Settings2Icon } from 'vue-tabler-icons';
 import ProfileDD from '@/layouts/full/vertical-header/ProfileDD.vue';
 import { useUserStore } from '~/store/user'; 
 import { apiStore } from '~/store/api';
+import axios from 'axios';
 
 export default {
     components: { Menu2Icon, NavGroup, NavItem, ExtraBox, Icon,Settings2Icon,SearchIcon ,ProfileDD,Side},
@@ -27,6 +28,7 @@ export default {
         sidebarItemUnregisterData : sidebarItemUnregister,
         settingMenu : shallowRef(settingItems),
         sDrawer : true,
+        countMessage:0,
         chat_drawer:false,
         setting_drawer:false,
         items: [
@@ -40,6 +42,10 @@ export default {
   mounted(){
 
         this.sidebarMenu =  useUserStore().status == 's' ?  this.sidebarItemsData :  this.sidebarItemUnregisterData 
+        this.getMessage()
+        setInterval(() => {
+            this.getMessage()
+        }, 10000);
 
   },
   computed:{
@@ -55,7 +61,18 @@ export default {
     currentRouteCheck(url) {
       return this.$route.name.split("-").includes(url.split('/')[1]);
     },
+    getMessage(){
+    axios.get(`${apiStore().address}/api/chat/unread-messages/`, {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: `Token ${useUserStore().userToken}`
+                },
+            }).then((response) => {
+                this.countMessage = response.data.count
+            })
   },
+  },
+
   beforeMount() {
     const userStore = useUserStore();
     if (!userStore.userToken) {
@@ -127,6 +144,15 @@ export default {
                                  {{ item.chip }}
                              </v-chip>
                          </template>
+                         <template v-slot:prepend v-if="item.to == '/chat' && countMessage !=0">
+                            <v-badge
+                            class="ml-10"
+                            color="red"
+                            :content="countMessage"
+                            inline
+                            ></v-badge>
+                         </template>
+                         
                      </v-list-item>
                      <!---End Single Item-->
                  </template>
