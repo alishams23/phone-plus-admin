@@ -32,8 +32,14 @@
                 <v-text-field label="نام" rounded="lg" persistent-hint variant="outlined" color="primary" class="mt-md-10"
                     v-model="title" required />
             </v-locale-provider>
+            <p class="rtl pb-1" >
+                توضیحات محصول:
+            </p>
             <TextEditor :content="description" @update="handleTextChange"></TextEditor>
             <div class="mt-5">
+                <p class="rtl pb-1" >
+                    آموزش استفاده از محصول:
+                </p>
                 <TextEditor :content="instructions" @update="handleTextChangeInstructions"></TextEditor>
             </div>
     
@@ -146,6 +152,8 @@
                 </v-row>
                 
 
+                <v-alert v-if="file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'" class="mt-2 mb-5 rounded-lg" title="نکته"
+                text="برای ثبت لایسنس‌های خود، لطفاً فایل اکسل را با دقت تکمیل کنید و در نظر داشته باشید اولین ردیف را به عنوان تخصیص دهید. هر ردیف فایل باید حاوی اطلاعات یک لایسنس باشد. پس از تکمیل، فایل خود را در بخش مربوطه در وب‌سایت آپلود کنید تا لایسنس‌های شما به سرعت و به طور موثر ثبت شوند."></v-alert>
                 <v-file-input 
                     :key="fileInputKey"
                     rounded="lg" 
@@ -168,8 +176,6 @@
                         </template>
                     </template>
                     </v-file-input>
-                    <v-alert v-if="file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'" class="mt-2 mb-5 rounded-lg" title="نکته"
-                    text="برای ثبت لایسنس‌های خود، لطفاً فایل اکسل را با دقت تکمیل کنید و در نظر داشته باشید اولین ردیف را به عنوان تخصیص دهید. هر ردیف فایل باید حاوی اطلاعات یک لایسنس باشد. پس از تکمیل، فایل خود را در بخش مربوطه در وب‌سایت آپلود کنید تا لایسنس‌های شما به سرعت و به طور موثر ثبت شوند."></v-alert>
 
                     <!-- Show CSV data -->
                     <div v-if="transformedData.length > 0">
