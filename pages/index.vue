@@ -2,7 +2,6 @@
 
 /*Call Components*/
 import SalesOverview from '~/components/dashboard/SalesOverview.vue';
-import YearlyBreakup from '~/components/dashboard/YearlyBreakup.vue';
 import MonthlyEarning from '~/components/dashboard/MonthlyEarnings.vue';
 import RecentNotification from '~/components/dashboard/RecentNotification.vue';
 import PaymentTable from '~/components/dashboard/PaymentTable.vue';
@@ -16,7 +15,7 @@ export default {
     name: "index",
     components: {
     SalesOverview,
-    YearlyBreakup,
+
     MonthlyEarning,
     RecentNotification,
     PaymentTable,
@@ -67,9 +66,9 @@ export default {
 
                 <!-- Yearly Breakup / Monthly Earnings -->
                 <v-col cols="12" lg="4">
-                    <!-- <div class="mb-6">
-                        <YearlyBreakup />
-                    </div> -->
+                    <div class="mb-6">
+                        <DashboardWallet />
+                    </div>
                     <div>
                         <MonthlyEarning />
                     </div>

@@ -10,6 +10,7 @@ import axios from 'axios'; // Import axios for API requests
 const theme = useTheme();
 const secondary = theme.current.value.colors.secondary;
 const totalPriceSum = ref(0);
+const loading = ref(true);
 /* Chart */
 const areachartOptions = computed(() => {
   return {
@@ -72,7 +73,10 @@ const fetchData = async () => {
                 Authorization: `Token ${useUserStore().userToken}`
             },
         })// Replace with your API endpoint
-    const data = await response.data;
+        const data =  response.data;
+        setTimeout(() => {
+          loading.value = false;
+        }, 1000);
    
 
     for (const entry of data) {
@@ -110,10 +114,11 @@ onMounted(() => {
                 </v-col>
             </v-row>
         </v-card-item>
-        <div class="mt-3">
+        <div class="mt-3" v-if="loading == false">
             <ClientOnly>
-            <apexchart type="area" height="330" :options="areachartOptions" :series="areaChart.series"> </apexchart>
+            <apexchart type="area" height="105" :options="areachartOptions" :series="areaChart.series"> </apexchart>
         </ClientOnly>
         </div>
+        <v-card v-else height="105" class="mt-3"></v-card>
     </v-card>
 </template>

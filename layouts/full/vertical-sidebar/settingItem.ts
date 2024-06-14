@@ -22,7 +22,7 @@ export interface menu {
 
 const sidebarItem: menu[] = [
     {
-        title: 'تنظیمات  فروشگاه',
+        title: 'اطلاعات  فروشگاه',
         icon: Settings2Icon,
         to: '/settings/'
     },

@@ -41,7 +41,7 @@
             <v-locale-provider rtl>
                 <v-row class="mt-10 mb-5">
                     <v-col cols="12" md="6">
-                        <v-text-field :label="file_type=='لیست لایسنس اکانت کد یکتا' || file_type=='لایسنس اکانت کد یکتا'?' قیمت هر ردیف(تومان)':'قیمت(تومان)'" rounded="lg" v-model="price" required type="number" persistent-hint
+                        <v-text-field :label="file_type=='افزودن گروهی: اکانت، لایسنس یا کد یکتا' || file_type=='افزودن تکی: اکانت، لایسنس یا کد یکتا'?' قیمت هر ردیف(تومان)':'قیمت(تومان)'" rounded="lg" v-model="price" required type="number" persistent-hint
                             variant="outlined" color="primary" />
                     </v-col>
                     <v-col cols="12" md="6">
@@ -89,8 +89,8 @@
                     color="primary"
                     v-model="file_type" 
                     :disabled="id?true:false"
-                    :label="id?get_file? 'فایل' : 'لیست لایسنس اکانت کد یکتا':'انتخاب نوع محصول'" 
-                    :items="['لیست لایسنس اکانت کد یکتا','لایسنس اکانت کد یکتا' , 'فایل' ]">
+                    :label="id?get_file? 'فایل' : 'افزودن گروهی: اکانت، لایسنس یا کد یکتا':'انتخاب نوع محصول'" 
+                    :items="['افزودن گروهی: اکانت، لایسنس یا کد یکتا','افزودن تکی: اکانت، لایسنس یا کد یکتا' , 'فایل' ]">
                 </v-combobox>
 
                 <v-file-input 
@@ -116,19 +116,9 @@
                 <a v-if="get_file" :href="get_file" class="d-flex justify-start w-100 ps-15">
                     دانلود فایل فعلی
                 </a>
-                <v-row class="mt-1 mb-5 rtl"  v-if="id ? get_file == null : file_type == 'لایسنس اکانت کد یکتا'">
-                    <v-col cols="12" md="3">
-                        <v-text-field  
-                            label="عنوان" 
-                            rounded="lg" 
-                            persistent-hint 
-                            variant="outlined" 
-                            color="primary" 
-                            class=""
-                            v-model="header"/>
-                    </v-col>
-                    <v-col cols="12" md="7">
-                        <v-text-field  
+                <v-row class="mt-1 mb-5 rtl" align="end" v-if="id ? get_file == null : file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا'">
+                    <v-col cols="12" md="10">
+                        <v-textarea
                             label="اطلاعات ردیف" 
                             rounded="lg" 
                             persistent-hint 
@@ -140,8 +130,8 @@
                     <v-col cols="12" md="2" >
                         <v-btn  
                             type="submit" 
-                            :disabled="body == ''" 
-                            class="rounded-lg mt-2" 
+                            :disabled="body == '' || title == ''" 
+                            class="rounded-lg mt-2 mb-5" 
                             color="primary"
                             @click="addRow()"
                             variant="flat">
@@ -163,7 +153,7 @@
                     persistent-hint 
                     variant="outlined" 
                     color="primary"
-                    v-if="id ? get_file == null : file_type == 'لیست لایسنس اکانت کد یکتا'" 
+                    v-if="id ? get_file == null : file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'" 
                     @change="handleCsvUpload" 
                     placeholder="اضافه لیست"
                     :label="id ? 'اضافه کردن به لیست محصول' : 'لیست محصول'">
@@ -178,7 +168,7 @@
                         </template>
                     </template>
                     </v-file-input>
-                    <v-alert v-if="file_type == 'لیست لایسنس اکانت کد یکتا'" class="mt-2 mb-5 rounded-lg" title="نکته"
+                    <v-alert v-if="file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'" class="mt-2 mb-5 rounded-lg" title="نکته"
                     text="برای ثبت لایسنس‌های خود، لطفاً فایل اکسل را با دقت تکمیل کنید و در نظر داشته باشید اولین ردیف را به عنوان تخصیص دهید. هر ردیف فایل باید حاوی اطلاعات یک لایسنس باشد. پس از تکمیل، فایل خود را در بخش مربوطه در وب‌سایت آپلود کنید تا لایسنس‌های شما به سرعت و به طور موثر ثبت شوند."></v-alert>
 
                     <!-- Show CSV data -->
@@ -309,7 +299,6 @@ export default {
         title: null,
         body: '',
         instructions:null,
-        header: '',
         csvData: [],
         formattedDate:[],
         transformedData: [],
@@ -358,7 +347,7 @@ export default {
             }
 
             // Define the new row object
-            const newRow = [{ title: this.header, body: this.body }];
+            const newRow = [{ title: this.title, body: this.body }];
             this.body = ''
             // Add the new row to transformedData
             this.transformedData.push(newRow);

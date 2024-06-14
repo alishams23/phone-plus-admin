@@ -32,13 +32,7 @@ const sidebarItem: menu[] = [
         icon: Settings2Icon,
         to: '/settings'
     },
-    {
-        title: 'مشاهده ی فروشگاه',
-        icon: BuildingStoreIcon,
-        type: 'external',
-        to: '/shop'
-       
-    },
+   
     {
         title: 'وبلاگ',
         icon: ArticleIcon,

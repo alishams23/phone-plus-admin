@@ -1,7 +1,7 @@
 <template>
 
     <td>
-        <p class="text-15 font-body-1">{{formattedCreatedAt(data.created_at)}}</p>
+        <p class="text-15 font-body-1">{{data.jalali_time}}</p>
     </td>
     <td>
         <p class="text-15 font-weight-medium">{{ data.order_id }}</p>
@@ -82,10 +82,6 @@ export default {
             loadingStatus: 0,
         }
     },
-    methods: {
-        formattedCreatedAt(createdAt) {
-            return format(parseISO(createdAt), 'HH:mm yyyy-MM-dd');
-        },
-    }
+
 }
 </script>

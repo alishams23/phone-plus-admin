@@ -22,7 +22,7 @@
                         }}</v-list-item-subtitle> -->
                     </v-list-item>
                     <div class=" text-body-1 font-weight-bold px-3 py-5 border-t">
-                        تاریخ سفارش:    {{formattedCreatedAt(data.created_at)}}
+                        تاریخ سفارش:    {{data.jalali_time}}
                        
                        </div>
                     <div class=" text-body-1 font-weight-bold px-3 py-5 border-t">
@@ -187,7 +187,7 @@
       
     </v-dialog>
         <td>
-            <p class="text-15 font-body-1">{{formattedCreatedAt(data.created_at)}}</p>
+            <p class="text-15 font-body-1">{{data.jalali_time}}</p>
         </td>
         <td>
             <p class="text-15 font-weight-medium">{{ data.order_id }}</p>
@@ -316,9 +316,7 @@ export default {
         }
     },
     methods: {
-        formattedCreatedAt(createdAt) {
-            return format(parseISO(createdAt), 'HH:mm yyyy-MM-dd');
-        },
+  
         changeStatus(id, status) {
             this.loadingStatus = id
             axios.put(`${apiStore().address}/api/order/seller-panel/order-update-status/${id}/`, { status: status }, {

@@ -6,7 +6,7 @@
     <v-card flat>
         <v-container>
     <v-row class="rtl">
-        <v-col cols="12" md="7" class="rtl d-flex align-center mt-6">
+        <v-col cols="12" md="7" class="rtl d-flex align-center mt-md-6">
         <v-avatar color="primary" rounded="lg" size="50">
             <CoinsIcon />
         </v-avatar>
@@ -14,9 +14,9 @@
         </v-col>
     
     </v-row>
-    <v-tabs color="primary" v-model="model" class="border-b" align-tabs="center" grow>
-        <v-tab color="primary" :text="'محصولات دیجیتال'" :value="0"></v-tab>
-        <v-tab color="primary" :text="'محصولات'" :value="1"></v-tab>
+    <v-tabs  color="primary" v-model="model" class="border-b mt-5" align-tabs="end" >
+        <v-tab class="px-md-15 rounded-t-lg"  color="primary" :text="'محصولات دیجیتال'" :value="0"></v-tab>
+        <v-tab class="px-md-15 rounded-t-lg"  color="primary" :text="'محصولات'" :value="1"></v-tab>
     </v-tabs>
 </v-container>
 

@@ -19,6 +19,7 @@ const primary = theme.current.value.colors.primary;
 const secondary = theme.current.value.colors.secondary;
 
 const chartData = ref([]); // Create a ref to store API data
+const loading = ref(true); 
 
 // Fetch data from API on component mount
 onMounted(async () => {
@@ -31,6 +32,9 @@ onMounted(async () => {
             },
         }); // Replace with your API endpoint
         chartData.value = response.data; // Set chartData with API response
+        setTimeout(() => {
+            loading.value = false
+        }, 500);
     } catch (error) {
         console.error('Error fetching data from API', error);
     }
@@ -79,7 +83,7 @@ const chartOptions = computed(() => {
             },
             yaxis: {
                 show: true,
-                min: 0,
+      
 
                 tickAmount: 4,
                 labels: {
@@ -119,12 +123,14 @@ const chartOptions = computed(() => {
                 <div><v-card-title class="text-h5 irsa"> فروش هفته ی اخیر</v-card-title></div>
 
             </div>
-            <div class="mt-6">
+            <div class="mt-6" v-if="loading == false">
                 <ClientOnly>
                     <apexchart type="bar" height="370px" :options="chartOptions.chartOptions" :series="chartOptions.series">
                     </apexchart>
                 </ClientOnly>
             </div>
+        <v-card v-else height="370" class="mt-6"></v-card>
+
         </v-card-item>
     </v-card>
 </template>
