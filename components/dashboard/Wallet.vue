@@ -11,48 +11,40 @@
             <div class="mt-6">
                 <h3 class="text-h3">{{ cash }}</h3>
                 <div class="mt-1">
-                    <span class="text-subtitle-1 opacity-50 text-muted ml-2">تومان</span>
+                    <span class="text-subtitle-1 opacity-50 text-muted ml-2">ریال</span>
                 </div>
                 <div class="d-flex justify-end align-center mt-4">
-                   
+
                     <v-dialog width="500">
-          <template v-slot:activator="{ props }">
-            <v-btn v-bind="props" variant="tonal" size="small" class="rounded-xl">
-                        <template v-slot:prepend>
-                            <ArrowDownIcon size="17" />
+                        <template v-slot:activator="{ props }">
+                            <v-btn v-bind="props" variant="tonal" size="small" class="rounded-xl">
+                                <template v-slot:prepend>
+                                    <ArrowDownIcon size="17" />
+                                </template>
+                                افزایش اعتبار
+                            </v-btn>
                         </template>
-                         افزایش اعتبار
-                    </v-btn>
-          </template>
 
-          <template v-slot:default="{ isActive }"><v-locale-provider rtl>
-              <v-card rounded="lg">
+                        <template v-slot:default="{ isActive }"><v-locale-provider rtl>
+                                <v-card rounded="lg">
 
-                <v-card-text>
-                    <v-text-field  
-                        v-model="username"   
-                        label="مبلغ مورد نظر"  
-                        :rules="usernameRules"   
-                        rounded="lg"  
-                        required
-                        class="mt-5"
-                     
-                        persistent-hint    
-                        variant="outlined" 
-                        color="primary"/>
-                </v-card-text>
+                                    <v-card-text>
+                                        <v-text-field v-model="amount" label="مبلغ مورد نظر" 
+                                            rounded="lg" required class="mt-5" persistent-hint variant="outlined"
+                                            color="primary" />
+                                    </v-card-text>
 
-                <v-card-actions>
-                  <v-spacer></v-spacer>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
 
-                  <v-btn text="بستن" rounded="lg" @click="isActive.value = false"></v-btn>
-                  <v-btn text="پرداخت"  color="primary" rounded="lg" variant="flat"
-                    elevation="0" class="px-5 mx-4 my-2"></v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-locale-provider>
-          </template>
-        </v-dialog>
+                                        <v-btn text="بستن" rounded="lg" @click="isActive.value = false"></v-btn>
+                                        <v-btn :href="address + '/api/wallet/charge-wallet/' + shop_username + '/' +  amount" text="پرداخت" color="primary" rounded="lg" variant="flat"
+                                            elevation="0" class="px-5 mx-4 my-2"></v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-locale-provider>
+                        </template>
+                    </v-dialog>
                 </div>
             </div>
         </v-card-item>
@@ -66,10 +58,23 @@ import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 import axios from 'axios';
 
+
 export default {
     components: {
         ArrowDownIcon,
         WalletIcon
+    },
+    computed: {
+        address() {
+            return apiStore().address
+        },  shop_username() {
+            return useUserStore().usernameShop
+        },
+    },
+    data(){
+        return{
+            amount:null,
+        }
     },
     setup() {
         const cash = ref(0);
@@ -95,4 +100,3 @@ export default {
     },
 };
 </script>
-
