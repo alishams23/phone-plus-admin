@@ -29,10 +29,10 @@
                         <div>
                             <v-container>
                                 <v-row align="center" class="rtl">
-                                    <v-col cols="12" md="7" class="rtl d-flex align-center">
+                                    <v-col cols="12" md="6" class="rtl d-flex align-center">
                                         
                                     </v-col>
-                                    <v-col cols="12" md="5" >
+                                    <v-col cols="12" md="6" >
                                         <v-locale-provider rtl>
                                             <v-text-field v-model="search_text" @update:model-value="searchDataDigitalProduct" label="جستجو" rounded="lg"
                                                 persistent-hint variant="outlined" color="primary" dense class=" text-body-2">
@@ -40,10 +40,21 @@
                                                     <SearchIcon color="gray" />
                                                 </template>
                                                 <template v-slot:prepend>
-                                                    <v-btn @click="order = !order; searchDataDigitalProduct()" variant="tonal" color="primary" rounded="lg"
+                                                    <v-btn @click="order_digital = !order_digital; searchDataDigitalProduct()" variant="tonal" color="primary" rounded="lg"
                                                         size="50">
-                                                        <SortDescending2Icon v-if="order" />
-                                                        <SortAscending2Icon v-if="!order" />
+                                                        <SortDescending2Icon v-if="order_digital" />
+                                                        <SortAscending2Icon v-if="!order_digital" />
+                                                    </v-btn>
+                                                    <v-btn @click="is_payed_digital == ''? is_payed_digital = true : is_payed_digital = ''; searchDataDigitalProduct()"
+                                                        :variant="is_payed_digital == true ? 'tonal' : 'outlined'" color="primary" height="50px"
+                                                        class="ms-3 " rounded="lg">
+                                                        <div class="d-flex justify-center " v-if="is_payed_digital == ''">
+                                                            <CheckIcon class="me-3" />
+                                                            <div>
+                                                                لغو شده‌ها
+                                                            </div>
+                                                        </div>
+                                                        <span v-else>لغو شده‌ها</span>
                                                     </v-btn>
                                                 </template>
                                             </v-text-field>
@@ -51,14 +62,19 @@
                                     </v-col>
                                     
                                 </v-row>
-                                <v-alert v-if="data_digital_product.length == 0 && loading == false" color="primary" icon="fa fa-info" variant="tonal"
+                                <v-alert v-if="data_digital_product.length == 0 && loading_digital == false" color="primary" icon="fa fa-info" variant="tonal"
                                     border="start" class="rtl border-opacity-100 my-10">
                                     <div class="text-sm  font-weight-black irsa">
                                         پرداختی وجود ندارد
                                     </div>
                                 </v-alert>
                             </v-container>
-                            <v-container>
+                            <div class="d-flex justify-center">
+                                <v-progress-circular v-if="loading_digital" bg-color="transparent" :size="55" class="ma-10" :width="7" color="primary"
+                                    indeterminate>
+                                </v-progress-circular>
+                            </div>
+                            <v-container v-if="loading_digital == false">
                                 <v-card v-if="data_digital_product.length != 0" elevation="0" class="">
                                     <v-card-item class="pa-0 ">
                                         <v-card-title class="text-h5 rtl pt-sm-1 pb-3 font-weight-black"> تمامی فروش‌ها </v-card-title>
@@ -82,11 +98,6 @@
                                     </v-card-item>
                                 </v-card>
                             </v-container>
-                            <div class="d-flex justify-center">
-                                <v-progress-circular v-if="loading" bg-color="transparent" :size="55" class="ma-10" :width="7" color="primary"
-                                    indeterminate>
-                                </v-progress-circular>
-                            </div>
                         </div>
                     </v-card-text>
                 </v-card>
@@ -97,10 +108,10 @@
                         <div>
                             <v-container>
                                 <v-row align="center" class="rtl">
-                                    <v-col cols="12" md="7" class="rtl d-flex align-center">
+                                    <v-col cols="12" md="5" class="rtl d-flex align-center">
                                        
                                     </v-col>
-                                    <v-col cols="12" md="5">
+                                    <v-col cols="12" md="7">
                                         <v-locale-provider rtl>
                                             <v-text-field v-model="search_text" @update:model-value="searchDataProduct" label="جستجو" rounded="lg"
                                                 persistent-hint variant="outlined" color="primary" dense class=" text-body-2">
@@ -114,7 +125,7 @@
                                                         <SortDescending2Icon v-if="order" />
                                                         <SortAscending2Icon v-if="!order" />
                                                     </v-btn>
-                                                    <v-btn @click=" statusCheck == '' ? statusCheck = 'none' : statusCheck = ''; searchDataProduct()"
+                                                    <v-btn @click="handleUnsent"
                                                         :variant="statusCheck == '' ? 'tonal' : 'outlined'" color="primary" height="50px"
                                                         class="ms-3 " rounded="lg">
                                                         <div class="d-flex justify-center " v-if="statusCheck == 'none'">
@@ -124,6 +135,17 @@
                                                             </div>
                                                         </div>
                                                         <span v-else>ارسال نشده‌ها</span>
+                                                    </v-btn>
+                                                    <v-btn @click="is_payed == ''? is_payed = true : is_payed = ''; searchDataProduct()"
+                                                        :variant="is_payed == true ? 'tonal' : 'outlined'" color="primary" height="50px"
+                                                        class="ms-3 " rounded="lg">
+                                                        <div class="d-flex justify-center " v-if="is_payed == ''">
+                                                            <CheckIcon class="me-3" />
+                                                            <div>
+                                                                لغو شده‌ها
+                                                            </div>
+                                                        </div>
+                                                        <span v-else>لغو شده‌ها</span>
                                                     </v-btn>
                             
                                                 </template>
@@ -140,7 +162,12 @@
                                     </div>
                                 </v-alert>
                             </v-container>
-                            <v-container>
+                            <div class="d-flex justify-center">
+                                <v-progress-circular v-if="loading" bg-color="transparent" :size="55" class="ma-10" :width="7" color="primary"
+                                    indeterminate>
+                                </v-progress-circular>
+                            </div>
+                            <v-container v-if="loading == false">
                                 <v-card v-if="data.length != 0" elevation="0" class="">
                                     <v-card-item class="pa-0 ">
                                         <v-card-title class="text-h5 rtl pt-sm-1 pb-3 font-weight-black"> تمامی فروش‌ها </v-card-title>
@@ -165,11 +192,6 @@
                                     </v-card-item>
                                 </v-card>
                             </v-container>
-                            <div class="d-flex justify-center">
-                                <v-progress-circular v-if="loading" bg-color="transparent" :size="55" class="ma-10" :width="7" color="primary"
-                                    indeterminate>
-                                </v-progress-circular>
-                            </div>
                         </div>
                     </v-card-text>
                 </v-card>
@@ -207,10 +229,13 @@ export default {
             data: [],
             snackbar: false,
             loading: true,
+            loading_digital: true,
             search_text: '',
-            order: false,
+            order_digital: true,
+            order: true,
             loadingStatus: 0,
-
+            is_payed:true,
+            is_payed_digital:true,
             items: [
                 { title: 'تحویل داده شده', value: 'received' },
                 { title: 'ارسال شده ', value: 'sended' },
@@ -221,6 +246,14 @@ export default {
         }
     },
     methods: {
+        handleUnsent(){
+            if (this.statusCheck == ''){
+                this.statusCheck = 'none'
+            }else{
+                this.statusCheck = ''
+            }
+            this.searchDataProduct()
+        },
         changeStatus(id, status) {
             this.loadingStatus = id
             axios.put(`${apiStore().address}/api/order/seller-panel/order-update-status/${id}/`, { status: status }, {
@@ -240,7 +273,7 @@ export default {
         searchDataProduct() {
             this.loading = true
 
-            axios.get(`${apiStore().address}/api/order/seller-panel/order-list-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}&status=${this.statusCheck}`, {
+            axios.get(`${apiStore().address}/api/order/seller-panel/order-list-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}&status=${this.statusCheck}&is_payed=${this.is_payed}`, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",
@@ -252,9 +285,9 @@ export default {
             })
         },
         searchDataDigitalProduct() {
-            this.loading = true
+            this.loading_digital = true
 
-            axios.get(`${apiStore().address}/api/order/seller-panel/order-digital-product-list-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+            axios.get(`${apiStore().address}/api/order/seller-panel/order-digital-product-list-search/?search=${this.search_text}&ordering=${this.order_digital == false ? 'id' : '-id'}&is_payed=${this.is_payed_digital}`, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",
@@ -262,7 +295,7 @@ export default {
                 },
             }).then((response) => {
                 console.log('search');
-                this.loading = false
+                this.loading_digital = false
                 this.data_digital_product = response.data
             })
         }, 

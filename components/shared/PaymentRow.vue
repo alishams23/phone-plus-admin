@@ -24,19 +24,24 @@
                     <div class=" text-body-1 font-weight-bold px-3 py-5 border-t">
                         تاریخ سفارش:    {{data.jalali_time}}
                        
-                       </div>
+                    </div>
                     <div class=" text-body-1 font-weight-bold px-3 py-5 border-t">
                         شماره سفارش:     {{ data.order_id }}
                        
-                       </div>
+                    </div>
+
+                    <div class=" text-body-1 font-weight-bold px-3 py-5 border-t">
+                        تعداد سفارش:     {{ data.count }}
+                       
+                    </div>
                     <div class=" text-body-1 font-weight-bold px-3 py-5 border-t">
                         شماره تماس:     {{ data.author.phone_number }}
                        
-                       </div>
+                    </div>
                       
                     <div class=" text-body-1 font-weight-bold px-3 pt-5 border-t">
                         آدرس:
-                       </div>
+                    </div>
 
                     <v-row class="pt-5 mb-3">
                         <v-col cols="6" md="6">
@@ -139,6 +144,7 @@
             </v-menu>
            </div>
            <div class="py-5 border-t">
+
            <div class="text-body-1 font-weight-bold px-3">
             محصول
            </div>
@@ -151,6 +157,8 @@
                       <v-img :src="data.product.image[0].photo" cover></v-img>
                     </v-avatar>
                 </v-col >
+                
+
                 <v-col cols="12" md="8">
                     
                   <v-card-title class="text-h5 font-weight-bold">
@@ -163,16 +171,6 @@
                 
                 </v-col>
                 
-                   <v-col cols="1s2">
-                     <div class="d-flex">
-                        <div class="text-body-1 font-weight-bold px-3">
-                            تعداد:
-                        </div>
-                        <div class="px-5 font-weight-bold">
-                            {{ data.count }}
-                        </div>
-                     </div>
-                   </v-col>
               </v-row>
             </v-card>
            </div>
