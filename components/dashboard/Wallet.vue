@@ -2,11 +2,28 @@
     <v-card elevation="10" rounded="lg" class="bg-primary rtl">
         <v-card-item>
             <div class="d-sm-flex align-center justify-space-between pt-sm-2">
-                <v-card-title class="text-h5 font-weight-black rtl">کیف پول</v-card-title>
+                
+                <v-card-title class="d-flex items-center flex-col text-h5 font-weight-black rtl">
+                    کیف پول
+                    <v-tooltip 
+                        activator="parent"
+                        location="top">
+                        <template v-slot:activator="{ on, attrs }">
+                        <QuestionMarkIcon 
+                            size="12" 
+                            class="bg-white rounded-pill ml-2"
+                            v-bind="attrs"
+                            v-on="on"
+                        />
+                        </template>
+                        <span class="" >برای فروش هر محصول، مبلغ ۱۸۰۰ تومان از کیف پول شما کسر می‌شود. اگر موجودی کیف پول شما کمتر از این مقدار باشد، محصول شما در وبسایت نمایش داده نخواهد شد. لطفاً اطمینان حاصل کنید که موجودی کیف پولتان کافی است</span>
+                    </v-tooltip>
+                </v-card-title>
                 <div>
                     <WalletIcon size="40" />
                 </div>
             </div>
+                    
 
             <div class="mt-6">
                 <h3 class="text-h3">{{ cash }}</h3>
@@ -29,7 +46,7 @@
                                 <v-card rounded="lg">
 
                                     <v-card-text>
-                                        <v-text-field v-model="amount" label="مبلغ مورد نظر" 
+                                        <v-text-field v-model="amount" label=" به مبلغ مورد نظر (ریال)" 
                                             rounded="lg" required class="mt-5" persistent-hint variant="outlined"
                                             color="primary" />
                                     </v-card-text>
@@ -53,7 +70,7 @@
 
 <script>
 import { ref, onMounted } from 'vue';
-import { ArrowDownIcon, WalletIcon } from 'vue-tabler-icons';
+import { ArrowDownIcon, WalletIcon, QuestionMarkIcon } from 'vue-tabler-icons';
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 import axios from 'axios';
@@ -62,6 +79,7 @@ import axios from 'axios';
 export default {
     components: {
         ArrowDownIcon,
+        QuestionMarkIcon,
         WalletIcon
     },
     computed: {

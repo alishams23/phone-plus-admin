@@ -126,6 +126,8 @@
                               color="primary" class="mt-lg-4" />
                           </v-col>
                         </v-row>
+                        <v-text-field v-model="email" class="mt-5 " label="ایمیل" rounded="lg" persistent-hint variant="outlined" color="primary" />
+
                         <v-text-field v-model="phoneNumber" class="mt-5 " label="شماره تلفن" rounded="lg" persistent-hint variant="outlined" color="primary" />
                     
                         <v-btn :loading="loading" type="submit"  class="mt-16" size="large" elevation="0" rounded color="primary" dark block tile>ثبت
@@ -209,6 +211,7 @@ export default {
     state: 'login',
     first_name: '',
     last_name: '',
+    email: '',
     step: null,
     rules: {
       required: value => !!value || 'این فیلد اجباری است',
@@ -336,6 +339,7 @@ export default {
             const data = {
                 first_name: this.first_name, // Assuming the API expects the full number with country code
                 last_name: this.last_name, // Assuming the API expects the full number with country code
+                email: this.email,
                 number: this.phoneNumber // Assuming the API expects the full number with country code
             };
             this.loading = true

@@ -86,7 +86,7 @@ export default {
                 <!---Logo part -->
                 <div class=" pa-5  ">
                     <!-- <Logo /> -->
-                   <a :href="`http://171.22.27.89:3001/` + shop_username"> 
+                   <a :href="`http://171.22.27.89:3001/` + shop_username" target="blank"> 
                      <v-sheet class="d-flex justify-center align-center ml-5" color="transparent">
                     
                          <v-tooltip text="مشاهده ی فروشگاه">

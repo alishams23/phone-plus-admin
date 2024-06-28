@@ -12,7 +12,7 @@
         </v-icon>
         <!-- <v-img :src="address + '/api/account/shop-profile/' + username + '/'"></v-img> -->
       </v-avatar>
-      <div class=" font-weight-bold text-h5">{{username}}</div>
+      <div class=" font-weight-bold text-h5">{{$route.params.name}}</div>
      </div>
     
       <nuxt-link to="/" class="mr-auto ml-3" >
@@ -58,8 +58,8 @@
     color="transparent">
     <v-row class="px-3 py-2 ">
       <v-col cols="9" sm="10" md="11">
-        <v-text-field @keyup.enter="sendMessage()" variant="solo" v-model="inputData" class="shadow-none"
-          bg-color="grey-lighten-3" elevation="10" label=" پیام شما ..." rounded="lg" required></v-text-field>
+        <v-text-field @keyup.enter="sendMessage()" variant="solo" v-model="inputData" class="shadow-none rtl"
+          bg-color="grey-lighten-3" elevation="10" label="...پیام شما " rounded="lg" required></v-text-field>
       </v-col>
       <v-col>
         <v-avatar @click="sendMessage()" color="primary" class="mt-1" size="48">

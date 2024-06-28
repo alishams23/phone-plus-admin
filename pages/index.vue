@@ -51,6 +51,9 @@ export default {
   <v-container>
     <v-row>
         <v-col cols="12">
+            <DashboardAlerts />
+        </v-col>
+        <v-col cols="12">
             <v-row>
                 <!-- First Login PopUp -->
                 <v-dialog width="900" persistent v-model="open">

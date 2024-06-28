@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@mdi/font": "^7.4.47",
     "@nuxt/devtools": "latest",
     "nuxt": "^3.7.3"
   },
@@ -21,6 +22,7 @@
     "apexcharts": "^3.42.0",
     "axios": "^1.6.2",
     "date-fns": "^3.6.0",
+    "material-design-icons": "^3.0.1",
     "papaparse": "^5.4.1",
     "pinia": "^2.1.7",
     "quill-blot-formatter": "^1.0.5",
