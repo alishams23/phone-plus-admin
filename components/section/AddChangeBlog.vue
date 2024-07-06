@@ -27,10 +27,10 @@
             </v-row>
 
             <v-file-input rounded="lg" :loading="loadingImage" accept=".png,.jpg" persistent-hint :required="id ? imageId != 0 ? false : true : true"
-                @change="sendImage" variant="outlined" :disabled="loadingImage" color="primary" v-model="images"
+                @change="sendImage" prepend-icon=""  variant="outlined" :disabled="loadingImage" color="primary" v-model="images"
                 placeholder="Upload your documents" label="عکس‌ مقاله" multiple>
                 <template v-slot:prepend>
-                    <PhotoIcon style="margin-left: -20px;" class="text-grey" />
+                    <PhotoIcon class="text-grey" />
                 </template>
                 <template v-slot:selection="{ fileNames }">
                     <template v-for="(preview, index) in imagePreviews" :key="index">

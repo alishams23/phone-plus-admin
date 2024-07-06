@@ -12,7 +12,7 @@ const dark = {
 }
 export default defineNuxtPlugin(nuxtApp => {
   const vuetify = createVuetify({
-    ssr: true,
+    ssr: false,
     components,
     directives,
     icons: {

@@ -2,12 +2,12 @@
     <v-snackbar v-model="snackbar" class=" rtl" color="success" elevation="24" rounded="lg">
         وضعیت با موفقیت ویرایش شد
     </v-snackbar>
-    <v-dialog scrollable width="900" v-model="dialog">
+    <v-dialog  width="900" rounded="xl" v-model="dialog">
      
       
        
 
-                <v-card class=" rounded-xl  pa-5  "  >
+                <v-card rounded="xl" class="  pa-5  "  >
                  <v-card-text >
                     <v-locale-provider rtl>
                     <v-list-item class="  pa-2 pe-4">
@@ -27,6 +27,10 @@
                     </div>
                     <div class=" text-body-1 font-weight-bold px-3 py-5 border-t">
                         شماره سفارش:     {{ data.order_id }}
+                       
+                    </div>
+                    <div class=" text-body-1 font-weight-bold px-3 py-5 border-t">
+                        کد پیگیری خرید:     {{ data.tracking_code }}
                        
                     </div>
 
@@ -189,6 +193,9 @@
         </td>
         <td>
             <p class="text-15 font-weight-medium">{{ data.order_id }}</p>
+        </td>
+        <td>
+            <p class="text-15 font-weight-medium">{{ data.tracking_code }}</p>
         </td>
         <td>
             <div class="">

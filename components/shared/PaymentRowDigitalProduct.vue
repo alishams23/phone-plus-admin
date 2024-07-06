@@ -7,6 +7,9 @@
         <p class="text-15 font-weight-medium">{{ data.order_id }}</p>
     </td>
     <td>
+        <p class="text-15 font-weight-medium">{{ data.tracking_code }}</p>
+    </td>
+    <td>
         <div class="">
             <v-sheet v-bind="props">
                 <!-- <h6 class=" text-body-1 font-weight-bold text-muted">{{ data.author.full_name }}

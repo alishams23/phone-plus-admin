@@ -3,8 +3,8 @@
         وضعیت با موفقیت ویرایش شد
     </v-snackbar>
   <v-card elevation="10" rounded="lg" height="480px">
-    <v-container>
-        <v-alert v-if="data.length == 0 && loading == false" color="primary" icon="fa fa-info" variant="tonal"
+    <v-container v-if="data.length == 0 && loading == false">
+        <v-alert  color="primary" icon="fa fa-info" variant="tonal"
             border="start" class="rtl border-opacity-100 my-10">
             <div class="text-sm  font-weight-black irsa">
                 پرداختی وجود ندارد
@@ -20,6 +20,7 @@
                         <tr>
                             <th class="text-subtitle-1 font-weight-bold">تاریخ سفارش</th>
                                                     <th class="text-subtitle-1 font-weight-bold">شماره سفارش</th>
+                                                    <th class="text-subtitle-1 font-weight-bold"> کد پیگیری خرید</th>
                                                     <th class="text-subtitle-1 font-weight-bold">خریدار</th>
                                                     <th class="text-subtitle-1 font-weight-bold">محصول</th>
                                                     <th class="text-subtitle-1 font-weight-bold">تعداد</th>
@@ -59,7 +60,7 @@ export default {
             data: [],
             loading: true,
             search_text: '',
-            order: false,
+            order: true,
             loadingStatus: 0,
 
             items: [

@@ -2,31 +2,27 @@
     <v-card elevation="10" rounded="lg" class="bg-primary rtl">
         <v-card-item>
             <div class="d-sm-flex align-center justify-space-between pt-sm-2">
-                
+
                 <v-card-title class="d-flex items-center flex-col text-h5 font-weight-black rtl">
                     کیف پول
-                    <v-tooltip 
-                        activator="parent"
-                        location="top">
+                    <v-tooltip activator="parent" location="top">
                         <template v-slot:activator="{ on, attrs }">
-                        <QuestionMarkIcon 
-                            size="12" 
-                            class="bg-white rounded-pill ml-2"
-                            v-bind="attrs"
-                            v-on="on"
-                        />
+                            <QuestionMarkIcon size="12" class="bg-white rounded-pill ml-2" v-bind="attrs" v-on="on" />
                         </template>
-                        <span class="" >برای فروش هر محصول، مبلغ ۱۸۰۰ تومان از کیف پول شما کسر می‌شود. اگر موجودی کیف پول شما کمتر از این مقدار باشد، محصول شما در وبسایت نمایش داده نخواهد شد. لطفاً اطمینان حاصل کنید که موجودی کیف پولتان کافی است</span>
+                        <span class="">برای فروش هر محصول، مبلغ ۱۸۰۰ تومان از کیف پول شما کسر می‌شود. اگر موجودی کیف پول
+                            شما کمتر از این مقدار
+                            باشد، محصول شما در وبسایت نمایش داده نخواهد شد. لطفاً اطمینان حاصل کنید که موجودی کیف پولتان
+                            کافی است</span>
                     </v-tooltip>
                 </v-card-title>
                 <div>
                     <WalletIcon size="40" />
                 </div>
             </div>
-                    
+
 
             <div class="mt-6">
-                <h3 class="text-h3">{{ cash }}</h3>
+                <h3 class="text-h3">{{ price(cash) }}</h3>
                 <div class="mt-1">
                     <span class="text-subtitle-1 opacity-50 text-muted ml-2">ریال</span>
                 </div>
@@ -46,17 +42,18 @@
                                 <v-card rounded="lg">
 
                                     <v-card-text>
-                                        <v-text-field v-model="amount" label=" به مبلغ مورد نظر (ریال)" 
-                                            rounded="lg" required class="mt-5" persistent-hint variant="outlined"
-                                            color="primary" />
+                                        <v-text-field v-model="amount" label=" به مبلغ مورد نظر (ریال)" rounded="lg"
+                                            required class="mt-5" persistent-hint variant="outlined" color="primary" />
                                     </v-card-text>
 
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
 
                                         <v-btn text="بستن" rounded="lg" @click="isActive.value = false"></v-btn>
-                                        <v-btn :href="address + '/api/wallet/charge-wallet/' + shop_username + '/' +  amount" text="پرداخت" color="primary" rounded="lg" variant="flat"
-                                            elevation="0" class="px-5 mx-4 my-2"></v-btn>
+                                        <v-btn
+                                            :href="address + '/api/wallet/charge-wallet/' + shop_username + '/' + amount"
+                                            text="پرداخت" color="primary" rounded="lg" variant="flat" elevation="0"
+                                            class="px-5 mx-4 my-2"></v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-locale-provider>
@@ -85,14 +82,31 @@ export default {
     computed: {
         address() {
             return apiStore().address
-        },  shop_username() {
+        }, shop_username() {
             return useUserStore().usernameShop
         },
     },
-    data(){
-        return{
-            amount:null,
+    data() {
+        return {
+            amount: null,
         }
+    },
+    methods: {
+        price(value){
+      let text
+      let chars = Array.from(`${value}`)
+      for (let index = 1; index <= chars.length; index++) {
+         
+         if(index % 3==0){
+           if (chars.length != index) {
+           chars[chars.length-index] = `,${chars[chars.length-index]}`;
+             
+           }
+         }
+
+      }
+      return chars.join("");;
+    }
     },
     setup() {
         const cash = ref(0);
@@ -115,6 +129,6 @@ export default {
         return {
             cash,
         };
-    },
+    }
 };
 </script>

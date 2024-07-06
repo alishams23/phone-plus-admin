@@ -34,10 +34,11 @@
                     v-model="image" 
                     @change="imageChange"
                     placeholder="Upload your documents" 
+                    prepend-icon="" 
                     label="تغییر عکس‌ پروفایل فروشگاه">
 
                     <template v-slot:prepend>
-                        <PhotoIcon style="margin-left: -20px;" class="text-grey" />
+                        <PhotoIcon  class="text-grey" />
                     </template>
 
                 </v-file-input>
@@ -58,10 +59,11 @@
                     v-model="background_image" 
                     @change="backgroundImageChange"
                     placeholder="Upload your documents" 
+                    prepend-icon="" 
                     label="تغییر عکس‌ زمینه پروفایل فروشگاه">
 
                     <template v-slot:prepend>
-                        <PhotoIcon style="margin-left: -20px;" class="text-grey" />
+                        <PhotoIcon  class="text-grey" />
                     </template>
                   
                 </v-file-input>

@@ -16,9 +16,9 @@
                     </div>
                 </v-alert>
                 <v-file-input rounded="lg" accept=".png,.jpg" persistent-hint required variant="outlined" color="primary"
-                    v-model="image" placeholder="Upload your documents" label="عکس‌ کاربر به همراه متن قبول مقررات">
+                    v-model="image" prepend-icon=""  placeholder="Upload your documents" label="عکس‌ کاربر به همراه متن قبول مقررات">
                     <template v-slot:prepend>
-                        <PhotoIcon style="margin-left: -20px;" class="text-grey" />
+                        <PhotoIcon  class="text-grey" />
                     </template>
                     <template v-slot:selection="{ fileNames }">
                         <template v-for="(preview, index) in imagePreviews" :key="index">

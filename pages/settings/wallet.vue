@@ -5,7 +5,7 @@
     <v-container>
         <form @submit.prevent="updateData" class="mt-10">
             <v-locale-provider rtl>
-                <v-alert rounded="lg" border="start" class="mb-10 ">
+                <v-alert border="start" class="mb-10 ">
                     <div class="pa-3">
                        پس از ثبت نام در سایت زرین پال و درخواست درگاه پرداخت merchantID دریافت شده از زرین پال را در قسمت زیر وارد کنید .
                     </div>

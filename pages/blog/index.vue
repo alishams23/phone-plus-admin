@@ -140,7 +140,8 @@
                     <TrashIcon size="15" />
                   </v-avatar>
                   <v-sheet class="px-3  text-body-2">
-                    {{ blog.updated_at }}
+            
+                    {{ blog.created_at_jalali }}
                   </v-sheet>
 
                 </v-card-actions>

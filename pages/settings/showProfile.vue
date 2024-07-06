@@ -3,7 +3,7 @@
     <v-snackbar v-model="snackbar" class=" rtl" color="success" elevation="24" rounded="lg">
         تغییرات اعمال شد
     </v-snackbar>
-    <v-alert rounded="lg" border="start" class="mb-10 rtl ">
+    <v-alert  border="start" class="mb-10 rtl ">
       <div class="pa-3">
         لطفا با جابجایی ترتیب نمایش ایتم ها در صفحه ی پروفایل خود را مشخص کنید.
       </div>

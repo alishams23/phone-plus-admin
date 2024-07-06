@@ -25,10 +25,10 @@
             </div>
             <div>
               <v-file-input @change="changeImage" rounded="lg" accept=".png,.jpg" persistent-hint required
-                variant="outlined" color="primary" v-model="photo" placeholder="Upload your documents"
+                variant="outlined" prepend-icon=""  color="primary" v-model="photo" placeholder="Upload your documents"
                 label="عکس‌های هدر">
                 <template v-slot:prepend>
-                  <PhotoIcon style="margin-left: -20px;" class="text-grey" />
+                  <PhotoIcon  class="text-grey" />
                 </template>
               </v-file-input>
               <div class="image-preview-container">

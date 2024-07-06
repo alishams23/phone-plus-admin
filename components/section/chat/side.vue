@@ -16,24 +16,26 @@
 </v-alert>
 <v-list subheader class="pl-4">
  
-  <v-list-item  v-for="person,index in contacts" :key="person" :to="'/chat/' + person.contact.username + '/' + person.room_name + '/' + person.contact.full_name" @click="$emit('get-selected-user', person); selected_user = person.contact.username"  class="py-3 rtl mx-3 rounded-lg my-1">
-    {{ selected_user == person.contact.username ? $emit('get-selected-user', person) : '' }}
-      <template v-slot:prepend>
-          <v-avatar size="50" color="grey-lighten-1" >
-              <!-- <v-img v-if="person.contact.shop" :src="address + person.contact.shop.image" class="cover h-full w-full"/> -->
-              <v-icon size="20" >
-          <UserIcon  />
-        </v-icon>
-          </v-avatar>
-      </template>
-      <template v-slot:append>
-       
-          <v-avatar size="20" class=" text-body-2" color="primary" v-if="person.unread > 0" >{{person.unread}}</v-avatar>
-      </template>
-       
-      <!-- <v-list-item-title v-if="person.contact.shop">{{person.contact.shop.name}}</v-list-item-title> -->
-      <v-list-item-title >{{ person.contact.full_name }}</v-list-item-title>
-  </v-list-item>
+  <div v-for="person,index in contacts">
+    <v-list-item  v-if="person.contact"  :to="'/chat/' + person.contact.username + '/' + person.room_name + '/' + person.contact.full_name" @click="$emit('get-selected-user', person); selected_user = person.contact.username"  class="py-3 rtl mx-3 rounded-lg my-1">
+      {{ selected_user == person.contact.username ? $emit('get-selected-user', person) : '' }}
+        <template v-slot:prepend>
+            <v-avatar size="50" color="grey-lighten-1" >
+                <!-- <v-img v-if="person.contact.shop" :src="address + person.contact.shop.image" class="cover h-full w-full"/> -->
+                <v-icon size="20" >
+            <UserIcon  />
+          </v-icon>
+            </v-avatar>
+        </template>
+        <template v-slot:append>
+         
+            <v-avatar size="20" class=" text-body-2" color="primary" v-if="person.unread > 0" >{{person.unread}}</v-avatar>
+        </template>
+         
+        <!-- <v-list-item-title v-if="person.contact.shop">{{person.contact.shop.name}}</v-list-item-title> -->
+        <v-list-item-title >{{ person.contact.full_name }}</v-list-item-title>
+    </v-list-item>
+  </div>
 </v-list>
 
  

@@ -3,7 +3,7 @@
   <NuxtLoadingIndicator />
   <div>
     <Head>
-        <Title>پنل مدیریت phone plus</Title>
+        <Title> مدیریت فروشگاه</Title>
      </Head>
 </div>
   <div>

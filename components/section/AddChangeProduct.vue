@@ -33,10 +33,10 @@
 
 
             <v-file-input rounded="lg" accept=".png,.jpg" persistent-hint :required="id?imageIds.length!=0?false:true:true" @change="sendImage"
-                variant="outlined" :loading="loadingImage" :disabled="loadingImage" color="primary" v-model="images"
+                variant="outlined" prepend-icon="" :loading="loadingImage" :disabled="loadingImage" color="primary" v-model="images"
                 placeholder="Upload your documents" label="عکس‌های محصول" multiple>
                 <template v-slot:prepend>
-                    <PhotoIcon style="margin-left: -20px;" class="text-grey" />
+                    <PhotoIcon style="" class="text-grey" />
                 </template>
                 <template v-slot:selection="{ fileNames }">
                     <template v-for="(preview, index) in imagePreviews" :key="index">
@@ -67,9 +67,7 @@
                             <div>
                                 ویژگی های محصول
                             </div>
-                            <div class="font-weight-bold">
-                                +
-                            </div>
+                          
                         </div>
                     </v-expansion-panel-title>
                     <v-expansion-panel-text>
@@ -83,9 +81,7 @@
                             <div>
                                 افزودن رنگ
                             </div>
-                            <div class="font-weight-bold">
-                                +
-                            </div>
+                         
                         </div>
                     </v-expansion-panel-title>
                     <v-expansion-panel-text class="border-b ">
@@ -98,9 +94,6 @@
                         <div class="d-flex w-100 justify-space-between  align-center">
                             <div>
                                 کد تخفیف
-                            </div>
-                            <div class="font-weight-bold">
-                                +
                             </div>
                         </div>
                     </v-expansion-panel-title>

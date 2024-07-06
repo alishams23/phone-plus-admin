@@ -1,25 +1,27 @@
 
 <template>
-    <v-alert
-        v-if="cash < 18000"
-        closable
-        class="rtl"
-        title="کمبود وجه"
-        text="موجودی کیف پول شما به پایان رسیده است. لطفاً قبل از ادامه فعالیت، موجودی کیف پول خود را افزایش دهید."
-        type="error"
-        variant="tonal"
-        border="start"
-    ></v-alert>
-    <v-alert
-        v-else-if="cash < 500000"
-        closable
-        class="rtl "
-        title="کمبود وجه"
-        text="موجودی کیف پول شما در حال اتمام است. لطفاً هرچه سریعتر نسبت به افزایش موجودی خود اقدام کنید تا بتوانید به فروش خود ادامه دهید."
-        type="warning"
-        variant="tonal"
-        border="start"
-    ></v-alert>
+   <div v-if="loading == false">
+     <v-alert
+         v-if="cash < 18000"
+         closable
+         class="rtl"
+         title="کمبود وجه"
+         text="موجودی کیف پول شما به پایان رسیده است. لطفاً قبل از ادامه فعالیت، موجودی کیف پول خود را افزایش دهید."
+         type="error"
+         variant="tonal"
+         border="start"
+     ></v-alert>
+     <v-alert
+         v-else-if="cash < 500000"
+         closable
+         class="rtl "
+         title="کمبود وجه"
+         text="موجودی کیف پول شما در حال اتمام است. لطفاً هرچه سریعتر نسبت به افزایش موجودی خود اقدام کنید تا بتوانید به فروش خود ادامه دهید."
+         type="warning"
+         variant="tonal"
+         border="start"
+     ></v-alert>
+   </div>
 </template>
 
 <script>
@@ -49,6 +51,7 @@ export default {
     },
     setup() {
         const cash = ref(0);
+        const loading = ref(true);
 
         onMounted(async () => {
             try {
@@ -60,13 +63,14 @@ export default {
                     },
                 });
                 cash.value = response.data.cash;
+                loading.value = false;
             } catch (error) {
                 console.error('Error fetching data from API', error);
             }
         });
 
         return {
-            cash,
+            cash,loading
         };
     },
 };

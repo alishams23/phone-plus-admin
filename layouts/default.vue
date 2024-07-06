@@ -48,6 +48,9 @@ export default {
         shop_username() {
             return useUserStore().usernameShop
         },
+        user_status(){
+            return useUserStore().status 
+        }
     },
 
     methods: {
@@ -84,7 +87,7 @@ export default {
             <v-navigation-drawer location="right" elevation="0" app class="leftSidebar  border-0 curved"
                 :color="chat_drawer == true | setting_drawer == true ? 'white' : 'transparent'" v-model="sDrawer">
                 <!---Logo part -->
-                <div class=" pa-5  ">
+                <div class=" pa-5  " v-if="user_status == 's'">
                     <!-- <Logo /> -->
                    <a :href="`http://171.22.27.89:3001/` + shop_username" target="blank"> 
                      <v-sheet class="d-flex justify-center align-center ml-5" color="transparent">

@@ -83,6 +83,7 @@
                                                 <tr>
                                                     <th class="text-subtitle-1 font-weight-bold">تاریخ سفارش</th>
                                                     <th class="text-subtitle-1 font-weight-bold">شماره سفارش</th>
+                                                    <th class="text-subtitle-1 font-weight-bold">کد پیگیری خرید</th>
                                                     <th class="text-subtitle-1 font-weight-bold">خریدار</th>
                                                     <th class="text-subtitle-1 font-weight-bold">محصول دیجیتال</th>
                                                     <th class="text-subtitle-1 font-weight-bold">وضعیت</th>
@@ -176,6 +177,7 @@
                                                 <tr>
                                                     <th class="text-subtitle-1 font-weight-bold">تاریخ سفارش</th>
                                                     <th class="text-subtitle-1 font-weight-bold">شماره سفارش</th>
+                                                    <th class="text-subtitle-1 font-weight-bold">کد پیگیری خرید</th>
                                                     <th class="text-subtitle-1 font-weight-bold">خریدار</th>
                                                     <th class="text-subtitle-1 font-weight-bold">محصول</th>
                                                     <th class="text-subtitle-1 font-weight-bold">تعداد</th>

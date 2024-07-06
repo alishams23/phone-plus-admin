@@ -56,11 +56,11 @@
                     </v-col>
                 </v-row>
                 <v-file-input :loading="loadingImage" :disabled="loadingImage" rounded="lg" accept=".png,.jpg" :rules="rules" :required="id?imageIds.length!=0?false:true:true" multiple persistent-hint
-                    variant="outlined" color="primary" @change="sendImage" v-model="images"
+                    variant="outlined" prepend-icon="" color="primary" @change="sendImage" v-model="images"
                     placeholder="Upload your documents" label="عکس‌">
                     <template v-slot:prepend>
 
-                        <PhotoIcon style="margin-left: -20px;" class="  text-grey" />
+                        <PhotoIcon  class="  text-grey" />
 
 
                     </template>
@@ -237,9 +237,7 @@
                             <div>
                                 کد تخفیف
                             </div>
-                            <div class="font-weight-bold">
-                                +
-                            </div>
+                           
                         </div>
                     </v-expansion-panel-title>
                    
