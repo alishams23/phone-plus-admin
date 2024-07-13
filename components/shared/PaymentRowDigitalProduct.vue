@@ -29,7 +29,7 @@
             density="compact" 
             :ripple="false" 
             variant="flat" 
-            rounded="pill"
+            rounded="md"
             class="bg-green pa-0 ">
         
             <v-chip 
@@ -47,7 +47,7 @@
             density="compact" 
             :ripple="false" 
             variant="flat" 
-            rounded="pill"
+            rounded="md"
             class="bg-grey-lighten-5 pa-0">
         
             <v-chip 

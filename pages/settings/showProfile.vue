@@ -46,7 +46,7 @@
                   <v-spacer></v-spacer>
 
                   <v-btn text="بستن" @click="isActive.value = false"></v-btn>
-                  <v-btn text="افزودن" @click="addProductCategory()" color="primary" rounded="lg" variant="flat"
+                  <v-btn text="افزودن" @click="addProductCategory();isActive.value = false" color="primary" rounded="lg" variant="flat"
                     elevation="0" class="px-5 mx-4 my-2"></v-btn>
                 </v-card-actions>
               </v-card>
@@ -77,7 +77,7 @@
                   <v-spacer></v-spacer>
 
                   <v-btn text="بستن" @click="isActive.value = false"></v-btn>
-                  <v-btn text="افزودن" @click="addDigitalProductCategory()" color="primary" rounded="lg" variant="flat"
+                  <v-btn text="افزودن" @click="addDigitalProductCategory();isActive.value = false" color="primary" rounded="lg" variant="flat"
                     elevation="0" class="px-5 mx-4 my-2"></v-btn>
                 </v-card-actions>
               </v-card>

@@ -101,7 +101,7 @@
                         :ripple="false" 
                         v-bind="props"
                         variant="flat" 
-                        rounded="pill"
+                        rounded="md"
                         :class="data.status == 'received' ? 'bg-green' : data.status == 'sended' ? 'bg-primary' : 'bg-red'"
                         class="pa-0">
                     
@@ -110,6 +110,7 @@
                             size="x-small">
                            
                             {{ data.status == 'received' ? ' تحویل داده شده' : data.status == 'sended' ? ' ارسال شده ' : ' ارسال نشده' }}
+                            <ChevronDownIcon size="15" class="ms-2" />
                         </v-chip>
                     
                     </v-btn>
@@ -120,7 +121,7 @@
                         density="compact" 
                         :ripple="false" 
                         variant="flat" 
-                        rounded="pill"
+                        rounded="md"
                         class="bg-grey-lighten-5 pa-0">
                     
                         <v-chip 
@@ -225,7 +226,7 @@
                         :ripple="false" 
                         v-bind="props"
                         variant="flat" 
-                        rounded="pill"
+                        rounded="md"
                         :class="data.status == 'received' ? 'bg-green' : data.status == 'sended' ? 'bg-primary' : 'bg-red'"
                         class="pa-0">
                     
@@ -234,6 +235,7 @@
                             size="x-small">
                            
                             {{ data.status == 'received' ? ' تحویل داده شده' : data.status == 'sended' ? ' ارسال شده ' : ' ارسال نشده' }}
+                            <ChevronDownIcon size="15" class="ms-2" />
                         </v-chip>
                     
                     </v-btn>
@@ -244,7 +246,7 @@
                         density="compact" 
                         :ripple="false" 
                         variant="flat" 
-                        rounded="pill"
+                        rounded="md"
                         class="bg-grey-lighten-5 pa-0">
                     
                         <v-chip 
@@ -298,13 +300,14 @@ import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 import axios from "axios";
 import { parseISO, format } from 'date-fns';
-import { EyeIcon } from 'vue-tabler-icons';
+import { EyeIcon, ChevronDownIcon } from 'vue-tabler-icons';
 
 export default {
   
     components: {
         UserIcon,
-        EyeIcon
+        EyeIcon,
+        ChevronDownIcon
     },
     props:["data"],
     data() {
