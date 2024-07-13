@@ -58,9 +58,11 @@
     color="transparent">
     <v-row class="px-3 py-2 ">
       <v-col cols="9" sm="10" md="11">
+        <v-locale-provider rtl>
         <v-text-field @keyup.enter="sendMessage()" variant="solo" v-model="inputData" class="shadow-none rtl"
-          bg-color="grey-lighten-3" elevation="10" label="...پیام شما " rounded="lg" required></v-text-field>
-      </v-col>
+          bg-color="grey-lighten-3" elevation="10" label="پیام شما... " rounded="lg" required></v-text-field>
+        </v-locale-provider>
+        </v-col>
       <v-col>
         <v-avatar @click="sendMessage()" color="primary" class="mt-1" size="48">
           <SendIcon size="20" />

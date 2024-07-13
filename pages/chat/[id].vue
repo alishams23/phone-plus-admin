@@ -39,8 +39,10 @@
             <v-bottom-navigation height="70" elevation="0" color="transparent">
                 <v-row class="px-3 py-2">
                     <v-col cols="9" sm="10" md="11">
+                        <v-locale-provider rtl>
                         <v-text-field class="shadow-none" bg-color="grey-lighten-3" elevation="10" label=" پیام شما ..." rounded="pill"
                             variant="solo-flat"></v-text-field>
+                        </v-locale-provider>
                     </v-col>
                     <v-col>
                         <v-avatar color="primary" size="48">

@@ -5,14 +5,24 @@
 
                 <v-card-title class="d-flex items-center flex-col text-h5 font-weight-black rtl">
                     کیف پول
-                    <v-tooltip activator="parent" location="top">
+                    
+                    <v-tooltip activator="parent" class="text-center rtl" location="top">
                         <template v-slot:activator="{ on, attrs }">
                             <QuestionMarkIcon size="12" class="bg-white rounded-pill ml-2" v-bind="attrs" v-on="on" />
                         </template>
-                        <span class="">برای فروش هر محصول، مبلغ ۱۸۰۰ تومان از کیف پول شما کسر می‌شود. اگر موجودی کیف پول
+
+                        <span class="text-center rtl">برای فروش هر محصول، مبلغ ۱۸۰۰ تومان از کیف پول شما کسر می‌شود. 
+                            <br/>
+                            اگر موجودی کیف پول
                             شما کمتر از این مقدار
-                            باشد، محصول شما در وبسایت نمایش داده نخواهد شد. لطفاً اطمینان حاصل کنید که موجودی کیف پولتان
-                            کافی است</span>
+                            باشد، محصول شما در وبسایت نمایش داده نخواهد شد. 
+                            <br/>
+                            <br/>
+                            
+                            لطفاً اطمینان حاصل کنید که موجودی کیف پولتان
+                            کافی است.</span>
+
+                            
                     </v-tooltip>
                 </v-card-title>
                 <div>
