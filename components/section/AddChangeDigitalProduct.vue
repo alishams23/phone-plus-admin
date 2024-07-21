@@ -38,10 +38,13 @@
             <TextEditor :content="description" @update="handleTextChange"></TextEditor>
             <div class="mt-5">
                 <p class="rtl pb-1" >
-                    آموزش استفاده از محصول:
+                    آموزش و نکات استفاده از محصول:
                 </p>
                 <TextEditor :content="instructions" @update="handleTextChangeInstructions"></TextEditor>
             </div>
+            <v-alert class="mt-2 rtl mb-5 rounded-lg" title="نکته"
+                text="توضیحاتی که در کادر بالا قرار میدهید به صورت ثابت زیر هر محصولی که مشتری خریداری میکند نمایش داده میشود"></v-alert>
+
     
 
             <v-locale-provider rtl>
@@ -274,10 +277,10 @@
                     class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
                     ثبت
                 </v-btn>
-                <v-btn rounded="lg" persistent-hint variant="outline" color="primary" :disabled="loadingImage"
+                <!-- <v-btn rounded="lg" persistent-hint variant="outline" color="primary" :disabled="loadingImage"
                     class=" px-10 text-body2  font-weight-bold mb-5" @click="$emit('cancel')">
                     برگشت
-                </v-btn>
+                </v-btn> -->
             </div>
         </form>
     </div>

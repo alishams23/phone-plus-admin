@@ -119,10 +119,10 @@
                 class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
                 ثبت
             </v-btn>
-            <v-btn rounded="lg" persistent-hint variant="outline" color="primary" :disabled="loadingImage"
+            <!-- <v-btn rounded="lg" persistent-hint variant="outline" color="primary" :disabled="loadingImage"
                 class=" px-10 text-body2  font-weight-bold mb-5" @click="$emit('cancel')">
                 برگشت
-            </v-btn>
+            </v-btn> -->
         </div>
         
     </form>
