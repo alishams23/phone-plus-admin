@@ -4,9 +4,9 @@ import { defineStore } from 'pinia';
 
 export const apiStore = defineStore('api', {
   state: () => ({
-    address: 'http://171.22.27.89',
+    address: 'https://new.phoneplus.ir',
     // address: 'http://127.0.0.1:8000',
-    ws: 'ws://171.22.27.89',
+    ws: 'wss://new.phoneplus.ir',
   }),
   actions: {
 
