@@ -89,7 +89,7 @@ export default {
                 <!---Logo part -->
                 <div class=" pa-5  " v-if="user_status == 's'">
                     <!-- <Logo /> -->
-                   <a :href="`http://171.22.27.89:3001/` + shop_username" target="blank"> 
+                   <a :href="`https://new.phoneplus.ir/` + shop_username" target="blank"> 
                      <v-sheet class="d-flex justify-center align-center ml-5" color="transparent">
                     
                          <v-tooltip text="مشاهده ی فروشگاه">
