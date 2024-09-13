@@ -86,7 +86,7 @@
 
     </v-row>
     <div class="d-flex justify-center">
-      <v-progress-circular v-if="loading" bg-color="transparent" :size="55" class="ma-10" :width="7" color="primary"
+      <v-progress-circular v-if="loading" bg-color="transparent" :size="55" class="ma-10" :width="5" color="primary"
         indeterminate></v-progress-circular>
     </div>
     <v-alert v-if="data.length == 0 && loading == false" color="primary" icon="fa fa-info" variant="tonal"
@@ -136,9 +136,13 @@
                       </v-card>
                     </template>
                   </v-dialog>  
-                  <v-avatar size="30" variant="tonal" @click="removeItem(blog.id);snackbar_delete=true" color="red-darken-2" icon="">
+                  <SharedConfirmationDialog @delete-item="removeItem(blog.id);snackbar_delete=true">
+                    <v-avatar size="30" variant="tonal" color="red-darken-2" icon="">
                     <TrashIcon size="15" />
                   </v-avatar>
+                    </SharedConfirmationDialog>
+
+                 
                   <v-sheet class="px-3  text-body-2">
             
                     {{ blog.created_at_jalali }}

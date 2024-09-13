@@ -63,7 +63,7 @@
             </v-col>
         </v-row>
         <div class="d-flex justify-center">
-            <v-progress-circular v-if="loadingData" bg-color="transparent" :size="55" class="ma-10" :width="7"
+            <v-progress-circular v-if="loadingData" bg-color="transparent" :size="55" class="ma-10" :width="5"
                 color="primary" indeterminate></v-progress-circular>
         </div>
     </v-container>

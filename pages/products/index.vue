@@ -125,10 +125,14 @@
                         </template>
                         
                       </v-dialog>                                                                                                               
-                    
-                      <v-avatar size="30" variant="tonal" @click="removeItem(product.id);snackbar_delete = true" color="red-darken-2" icon="">
+                      <SharedConfirmationDialog @delete-item="removeItem(product.id);snackbar_delete = true">
+
+                        <v-avatar size="30" variant="tonal" color="red-darken-2" icon="">
                         <TrashIcon size="15" />
                       </v-avatar>
+                      </SharedConfirmationDialog>
+                      
+
                     </v-card-actions>
                   </div>
                 </div>
@@ -159,7 +163,7 @@
     </v-dialog>
   </VLayoutItem>
   <div class="d-flex justify-center">
-    <v-progress-circular v-if="loading" bg-color="transparent" :size="55" class="ma-10" :width="7" color="primary"
+    <v-progress-circular v-if="loading" bg-color="transparent" :size="55" class="ma-10" :width="5" color="primary"
       indeterminate></v-progress-circular>
   </div>
 </template>
