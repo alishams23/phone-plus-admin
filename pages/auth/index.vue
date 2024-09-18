@@ -132,18 +132,18 @@
                         <v-row>
                           <v-col cols="12" sm="6">
                             <v-text-field v-model="first_name" required label="نام" rounded="lg" persistent-hint variant="outlined" color="primary"
-                              class="mt-lg-4" />
+                              class="mt-lg-2" />
                           </v-col>
                           <v-col cols="12" sm="6" >
                             <v-text-field v-model="last_name" required  label="نام خانوادگی" rounded="lg" persistent-hint variant="outlined"
-                              color="primary" class="mt-lg-4" />
+                              color="primary" class="mt-lg-2" />
                           </v-col>
                         </v-row>
-                        <v-text-field v-model="email" class="mt-5 " required label="ایمیل" rounded="lg" persistent-hint variant="outlined" color="primary" />
+                        <v-text-field v-model="email" class="mt-3 " required label="ایمیل" rounded="lg" persistent-hint variant="outlined" color="primary" />
 
-                        <v-text-field v-model="phoneNumber" class="mt-5 " label="شماره تلفن" rounded="lg" persistent-hint variant="outlined" color="primary" />
+                        <v-text-field v-model="phoneNumber" class="mt-3 " label="شماره تلفن" rounded="lg" persistent-hint variant="outlined" color="primary" />
                     
-                        <v-btn :loading="loading" type="submit"  class="mt-3" size="large" elevation="0" rounded color="primary" dark block tile>ثبت
+                        <v-btn :loading="loading" type="submit"  class="mt-1" size="large" elevation="0" rounded color="primary" dark block tile>ثبت
                           نام</v-btn>                    
                       </v-col>
                     </v-row>
