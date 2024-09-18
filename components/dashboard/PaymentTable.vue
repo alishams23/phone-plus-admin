@@ -38,7 +38,7 @@
         </v-card>
     </v-container>
     <div class="d-flex justify-center">
-        <v-progress-circular v-if="loading" bg-color="transparent" :size="55" class="ma-10" :width="7" color="primary"
+        <v-progress-circular v-if="loading" bg-color="transparent" :size="55" class="ma-10" :width="5" color="primary"
             indeterminate>
         </v-progress-circular>
     </div>

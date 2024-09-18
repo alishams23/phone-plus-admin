@@ -94,7 +94,7 @@ export default {
                     
                          <v-tooltip text="مشاهده ی فروشگاه">
                              <template v-slot:activator="{ props }">
-                                 <v-avatar v-bind="props" size="100" justify="center" color="indigo">
+                                 <v-avatar v-bind="props" size="100" justify="center" color="indigo-lighten-4">
                                      <v-img cover :src="address + '/api/account/shop-profile/' + shop_username + '/'"
                                          height="100" alt="user" />
                     

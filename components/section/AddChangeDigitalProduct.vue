@@ -51,7 +51,7 @@
                 <v-row class="mt-10 mb-5">
                     <v-col cols="12" md="6">
                         <v-text-field :label="file_type=='افزودن گروهی: اکانت، لایسنس یا کد یکتا' || file_type=='افزودن تکی: اکانت، لایسنس یا کد یکتا'?' قیمت هر ردیف(تومان)':'قیمت(تومان)'" rounded="lg" v-model="price" required type="number" persistent-hint
-                            variant="outlined" color="primary" />
+                            variant="outlined" min="0" color="primary" />
                     </v-col>
                     <v-col cols="12" md="6">
                         <AddCategories @change="(data) => { selectedCategories = data }" :selected="selectedCategories"

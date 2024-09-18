@@ -7,6 +7,8 @@
         <form @submit.prevent="updateData">
             <v-locale-provider rtl>
 
+
+
                 <v-text-field 
                     label="نام فروشگاه" 
                     v-model="name" 
@@ -75,11 +77,18 @@
 
                     <img :src="background_image_preview" class="chip-image-preview-ultra-wide" />
                 </div>
+                <v-checkbox v-model="is_background_blur" color="primary" label="بلور بودن بکگراند" class="flex-grow-1"/>
+
 
                 <p class="text-8xl pt-5 pb-3 text-grey-darken-2" >
                     راه ارتباطی با شبکه های اجتماعی:
                 </p>
-                
+                <v-alert  border="start" class="mb-10 rtl ">
+                    <div class="pa-2">
+
+                       در این قسمت   تنها ایدی را قرار دهید و از قرار دادن لینک خودداری کنید.
+                    </div>
+                </v-alert>
                 <v-text-field 
                     color="primary" 
                     v-model="telegram" 
@@ -103,6 +112,20 @@
                     rounded="lg" 
                     variant="outlined" 
                     label="آیدی اینستاگرام"/>
+                <v-text-field 
+                    color="primary" 
+                    v-model="eitaa"
+                    placeholder="eitaa_id" 
+                    rounded="lg" 
+                    variant="outlined" 
+                    label="آیدی ایتا"/>
+                <v-text-field 
+                    color="primary" 
+                    v-model="rubika"
+                    placeholder="rubika_id" 
+                    rounded="lg" 
+                    variant="outlined" 
+                    label="آیدی روبیکا"/>
 
                 <v-text-field 
                     color="primary" 
@@ -144,9 +167,12 @@ export default {
             loading: true,
             image: null,
             background_image: null,
+            is_background_blur: false,
             name: "",
             bio: "",
             instagram: "",
+            eitaa: "",
+            rubika: "",
             twitter: "",
             telegram: "",
             whatsapp: "",
@@ -192,6 +218,9 @@ export default {
                 this.image_preview = response.data[0].image
                 this.background_image_preview = response.data[0].background_image
                 this.instagram = response.data[0].instagram
+                this.is_background_blur = response.data[0].is_background_blur
+                this.eitaa = response.data[0].eitaa
+                this.rubika = response.data[0].rubika
                 this.twitter = response.data[0].twitter
                 this.telegram = response.data[0].telegram
                 this.whatsapp = response.data[0].whatsapp
@@ -206,7 +235,10 @@ export default {
                 if(this.background_image)  this.fd.append("background_image", this.background_image[0])
                 this.fd.append("name", this.name);
                 this.fd.append("bio", this.bio);
+                this.fd.append("is_background_blur", this.is_background_blur);
                 this.fd.append("instagram", this.instagram);
+                this.fd.append("eitaa", this.eitaa);
+                this.fd.append("rubika", this.rubika);
                 this.fd.append("twitter", this.twitter);
                 this.fd.append("telegram", this.telegram);
                 this.fd.append("whatsapp", this.whatsapp);

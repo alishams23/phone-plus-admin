@@ -7,7 +7,6 @@ import '@mdi/font/css/materialdesignicons.css'
 const dark = {
   dark: true,
   colors: {
-   
   },
 }
 export default defineNuxtPlugin(nuxtApp => {
@@ -20,11 +19,8 @@ export default defineNuxtPlugin(nuxtApp => {
       checkboxOff: SquareRoundedIcon,
       checkboxOn:SquareRoundedFilledIcon
       }
-
     },
     theme: {
-  
-  
       themes: {
         dark,
       },
