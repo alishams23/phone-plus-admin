@@ -49,23 +49,27 @@
                         </template>
 
                         <template v-slot:default="{ isActive }"><v-locale-provider rtl>
-                                <v-card rounded="lg">
-
-                                    <v-card-text>
-                                        <v-text-field v-model="amount" label=" به مبلغ مورد نظر (ریال)" rounded="lg"
-                                            required class="mt-5" persistent-hint variant="outlined" color="primary" />
-                                    </v-card-text>
-
-                                    <v-card-actions>
-                                        <v-spacer></v-spacer>
-
-                                        <v-btn text="بستن" rounded="lg" @click="isActive.value = false"></v-btn>
-                                        <v-btn
-                                            :href="address + '/api/wallet/charge-wallet/' + shop_username + '/' + amount"
-                                            text="پرداخت" color="primary" rounded="lg" variant="flat" elevation="0"
-                                            class="px-5 mx-4 my-2"></v-btn>
-                                    </v-card-actions>
-                                </v-card>
+                                <form @submit.prevent="goPaymentPage">
+                                    <v-card rounded="lg">
+                                    
+                                        <v-card-text>
+                                            <v-text-field  type="number" min="10000" v-model="amount" label=" به مبلغ مورد نظر (ریال)" rounded="lg"
+                                                required class="mt-5" persistent-hint variant="outlined" color="primary" />
+                                        </v-card-text>
+                                    
+                                        <v-card-actions>
+                                            <v-spacer></v-spacer>
+                                    
+                                            <v-btn text="بستن" rounded="lg" @click="isActive.value = false"></v-btn>
+                                            <v-btn
+                                            type="submit" 
+                                            @click=""
+                                                
+                                                text="پرداخت" color="primary" rounded="lg" variant="flat" elevation="0"
+                                                class="px-5 mx-4 my-2"></v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </form>
                             </v-locale-provider>
                         </template>
                     </v-dialog>
@@ -116,6 +120,11 @@ export default {
 
       }
       return chars.join("");;
+    
+    
+    },
+    goPaymentPage(){
+        window.location.href = this.address + '/api/wallet/charge-wallet/' + this.shop_username + '/' + this.amount
     }
     },
     setup() {

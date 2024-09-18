@@ -94,7 +94,7 @@
                 <div class=" d-flex flex-column flex-fill ">
                   <v-card-item>
                     <v-card-title class="text-h6 ">{{ product.title }}</v-card-title>
-                    <div v-html="product.description" class="text-line-1  text-body-2"></div>
+                    <div v-html="product.plain_description" class="text-line-1  text-body-2"></div>
                   </v-card-item>
 
                   <v-card-actions class="mt-auto mr-auto px-10">
