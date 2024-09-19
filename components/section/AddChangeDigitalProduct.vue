@@ -89,18 +89,24 @@
                     </div>
                 </div>                      
 
-                <v-combobox 
-                    v-if="id==null"
-                    rounded="lg" 
-                    accept=".zip,.rar" 
-                    persistent-hint 
-                    variant="outlined" 
+                <v-combobox
+                    v-if="id == null"
+                    rounded="lg"
+                    required
+                    accept=".zip,.rar"
+                    persistent-hint
+                    variant="outlined"
                     color="primary"
-                    v-model="file_type" 
-                    :disabled="id?true:false"
-                    :label="id?get_file? 'فایل' : 'افزودن گروهی: اکانت، لایسنس یا کد یکتا':'انتخاب نوع محصول'" 
-                    :items="['افزودن گروهی: اکانت، لایسنس یا کد یکتا','افزودن تکی: اکانت، لایسنس یا کد یکتا' , 'فایل' ]">
-                </v-combobox>
+                    v-model="file_type"
+                    :disabled="id ? true : false"
+                    :label="id ? (get_file ? 'فایل' : 'افزودن گروهی: اکانت، لایسنس یا کد یکتا') : 'انتخاب نوع محصول'"
+                    :items="[
+                        'افزودن گروهی: اکانت، لایسنس یا کد یکتا',
+                        'افزودن تکی: اکانت، لایسنس یا کد یکتا',
+                        'فایل',
+                    ]"
+                    :rules="comboboxRules"
+                ></v-combobox>
 
                 <v-file-input 
                     rounded="lg" 
@@ -125,8 +131,8 @@
                 <a v-if="get_file" :href="get_file" class="d-flex justify-start w-100 ps-15">
                     دانلود فایل فعلی
                 </a>
-                <v-row class="mt-1 mb-5 rtl" align="end" v-if="id ? get_file == null : file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا'">
-                    <v-col cols="12" md="10">
+                <v-row class="mt-1 mb-5 rtl " align="end" v-if="id ? get_file == null : file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا'">
+                    <v-col cols="12" md="9">
                         <v-textarea
                             label="اطلاعات ردیف" 
                             rounded="lg" 
@@ -134,13 +140,14 @@
                             variant="outlined" 
                             color="primary" 
                             class=""
+                            rows="3"
                             v-model="body"/>
                     </v-col>
-                    <v-col cols="12" md="2" >
+                    <v-col cols="12" md="3" >
                         <v-btn  
                             type="submit" 
                             :disabled="body == '' || title == ''" 
-                            class="rounded-lg mt-2 mb-5" 
+                            class="rounded-lg mt-2 mb-5 mx-12" 
                             color="primary"
                             @click="addRow()"
                             variant="flat">
@@ -333,6 +340,9 @@ export default {
                 files => !files || !files.some(file => file.size > 2_097_152) || 'Avatar size should be less than 2 MB!'
             ],
         },
+        comboboxRules: [
+            (v) => !!v || 'نوع محصول را انتخاب کنید',
+        ],
     }),
     computed: {
         address(){
