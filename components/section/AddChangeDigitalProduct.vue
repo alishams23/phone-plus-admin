@@ -99,7 +99,7 @@
                     color="primary"
                     v-model="file_type"
                     :disabled="id ? true : false"
-                    :label="id ? (get_file ? 'فایل' : 'افزودن گروهی: اکانت، لایسنس یا کد یکتا') : 'انتخاب نوع محصول'"
+                    :label="id ? (get_file || get_file_url? 'فایل' : 'افزودن گروهی: اکانت، لایسنس یا کد یکتا') : 'انتخاب نوع محصول'"
                     :items="[
                         'افزودن گروهی: اکانت، لایسنس یا کد یکتا',
                         'افزودن تکی: اکانت، لایسنس یا کد یکتا',
@@ -110,15 +110,19 @@
 
                 <v-file-input 
                     rounded="lg" 
-                    accept=".zip,.rar" persistent-hint 
+                    accept=".zip,.rar" 
+                    persistent-hint 
                     variant="outlined" 
                     color="primary"
-                    v-if="id?get_file:file_type == 'فایل'" 
-                    v-model="file" placeholder="اضافه کردن فایل" 
+                    :loading="loadingFile"
+                    :required="fileRequiredHandler()"
+                    v-if="id?get_file||get_file_url:file_type == 'فایل'" 
+                    placeholder="اضافه کردن فایل" 
+                    @change="handleFileChange"
                     :label="id?'تعویض فایل محصول':'فایل محصول'">
-                    <template v-slot:prepend>
-                        <FileImportIcon style="margin-left: -20px;" class="  text-grey" />
-                    </template>
+                    <!-- <template v-slot:prepend>
+                        <LinkIcon style="margin-left: -20px;" class="  text-grey" />
+                    </template> -->
                     <template v-slot:selection="{ fileNames }">
                         <template v-for="fileName in fileNames" :key="fileName">
                             <v-chip size="small" label color="primary">
@@ -128,10 +132,36 @@
                     </template>
                 </v-file-input>
 
+                <p v-if="file_error != null" :href="get_file" class="d-flex justify-start w-100 ps-15 text-red-darken-3">
+                    {{file_error}}
+                </p>
+                <v-row class="mt-1" v-if="id ? get_file||get_file_url : file_type == 'فایل'">
+                    <v-col cols="auto me-3 mt-4">
+                        <LinkIcon style="margin-left: -20px;" class="text-grey" />
+                    </v-col>
+                    
+                    <v-col>
+                        <v-text-field
+                        rounded="lg"
+                        persistent-hint
+                        variant="outlined"
+                        min="0"
+                        color="primary"
+                        label="لینک فایل"
+                        v-model="file_url"
+                        placeholder="لینک دانلود فایل"
+                        ></v-text-field>
+                    </v-col>
+                </v-row>
+
                 <a v-if="get_file" :href="get_file" class="d-flex justify-start w-100 ps-15">
                     دانلود فایل فعلی
                 </a>
-                <v-row class="mt-1 mb-5 rtl " align="end" v-if="id ? get_file == null : file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا'">
+                <a v-if="get_file_url" :href="get_file_url" class="d-flex justify-start w-100 ps-15">
+                    دانلود فایل فعلی
+                </a>
+
+                <v-row class="mt-1 mb-5 rtl " align="end" v-if="id ? get_file == null && get_file_url==null: file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا'">
                     <v-col cols="12" md="9">
                         <v-textarea
                             label="اطلاعات ردیف" 
@@ -171,13 +201,11 @@
                     persistent-hint 
                     variant="outlined" 
                     color="primary"
-                    v-if="id ? get_file == null : file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'" 
+                    v-if="id ? get_file == null && get_file_url==null : file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'" 
                     @change="handleCsvUpload" 
                     placeholder="اضافه لیست"
                     :label="id ? 'اضافه کردن به لیست محصول' : 'لیست محصول'">
-                    <template v-slot:prepend>
-                        <FileImportIcon style="margin-left: -20px;" class="text-grey" />
-                    </template>
+                    
                     <template v-slot:selection="{ fileNames }">
                         <template v-for="fileName in fileNames" :key="fileName">
                         <v-chip size="small" label color="primary">
@@ -280,7 +308,7 @@
 
             
             <div class="d-flex" >
-                <v-btn rounded="lg" persistent-hint variant="flat" color="primary" :disabled="loadingImage"
+                <v-btn rounded="lg" persistent-hint variant="flat" color="primary" :disabled="loadingImage||loadingFile"
                     class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
                     ثبت
                 </v-btn>
@@ -294,7 +322,7 @@
 </template>
 <script>
 import Papa from 'papaparse';
-import { XIcon, PhotoIcon, VideoIcon, FileImportIcon, TrashIcon, CheckIcon } from 'vue-tabler-icons';
+import { XIcon, PhotoIcon, VideoIcon, LinkIcon, TrashIcon, CheckIcon } from 'vue-tabler-icons';
 import axios from "axios";
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
@@ -303,7 +331,7 @@ import AddDiscountcodes from '@/components/section/product/AddDiscountcodes.vue'
 import * as XLSX from 'xlsx';
 
 export default {
-    components: { CheckIcon, XIcon, PhotoIcon, VideoIcon, FileImportIcon, TrashIcon, AddCategories, AddDiscountcodes },
+    components: { CheckIcon, XIcon, PhotoIcon, VideoIcon, LinkIcon, TrashIcon, AddCategories, AddDiscountcodes },
     emits:["close","cancel"],
     props: ["id"],
     data: () => ({
@@ -319,11 +347,13 @@ export default {
         description: null,
         images: [],
         imageIds: [],
+        loadingFile: false,
         loadingImage: false,
         imagePreviews: [],
         categories: [],
         selectedCategories: [],
         file_type: null,
+        file_error: null,
         discount_codes: [],
         subset_product : [],
         tab: null,
@@ -331,9 +361,12 @@ export default {
         images: [],
         pin_profile:false,
         get_file: null,
+        get_file_url: null,
         file: null,
+        file_url: null,
         value: 0,
         body: '',
+        maxFileSize: 30 * 1024 * 1024,
         editorOptions: {
             theme: "snow",
             rules: [
@@ -416,6 +449,16 @@ export default {
                 reader.readAsArrayBuffer(file);
             }
         },
+        fileRequiredHandler(){
+            if (this.id){
+                return this.get_file != null && this.get_file_url != null 
+            }else if(this.file_type == 'فایل'){
+                if (this.file_url == null || this.file_url == ''  ){
+                    return true
+                }   
+            }
+            return false
+        },
         transformXLSXData(data) {
             if (data.length === 0) return [];
 
@@ -459,7 +502,19 @@ export default {
                             },
                         })
         },
-        
+        handleFileChange(event) {
+            const files = event.target.files || event; // get the file(s)
+            if (files && files[0]) {
+                const fileSize = files[0].size; // in bytes
+                if (fileSize > this.maxFileSize) {
+                    this.file_error = `حجم فایل باید کمتر از  ${this.maxFileSize/1024/1024}MB باشد`;
+                    this.file = null; // reset the file input
+                } else {
+                    // this.loadingFile = true
+                    this.file = files; // set the file if it’s within the size limit
+                }
+            }
+        },
         async sendDataFunc() {
             if (this.images && this.images.length) {
                 this.images.forEach((file, index) => {
@@ -538,6 +593,7 @@ export default {
 
         // },
         async sendData() {
+            this.loadingFile = true
             let formData = new FormData();
             let discount_codes_id = []
             // Add files to formData
@@ -556,6 +612,7 @@ export default {
             formData.append('description', this.description);
             formData.append('instructions', this.instructions);
             formData.append('discount', this.value);
+            formData.append('link_file', this.file_url);
             formData.append('pin_profile', this.pin_profile);
 
             // Assuming this.transformedData is an array or object
@@ -616,6 +673,7 @@ export default {
                 this.price = response.data.price
                 this.value = response.data.discount
                 this.get_file = response.data.file
+                this.get_file_url = response.data.link_file
                 this.subset_product = response.data.subset_product
                 this.discount_codes = response.data.discount_codes != null ? response.data.discount_codes : []
                 if (response.data.discount) this.discount = true
