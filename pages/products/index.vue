@@ -61,7 +61,7 @@
           <BoxIcon />
         </v-avatar>
         <div class=" px-5 font-weight-bold text-h4">
-          محصولات
+          محصولات فیزیکی
         </div>
       </v-col>
       <v-col cols="12" md="4">

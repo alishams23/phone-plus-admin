@@ -47,7 +47,7 @@ const sidebarItem: menu[] = [
     
     { header: 'محصولات' },
     {
-        title: 'محصولات',
+        title: 'محصولات فیزیکی',
         icon: CubeIcon,
         to: '/products'
     },
