@@ -153,7 +153,15 @@
                         ></v-text-field>
                     </v-col>
                 </v-row>
-
+                {{
+                    get_file == 'null' 
+                }}
+                {{
+                    get_file_url == 'null' 
+                }}
+                {{
+                    get_file != null && get_file_url != 'null' 
+                }}
                 <a v-if="get_file" :href="get_file" class="d-flex justify-start w-100 ps-15">
                     دانلود فایل فعلی
                 </a>
@@ -451,9 +459,10 @@ export default {
         },
         fileRequiredHandler(){
             if (this.id){
+                return false
                 return this.get_file != null && this.get_file_url != null 
             }else if(this.file_type == 'فایل'){
-                if (this.file_url == null || this.file_url == ''  ){
+                if ((this.file_url == null || this.file_url == '' )&&(this.file == '') ){
                     return true
                 }   
             }

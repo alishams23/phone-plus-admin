@@ -117,7 +117,7 @@ export default {
                 <div>
                     <v-list class="">
                         <!---Menu Loop -->
-                        <template v-for="(item, i) in sidebarMenu">
+                        <template v-for="(item) in sidebarMenu">
 
                             <!---Item Sub Header -->
                             <NavGroup :item="item" v-if="item.header" :key="item.title" />
@@ -265,14 +265,26 @@ export default {
     }
 }
 
-.curved-white {
-    padding: 0px 0px 0px 25px;
-    background-image: radial-gradient(ellipse 75% 100% at 70% 50%, rgb(255, 255, 255) 89.9%, #ffffff00 90%), radial-gradient(ellipse 75% 100% at 69.8% 50%, rgb(198, 198, 198) 89.9%, #ffffff00 90%);
-    text-align: center;
-    font-family: sans-serif;
-    text-transform: uppercase;
-
+@media (min-width: 1280px) {
+    .curved-white {
+        padding: 0px 0px 0px 25px;
+        background-image: radial-gradient(ellipse 75% 100% at 70% 50%, rgb(255, 255, 255) 89.9%, #ffffff00 90%), radial-gradient(ellipse 75% 100% at 69.8% 50%, rgb(198, 198, 198) 89.9%, #ffffff00 90%);
+        text-align: center;
+        font-family: sans-serif;
+        text-transform: uppercase;
+    }
 }
+
+@media (max-width: 1280px) {
+    .curved-white {
+        padding: 0px 0px 0px 25px;
+        background-color: rgb(255, 255, 255) !important;
+        text-align: center;
+        font-family: sans-serif;
+        text-transform: uppercase;
+    }
+}
+
 
 .bg-white-important {
     background-color: white !important;
