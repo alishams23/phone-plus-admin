@@ -306,9 +306,7 @@ export default {
 </script>
 
 <style>
-.ql-toolbar.ql-snow {
-    border-radius: 13px 13px 0px 0px !important;
-}
+
 .fixed-top-left {
     position: fixed;
     left: 10px; /* Adjust the right margin as necessary */

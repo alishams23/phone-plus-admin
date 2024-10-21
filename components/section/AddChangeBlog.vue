@@ -209,7 +209,5 @@ export default {
 </script>
 
 <style>
-.ql-toolbar.ql-snow {
-    border-radius: 13px 13px 0px 0px !important;
-}
+
 </style>
