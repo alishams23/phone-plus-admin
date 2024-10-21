@@ -30,7 +30,7 @@
 </v-dialog>
   <client-only>
     <quill-editor  @ready="onEditorReady($event)" class="rounded-b-lg" :ref="editorContent" content-type="html" v-model:content="content" theme="snow"
-      :toolbar="toolbar"  :modules="modules" @textChange="updateContent"   />
+      :toolbar="toolbar"  :modules="modules"   @textChange="updateContent"   />
   </client-only>
 </template>
 <script setup lang="ts">
@@ -45,7 +45,7 @@ const emit = defineEmits(['update']);
 const editorContent = ref(null);
 let dialog = ref();
 let text = ref('');
-let editor = null
+let editor : any = null
 
 // ... (rest of your code)
 
@@ -57,7 +57,7 @@ const updateContent = () => {
 const doPaste  = () => {
   
   if (editor) {
-    editor.pasteHTML(`${document.querySelector(".ql-editor").innerHTML} ${text.value}`);
+    editor.pasteHTML(`${document.querySelector(".ql-editor")!.innerHTML} ${text.value}`);
     dialog.value = false;
   } else {
     console.error('Quill editor is not ready yet. Wait for onEditorReady event.');
@@ -68,7 +68,7 @@ const doPaste  = () => {
 }
 
 
-const onEditorReady = (data) =>  {
+const onEditorReady = (data : any) =>  {
   editor = data
   const customButton = editor.getModule('toolbar').container.querySelector('.ql-custom');
   customButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-play-fill" viewBox="0 0 16 16"><path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M6 6.883a.5.5 0 0 1 .757-.429l3.528 2.117a.5.5 0 0 1 0 .858l-3.528 2.117a.5.5 0 0 1-.757-.43V6.884z"/></svg>';
@@ -87,7 +87,66 @@ const onEditorReady = (data) =>  {
     console.error('RTL button not found');
   }
 
+  const observer = new MutationObserver(() => {
+      updateContent();  // Call updateContent when a mutation happens in the editor (e.g., image resize or alignment)
+    });
+
+    // Observe changes in the editor's `.ql-editor` element for any blot mutations
+    observer.observe(editor.container.querySelector(".ql-editor")!, {
+      attributes: true,
+      childList: true,
+      subtree: true
+    });
+
+
+    // const toolbar = document.querySelector('.ql-toolbar');
+    // const editor2 = document.querySelector('.ql-editor');
+
+    // if (toolbar && editor2) {
+    //     const toolbarOriginalTop = toolbar.getBoundingClientRect().top;
+
+
+    //     window.addEventListener('scroll', function() {
+    //   console.log("ddddjfbvk")
+
+    //         const editorTop = editor2.getBoundingClientRect().top;
+    //         if (editorTop < 0) {
+    //             toolbar.style.position = 'fixed';
+    //             toolbar.style.top = '0';
+    //         } else {
+    //             toolbar.style.position = 'sticky';
+    //             toolbar.style.top = `${toolbarOriginalTop}px`;
+    //         }
+    //     },true);
+    // }
+
 }
+
+const handleScroll = () => {
+  const toolbar = editor.getModule('toolbar').container  ;
+  const mainEditor = editor.container.querySelector(".ql-editor") ;
+
+  if (toolbar && mainEditor) {
+    const editorRect = mainEditor.getBoundingClientRect();
+    const toolbarRect = toolbar.getBoundingClientRect();
+
+    // Check if the toolbar is within the editor bounds
+    if (toolbarRect.bottom < editorRect.top || toolbarRect.top > editorRect.bottom) {
+      toolbar.classList.add('hidden-toolbar');
+    } else {
+      toolbar.classList.remove('hidden-toolbar');
+    }
+  }
+};
+
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll,true);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
 
 let toolbar = [
   ["bold", "italic", "underline", "strike"],
@@ -105,7 +164,9 @@ let toolbar = [
 
 ]
 
-let modules: {}
+let modules: {
+  sticky_toolbar: true
+}
  
  
     const { QuillEditor, Quill } = await import('@vueup/vue-quill')
@@ -148,6 +209,7 @@ let modules: {}
       // }
     ]
 
+
  
 </script>
 
@@ -155,6 +217,7 @@ let modules: {}
 .ql-editor{
     min-height:200px;
 }
+
 .ql-custom {
   width: 32px;
   height: 32px;
@@ -169,4 +232,19 @@ let modules: {}
 .ql-header.ql-picker{
   direction: ltr;
 }
+.ql-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: white;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+ 
+}
+
+.hidden-toolbar {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 </style>
