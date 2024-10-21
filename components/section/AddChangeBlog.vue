@@ -9,6 +9,18 @@
     </v-btn>
 
     <form @submit.prevent="sendData">
+        <v-overlay :value="loadingData" :z-index="5">
+                <v-progress-circular 
+                    bg-color="transparent" 
+                    :size="55" 
+                    class="ma-10" 
+                    :width="5" 
+                    color="primary"
+                    indeterminate>
+                </v-progress-circular>
+            </v-overlay>
+
+            <div class="form-content" :class="{ 'blurred': loadingData }">
         <v-locale-provider rtl>
             <v-text-field label="عنوان مقاله" v-model="title" :maxlength="80" rounded="lg" required persistent-hint
                 variant="outlined" color="primary" class="mt-md-10" />
@@ -74,6 +86,7 @@
                 برگشت
             </v-btn> -->
         </div>
+        </div>
     </form>
 </template>
 <script>
@@ -107,6 +120,7 @@ export default {
         imageId: null,
         error: null,
         loadingImage: false,
+        loadingData: false,
         imagePreviews: [],
         selectedCategories: [],
         list_specification: [],
@@ -186,6 +200,7 @@ export default {
 
         },
         getData() {
+            this.loadingData = true
             axios.get(`${apiStore().address}/api/blog/seller-panel/blog-retrieve-update/${this.id}/`, {
                 headers: {
                     Accept: "application/json",
@@ -209,5 +224,12 @@ export default {
 </script>
 
 <style>
+.blurred {
+    filter: blur(4px);
+    pointer-events: none; /* Disable interactions while loading */
+}
 
+.v-overlay__scrim {
+    background-color: rgba(255, 255, 255, 0.7); /* Add a semi-transparent background */
+}
 </style>
