@@ -7,9 +7,12 @@
      </Head>
 </div>
   <div>
+    <ClientOnly>
+
     <NuxtLayout>
       <NuxtPage/>
     </NuxtLayout>
+  </ClientOnly>
   </div>
 
 
