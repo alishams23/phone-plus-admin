@@ -130,8 +130,9 @@ const handleScroll = () => {
     const editorRect = mainEditor.getBoundingClientRect();
     const toolbarRect = toolbar.getBoundingClientRect();
 
+
     // Check if the toolbar is within the editor bounds
-    if (toolbarRect.bottom < editorRect.top || toolbarRect.top > editorRect.bottom) {
+    if (toolbarRect.top > editorRect.bottom) {
       toolbar.classList.add('hidden-toolbar');
     } else {
       toolbar.classList.remove('hidden-toolbar');
