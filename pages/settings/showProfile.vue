@@ -21,7 +21,7 @@
         <v-dialog width="500">
           <template v-slot:activator="{ props }">
             <v-btn v-bind="props" color="primary" elevation="0" variant="tonal" rounded="lg" class="px-8 my-3 mx-3">
-              افزودن دسته بندی محصول
+              افزودن دسته بندی محصول فیزیکی
               <template v-slot:prepend>
                 <PlusIcon size="15" />
               </template>

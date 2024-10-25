@@ -86,7 +86,7 @@
         محصولی وجود ندارد
       </div>
     </v-alert>
-    <v-row>
+    <v-row dir="rtl">
       <v-col v-for="product in data" v-if="!loading" :key="product.id" cols="12" md="6">
         <v-card elevation="10" rounded="lg" class="my-5 rtl " :loading="loadingItem == product.id">
           <template v-slot:loader="{ isActive }">

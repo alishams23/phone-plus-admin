@@ -78,14 +78,14 @@
         محصولی وجود ندارد
       </div>
     </v-alert>
-    <v-row>
+    <v-row dir="rtl">
       <v-col v-for="product in data" v-if="!loading" :key="product.id" cols="12" md="6">
         <v-card elevation="10" rounded="lg" class="my-5 rtl " :loading="loadingItem == product.id">
           <template v-slot:loader="{ isActive }">
             <v-progress-linear :active="isActive" color="deep-purple" height="4" indeterminate></v-progress-linear>
           </template>
 
-          <v-row>
+          <v-row >
             <v-col cols="12" md="4" rounded="0">
               <v-img height="175px" :src="address + product.image[0].photo" cover></v-img>
             </v-col>

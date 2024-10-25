@@ -6,7 +6,7 @@
                 <v-card-title class="d-flex items-center flex-col text-h5 font-weight-black rtl">
                     کیف پول
                     
-                    <v-tooltip activator="parent" class="text-center rtl" location="top">
+                    <v-tooltip activator="parent" class="text-center rtl" location="top" :open-delay="300" :close-delay="200">
                         <template v-slot:activator="{ on, attrs }">
                             <QuestionMarkIcon size="12" class="bg-white rounded-pill ml-2" v-bind="attrs" v-on="on" />
                         </template>
