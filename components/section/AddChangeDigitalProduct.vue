@@ -32,7 +32,7 @@
                 </p>
                 <TextEditor :content="description" @update="handleTextChange"></TextEditor>
 
-                <v-checkbox v-model="isContainTutorial" class="rtl mt-5" color="primary" label="دارای آموزش" />
+                <v-checkbox @click="instructions=null" v-model="isContainTutorial" class="rtl mt-5" color="primary" label="افزودن آموزش و نکات استفاده از محصول" />
 
                 <v-slide-y-transition>
 
@@ -46,15 +46,14 @@
 
                     </div>
                 </v-slide-y-transition>
-
-
+                
                 <v-locale-provider rtl>
                     <v-row class="mt-10 mb-5">
                         <v-col cols="12" md="6">
                             <v-text-field
                                 :label="file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا' || file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا' ? ' قیمت هر ردیف(تومان)' : 'قیمت(تومان)'"
                                 rounded="lg" v-model="price" required type="number" persistent-hint variant="outlined"
-                                min="0" color="primary" />
+                                min="10000" color="primary" />
                         </v-col>
                         <v-col cols="12" md="6">
                             <AddCategories @change="(data) => { selectedCategories = data }"
@@ -103,42 +102,55 @@
                             'فایل',
                         ]" :rules="comboboxRules"></v-combobox>
 
-                    <v-row class="mt-1" v-if="id ? get_file || get_file_url : file_type == 'فایل'">
-                        <v-col cols="6">
-                            <v-file-input 
-                                rounded="lg" 
-                                accept=".zip,.rar" 
-                                persistent-hint 
-                                variant="outlined" 
-                                color="primary"
-                                :loading="loadingFile" 
-                                :required="fileRequiredHandler()"
-                                placeholder="اضافه کردن فایل"
-                                @change="handleFileChange" 
-                                :label="id ? 'تعویض فایل محصول' : 'فایل محصول'">
-                                <template v-slot:selection="{ fileNames }">
-                                    <template v-for="fileName in fileNames" :key="fileName">
-                                        <v-chip size="small" label color="primary">
-                                            {{ fileName }}
-                                        </v-chip>
-                                    </template>
-                                </template>
-                            </v-file-input>
-                        </v-col>
+                    <!-- <v-row class="mt-1" v-if="id ? get_file || get_file_url : file_type == 'فایل'"> -->
 
-                        <v-col cols="6">
-                            <v-text-field 
-                                rounded="lg" 
-                                persistent-hint 
-                                variant="outlined" 
-                                min="0" 
-                                color="primary"
-                                label="لینک فایل" 
-                                v-model="file_url" 
-                                placeholder="لینک دانلود فایل">
-                            </v-text-field>
-                        </v-col>
-                    </v-row>
+                        <v-checkbox @click="file_url=null; file=null" v-if="id ? get_file ||  get_file_url != 'null' : file_type == 'فایل'" v-model="isContainFile" class="rtl " color="primary" label="آپلود فایل" />
+                        
+                        <!-- <v-slide-x-transition> -->
+                            <div class="" v-if="isContainFile">
+                                <!-- <v-col cols="6"> -->
+                                    <v-file-input 
+                                        v-if="id ? get_file ||  get_file_url != 'null' : file_type == 'فایل'"
+                                        rounded="lg" 
+                                        accept=".zip,.rar,.pdf" 
+                                        persistent-hint 
+                                        variant="outlined" 
+                                        color="primary"
+                                        :loading="loadingFile" 
+                                        :required="fileRequiredHandler()"
+                                        placeholder="اضافه کردن فایل"
+                                        @change="handleFileChange" 
+                                        :label="id ? 'تعویض فایل محصول' : 'فایل محصول'">
+                                        <template v-slot:selection="{ fileNames }">
+                                            <template v-for="fileName in fileNames" :key="fileName">
+                                                <v-chip size="small" label color="primary">
+                                                    {{ fileName }}
+                                                </v-chip>
+                                            </template>
+                                        </template>
+                                    </v-file-input>
+                                <!-- </v-col> -->
+                            </div>
+                            <div class="" v-if="isContainFile!=true">
+                            <!-- <v-col cols="6"> -->
+                                <v-text-field 
+                                    v-if="id ? get_file ||  get_file_url != 'null' : file_type == 'فایل'"
+                                    rounded="lg" 
+                                    :required="fileRequiredHandler()"
+                                    persistent-hint 
+                                    variant="outlined"  
+                                    color="primary"
+                                    :label="id ? 'تعویض لینک فایل محصول' : 'لینک فایل محصول'"
+                                    v-model="file_url" 
+                                    placeholder="لینک دانلود فایل">
+                                </v-text-field>
+                            <!-- </v-col> -->
+                            </div>
+                        <!-- </v-slide-x-transition> -->
+
+                        
+
+                    <!-- </v-row> -->
 
                     <p v-if="file_error != null" :href="get_file" class="d-flex justify-start w-100 ps-15 text-red-darken-3">
                         {{ file_error }}
@@ -147,12 +159,12 @@
                     <a v-if="get_file" :href="get_file" class="d-flex justify-start w-100 ps-15">
                         دانلود فایل فعلی
                     </a>
-                    <a v-if="get_file_url" :href="get_file_url" class="d-flex justify-start w-100 ps-15">
+                    <a v-if="get_file_url != null && get_file_url != 'null'" :href="get_file_url" class="d-flex justify-start w-100 ps-15">
                         دانلود فایل فعلی
                     </a>
 
                     <v-row class="mt-1 mb-5 rtl " align="end"
-                        v-if="id ? get_file == null && get_file_url == null : file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا'">
+                        v-if="id ? get_file == null && get_file_url == 'null' : file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا'">
                         <v-col cols="12" md="9">
                             <v-textarea label="اطلاعات ردیف" rounded="lg" persistent-hint variant="outlined"
                                 color="primary" class="" rows="3" v-model="body" />
@@ -176,7 +188,7 @@
                         text="برای ثبت لایسنس‌های خود، لطفاً فایل اکسل را با دقت تکمیل کنید و در نظر داشته باشید اولین ردیف را به عنوان تخصیص دهید. هر ردیف فایل باید حاوی اطلاعات یک لایسنس باشد. پس از تکمیل، فایل خود را در بخش مربوطه در وب‌سایت آپلود کنید تا لایسنس‌های شما به سرعت و به طور موثر ثبت شوند."></v-alert>
                     <v-file-input :key="fileInputKey" rounded="lg" accept=".xlsx" persistent-hint variant="outlined"
                         color="primary"
-                        v-if="id ? get_file == null && get_file_url == null : file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'"
+                        v-if="id ? get_file == null && get_file_url == 'null' : file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'"
                         @change="handleCsvUpload" placeholder="اضافه لیست"
                         :label="id ? 'اضافه کردن به لیست محصول' : 'لیست محصول'">
 
@@ -329,6 +341,7 @@ export default {
         transformedData: [],
         description: null,
         isContainTutorial: false,
+        isContainFile: false,
         images: [],
         imageIds: [],
         loadingFile: false,
@@ -436,12 +449,18 @@ export default {
             }
         },
         fileRequiredHandler() {
-            if (this.id) {
+            if (this.id != null) {
                 return false
-                return this.get_file != null && this.get_file_url != null
+                // return this.get_file != null && this.get_file_url != null
             } else if (this.file_type == 'فایل') {
-                if ((this.file_url == null || this.file_url == '') && (this.file == '')) {
-                    return true
+                if (this.isContainFile) {
+                    if(this.file == null){
+                        return true
+                    }
+                }else{
+                    if(this.file_url == null){
+                        return true
+                    }
                 }
             }
             return false

@@ -1,7 +1,38 @@
 <template>
 
+    <v-dialog width="900" rounded="xl" v-model="dialog">
+        <v-card rounded="xl" class="  pa-5  ">
+            <v-card-text>
+                <v-locale-provider rtl>
+                    <v-list-item class="  pa-2 pe-4">
+                        <template v-slot:prepend>
+                            <v-avatar size="x-large" class="">
+                                <UserIcon />
+                            </v-avatar>
+                        </template>
+                        <v-list-item-title class=" font-weight-bold  text-nauto">
+                            {{ data.author.full_name}}
+                         {{ data.author.phone_number }}
+                       
+                        </v-list-item-title>
+                    </v-list-item>
+                    <div class=" text-body-1 font-weight-bold px-3 py-5 border-t">
+                        تاریخ سفارش: {{ data.jalali_time }}
+                    </div>
+                    <div class="d-flex flex-wrap border-t">
+                        <div v-for="(product, index) in data.digital_product.subset_product" :key="index" class="text-body-1  px-3 py-5">
+                            <p><strong>{{ product.data[0].title }}</strong>: {{ product.data[0].body }}</p>
+                        </div>
+                    </div>
+
+
+                </v-locale-provider>
+            </v-card-text>
+        </v-card>
+    </v-dialog>
+
     <td>
-        <p class="text-15 font-body-1">{{data.jalali_time}}</p>
+        <p class="text-15 font-body-1">{{ data.jalali_time }}</p>
     </td>
     <td>
         <p class="text-15 font-weight-medium">{{ data.order_id }}</p>
@@ -22,45 +53,34 @@
         <h6 v-bind="props" class="text-body-1 text-muted">{{ data.digital_product.title }}</h6>
     </td>
     <td>
-        <v-btn 
-            v-if="data.is_payed"
-            
-            :loading="data.id == loadingStatus" 
-            density="compact" 
-            :ripple="false" 
-            variant="flat" 
-            rounded="md"
-            class="bg-green pa-0 ">
-        
-            <v-chip 
-                class="text-body-2 px-3 py-1 text-white " 
-                size="x-small">
-                
+        <v-btn v-if="data.is_payed" :loading="data.id == loadingStatus" density="compact" :ripple="false" variant="flat"
+            rounded="md" class="bg-green pa-0 ">
+
+            <v-chip class="text-body-2 px-3 py-1 text-white " size="x-small">
+
                 پرداخت شده
             </v-chip>
-        
+
         </v-btn>
-        <v-btn 
-            v-else
-            disabled
-            :loading="data.id == loadingStatus" 
-            density="compact" 
-            :ripple="false" 
-            variant="flat" 
-            rounded="md"
-            class="bg-grey-lighten-5 pa-0">
-        
-            <v-chip 
-                class="text-body-2 px-3 py-1  text-white " 
-                size="x-small">
+        <v-btn v-else disabled :loading="data.id == loadingStatus" density="compact" :ripple="false" variant="flat"
+            rounded="md" class="bg-grey-lighten-5 pa-0">
+
+            <v-chip class="text-body-2 px-3 py-1  text-white " size="x-small">
                 لغو شده
             </v-chip>
-        
+
         </v-btn>
     </td>
     <td>
-        <h6 v-if="data.price!=0" class="text-h6 text-right">{{ data.price }} تومان</h6>
+        <h6 v-if="data.price != 0" class="text-h6 text-right">{{ data.price }} تومان</h6>
         <h6 v-else class="text-h6 text-right">-</h6>
+    </td>
+    <td>
+        <v-btn @click="dialog = true" v-if="data.digital_product.type == 'license'" class=" text-right text-xs" icon=""
+            color="primary" size="x-small" variant="tonal">
+
+            <EyeIcon size="15" />
+        </v-btn>
     </td>
 
 
@@ -68,13 +88,14 @@
 </template>
 <script>
 
-import { UserIcon } from 'vue-tabler-icons';
+import { EyeIcon, UserIcon } from 'vue-tabler-icons';
 import { PencilIcon } from 'vue-tabler-icons';
 import { parseISO, format } from 'date-fns';
 
 export default {
 
     components: {
+        EyeIcon,
         UserIcon,
         PencilIcon
     },
@@ -82,6 +103,7 @@ export default {
     data() {
         return {
             loading: true,
+            dialog:false,
             loadingStatus: 0,
         }
     },

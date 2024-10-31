@@ -113,7 +113,7 @@
                     <v-expansion-panel-text class="border-b ">
                         <AddDiscountcodes :data="discount_codes" @change="(data) => { discount_codes = data }" />
                     </v-expansion-panel-text>
-                    <p class="text-red text-body-1 pt-2">{{ error }}</p>
+                    <!-- <p class="text-red text-body-1 pt-2">{{ error }}</p> -->
                 </v-expansion-panel>
             </v-expansion-panels>
             <v-row class="d-flex mt-7 w-full ltr">

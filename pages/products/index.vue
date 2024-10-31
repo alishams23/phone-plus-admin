@@ -105,11 +105,16 @@
                       <div v-html="product.plain_description" class="text-line-1  text-body-2"></div>
                     </v-card-item>
 
+
+
                     <v-card-actions class="mt-auto mr-auto px-10">
+                    
+                      
+                    
                       <v-dialog persistent width="1000" >
                         <template v-slot:activator="{ props: activatorProps }">
                           <div class="ma-4">
-                            <v-btn class="px-10 ml-4" v-bind="activatorProps" variant="flat" rounded="xl" size="small"
+                            <v-btn class="px-5" v-bind="activatorProps" variant="flat" rounded="xl" size="small"
                             color="primary">
                             ویرایش
                             <template v-slot:append>
@@ -124,12 +129,17 @@
                           </v-card>
                         </template>
                         
-                      </v-dialog>                                                                                                               
+                      </v-dialog>      
+                      <a :href="`${address}/p/product/${product.slug}`" target="_blank" rel="noopener noreferrer">
+                        <v-avatar size="30" variant="tonal" class="cursor-pointer ml-4" color="primary">
+                          <EyeIcon size="15" />
+                        </v-avatar>
+                      </a>                                                                                                         
                       <SharedConfirmationDialog @delete-item="removeItem(product.id);snackbar_delete = true">
 
-                        <v-avatar size="30" variant="tonal" color="red-darken-2" icon="">
+                        <v-btn size="30" class="cursor-pointer" variant="tonal" color="red-darken-2" icon="">
                         <TrashIcon size="15" />
-                      </v-avatar>
+                      </v-btn>
                       </SharedConfirmationDialog>
                       
 
@@ -168,7 +178,7 @@
   </div>
 </template>
 <script>
-import { TrashIcon, PencilIcon, PlusIcon, BoxIcon, XIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon } from 'vue-tabler-icons';
+import { EyeIcon, TrashIcon, PencilIcon, PlusIcon, BoxIcon, XIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon } from 'vue-tabler-icons';
 
 import AddProduct from '@/components/section/AddChangeProduct.vue';
 import { useUserStore } from '~/store/user';
@@ -178,6 +188,7 @@ import axios from "axios";
 export default {
   components: {
     XIcon,
+    EyeIcon,
     PencilIcon,
     PlusIcon,
     SortDescending2Icon,
@@ -203,7 +214,11 @@ export default {
 
     };
   },
-
+  computed: {
+    address() {
+      return apiStore().address
+    }
+  },
   methods: {
 
     searchData() {

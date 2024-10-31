@@ -85,6 +85,7 @@
             <v-progress-linear :active="isActive" color="deep-purple" height="4" indeterminate></v-progress-linear>
           </template>
 
+
           <v-row >
             <v-col cols="12" md="4" rounded="0">
               <v-img height="175px" :src="address + product.image[0].photo" cover></v-img>
@@ -96,12 +97,31 @@
                     <v-card-title class="text-h6 ">{{ product.title }}</v-card-title>
                     <div v-html="product.plain_description" class="text-line-1  text-body-2"></div>
                   </v-card-item>
-
                   <v-card-actions class="mt-auto mr-auto px-10">
+                    
+                    
+                    
+
+                    <div class="cursor-none">
+                      <v-chip v-if="product.type=='license'" class="px-3 mr-4" variant="none" rounded="xl" size="small"
+                        color="grey">
+                       <div v-if="product.remain_subset_product>0">
+                          <span class="text-grey ml-1" style="font-size: 0.9em;">{{ product.remain_subset_product }}</span>
+                          <span class="text-grey" style="font-size: 0.8em;">باقی مانده</span>
+                        </div>
+                        <div v-else>
+                          <span class="text-red font-bold" style="font-size: 0.9em;">به اتمام رسیده</span>
+                        </div>
+                      </v-chip>
+                    </div>
+
+                    
+
+
                     <v-dialog persistent width="1000">
                       <template v-slot:activator="{ props: activatorProps }">
                         <div class="ma-4">
-                          <v-btn class="px-10 ml-4" v-bind="activatorProps" variant="flat" rounded="xl" size="small"
+                          <v-btn class="px-5" v-bind="activatorProps" variant="flat" rounded="xl" size="small"
                             color="primary">
                             ویرایش
                             <template v-slot:append>
@@ -118,12 +138,18 @@
                       </template>
                     </v-dialog>
 
-                    <SharedConfirmationDialog @delete-item="removeItem(product.id); snackbar_delete = true">
-                      <v-avatar size="30" variant="tonal"  color="red-darken-2" icon="">
-                        <TrashIcon size="15" />
+                    <a :href="`${address}/p/digitalProduct/${product.slug}`" target="_blank" rel="noopener noreferrer">
+                      <v-avatar size="30" variant="tonal" class="cursor-pointer ml-4" color="primary">
+                        <EyeIcon size="15" />
                       </v-avatar>
+                    </a>
+                    <SharedConfirmationDialog @delete-item="removeItem(product.id); snackbar_delete = true">
+                      <v-btn size="30" variant="tonal" class="cursor-pointer" color="red-darken-2" icon="">
+                        <TrashIcon size="15" />
+                      </v-btn>
                     </SharedConfirmationDialog>
 
+                    
 
                   </v-card-actions>
                 </div>
@@ -160,7 +186,7 @@
   </VLayoutItem>
 </template>
 <script>
-import { TrashIcon, PencilIcon, XIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon, Ad2Icon } from 'vue-tabler-icons';
+import { TrashIcon, EyeIcon, ListIcon, PencilIcon, XIcon, PlusIcon, BoxIcon, SearchIcon, FilterCogIcon, SortDescending2Icon, SortAscending2Icon, Ad2Icon } from 'vue-tabler-icons';
 import axios from 'axios'
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
@@ -170,6 +196,8 @@ export default {
   components: {
     XIcon,
     TrashIcon,
+    EyeIcon,
+    ListIcon,
     PencilIcon,
     PlusIcon,
     SortDescending2Icon,
@@ -189,7 +217,7 @@ export default {
       open: false,
       snackbar_edit: false,
       snackbar_save: false,
-      snackbar_delete: false
+      snackbar_delete: false,
     };
   },
   computed: {
@@ -200,6 +228,7 @@ export default {
   methods: {
     searchData() {
       this.loading = true
+      
       axios.get(`${apiStore().address}/api/product/seller-panel/digital-product-list-create/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
         headers: {
           "Content-type": "application/json",

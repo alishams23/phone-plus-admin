@@ -16,11 +16,11 @@
           rounded="lg" 
           variant="flat" 
           elevation="0"
-          class="px-10 mx-4 my-2"/>
+          class="px-10 mx-2 my-2"/>
 
         <v-dialog width="500">
           <template v-slot:activator="{ props }">
-            <v-btn v-bind="props" color="primary" elevation="0" variant="tonal" rounded="lg" class="px-8 my-3 mx-3">
+            <v-btn v-bind="props" color="primary" elevation="0" variant="tonal" rounded="lg" class="px-8 my-3 mx-1">
               افزودن دسته بندی محصول فیزیکی
               <template v-slot:prepend>
                 <PlusIcon size="15" />
@@ -55,7 +55,7 @@
         </v-dialog>
         <v-dialog width="500">
           <template v-slot:activator="{ props }">
-            <v-btn v-bind="props" color="primary" elevation="0" variant="tonal" rounded="lg" class="px-8  my-3 mx-3">
+            <v-btn v-bind="props" color="primary" elevation="0" variant="tonal" rounded="lg" class="px-8  my-3 mx-1">
               افزودن دسته بندی محصول دیجیتال
               <template v-slot:prepend>
                 <PlusIcon size="15" />

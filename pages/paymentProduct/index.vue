@@ -16,7 +16,7 @@
     </v-row>
     <v-tabs  color="primary" v-model="model" class="border-b mt-5" align-tabs="end" >
         <v-tab class="px-md-15 rounded-t-lg"  color="primary" :text="'محصولات دیجیتال'" :value="0"></v-tab>
-        <v-tab class="px-md-15 rounded-t-lg"  color="primary" :text="'محصولات'" :value="1"></v-tab>
+        <v-tab class="px-md-15 rounded-t-lg"  color="primary" :text="'محصولات فیزیکی'" :value="1"></v-tab>
     </v-tabs>
 </v-container>
 
