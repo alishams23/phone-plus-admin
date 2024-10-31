@@ -2,7 +2,7 @@
     <v-snackbar v-model="snackbar" class=" rtl" color="success" elevation="24" rounded="lg">
         وضعیت با موفقیت ویرایش شد
     </v-snackbar>
-  <v-card elevation="10" rounded="lg" height="480px">
+  <v-card elevation="10" rounded="lg" >
     <v-container v-if="data.length == 0 && loading == false">
         <v-alert  color="primary" icon="fa fa-info" variant="tonal"
             border="start" class="rtl border-opacity-100 my-10">
@@ -14,7 +14,7 @@
     <v-container>
         <v-card v-if="data.length != 0" elevation="0" class="">
             <v-card-item class="pa-6">
-                <v-card-title class="text-h5 rtl pt-sm-1 pb-3 font-weight-black">تمامی فروش‌ها </v-card-title>
+                <v-card-title class="text-h5 rtl pt-sm-1 pb-3 font-weight-black">فروش های اخیر  </v-card-title>
                 <v-table class="month-table rtl">
                     <thead>
                         <tr>
@@ -29,7 +29,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="item in data" :key="item.name" class="month-item ">
+                    <tr v-for="item in data.slice(0,4)" :key="item.name" class="month-item ">
                         <PaymentRow :data="item"/>
                     </tr>
                     </tbody>

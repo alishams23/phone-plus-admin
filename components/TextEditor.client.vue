@@ -36,6 +36,7 @@
 <script setup lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { ref, defineEmits } from 'vue';
+
 const props = defineProps<{
   content: string,
 }>();
@@ -54,6 +55,7 @@ const updateContent = () => {
   emit('update', editor.container.querySelector(".ql-editor").innerHTML);
   
 };
+
 const doPaste  = () => {
   
   if (editor) {
@@ -87,15 +89,21 @@ const onEditorReady = (data : any) =>  {
     console.error('RTL button not found');
   }
 
-  const observer = new MutationObserver(() => {
-      updateContent();  // Call updateContent when a mutation happens in the editor (e.g., image resize or alignment)
-    });
+  const observer = new MutationObserver((mutationsList) => {
+  for (const mutation of mutationsList) {
+    // Check if the mutation target is an <img> element
+    if (mutation.target.tagName === 'IMG') {
+      updateContent();  // Call updateContent only when an <img> element is modified
+    }
+  }
+});
 
     // Observe changes in the editor's `.ql-editor` element for any blot mutations
     observer.observe(editor.container.querySelector(".ql-editor")!, {
       attributes: true,
       childList: true,
-      subtree: true
+      subtree: true,
+      attributeFilter: ['style']
     });
 
 
