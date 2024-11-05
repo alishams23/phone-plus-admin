@@ -97,7 +97,7 @@
                     <v-card-title class="text-h6 ">{{ product.title }}</v-card-title>
                     <div v-html="product.plain_description" class="text-line-1  text-body-2"></div>
                   </v-card-item>
-                  <v-card-actions class="mt-auto mr-auto px-10">
+                  <v-card-actions class="mt-auto mr-auto px-3">
                     
                     
                     
@@ -105,7 +105,7 @@
                     <div class="cursor-none">
                       <v-chip v-if="product.type=='license'" class="px-3 mr-4" variant="none" rounded="xl" size="small"
                         color="grey">
-                       <div v-if="product.remain_subset_product>0">
+                       <div v-if="product.remain_subset_product>0 && product.remain_subset_product<5">
                           <span class="text-grey ml-1" style="font-size: 0.9em;">{{ product.remain_subset_product }}</span>
                           <span class="text-grey" style="font-size: 0.8em;">باقی مانده</span>
                         </div>

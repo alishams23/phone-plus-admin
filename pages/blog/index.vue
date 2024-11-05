@@ -117,7 +117,7 @@
                   <v-card-title class="text-h6 ">{{ blog.title }}</v-card-title>
                   <div v-html="blog.plain_description" class="text-line-1  text-body-2"></div>
                 </v-card-item>
-                <v-card-actions class="mt-auto mr-auto px-10">
+                <v-card-actions class="mt-auto mr-auto px-2 flex-wrap">
                   
                   <v-dialog persistent width="1000" >
                     <template v-slot:activator="{ props: activatorProps }">
