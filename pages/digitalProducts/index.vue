@@ -109,7 +109,7 @@
                           <span class="text-grey ml-1" style="font-size: 0.9em;">{{ product.remain_subset_product }}</span>
                           <span class="text-grey" style="font-size: 0.8em;">باقی مانده</span>
                         </div>
-                        <div v-else>
+                        <div v-if="product.remain_subset_product==0">
                           <span class="text-red font-bold" style="font-size: 0.9em;">به اتمام رسیده</span>
                         </div>
                       </v-chip>
