@@ -186,13 +186,7 @@
                     <v-alert v-if="file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'" class="mt-2 mb-5 rounded-lg"
                         title="نکته"
                         text="برای ثبت لایسنس‌های خود، لطفاً فایل اکسل را با دقت تکمیل کنید و در نظر داشته باشید اولین ردیف را به عنوان تخصیص دهید. هر ردیف فایل باید حاوی اطلاعات یک لایسنس باشد. پس از تکمیل، فایل خود را در بخش مربوطه در وب‌سایت آپلود کنید تا لایسنس‌های شما به سرعت و به طور موثر ثبت شوند."></v-alert>
-                    <v-file-input 
-                        :required="LicenseRequiredHandler()"
-                        :key="fileInputKey" 
-                        rounded="lg" 
-                        accept=".xlsx" 
-                        persistent-hint 
-                        variant="outlined"
+                    <v-file-input :key="fileInputKey" rounded="lg" accept=".xlsx" persistent-hint variant="outlined"
                         color="primary"
                         v-if="id ? get_file == null && get_file_url == 'null' : file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'"
                         @change="handleCsvUpload" placeholder="اضافه لیست"
@@ -208,7 +202,7 @@
                     </v-file-input>
 
                     <!-- Show CSV data -->
-                    <div v-if="transformedData.length [] 0">
+                    <div v-if="transformedData.length > 0">
                         <div class="d-flex items-center">
                             <p class="pt-5 pb-2">ردیف های اضافه شده:</p>
                             <p class="pt-5 pb-2 mx-3 text-sm-body-2 text-red cursor-pointer" @click="clearData">پاک کردن
@@ -217,7 +211,7 @@
                         <div class=" d-flex justify-end w-100">
                             <v-table fixed-header class="w-100">
                                 <tbody class="scrollable-tbody bg-grey-lighten-3 rounded-lg ">
-                                    <tr v-for="items in transformedData" :[]="items"
+                                    <tr v-for="items in transformedData" :key="items"
                                         class="d-flex justify-end items-center pt-2">
                                         <td class="table-cell  rtl" v-for="item in items">
                                             <div
@@ -348,7 +342,7 @@ export default {
         instructions: null,
         csvData: [],
         formattedDate: [],
-        transformedData: []
+        transformedData: [],
         description: null,
         isContainTutorial: false,
         isContainFile: false,
@@ -396,22 +390,22 @@ export default {
     },
     methods: {
         clearData() {
-            this.transformedData = []
+            this.transformedData = [];
             this.fileInputKey = Date.now(); // Update the key to force re-render of the file input
         },
         addRow() {
-            // Ensure this.transformedData is [] as an array if not already
-            if (!Array.isArray(this.transformedData)) []
-                this.transformedData = []
+            // Ensure this.transformedData is initialized as an array if not already
+            if (!Array.isArray(this.transformedData)) {
+                this.transformedData = [];
             }
 
             // Define the new row object
             const newRow = [{ title: this.title, body: this.body }];
             this.body = ''
             // Add the new row to transformedData
-            this.[].push([]);
+            this.transformedData.push(newRow);
 
-            // Log the updated transformedData for []
+            // Log the updated transformedData for verification
         },
         handleTextChange(newText) {
             this.description = newText;
@@ -434,7 +428,7 @@ export default {
                     Papa.parse(content, {
                         complete: (results) => {
                             this.csvData = results.data;
-                            this.transformedData = [].transformCSVData(results.data);
+                            this.transformedData = this.transformCSVData(results.data);
                         },
                         header: true
                     });
@@ -452,8 +446,8 @@ export default {
                     const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
                     // Convert XLSX data to a similar format as CSV
                     this.csvData = json;
-                    this.transformedData = [].transformXLSXData(json);
-                    this.transformedData = [].transformedData.filter([] => row.length > 0);
+                    this.transformedData = this.transformXLSXData(json);
+                    this.transformedData = this.transformedData.filter(row => row.length > 0);
                 };
                 reader.readAsArrayBuffer(file);
             }
@@ -472,22 +466,6 @@ export default {
                         return true
                     }
                 }
-            }
-            return false
-        },
-        LicenseRequiredHandler() {
-            if (this.id != null) {
-                return false
-                // return this.get_file != null && this.get_file_url != null
-            } else if (this.file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا') {
-                if (this.transformedData != []) {
-                    return true
-                }else{
-                    if(this.file_url == null){
-                        return true
-                    }
-                }
-            } else if (this.file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا') {
             }
             return false
         },
@@ -512,7 +490,7 @@ export default {
             });
         },
         transformCSVData(data) {
-            const transformedData = [].map(row => {
+            const transformedData = data.map(row => {
                 // Map and filter out empty cells within each row
                 return Object.keys(row)
                     .map(key => {
@@ -524,7 +502,7 @@ export default {
                     .filter(item => item !== null);
             });
             // Filter out rows that are completely empty after the cell filtering
-            return transformedData.filter([] => row.length > 0);
+            return transformedData.filter(row => row.length > 0);
         },
         removeSubsetProduct(item) {
             axios.delete(`${apiStore().address}/api/product/seller-panel/remove-row-subset-digital-product/${item.id}`, {
@@ -600,7 +578,7 @@ export default {
         //     formDic[`title`] =  this.title
         //     formDic[`price`] =  this.price
         //     formDic[`subsets_data`] =  this.transformedData
-        //     [][`description`] =  this.description
+        //     formDic[`description`] =  this.description
         //     formDic[`discount`] =  this.value
 
         //     if(this.file != null)   formDic[`file`] =  this.file[0]
@@ -649,8 +627,9 @@ export default {
             formData.append('link_file', this.file_url);
             formData.append('pin_profile', this.pin_profile);
 
-            // Assuming this.transformedData is [] array or object
-            formData.append('subsets_data', JSON.stringify(this.transformedData));[]
+            // Assuming this.transformedData is an array or object
+            formData.append('subsets_data', JSON.stringify(this.transformedData));
+
             // Assuming this.imageIds is an array
             this.imageIds.forEach((element) => {
                 formData.append('image', element);
