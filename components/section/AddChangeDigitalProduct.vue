@@ -92,15 +92,27 @@
                                 </v-avatar></v-img>
                         </div>
                     </div>
-
-                    <v-combobox v-if="id == null" rounded="lg" required accept=".zip,.rar" persistent-hint
-                        variant="outlined" color="primary" v-model="file_type" :disabled="id ? true : false"
+                    
+                    <v-select
+                        v-if="id == null"
+                        rounded="lg"
+                        required
+                        accept=".zip,.rar"
+                        persistent-hint
+                        variant="outlined"
+                        color="primary"
+                        v-model="file_type"
+                        :disabled="id ? true : false"
                         :label="id ? (get_file || get_file_url ? 'فایل' : 'افزودن گروهی: اکانت، لایسنس یا کد یکتا') : 'انتخاب نوع محصول'"
                         :items="[
                             'افزودن گروهی: اکانت، لایسنس یا کد یکتا',
                             'افزودن تکی: اکانت، لایسنس یا کد یکتا',
                             'فایل',
-                        ]" :rules="comboboxRules"></v-combobox>
+                        ]"
+                        :rules="comboboxRules"
+                    ></v-select>
+
+
 
                     <!-- <v-row class="mt-1" v-if="id ? get_file || get_file_url : file_type == 'فایل'"> -->
 
@@ -166,7 +178,7 @@
                     <v-row class="mt-1 mb-5 rtl " align="end"
                         v-if="id ? get_file == null && get_file_url == 'null' : file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا'">
                         <v-col cols="12" md="9">
-                            <v-textarea label="اطلاعات ردیف" rounded="lg" persistent-hint variant="outlined"
+                            <v-textarea label="اطلاعات ردیف" :required="LicenseRequiredHandler()" rounded="lg" persistent-hint variant="outlined"
                                 color="primary" class="" rows="3" v-model="body" />
                         </v-col>
                         <v-col cols="12" md="3">
@@ -182,11 +194,10 @@
                         </v-col>
                     </v-row>
 
-
                     <v-alert v-if="file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'" class="mt-2 mb-5 rounded-lg"
                         title="نکته"
                         text="برای ثبت لایسنس‌های خود، لطفاً فایل اکسل را با دقت تکمیل کنید و در نظر داشته باشید اولین ردیف را به عنوان تخصیص دهید. هر ردیف فایل باید حاوی اطلاعات یک لایسنس باشد. پس از تکمیل، فایل خود را در بخش مربوطه در وب‌سایت آپلود کنید تا لایسنس‌های شما به سرعت و به طور موثر ثبت شوند."></v-alert>
-                    <v-file-input :key="fileInputKey" rounded="lg" accept=".xlsx" persistent-hint variant="outlined"
+                    <v-file-input :key="fileInputKey" :required="LicenseRequiredHandler()" rounded="lg" accept=".xlsx" persistent-hint variant="outlined"
                         color="primary"
                         v-if="id ? get_file == null && get_file_url == 'null' : file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'"
                         @change="handleCsvUpload" placeholder="اضافه لیست"
@@ -469,6 +480,24 @@ export default {
             }
             return false
         },
+        LicenseRequiredHandler() {
+            if (this.id != null) {
+                return false
+                // return this.get_file != null && this.get_file_url != null
+            } else if (this.file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا' || this.file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا') {
+                if (this.transformedData.length == 0) {
+                    return true
+                }else{
+                    return false
+                }
+            } 
+            return false
+        },
+        handleInputChange() {
+            this.file_url = null;
+            this.file = null;
+            this.transformedData = [];
+        },
         transformXLSXData(data) {
             if (data.length === 0) return [];
 
@@ -695,8 +724,11 @@ export default {
             )
         },
     },
-
-
+    watch: {
+        file_type() {
+            this.handleInputChange();
+        }
+    }
 }
 </script>
 <style>

@@ -79,7 +79,7 @@
     </v-alert>
     <v-row dir="rtl">
       <v-col v-for="product in data" v-if="!loading" :key="product.id" cols="12" md="6">
-        <v-card elevation="10" rounded="lg" class="my-5 rtl " :loading="loadingItem == product.id">
+        <v-card elevation="10" rounded="lg" class=" rtl " :loading="loadingItem == product.id">
           <template v-slot:loader="{ isActive }">
             <v-progress-linear :active="isActive" color="deep-purple" height="4" indeterminate></v-progress-linear>
           </template>
@@ -108,7 +108,7 @@
                           <span class="text-grey ml-1" style="font-size: 0.9em;">{{ product.remain_subset_product }}</span>
                           <span class="text-grey" style="font-size: 0.8em;">باقی مانده</span>
                         </div>
-                        <div v-else>
+                        <div v-if="product.remain_subset_product==0">
                           <span class="text-red font-bold" style="font-size: 0.9em;">به اتمام رسیده</span>
                         </div>
                       </v-chip>
