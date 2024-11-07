@@ -19,9 +19,11 @@
                     <div class=" text-body-1 font-weight-bold px-3 py-5 border-t">
                         تاریخ سفارش: {{ data.jalali_time }}
                     </div>
-                    <div class="d-flex flex-wrap border-t">
-                        <div v-for="(product, index) in data.digital_product.subset_product" :key="index" class="text-body-1  px-3 py-5">
-                            <p><strong>{{ product.data[0].title }}</strong>: {{ product.data[0].body }}</p>
+                    
+                    <div class="d-flex flex-wrap border-t" v-if="data.subset_Digital">
+                   
+                        <div v-for="(product, index) in data.subset_Digital.data"  class="text-body-1 bg-grey-lighten-4 rounded-pill px-3 mx-2 my-3 py-2">
+                            <p><strong>{{ product.title }}</strong>: {{ product.body }}</p>
                         </div>
                     </div>
 
@@ -56,7 +58,7 @@
         <v-btn v-if="data.is_payed" :loading="data.id == loadingStatus" density="compact" :ripple="false" variant="flat"
             rounded="md" class="bg-green pa-0 ">
 
-            <v-chip class="text-body-2 px-3 py-1 text-white " size="x-small">
+            <v-chip variant="text" class="text-body-2 px-3 py-1 text-white " size="x-small">
 
                 پرداخت شده
             </v-chip>
