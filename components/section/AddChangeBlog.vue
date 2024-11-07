@@ -229,7 +229,5 @@ export default {
     pointer-events: none; /* Disable interactions while loading */
 }
 
-.v-overlay__scrim {
-    background-color: rgba(255, 255, 255, 0.7); /* Add a semi-transparent background */
-}
+
 </style>

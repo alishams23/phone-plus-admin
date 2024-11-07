@@ -231,7 +231,9 @@
                         class="pa-0">
                     
                         <v-chip 
-                            class="text-body-2 px-3 py-1  text-white " 
+                    
+                        variant="text"
+                            class="text-body-2 px-3 py-1 ma-0  text-white " 
                             size="x-small">
                            
                             {{ data.status == 'received' ? ' تحویل داده شده' : data.status == 'sended' ? ' ارسال شده ' : ' ارسال نشده' }}
@@ -250,6 +252,8 @@
                         class="bg-grey-lighten-5 pa-0">
                     
                         <v-chip 
+                        variant="text" 
+
                             class="text-body-2 px-3 py-1  text-white " 
                             size="x-small">
                            

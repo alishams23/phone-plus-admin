@@ -220,10 +220,12 @@
                                                 {{ item.body }}
                                             </div>
                                         </td>
-                                        <v-btn class="mb-2  me-2 ms-1" icon color="red" variant="tonal" size="small"
-                                            @click="transformedData.splice(transformedData.indexOf(items), 1); snackbar_delete = true">
+                                      
+                                        <SharedConfirmationDialog @delete-item="transformedData.splice(transformedData.indexOf(items), 1); snackbar_delete = true">
+                                            <v-btn class="mb-2  me-2 ms-1" icon color="red" variant="tonal" size="small">
                                             <TrashIcon size="18" />
                                         </v-btn>
+                                            </SharedConfirmationDialog>
                                     </tr>
                                 </tbody>
                             </v-table>
@@ -246,10 +248,12 @@
                                                 {{ item.body }}
                                             </div>
                                         </td>
-                                        <v-btn class="mb-2  me-2 ms-1" icon color="red" variant="tonal" size="small"
-                                            @click="subset_product.splice(subset_product.indexOf(items), 1); snackbar_delete = true; removeSubsetProduct(items)">
+                                    
+                                        <SharedConfirmationDialog @delete-item="subset_product.splice(subset_product.indexOf(items), 1); snackbar_delete = true; removeSubsetProduct(items)">
+                                            <v-btn  class="mb-2  me-2 ms-1" icon color="red" variant="tonal" size="small">
                                             <TrashIcon size="18" />
                                         </v-btn>
+                                            </SharedConfirmationDialog>
                                     </tr>
                                 </tbody>
                             </v-table>
@@ -702,10 +706,7 @@ export default {
     /* Disable interactions while loading */
 }
 
-.v-overlay__scrim {
-    background-color: rgba(255, 255, 255, 0.7);
-    /* Add a semi-transparent background */
-}
+
 
 .scrollable-tbody {
     display: block;
