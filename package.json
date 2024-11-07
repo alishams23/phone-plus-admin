@@ -12,6 +12,7 @@
   "devDependencies": {
     "@mdi/font": "^7.4.47",
     "@nuxt/devtools": "latest",
+    "@vite-pwa/nuxt": "^0.10.6",
     "nuxt": "^3.7.3"
   },
   "dependencies": {
