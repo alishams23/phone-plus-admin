@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { ref, defineEmits } from 'vue';
-
+import axios from 'axios'
 const props = defineProps<{
   content: string,
 }>();
@@ -195,6 +195,32 @@ let modules: {
         name: 'blotFormatter',
         module: BlotFormatter.default,
         options: {}
+      },
+      {
+        name: 'imageUploader',
+        module: ImageUploader.default,
+        options: {
+          upload: async (file:any) => {
+      try {
+        // Make an API request to upload the image
+        const formData = new FormData();
+        formData.append('image', file);
+
+        // Assuming your API endpoint for uploading is '/api/upload'
+        const response = await axios.post('https://new.phoneplus.ir/api/blog/seller-panel/quill-images/', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+
+        // Return the URL to insert into the editor
+        return response.data.image; // Ensure your API response returns the image URL
+      } catch (error) {
+        console.error('Image upload failed:', error);
+        throw error;
+      }
+    }
+  }
       },
       
       

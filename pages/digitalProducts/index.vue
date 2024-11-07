@@ -55,7 +55,6 @@
         <v-locale-provider rtl>
           <v-text-field v-model="search_text" @update:model-value="searchData" label="جستجو" rounded="lg"
             persistent-hint variant="outlined" color="primary" dense class="mt-md-5 text-body-2">
-
             <template v-slot:prepend>
               <v-btn @click="order = !order; searchData()" variant="tonal" color="primary" rounded="lg" size="50">
                 <SortDescending2Icon v-if="order" />
@@ -229,7 +228,7 @@ export default {
     searchData() {
       this.loading = true
       
-      axios.get(`${apiStore().address}/api/product/seller-panel/digital-product-list-create/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+      axios.get(`${apiStore().address}/api/product/seller-panel/digital-product-list/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
