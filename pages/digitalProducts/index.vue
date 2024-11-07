@@ -80,7 +80,7 @@
     </v-alert>
     <v-row dir="rtl">
       <v-col v-for="product in data" v-if="!loading" :key="product.id" cols="12" md="6">
-        <v-card elevation="10" rounded="lg" class="my-5 rtl " :loading="loadingItem == product.id">
+        <v-card elevation="10" rounded="lg" class=" rtl " :loading="loadingItem == product.id">
           <template v-slot:loader="{ isActive }">
             <v-progress-linear :active="isActive" color="deep-purple" height="4" indeterminate></v-progress-linear>
           </template>
