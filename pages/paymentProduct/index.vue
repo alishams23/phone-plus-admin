@@ -22,7 +22,7 @@
 
 
 
-        <v-window v-model="model">
+        <v-window :touch="false" v-model="model">
             <v-window-item  :value="0">
                 <v-card>
                     <v-card-text>

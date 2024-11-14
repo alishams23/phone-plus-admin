@@ -6,8 +6,10 @@ export default defineNuxtConfig({
   },
   css: ['~/scss/style.scss','~/assets/WebFonts/css/fontiran.css',],
   modules: ['@pinia/nuxt', '@vueuse/nuxt', '@vite-pwa/nuxt'],
+
   devServer: {
     port: 3003,
+    host:"0"
   },
   devtools: { enabled: true },
   pwa: {

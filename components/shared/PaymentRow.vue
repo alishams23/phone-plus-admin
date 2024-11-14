@@ -210,7 +210,7 @@
             </div>
         </td>
         <td>
-            <h6 v-bind="props" class="text-body-1 text-muted">{{ data.product.title }}</h6>
+            <h6 v-bind="props" style="width: 200px !important;" class="text-body-1 text-muted">{{ data.product.title }}</h6>
         </td>
         <td>
             <h6 class="text-body-1 text-muted">{{ data.count }}</h6>

@@ -168,6 +168,7 @@ let toolbar = [
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
   [{ direction: "rtl" }],
   ['image'],
+  ['table'],
   [{ custom: 'insert custom' }],
   
 
