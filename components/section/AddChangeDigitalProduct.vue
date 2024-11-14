@@ -31,8 +31,7 @@
                     توضیحات محصول:
                 </p>
                 <TextEditor :content="description" @update="handleTextChange"></TextEditor>
-
-                <v-checkbox @click="instructions=null" v-model="isContainTutorial" class="rtl mt-5" color="primary" label="افزودن آموزش و نکات استفاده از محصول" />
+                <v-checkbox @click="isContainTutorial?instructions=null:''" v-model="isContainTutorial" class="rtl mt-5" color="primary" label="افزودن آموزش و نکات استفاده از محصول" />
 
                 <v-slide-y-transition>
 
@@ -252,7 +251,7 @@
                                 <tbody class="scrollable-tbody bg-grey-lighten-4 rounded-lg ">
                                     <tr v-for="items in subset_product" :key="items"
                                         class="d-flex justify-end items-center pt-2">
-                                        <td class="table-cell  rtl" v-for="item in items.data">
+                                        <td class="table-cell  rtl" v-if="items.sold==false" v-for="item in items.data">
                                             <div
                                                 class=" bg-green-lighten-4 text-green-darken-4 rounded-xl py-2 px-6 text-center ">
                                                 <span class="font-weight-bold">{{ item.title }}:</span>
@@ -260,7 +259,7 @@
                                             </div>
                                         </td>
                                     
-                                        <SharedConfirmationDialog @delete-item="subset_product.splice(subset_product.indexOf(items), 1); snackbar_delete = true; removeSubsetProduct(items)">
+                                        <SharedConfirmationDialog v-if="items.sold==false" @delete-item="subset_product.splice(subset_product.indexOf(items), 1); snackbar_delete = true; removeSubsetProduct(items)">
                                             <v-btn  class="mb-2  me-2 ms-1" icon color="red" variant="tonal" size="small">
                                             <TrashIcon size="18" />
                                         </v-btn>
@@ -720,6 +719,13 @@ export default {
                 this.discount_codes = response.data.discount_codes != null ? response.data.discount_codes : []
                 if (response.data.discount) this.discount = true
 
+                if (this.instructions == null){
+                    this.isContainTutorial = false
+                }else if(this.instructions== '<p class="ql-align-right ql-direction-rtl"><br></p>'){
+                    this.isContainTutorial = false
+                }else{
+                    this.isContainTutorial = true
+                }
             }
             )
         },
