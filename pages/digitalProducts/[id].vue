@@ -1,6 +1,6 @@
 <template>
     <v-container >
-        <SectionAddChangeDigitalProduct :id="$route.params.id"  @cancel="$router.push('/products')" @close="$router.push('/products')" />
+        <SectionAddChangeDigitalProduct :id="$route.params.id"  @cancel="$router.push('/digitalProducts')" @close="$router.push('/digitalProducts')" />
     </v-container>
 </template>
 
