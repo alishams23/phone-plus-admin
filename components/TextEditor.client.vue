@@ -88,6 +88,17 @@ const onEditorReady = (data : any) =>  {
   } else {
     console.error('RTL button not found');
   }
+  const lineHeightPicker = editor.getModule('toolbar').container.querySelector('.ql-lineHeight').querySelector('.ql-picker-label');
+  const lineHeightPickerOption = editor.getModule('toolbar').container.querySelector('.ql-lineHeight').querySelector('.ql-picker-options');
+  if (lineHeightPicker) {
+    lineHeightPicker.innerText = 'Line Height';
+    lineHeightPickerOption.querySelectorAll('.ql-picker-item').forEach((span : any) => {
+      console.log(span)
+  span.innerText = span.getAttribute('data-value');
+});
+    // Insert the label before the line height picker
+    // lineHeightPicker.parentNode.insertBefore(label, lineHeightPicker);
+  }
 
   const observer = new MutationObserver((mutationsList) => {
   for (const mutation of mutationsList) {
@@ -107,26 +118,6 @@ const onEditorReady = (data : any) =>  {
     });
 
 
-    // const toolbar = document.querySelector('.ql-toolbar');
-    // const editor2 = document.querySelector('.ql-editor');
-
-    // if (toolbar && editor2) {
-    //     const toolbarOriginalTop = toolbar.getBoundingClientRect().top;
-
-
-    //     window.addEventListener('scroll', function() {
-    //   console.log("ddddjfbvk")
-
-    //         const editorTop = editor2.getBoundingClientRect().top;
-    //         if (editorTop < 0) {
-    //             toolbar.style.position = 'fixed';
-    //             toolbar.style.top = '0';
-    //         } else {
-    //             toolbar.style.position = 'sticky';
-    //             toolbar.style.top = `${toolbarOriginalTop}px`;
-    //         }
-    //     },true);
-    // }
 
 }
 
@@ -168,8 +159,8 @@ let toolbar = [
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
   [{ direction: "rtl" }],
   ['image'],
-  ['table'],
   [{ custom: 'insert custom' }],
+  [{ 'lineHeight': ['1.0', '1.5', '1.8', '2.0', '2.5', '3.0'] }],
   
 
 ]
@@ -180,6 +171,13 @@ let modules: {
  
  
     const { QuillEditor, Quill } = await import('@vueup/vue-quill')
+    const Parchment = Quill.import('parchment');
+const LineHeightStyle = new Parchment.Attributor.Style('lineHeight', 'line-height', {
+  scope: Parchment.Scope.BLOCK,
+  whitelist: ['1.0', '1.5', '1.8', '2.0', '2.5', '3.0']
+});
+Quill.register(LineHeightStyle, true);
+
     const { vueApp } = useNuxtApp()
    
       vueApp.component('QuillEditor', QuillEditor)
