@@ -74,7 +74,7 @@
         </v-btn>
     </td>
     <td>
-        <h6 v-if="data.price != 0" class="text-h6 text-right">{{ data.price }} تومان</h6>
+        <h6 v-if="data.price != 0" class="text-h6 text-right">{{ price(data.price) }} تومان</h6>
         <h6 v-else class="text-h6 text-right">-</h6>
     </td>
     <td>
@@ -107,8 +107,26 @@ export default {
             loading: true,
             dialog:false,
             loadingStatus: 0,
+            
         }
     },
+    methods: {
+        price(value){
+            let text
+            let chars = Array.from(`${value/10}`)
+            for (let index = 1; index <= chars.length; index++) {
+                
+                if(index % 3==0){
+                    if (chars.length != index) {
+                    chars[chars.length-index] = `,${chars[chars.length-index]}`;
+                        
+                    }
+                }
+
+            }
+            return chars.join("");;
+        },
+    }
 
 }
 </script>

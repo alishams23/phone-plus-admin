@@ -101,6 +101,29 @@
                             </v-container>
                         </div>
                     </v-card-text>
+                    <div class="text-center mt-16 mb-10" v-if="loading_digital == false && !(page_digital_product == 1 && next_digital_product == null)">
+                        <v-btn
+                            variant="flat" 
+                            rounded="lg" 
+                            color="primary"
+                            class="mx-1"
+                            @click="page_digital_product = page_digital_product -1 ; searchDataDigitalProduct()"
+                            :disabled="page_digital_product < 2" 
+                            >
+                            صفحه قبل
+                        </v-btn>
+                        <v-btn
+                        variant="flat" 
+                            rounded="lg" 
+                            class="mx-1"
+                            :disabled="next_digital_product == null"
+    
+                            color="primary"
+                        @click="page_digital_product = page_digital_product +1 ; searchDataDigitalProduct()" 
+                        >
+                            صفحه بعد
+                        </v-btn>
+                    </div>
                 </v-card>
             </v-window-item>
             <v-window-item :value="1">
@@ -196,6 +219,30 @@
                             </v-container>
                         </div>
                     </v-card-text>
+                    <div class="text-center mt-16 mb-10" v-if="loading == false && !(page == 1 && next == null)">
+                        <v-btn
+                            variant="flat" 
+                            rounded="lg" 
+                            color="primary"
+                            class="mx-1"
+                            @click="page = page -1 ; searchDataProduct()"
+                            :disabled="page < 2" 
+                            >
+                            صفحه قبل
+                        </v-btn>
+                        <v-btn
+                        variant="flat" 
+                            rounded="lg" 
+                            class="mx-1"
+                            :disabled="next == null"
+    
+                            color="primary"
+                        @click="page = page +1 ; searchDataProduct()" 
+                        >
+                            صفحه بعد
+                        </v-btn>
+                        
+                    </div>
                 </v-card>
             </v-window-item>
         </v-window>
@@ -244,7 +291,11 @@ export default {
                 { title: 'ارسال نشده', value: 'none' },
 
             ],
-            statusCheck: ''
+            statusCheck: '',
+            page:1,
+            next:null,
+            page_digital_product:1,
+            next_digital_product:null,
         }
     },
     methods: {
@@ -275,7 +326,7 @@ export default {
         searchDataProduct() {
             this.loading = true
 
-            axios.get(`${apiStore().address}/api/order/seller-panel/order-list-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}&status=${this.statusCheck}&is_payed=${this.is_payed}`, {
+            axios.get(`${apiStore().address}/api/order/seller-panel/order-list-search/?page=${this.page}&search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}&status=${this.statusCheck}&is_payed=${this.is_payed}`, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",
@@ -283,13 +334,14 @@ export default {
                 },
             }).then((response) => {
                 this.loading = false
-                this.data = response.data
+                this.data = response.data.results
+                this.next = response.data.next
             })
         },
         searchDataDigitalProduct() {
             this.loading_digital = true
 
-            axios.get(`${apiStore().address}/api/order/seller-panel/order-digital-product-list-search/?search=${this.search_text}&ordering=${this.order_digital == false ? 'id' : '-id'}&is_payed=${this.is_payed_digital}`, {
+            axios.get(`${apiStore().address}/api/order/seller-panel/order-digital-product-list-search/?page=${this.page_digital_product}&search=${this.search_text}&ordering=${this.order_digital == false ? 'id' : '-id'}&is_payed=${this.is_payed_digital}`, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",
@@ -298,7 +350,8 @@ export default {
             }).then((response) => {
                 console.log('search');
                 this.loading_digital = false
-                this.data_digital_product = response.data
+                this.data_digital_product = response.data.results
+                this.next_digital_product = response.data.next
             })
         }, 
     },

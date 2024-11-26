@@ -1,4 +1,5 @@
 <template>
+  
   <v-snackbar :timeout="2000" color="primary" elevation="24" v-model="snackbar_edit">
     <div class="w-100 rtl">
       <p>محصول با موفقیت ویرایش شد</p>
@@ -162,6 +163,32 @@
         </v-card>
       </v-col>
     </v-row>
+    
+    <div class="text-center mt-16 mb-10" v-if="loading == false && !(page == 1 && next == null)">
+    
+        <v-btn
+        variant="flat" 
+        rounded="lg" 
+         color="primary"
+        class="mx-1"
+        @click="page = page -1 ; searchData()"
+         :disabled="page < 2" 
+         >
+        صفحه قبل
+      </v-btn>
+      <v-btn
+      variant="flat" 
+        rounded="lg" 
+        class="mx-1"
+        :disabled="next == null"
+
+        color="primary"
+      @click="page = page +1 ; searchData()" 
+      >
+        صفحه بعد
+      </v-btn>
+    </div>
+   
   </v-container>
   <VLayoutItem model-value position="bottom" class="text-end" size="88">
 
@@ -219,6 +246,8 @@ export default {
       snackbar_edit: false,
       snackbar_save: false,
       snackbar_delete: false,
+      page:1,
+      next:null,
     };
   },
   computed: {
@@ -230,7 +259,7 @@ export default {
     searchData() {
       this.loading = true
       
-      axios.get(`${apiStore().address}/api/product/seller-panel/digital-product-list/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+      axios.get(`${apiStore().address}/api/product/seller-panel/digital-product-list/?page=${this.page}&search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
@@ -239,7 +268,8 @@ export default {
       }).then((response) => {
         console.log('get data', response.data);
         this.loading = false
-        this.data = response.data
+        this.data = response.data.results
+        this.next = response.data.next
       })
     },
     removeItem(id) {

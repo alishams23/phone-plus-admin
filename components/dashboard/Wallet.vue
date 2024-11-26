@@ -34,7 +34,7 @@
             <div class="mt-6">
                 <h3 class="text-h3">{{ price(cash) }}</h3>
                 <div class="mt-1">
-                    <span class="text-subtitle-1 opacity-50 text-muted ml-2">ریال</span>
+                    <span class="text-subtitle-1 opacity-50 text-muted ml-2">تومان</span>
                 </div>
                 <div class="d-flex justify-end align-center mt-4">
 
@@ -107,22 +107,20 @@ export default {
     },
     methods: {
         price(value){
-      let text
-      let chars = Array.from(`${value}`)
-      for (let index = 1; index <= chars.length; index++) {
-         
-         if(index % 3==0){
-           if (chars.length != index) {
-           chars[chars.length-index] = `,${chars[chars.length-index]}`;
-             
-           }
-         }
+            let text
+            let chars = Array.from(`${value/10}`)
+            for (let index = 1; index <= chars.length; index++) {
+                
+                if(index % 3==0){
+                    if (chars.length != index) {
+                    chars[chars.length-index] = `,${chars[chars.length-index]}`;
+                        
+                    }
+                }
 
-      }
-      return chars.join("");;
-    
-    
-    },
+            }
+            return chars.join("");;
+        },
     goPaymentPage(){
         window.location.href = this.address + '/api/wallet/charge-wallet/' + this.shop_username + '/' + this.amount
     }

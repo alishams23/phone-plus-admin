@@ -42,7 +42,7 @@ onMounted(async () => {
 
 const chartOptions = computed(() => {
     const categories = chartData.value.map(item => item.day); // Extract days from API response
-    const seriesData = chartData.value.map(item => item.total_price); // Extract total_price from API response
+    const seriesData = chartData.value.map(item => item.total_price/10); // Extract total_price from API response
 
     return {
         series: [

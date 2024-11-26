@@ -187,6 +187,29 @@
       </template>
     </v-dialog>
   </VLayoutItem>
+  <div class="text-center mt-16 mb-10" v-if="loading == false && !(page == 1 && next == null)">
+    <v-btn
+      variant="flat" 
+      rounded="lg" 
+      color="primary"
+      class="mx-1"
+      @click="page = page -1 ; searchData()"
+      :disabled="page < 2" 
+      >
+      صفحه قبل
+    </v-btn>
+    <v-btn
+    variant="flat" 
+      rounded="lg" 
+      class="mx-1"
+      :disabled="next == null"
+
+      color="primary"
+    @click="page = page +1 ; searchData()" 
+    >
+      صفحه بعد
+    </v-btn>
+  </div>
 </template>
 
 <script>
@@ -223,7 +246,9 @@ export default {
       open: false,
       snackbar_edit:false,
       snackbar_save:false,
-      snackbar_delete:false
+      snackbar_delete:false,
+      page:1,
+      next:null,
     };
   },
   computed: {
@@ -235,7 +260,7 @@ export default {
     searchData() {
       this.data = []
       this.loading = true
-      axios.get(`${apiStore().address}/api/blog/seller-panel/blog-List-admin/?search=${this.search_text}&ordering=${this.order == false ? '-id' : 'id'}`, {
+      axios.get(`${apiStore().address}/api/blog/seller-panel/blog-List-admin/?page=${this.page}&search=${this.search_text}&ordering=${this.order == false ? '-id' : 'id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
@@ -244,6 +269,7 @@ export default {
       }).then((response) => {
         this.loading = false
         this.data = response.data.results
+        this.next = response.data.next
       })
     }
     , removeItem(id) {
