@@ -16,11 +16,11 @@ export default defineNuxtConfig({
     registerType: 'autoUpdate',
     manifest: {
     lang: 'fa',
-    name: 'panel phone plus',
+    name: 'panel phone plus - پنل فروشندگان',
     orientation: 'portrait',
     background_color: '#FFFFFF',
     theme_color: '#A020F0',
-    short_name: 'فون پلاس',
+    short_name: 'فون پلاس پنل فروشندگان',
     description: '  پنل فروشندگان فون پلاس',
     start_url: '/',
     icons: [
