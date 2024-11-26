@@ -9,7 +9,7 @@ export default defineNuxtConfig({
 
   devServer: {
     port: 3003,
-    host:"0"
+    // host:"0"
   },
   devtools: { enabled: true },
   pwa: {

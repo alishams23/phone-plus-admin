@@ -1,6 +1,6 @@
 <template>
     <v-locale-provider rtl>
-    <v-checkbox @click="discount == false ? value = 0 : ''" v-model="discount" color="primary"
+    <v-checkbox @click="valueData = 0 " v-model="discount" color="primary"
     label="دارای تخفیف">
 </v-checkbox>
 </v-locale-provider>
@@ -34,15 +34,32 @@ export default {
     },
     data() {
         return {
+            first_time: true,
             discount: false,
             valueData:0
         }
     },
-
+    methods: {
+        initializeState() {
+            this.discount = this.value > 0; // Set discount based on initial value
+            this.valueData = this.value;   // Sync valueData with value
+        },
+    },
     mounted() {
-        this.valueData = this.value
+        this.initializeState();
     },
     watch: {
+        value: {
+            handler(newVal) {
+                if(this.first_time) {
+                    this.initializeState()
+                }
+                if(this.discount) {
+                    this.first_time = false
+                }
+            },
+            immediate: true,
+        },
         valueData: {
             handler: function (val, oldVal) {
                 this.$emit("change", val)

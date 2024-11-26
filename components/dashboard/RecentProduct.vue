@@ -16,6 +16,15 @@
         </v-btn> -->
       </template>
     </v-snackbar>
+    <div class="d-flex justify-space-between align-center" v-if="loading ==false && data.length > 0">
+                    
+                    <v-btn variant="outlined" to="/products" rounded="xl" size="small">
+                       همه ی محصولات
+                    </v-btn>
+                    <div class="rtl font-weight-black py-5">
+                        محصولات اخیر
+                    </div>
+                   </div>
     <v-row  class="rtl" v-if="loading ==false">
         <v-col cols="12" lg="3" sm="6"  v-for="item in data.slice(-4)" :key="item.title">
           
@@ -108,7 +117,7 @@ export default {
         },
       }).then((response) => {
         this.loading = false
-        this.data = response.data
+        this.data = response.data.results != null  ?   response.data.results  : []
       })
     },removeItem(id){
       this.loadingItem = id

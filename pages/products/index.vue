@@ -153,6 +153,29 @@
         </v-card>
       </v-col>
     </v-row>
+    <div class="text-center mt-16 mb-10" v-if="loading == false && !(page == 1 && next == null)">
+      <v-btn
+        variant="flat" 
+        rounded="lg" 
+        color="primary"
+        class="mx-1"
+        @click="page = page -1 ; searchData()"
+        :disabled="page < 2" 
+        >
+        صفحه قبل
+      </v-btn>
+      <v-btn
+      variant="flat" 
+        rounded="lg" 
+        class="mx-1"
+        :disabled="next == null"
+
+        color="primary"
+      @click="page = page +1 ; searchData()" 
+      >
+        صفحه بعد
+      </v-btn>
+    </div>
   </v-container>
   <VLayoutItem model-value position="bottom" class="text-end" size="88">
     <v-dialog width="1000" persistent v-model="open">
@@ -210,7 +233,9 @@ export default {
       open: false,
       snackbar_edit:false,
       snackbar_save:false,
-      snackbar_delete:false
+      snackbar_delete:false,
+      page:1,
+      next:null,
 
     };
   },
@@ -223,7 +248,7 @@ export default {
 
     searchData() {
       this.loading = true
-      axios.get(`${apiStore().address}/api/product/seller-panel/products-list-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+      axios.get(`${apiStore().address}/api/product/seller-panel/products-list-search/?page=${this.page}&search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
@@ -231,7 +256,8 @@ export default {
         },
       }).then((response) => {
         this.loading = false
-        this.data = response.data
+        this.data = response.data.results
+        this.next = response.data.next
       })
     },
     removeItem(id) {

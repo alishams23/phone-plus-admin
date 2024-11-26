@@ -37,7 +37,22 @@
                     <v-text-field label="قیمت محصول(تومان)" v-model="price" min="1000" required rounded="lg" type="number"
                         persistent-hint variant="outlined" color="primary" />
                 </v-col> -->
-                <v-col cols="12" md="12">
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        label="هزینه ارسال(تومان)"
+                        v-model="delivery_fee"
+                        rounded="lg"
+                        persistent-hint
+                        variant="outlined"
+                        color="primary"
+                        type="number"
+                        min=0
+                        class=""
+                        :rules="[validateDeliveryFee]"
+                    />
+
+                </v-col>
+                <v-col cols="12" md="6">
                     <AddCategories @change="(data) => { selectedCategories = data }" :selected="selectedCategories"
                         url="/api/product/seller-panel/category-product-list-create/" />
                 </v-col>
@@ -162,6 +177,7 @@ export default {
     },
     data: () => ({
         price: 0,
+        delivery_fee: null,
         title: null,
         description: null,
         images: [],
@@ -183,6 +199,15 @@ export default {
         this.id != null ? this.getData() : ''
     },
     methods: {
+        validateDeliveryFee(value) {
+            if (value === null || value === '') {
+                return true; // Allow empty input
+            }
+            if (isNaN(value)) {
+                return "فقط عدد وارد کنید"; // Custom error message
+            }
+            return true; // Input is valid
+        },
         handleTextChange(newText) {
             this.description = newText;
         },
@@ -251,6 +276,7 @@ export default {
                 formDic['video'] = this.video
                 formDic['title'] = this.title
                 formDic['description'] = this.description
+                formDic['delivery_fee'] = this.delivery_fee
                 formDic['price'] = this.price
                 formDic['discount'] = this.value
                 formDic['pin_profile'] = this.pin_profile
@@ -293,6 +319,7 @@ export default {
                 this.description = response.data.description
                 this.title = response.data.title
                 this.video = response.data.video
+                this.delivery_fee = response.data.delivery_fee
                 this.pin_profile = response.data.pin_profile
                 response.data.image.forEach(element => {
 

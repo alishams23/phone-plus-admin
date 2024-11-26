@@ -3,6 +3,7 @@
         وضعیت با موفقیت ویرایش شد
     </v-snackbar>
   <v-card elevation="10" rounded="lg" >
+     <h3 class="pt-6 ps-4" dir="rtl">پرداخت محصولات فیزیکی</h3>
     <v-container v-if="data.length == 0 && loading == false">
         <v-alert  color="primary" icon="fa fa-info" variant="tonal"
             border="start" class="rtl border-opacity-100 my-10">
@@ -89,7 +90,7 @@ export default {
         searchData() {
             this.loading = true
 
-            axios.get(`${apiStore().address}/api/order/seller-panel/order-list-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}&status=${this.statusCheck}`, {
+            axios.get(`${apiStore().address}/api/order/seller-panel/order-list-search/?page=1&search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}&status=${this.statusCheck}`, {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",
@@ -97,7 +98,7 @@ export default {
                 },
             }).then((response) => {
                 this.loading = false
-                this.data = response.data
+                this.data = response.data.results
             })
         }
     }, async mounted() {

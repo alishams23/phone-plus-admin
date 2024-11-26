@@ -11,6 +11,19 @@ const theme = useTheme();
 const secondary = theme.current.value.colors.secondary;
 const totalPriceSum = ref(0);
 const loading = ref(true);
+function price(value:any){
+  let text
+  let chars = Array.from(`${value/10}`)
+  for (let index = 1; index <= chars.length; index++) {
+    if(index % 3==0){
+      if (chars.length != index) {
+        chars[chars.length-index] = `,${chars[chars.length-index]}`;
+        
+     }
+    }
+  }
+  return chars.join("");;
+}
 /* Chart */
 const areachartOptions = computed(() => {
   return {
@@ -107,10 +120,13 @@ onMounted(() => {
             </div>
             <v-row>
                 <v-col cols="12">
-                    <div class="mt-2 ">
-                        <h3 class="text-h3">{{totalPriceSum}}</h3>
-                       
-                    </div>
+                  <div class="mt-2" dir="rtl">
+                      <h3 class="text-h3">
+                          {{ price(totalPriceSum) }}
+                          <span class="text-body-2">تومان</span>
+                      </h3>
+                  </div>
+
                 </v-col>
             </v-row>
         </v-card-item>

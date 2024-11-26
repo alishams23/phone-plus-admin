@@ -277,7 +277,7 @@
             </v-menu>
         </td>
         <td>
-            <h6 v-if="data.price!=0" class="text-h6 text-right">{{ data.price }} <span class="text-body-2 text-xs" >تومان</span></h6>
+            <h6 v-if="data.price!=0" class="text-h6 text-right">{{ price(data.price) }} <span class="text-body-2 text-xs" >تومان</span></h6>
             <h6 v-else class="text-h6 text-right">-</h6>
         </td>
         <td>
@@ -328,7 +328,21 @@ export default {
         }
     },
     methods: {
-  
+        price(value){
+            let text
+            let chars = Array.from(`${value/10}`)
+            for (let index = 1; index <= chars.length; index++) {
+                
+                if(index % 3==0){
+                    if (chars.length != index) {
+                    chars[chars.length-index] = `,${chars[chars.length-index]}`;
+                        
+                    }
+                }
+
+            }
+            return chars.join("");;
+        },
         changeStatus(id, status) {
             this.loadingStatus = id
             axios.put(`${apiStore().address}/api/order/seller-panel/order-update-status/${id}/`, { status: status }, {
