@@ -41,8 +41,14 @@ onMounted(async () => {
 });
 
 const chartOptions = computed(() => {
-    const categories = chartData.value.map(item => item.day); // Extract days from API response
-    const seriesData = chartData.value.map(item => item.total_price/10); // Extract total_price from API response
+    // Convert the day number (or date) to the weekday name (e.g., 'Monday', 'Tuesday')
+    const categories = chartData.value.map(item => {
+        const date = new Date(item.day);  // Assuming `item.day` is a valid date string or timestamp
+        const options = { weekday: 'long' };
+        return date.toLocaleDateString('fa-IR', options); // 'fa-IR' for Persian day names, can adjust based on your locale
+    });
+
+    const seriesData = chartData.value.map(item => item.total_price / 10); // Extract total_price from API response
 
     return {
         series: [
@@ -83,8 +89,6 @@ const chartOptions = computed(() => {
             },
             yaxis: {
                 show: true,
-      
-
                 tickAmount: 4,
                 labels: {
                     style: {
@@ -99,7 +103,6 @@ const chartOptions = computed(() => {
                 colors: ["transparent"],
             },
             tooltip: { theme: "light" },
-
             responsive: [
                 {
                     breakpoint: 600,

@@ -11,7 +11,7 @@
                             </v-avatar>
                         </template>
                         <v-list-item-title class=" font-weight-bold  text-nauto">
-                            {{ data.author.full_name}}
+                            {{ data.author.full_name}}<br/>
                          {{ data.author.phone_number }}
                        
                         </v-list-item-title>

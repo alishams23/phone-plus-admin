@@ -4,7 +4,7 @@
         <XIcon size="24" />
     </v-btn>
     <v-btn rounded="pill" icon variant="outline" color="primary" :disabled="loadingImage"
-        class="text-body2 font-weight-bold hidden-md-and-up" @click="$emit('cancel')">
+        class="text-body2 font-weight-bold hidden-md-and-up fixed-top-left " @click="$emit('cancel')">
         <XIcon size="24" />
     </v-btn>
 

@@ -111,7 +111,7 @@
                     
                       
                     
-                      <v-dialog persistent width="1000" >
+                      <v-dialog persistent width="1000"  :fullscreen="isBelowMd">
                         <template v-slot:activator="{ props: activatorProps }">
                           <div class="ma-4">
                             <v-btn class="px-5" v-bind="activatorProps" variant="flat" rounded="xl" size="small"
@@ -178,7 +178,7 @@
     </div>
   </v-container>
   <VLayoutItem model-value position="bottom" class="text-end" size="88">
-    <v-dialog width="1000" persistent v-model="open">
+    <v-dialog width="1000" persistent v-model="open"  :fullscreen="isBelowMd">
       <template v-slot:activator="{ props }">
         <div class="ma-4">
           <VBtn v-bind="props" icon="" size="large" color="primary" elevation="8">
@@ -236,7 +236,7 @@ export default {
       snackbar_delete:false,
       page:1,
       next:null,
-
+      isBelowMd: false,
     };
   },
   computed: {
@@ -245,7 +245,10 @@ export default {
     }
   },
   methods: {
-
+    checkBreakpoint() {
+      // Check if the window width is less than 960px (default 'md' breakpoint in Vuetify)
+      this.isBelowMd = window.innerWidth < 960;
+    },
     searchData() {
       this.loading = true
       axios.get(`${apiStore().address}/api/product/seller-panel/products-list-search/?page=${this.page}&search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
@@ -276,8 +279,13 @@ export default {
     }
   }, 
   async mounted() {
+    this.checkBreakpoint();  // Run the check when the component is mounted
+    window.addEventListener('resize', this.checkBreakpoint);  // Listen to resize event
     this.searchData()
-  }
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.checkBreakpoint);  // Clean up event listener
+  },
 };
 </script>
 

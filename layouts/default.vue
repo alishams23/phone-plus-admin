@@ -84,7 +84,7 @@ export default {
     <v-app>
         <!------Sidebar-------->
         <div :class="setting_drawer == true || chat_drawer == true ? 'd-none d-md-block  ' : ''">
-            <v-navigation-drawer location="right" elevation="0" app class="leftSidebar  border-0 curved"
+            <v-navigation-drawer :touchless="true"  location="right" elevation="0" app class="leftSidebar  border-0 curved"
                 :color="chat_drawer == true | setting_drawer == true ? 'white' : 'transparent'" v-model="sDrawer">
                 <!---Logo part -->
                 <div class=" pa-5  " v-if="user_status == 's'">
@@ -158,13 +158,13 @@ export default {
             </v-navigation-drawer>
         </div>
 
-        <v-navigation-drawer location="right" color="transparent" elevation="0"
+        <v-navigation-drawer location="right" :touchless="true" color="transparent" elevation="0"
             :class="currentRouteCheck('/chat') ? 'curved-white  border-0 ' : 'curved-white  border-0'"
             :temporary="currentRouteCheck('/chat') ? false : true" v-model="chat_drawer" :width="300">
             <Side />
         </v-navigation-drawer>
 
-        <v-navigation-drawer color="transparent" elevation="0"
+        <v-navigation-drawer color="transparent" :touchless="true" elevation="0"
             :class="currentRouteCheck('/settings') ? 'curved-white  border-0 ' : 'curved-white  border-0'"
             location="right" :temporary="currentRouteCheck('/settings') ? false : true" v-model="setting_drawer"
             :width="300">
