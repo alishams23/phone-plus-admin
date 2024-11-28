@@ -27,20 +27,26 @@
                 <v-card>
                     <v-card-text>
                         <div>
-                            <v-container>
-                                <v-row align="center" class="rtl">
+                            <v-container class="pt-0 mt-0">
+                                <v-row align="center" class="rtl ">
                                     <v-col cols="12" md="6" class="rtl d-flex align-center">
                                         
                                     </v-col>
                                     <v-col cols="12" md="6" >
-                                        <v-locale-provider rtl>
+                                       <v-row>
+                                        <v-col cols="12" md="6" class="py-0" >
+                                            <v-locale-provider rtl>
                                             <v-text-field v-model="search_text" @update:model-value="searchDataDigitalProduct" label="جستجو" rounded="lg"
                                                 persistent-hint variant="outlined" color="primary" dense class=" text-body-2">
                                                 <template v-slot:prepend-inner>
                                                     <SearchIcon color="gray" />
                                                 </template>
-                                                <template v-slot:prepend>
-                                                    <v-btn @click="order_digital = !order_digital; searchDataDigitalProduct()" variant="tonal" color="primary" rounded="lg"
+                                       
+                                            </v-text-field>
+                                        </v-locale-provider>
+                                        </v-col>
+                                        <v-col cols="12" md="6" class="py-0" >
+                                            <v-btn @click="order_digital = !order_digital; searchDataDigitalProduct()" variant="tonal" color="primary" rounded="lg"
                                                         size="50">
                                                         <SortDescending2Icon v-if="order_digital" />
                                                         <SortAscending2Icon v-if="!order_digital" />
@@ -56,9 +62,9 @@
                                                         </div>
                                                         <span v-else>لغو شده‌ها</span>
                                                     </v-btn>
-                                                </template>
-                                            </v-text-field>
-                                        </v-locale-provider>
+                                        </v-col>
+                                       </v-row>
+                                      
                                     </v-col>
                                     
                                 </v-row>
@@ -130,21 +136,28 @@
                 <v-card>
                     <v-card-text>
                         <div>
-                            <v-container>
+                            <v-container class="pt-0 mt-0">
                                 <v-row align="center" class="rtl">
-                                    <v-col cols="12" md="5" class="rtl d-flex align-center">
+                                    <v-col cols="12" md="5" class="rtl  d-flex align-center">
                                        
                                     </v-col>
-                                    <v-col cols="12" md="7">
-                                        <v-locale-provider rtl>
+                                    <v-col cols="12" md="7"  >
+                                        
+                                          <v-row >
+                                            <v-col cols="12" md="6" class="py-0">
+                                                <v-locale-provider rtl>
                                             <v-text-field v-model="search_text" @update:model-value="searchDataProduct" label="جستجو" rounded="lg"
-                                                persistent-hint variant="outlined" color="primary" dense class=" text-body-2">
+                                                persistent-hint variant="outlined" color="primary" dense class=" text-body-2 ">
                                                 <template v-slot:prepend-inner>
                             
                                                     <SearchIcon color="gray" />
                                                 </template>
-                                                <template v-slot:prepend>
-                                                    <v-btn @click="order = !order; searchDataProduct()" variant="tonal" color="primary" rounded="lg"
+                                              
+                                            </v-text-field>
+                                        </v-locale-provider>
+                                           </v-col>
+                                            <v-col cols="12" md="6" class="py-0">
+                                                <v-btn @click="order = !order; searchDataProduct()" variant="tonal" color="primary" rounded="lg"
                                                         size="50">
                                                         <SortDescending2Icon v-if="order" />
                                                         <SortAscending2Icon v-if="!order" />
@@ -171,10 +184,10 @@
                                                         </div>
                                                         <span v-else>لغو شده‌ها</span>
                                                     </v-btn>
-                            
-                                                </template>
-                                            </v-text-field>
-                                        </v-locale-provider>
+                                            </v-col>
+                                           
+                                          </v-row>
+                                      
                             
                                     </v-col>
                                 
@@ -214,7 +227,7 @@
                                             </tr>
                                         </tbody>
                                         </v-table>
-                                    </v-card-item>
+                   å                 </v-card-item>
                                 </v-card>
                             </v-container>
                         </div>
