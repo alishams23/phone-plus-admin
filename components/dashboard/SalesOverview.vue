@@ -19,7 +19,7 @@ const primary = theme.current.value.colors.primary;
 const secondary = theme.current.value.colors.secondary;
 
 const chartData = ref([]); // Create a ref to store API data
-const loading = ref(true); 
+const loading = ref(true);
 
 // Fetch data from API on component mount
 onMounted(async () => {
@@ -40,15 +40,20 @@ onMounted(async () => {
     }
 });
 
-const chartOptions = computed(() => {
-    // Convert the day number (or date) to the weekday name (e.g., 'Monday', 'Tuesday')
-    const categories = chartData.value.map(item => {
-        const date = new Date(item.day);  // Assuming `item.day` is a valid date string or timestamp
-        const options = { weekday: 'long' };
-        return date.toLocaleDateString('fa-IR', options); // 'fa-IR' for Persian day names, can adjust based on your locale
-    });
+import moment from 'moment-jalaali';
 
-    const seriesData = chartData.value.map(item => item.total_price / 10); // Extract total_price from API response
+const chartOptions = computed(() => {
+    const categories = chartData.value.map(item => {
+        const date = new Date(item.day);
+        return moment(date).format('jMM/jDD'); // تاریخ جلالی
+    });
+    // const categories = chartData.value.map(item => {
+    //     const date = new Date(item.day);  // Assuming `item.day` is a valid date string or timestamp
+    //     const options = { weekday: 'long' };
+    //     return date.toLocaleDateString('fa-IR', options); // 'fa-IR' for Persian day names, can adjust based on your locale
+    // });
+
+    const seriesData = chartData.value.map(item => item.total_price / 10);
 
     return {
         series: [
@@ -72,7 +77,7 @@ const chartOptions = computed(() => {
                 type: "bar",
                 height: 370,
                 offsetX: -15,
-                toolbar: { show: true },
+                toolbar: { show: false },
                 foreColor: "#adb0bb",
                 fontFamily: 'inherit',
                 sparkline: { enabled: false },
@@ -128,11 +133,12 @@ const chartOptions = computed(() => {
             </div>
             <div class="mt-6" v-if="loading == false">
                 <ClientOnly>
-                    <apexchart type="bar" height="370px" :options="chartOptions.chartOptions" :series="chartOptions.series">
+                    <apexchart type="bar" height="370px" :options="chartOptions.chartOptions"
+                        :series="chartOptions.series">
                     </apexchart>
                 </ClientOnly>
             </div>
-        <v-card v-else height="370" class="mt-6"></v-card>
+            <v-card v-else height="370" class="mt-6"></v-card>
 
         </v-card-item>
     </v-card>

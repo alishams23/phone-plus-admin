@@ -41,17 +41,30 @@
                 {{ data.content }}
               </div>
             </div>
+            <v-card class="pe-3" elevation="0" v-if="data.created_at">
+              <div class="d-flex justify-end align-center">
+                <div class="text-grey text-caption">
+                  {{ convertToJalaali(data.created_at) }}
+                </div>
+              </div>
+            </v-card>
           </v-card>
-          <v-card elevation="0" v-else>
+          <v-card elevation="1" v-else>
             <div class="d-flex justify-start align-center">
               <div v-if="data.content" class="bg-grey-lighten-3 mx-3  rounded-bs-0 rounded-pill px-5 py-3">
                 {{ data.content }}
               </div>
             </div>
+            <v-card class="ps-3" elevation="0" v-if="data.created_at">
+              <div class="d-flex justify-start align-center">
+                <div class="text-grey text-caption">
+                  {{ convertToJalaali(data.created_at) }}
+                </div>
+              </div>
+            </v-card>
           </v-card>
         </v-list-item>
       </v-list>
-     
     </v-main>
   </v-app>
   <v-bottom-navigation v-if="username != null && loadingGetMessage == false" height="70" elevation="0"
@@ -80,6 +93,7 @@ import {
 } from '@heroicons/vue/24/outline'
 import { useUserStore } from '~/store/user';
 import { Circle0FilledIcon, SendIcon, SearchIcon, Home2Icon, Logout2Icon, Menu2Icon,UserIcon } from 'vue-tabler-icons';
+import moment from 'moment-jalaali';
 
 export default {
   components: { UserIcon,PaperAirplaneIcon, Circle0FilledIcon, SendIcon, SearchIcon, Home2Icon, Logout2Icon, Menu2Icon },
@@ -140,6 +154,10 @@ export default {
     }
   },
   methods: {
+    convertToJalaali(dateString) {
+      const jalaaliDate = moment(dateString).format('jMM/jDD HH:mm');
+      return jalaaliDate;
+    },
     openDrawer(){
       document.getElementsByClassName("openchat")[0].click()
     },
