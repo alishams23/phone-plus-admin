@@ -21,9 +21,16 @@
                     </div>
                     
                     <div class="d-flex flex-wrap border-t" v-if="data.subset_Digital">
-                   
                         <div v-for="(product, index) in data.subset_Digital.data"  class="text-body-1 bg-grey-lighten-4 rounded-pill px-3 mx-2 my-3 py-2">
                             <p><strong>{{ product.title }}</strong>: {{ product.body }}</p>
+                        </div>
+                    </div>
+                    <div v-if="data.subsets_Digital">
+                        <div  class="d-flex flex-wrap border-t" v-for="(subset_Digital, index) in data.subsets_Digital" >
+                            <div class=" text-body-2 py-5 border-t">{{ index+1 }}:</div>
+                            <div v-for="(product, index) in subset_Digital.data"  class="text-body-1 bg-grey-lighten-4 rounded-pill px-3 mx-2 my-3 py-2">
+                                <p><strong>{{ product.title }}</strong>: {{ product.body }}</p>
+                            </div>
                         </div>
                     </div>
 

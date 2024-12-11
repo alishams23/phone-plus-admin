@@ -241,8 +241,7 @@
                             </v-table>
                         </div>
                     </div>
-
-                    <div v-if="subset_product.length > 0" class="">
+                    <div v-if="subset_product.length > 0 && subset_product.some(item => !item.sold)" class="">
                         <div class="d-flex items-center ">
                             <p class="pt-5 pb-2"> ردیف های موجود از قبل:</p>
                         </div>
