@@ -12,7 +12,7 @@
         </v-icon>
         <!-- <v-img :src="address + '/api/account/shop-profile/' + username + '/'"></v-img> -->
       </v-avatar>
-      <div class=" font-weight-bold text-h5">{{$route.params.name}}</div>
+      <div class=" font-weight-bold text-h6">{{$route.params.name}}</div>
      </div>
     
       <nuxt-link to="/" class="mr-auto ml-3" >
@@ -37,7 +37,7 @@
           :class="(data.username == userSelf ? 'text-right' : '')">
           <v-card elevation="0" v-if="data.username == userSelf">
             <div class="d-flex justify-end align-center">
-              <div v-if="data.content" class="bg-primary mx-3  rounded-be-0 rounded-pill px-5 py-3">
+              <div v-if="data.content" class="bg-primary mx-0  rounded-be-0 rounded-xl px-5 py-3">
                 {{ data.content }}
 
                 
@@ -68,7 +68,7 @@
           </v-card>
           <v-card elevation="1" v-else>
             <div class="d-flex justify-start align-center">
-              <div v-if="data.content" class="bg-grey-lighten-3 mx-3  rounded-bs-0 rounded-pill px-5 py-3">
+              <div v-if="data.content" class="bg-grey-lighten-3 mx-0  rounded-bs-0 rounded-xl px-5 py-3">
                 {{ data.content }}
               </div>
             </div>
@@ -90,12 +90,12 @@
       <v-col cols="9" sm="10" md="11">
         <v-locale-provider rtl>
         <v-text-field @keyup.enter="sendMessage()" variant="solo" v-model="inputData" class="shadow-none rtl"
-          bg-color="grey-lighten-3" elevation="10" label="پیام شما... " rounded="lg" required></v-text-field>
+          bg-color="grey-lighten-3" elevation="10" placeholder="پیام شما... "  rounded="pill" required></v-text-field>
         </v-locale-provider>
         </v-col>
       <v-col>
-        <v-avatar @click="sendMessage()" color="primary" class="mt-1" size="48">
-          <SendIcon size="20" />
+        <v-avatar @click="sendMessage()" color="primary"  class="mt-1" size="48">
+          <SendIcon size="25" />
         </v-avatar>
       </v-col>
     </v-row>

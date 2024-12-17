@@ -87,7 +87,7 @@ export default {
             <v-navigation-drawer :touchless="true"  location="right" elevation="0" app class="leftSidebar  border-0 curved"
                 :color="chat_drawer == true | setting_drawer == true ? 'white' : 'transparent'" v-model="sDrawer">
                 <!---Logo part -->
-                <div class=" pa-5  " v-if="user_status == 's'">
+                <div class=" px-5 pt-2  " v-if="user_status == 's'">
                     <!-- <Logo /> -->
                    <a :href="`https://new.phoneplus.ir/` + shop_username" target="blank"> 
                      <v-sheet class="d-flex justify-center align-center ml-5" color="transparent">
@@ -115,9 +115,9 @@ export default {
                 <!---Navigation -->
                 <!-- ---------------------------------------------- -->
                 <div>
-                    <v-list class="">
+                    <v-list class="pt-0 mt-0">
                         <!---Menu Loop -->
-                        <template v-for="(item) in sidebarMenu">
+                        <template  v-for="(item) in sidebarMenu">
 
                             <!---Item Sub Header -->
                             <NavGroup :item="item" v-if="item.header" :key="item.title" />
@@ -126,7 +126,7 @@ export default {
                             <v-list-item v-else :to="item.to == '/chat' || item.to == '/settings' ? '' : item.to"
                                 variant="elevated" elevation="0"
                                 @click="item.to == '/chat' ? (chat_drawer = true, setting_drawer = false) : item.to == '/settings' ? (setting_drawer = true, chat_drawer = false) : null"
-                                class="mb-1 text-white  rounded-e-lg bg-transparent ml-n5 mr-n3"
+                                class=" text-white  rounded-e-lg bg-transparent ml-n5 mr-n3"
                                 :class="currentRouteCheck(item.to) ? 'bg-white-important  text-primary' : ''"
                                 active-class="bg-white-important  text-primary" :disabled="item.disabled"
                                 :ripple="false" :target="item.type === 'external' ? '_blank' : ''">
@@ -136,7 +136,7 @@ export default {
                                 </template>
                                 <v-list-item-title class="rtl text-right ">{{ item.title }}</v-list-item-title>
                                 <!---If Caption-->
-                                <v-list-item-subtitle v-if="item.subCaption" class="text-caption mt-n1 hide-menu">
+                                <v-list-item-subtitle v-if="item.subCaption" class="text-caption  hide-menu">
                                     {{ item.subCaption }}
                                 </v-list-item-subtitle>
                                 <!---If any chip or label-->
