@@ -5,7 +5,7 @@
         <v-locale-provider rtl>
 <v-card class="pa-5" rounded="lg" >
   <v-alert class="text-body-2">
-    در سایت آپارات فیلم خود را بارگذاری کرده و در قسمت اشتراک گذاری ٫ کلید کد را انتخاب کرده و سپس کد iframe را در این قسمت پیست کنید .
+    در سایت آپارات فیلم خود را بارگذاری کرده و در قسمت اشتراک گذاری٫ کلید کد را انتخاب کرده و سپس کد iframe را در این قسمت پیست کنید .
   </v-alert>
   <v-textarea
   label="کد فیلم شما"
@@ -250,6 +250,8 @@ Quill.register(LineHeightStyle, true);
 <style >
 .ql-editor{
     min-height:200px;
+    background: white;
+    border-radius: 0.7rem;
 }
 
 .ql-custom {
@@ -262,6 +264,8 @@ Quill.register(LineHeightStyle, true);
 }
 .ql-toolbar{
   direction: rtl;
+  border-top-left-radius: 0.7rem; 
+  border-top-right-radius: 0.7rem;
 }
 .ql-header.ql-picker{
   direction: ltr;

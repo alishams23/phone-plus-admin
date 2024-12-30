@@ -90,7 +90,7 @@
       <v-col cols="9" sm="10" md="11">
         <v-locale-provider rtl>
         <v-text-field @keyup.enter="sendMessage()" variant="solo" v-model="inputData" class="shadow-none rtl"
-          bg-color="grey-lighten-3" elevation="10" placeholder="پیام شما... "  rounded="pill" required></v-text-field>
+          bg-color="grey-lighten-3" elevation="10" placeholder="پیام شما..."  rounded="pill" required></v-text-field>
         </v-locale-provider>
         </v-col>
       <v-col>

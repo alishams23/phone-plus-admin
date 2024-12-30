@@ -20,50 +20,16 @@
             </template>
         </v-snackbar>
         <form @submit.prevent="sendData">
-        
-            <div class="form-content" :class="{ 'blurred': loadingData }">
 
+            <div class="form-content" :class="{ 'blurred': loadingData }">
                 <v-locale-provider rtl>
                     <v-text-field label="نام" rounded="lg" persistent-hint variant="outlined" color="primary"
                         class="mt-md-10" v-model="title" required />
-                </v-locale-provider>
-                <p class="rtl pb-1">
-                    توضیحات محصول:
-                </p>
-                <TextEditor :content="description" @update="handleTextChange"></TextEditor>
-                <v-checkbox @click="isContainTutorial?instructions=null:''" v-model="isContainTutorial" class="rtl mt-5" color="primary" label="افزودن آموزش و نکات استفاده از محصول" />
 
-                <v-slide-y-transition>
-
-                    <div class="" v-if="isContainTutorial">
-                        <p class="rtl pb-1">
-                            آموزش و نکات استفاده از محصول:
-                        </p>
-                        <TextEditor :content="instructions" @update="handleTextChangeInstructions"></TextEditor>
-                        <v-alert class="mt-2 rtl mb-5 rounded-lg" title="نکته"
-                            text="توضیحاتی که در کادر بالا قرار می‌دهید پس از خرید در کنار محصول خریداری شده به خریدار نمایش داده می‌شود ، این توضیحات می‌تواند شامل آموزش استفاده از محصول یا نکات مهم استفاده از محصول باشد."></v-alert>
-
-                    </div>
-                </v-slide-y-transition>
-                
-                <v-locale-provider rtl>
-                    <v-row class="mt-10 mb-5">
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                :label="file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا' || file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا' ? ' قیمت هر ردیف(تومان)' : 'قیمت(تومان)'"
-                                rounded="lg" v-model="price" required type="number" persistent-hint variant="outlined"
-                                min="10000" color="primary" />
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <AddCategories @change="(data) => { selectedCategories = data }"
-                                :selected="selectedCategories"
-                                url="/api/product/seller-panel/category-digital-product-list-create/" />
-                        </v-col>
-                    </v-row>
                     <v-file-input :loading="loadingImage" :disabled="loadingImage" rounded="lg" accept=".png,.jpg"
-                        :rules="rules" :required="id ? imageIds.length != 0 ? false : true : true" multiple persistent-hint
-                        variant="outlined" prepend-icon="" color="primary" @change="sendImage" v-model="images"
-                        placeholder="Upload your documents" label="عکس‌">
+                        :rules="rules" :required="id ? imageIds.length != 0 ? false : true : true" multiple
+                        persistent-hint variant="outlined" prepend-icon="" color="primary" @change="sendImage"
+                        v-model="images" placeholder="Upload your documents" label="عکس‌">
                         <template v-slot:prepend>
 
                             <PhotoIcon class="  text-grey" />
@@ -91,94 +57,158 @@
                                 </v-avatar></v-img>
                         </div>
                     </div>
-                    
-                    <v-select
-                        v-if="id == null"
-                        rounded="lg"
-                        required
-                        accept=".zip,.rar"
-                        persistent-hint
-                        variant="outlined"
-                        color="primary"
-                        v-model="file_type"
-                        :disabled="id ? true : false"
+                </v-locale-provider>
+
+                <div class="border-lg pa-4 rounded-lg">
+                    <p class="d-flex justify-center text-grey-darken-1">
+                        توضیحات و آموزش استفاده از محصول
+                    </p>
+
+                    <p class="rtl pb-1">
+                        توضیحات محصول:
+                    </p>
+                    <TextEditor :content="description" @update="handleTextChange"></TextEditor>
+                    <v-checkbox @click="isContainTutorial ? instructions = null : ''" v-model="isContainTutorial"
+                        class="rtl mt-5" color="primary" label="افزودن آموزش و نکات استفاده از محصول" />
+
+                    <v-slide-y-transition>
+
+                        <div class="" v-if="isContainTutorial">
+                            <p class="rtl pb-1">
+                                آموزش و نکات استفاده از محصول:
+                            </p>
+                            <TextEditor :content="instructions" @update="handleTextChangeInstructions"></TextEditor>
+                            <v-alert class="mt-2 rtl mb-5 rounded-lg bg-grey-lighten-4" title="نکته"
+                                text="توضیحاتی که در کادر بالا قرار می‌دهید پس از خرید در کنار محصول خریداری شده به خریدار نمایش داده می‌شود ، این توضیحات می‌تواند شامل آموزش استفاده از محصول یا نکات مهم استفاده از محصول باشد."></v-alert>
+
+                        </div>
+                    </v-slide-y-transition>
+                </div>
+
+                <div class="border-lg pa-4 rounded-lg mt-4">
+                    <v-locale-provider rtl>
+                        <p class="d-flex justify-center text-grey-darken-1">
+                            قیمت گذاری محصول
+                        </p>
+                        <v-row class="mt-4">
+                            <v-col cols="12" md="6">
+                                <v-text-field
+                                :label="file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا' || file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا' ? ' قیمت هر ردیف(تومان)' : 'قیمت(تومان)'"
+                                rounded="lg" v-model="price" required type="number" persistent-hint variant="outlined"
+                                min="10000" color="primary" /> 
+                            </v-col>
+                            <v-col cols="12" md="6">
+                                <v-checkbox v-model="discount" color="primary" label="دارای تخفیف" class="flex-grow-1" />
+                            </v-col>
+                        </v-row>
+                        <v-slide-y-transition>
+                            <v-row v-if="discount" class="mt-1 mb-5">
+                               
+                                <v-col cols="12" md="6">
+                                    
+                                </v-col>
+                                <v-col cols="12" md="6">
+                                    <v-text-field label="درصد تخفیف" rounded="lg" v-model="value" :max="100" min="1" required
+                                        type="number" persistent-hint variant="outlined" color="primary" />
+                                </v-col>
+                            </v-row>
+                        </v-slide-y-transition>
+                        
+                        <v-expansion-panels>
+                            <v-expansion-panel elevation="0">
+                                <v-expansion-panel-title color="grey-lighten-4" class="">
+                                    <div>
+                                        <div>
+                                            کد تخفیف
+                                        </div>
+
+                                    </div>
+                                </v-expansion-panel-title>
+
+                                <v-expansion-panel-text class=" ">
+                                    <AddDiscountcodes :data="discount_codes"
+                                        @change="(data) => { discount_codes = data }" />
+                                </v-expansion-panel-text>
+                                <p class="text-red text-body-1 pt-2">{{ error }}</p>
+                            </v-expansion-panel>
+                        </v-expansion-panels>
+
+                    </v-locale-provider>
+                </div>
+                <div class="border-lg pa-4 rounded-lg mt-4">
+                    <v-locale-provider rtl>
+                        <p class="d-flex justify-center text-grey-darken-1">
+                            جزئیات محصول
+                        </p>
+
+                        <!-- DATA -->
+                        <v-select v-if="id == null" rounded="lg" required accept=".zip,.rar" persistent-hint
+                        variant="outlined" color="primary" v-model="file_type" :disabled="id ? true : false"
                         :label="id ? (get_file || get_file_url ? 'فایل' : 'افزودن گروهی: اکانت، لایسنس یا کد یکتا') : 'انتخاب نوع محصول'"
                         :items="[
                             'افزودن گروهی: اکانت، لایسنس یا کد یکتا',
                             'افزودن تکی: اکانت، لایسنس یا کد یکتا',
                             'فایل',
-                        ]"
-                        :rules="comboboxRules"
-                    ></v-select>
+                        ]" :rules="comboboxRules"></v-select>
 
 
 
                     <!-- <v-row class="mt-1" v-if="id ? get_file || get_file_url : file_type == 'فایل'"> -->
 
-                        <v-checkbox @click="file_url=null; file=null" v-if="id ? get_file ||  get_file_url != 'null' : file_type == 'فایل'" v-model="isContainFile" class="rtl " color="primary" label="آپلود فایل" />
-                        
-                        <!-- <v-slide-x-transition> -->
-                            <div class="" v-if="isContainFile">
-                                <!-- <v-col cols="6"> -->
-                                    <v-file-input 
-                                        v-if="id ? get_file ||  get_file_url != 'null' : file_type == 'فایل'"
-                                        rounded="lg" 
-                                        accept=".zip,.rar,.pdf" 
-                                        persistent-hint 
-                                        variant="outlined" 
-                                        color="primary"
-                                        :loading="loadingFile" 
-                                        :required="fileRequiredHandler()"
-                                        placeholder="اضافه کردن فایل"
-                                        @change="handleFileChange" 
-                                        :label="id ? 'تعویض فایل محصول' : 'فایل محصول'">
-                                        <template v-slot:selection="{ fileNames }">
-                                            <template v-for="fileName in fileNames" :key="fileName">
-                                                <v-chip size="small" label color="primary">
-                                                    {{ fileName }}
-                                                </v-chip>
-                                            </template>
-                                        </template>
-                                    </v-file-input>
-                                <!-- </v-col> -->
-                            </div>
-                            <div class="" v-if="isContainFile!=true">
-                            <!-- <v-col cols="6"> -->
-                                <v-text-field 
-                                    v-if="id ? get_file ||  get_file_url != 'null' : file_type == 'فایل'"
-                                    rounded="lg" 
-                                    :required="fileRequiredHandler()"
-                                    persistent-hint 
-                                    variant="outlined"  
-                                    color="primary"
-                                    :label="id ? 'تعویض لینک فایل محصول' : 'لینک فایل محصول'"
-                                    v-model="file_url" 
-                                    placeholder="لینک دانلود فایل">
-                                </v-text-field>
-                            <!-- </v-col> -->
-                            </div>
-                        <!-- </v-slide-x-transition> -->
+                    <v-checkbox @click="file_url = null; file = null"
+                        v-if="id ? get_file || get_file_url != 'null' : file_type == 'فایل'" v-model="isContainFile"
+                        class="rtl " color="primary" label="آپلود فایل" />
 
-                        
+                    <!-- <v-slide-x-transition> -->
+                    <div class="" v-if="isContainFile">
+                        <!-- <v-col cols="6"> -->
+                        <v-file-input v-if="id ? get_file || get_file_url != 'null' : file_type == 'فایل'" rounded="lg"
+                            accept=".zip,.rar,.pdf" persistent-hint variant="outlined" color="primary"
+                            :loading="loadingFile" :required="fileRequiredHandler()" placeholder="اضافه کردن فایل"
+                            @change="handleFileChange" :label="id ? 'تعویض فایل محصول' : 'فایل محصول'">
+                            <template v-slot:selection="{ fileNames }">
+                                <template v-for="fileName in fileNames" :key="fileName">
+                                    <v-chip size="small" label color="primary">
+                                        {{ fileName }}
+                                    </v-chip>
+                                </template>
+                            </template>
+                        </v-file-input>
+                        <!-- </v-col> -->
+                    </div>
+                    <div class="" v-if="isContainFile != true">
+                        <!-- <v-col cols="6"> -->
+                        <v-text-field v-if="id ? get_file || get_file_url != 'null' : file_type == 'فایل'" rounded="lg"
+                            :required="fileRequiredHandler()" persistent-hint variant="outlined" color="primary"
+                            :label="id ? 'تعویض لینک فایل محصول' : 'لینک فایل محصول'" v-model="file_url"
+                            placeholder="لینک دانلود فایل">
+                        </v-text-field>
+                        <!-- </v-col> -->
+                    </div>
+                    <!-- </v-slide-x-transition> -->
+
+
 
                     <!-- </v-row> -->
 
-                    <p v-if="file_error != null" :href="get_file" class="d-flex justify-start w-100 ps-15 text-red-darken-3">
+                    <p v-if="file_error != null" :href="get_file"
+                        class="d-flex justify-start w-100 ps-15 text-red-darken-3">
                         {{ file_error }}
                     </p>
 
                     <a v-if="get_file" :href="get_file" class="d-flex justify-start w-100 ps-15">
                         دانلود فایل فعلی
                     </a>
-                    <a v-if="get_file_url != null && get_file_url != 'null'" :href="get_file_url" class="d-flex justify-start w-100 ps-15">
+                    <a v-if="get_file_url != null && get_file_url != 'null'" :href="get_file_url"
+                        class="d-flex justify-start w-100 ps-15">
                         دانلود فایل فعلی
                     </a>
 
                     <v-row class="mt-1 mb-5 rtl " align="end"
                         v-if="id ? get_file == null && get_file_url == 'null' : file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا'">
                         <v-col cols="12" md="9">
-                            <v-textarea label="اطلاعات ردیف" :required="LicenseRequiredHandler()" rounded="lg" persistent-hint variant="outlined"
-                                color="primary" class="" rows="3" v-model="body" />
+                            <v-textarea label="اطلاعات ردیف" :required="LicenseRequiredHandler()" rounded="lg"
+                                persistent-hint variant="outlined" color="primary" class="" rows="3" v-model="body" />
                         </v-col>
                         <v-col cols="12" md="3">
                             <v-btn type="submit" :disabled="body == '' || title == ''"
@@ -196,8 +226,8 @@
                     <v-alert v-if="file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'" class="mt-2 mb-5 rounded-lg"
                         title="نکته"
                         text="برای ثبت لایسنس‌های خود، لطفاً فایل اکسل را با دقت تکمیل کنید و در نظر داشته باشید اولین ردیف را به عنوان تخصیص دهید. هر ردیف فایل باید حاوی اطلاعات یک لایسنس باشد. پس از تکمیل، فایل خود را در بخش مربوطه در وب‌سایت آپلود کنید تا لایسنس‌های شما به سرعت و به طور موثر ثبت شوند."></v-alert>
-                    <v-file-input :key="fileInputKey" :required="LicenseRequiredHandler()" rounded="lg" accept=".xlsx" persistent-hint variant="outlined"
-                        color="primary"
+                    <v-file-input :key="fileInputKey" :required="LicenseRequiredHandler()" rounded="lg" accept=".xlsx"
+                        persistent-hint variant="outlined" color="primary"
                         v-if="id ? get_file == null && get_file_url == 'null' : file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'"
                         @change="handleCsvUpload" placeholder="اضافه لیست"
                         :label="id ? 'اضافه کردن به لیست محصول' : 'لیست محصول'">
@@ -230,12 +260,14 @@
                                                 {{ item.body }}
                                             </div>
                                         </td>
-                                      
-                                        <SharedConfirmationDialog @delete-item="transformedData.splice(transformedData.indexOf(items), 1); snackbar_delete = true">
-                                            <v-btn class="mb-2  me-2 ms-1" icon color="red" variant="tonal" size="small">
-                                            <TrashIcon size="18" />
-                                        </v-btn>
-                                            </SharedConfirmationDialog>
+
+                                        <SharedConfirmationDialog
+                                            @delete-item="transformedData.splice(transformedData.indexOf(items), 1); snackbar_delete = true">
+                                            <v-btn class="mb-2  me-2 ms-1" icon color="red" variant="tonal"
+                                                size="small">
+                                                <TrashIcon size="18" />
+                                            </v-btn>
+                                        </SharedConfirmationDialog>
                                     </tr>
                                 </tbody>
                             </v-table>
@@ -247,22 +279,25 @@
                         </div>
                         <div class=" d-flex justify-end w-100">
                             <v-table fixed-header class="w-100">
-                                <tbody class="scrollable-tbody bg-grey-lighten-4 rounded-lg ">
+                                <tbody class="scrollable-tbody border-lg rounded-lg ">
                                     <tr v-for="items in subset_product" :key="items"
                                         class="d-flex justify-end items-center">
-                                        <td class="table-cell  pt-2 rtl" v-if="items.sold==false" v-for="item in items.data">
+                                        <td class="table-cell  pt-2 rtl" v-if="items.sold == false"
+                                            v-for="item in items.data">
                                             <div
                                                 class=" bg-green-lighten-4 text-green-darken-4 rounded-xl py-2 px-6 text-center ">
                                                 <span class="font-weight-bold">{{ item.title }}:</span>
                                                 {{ item.body }}
                                             </div>
                                         </td>
-                                    
-                                        <SharedConfirmationDialog v-if="items.sold==false" @delete-item="subset_product.splice(subset_product.indexOf(items), 1); snackbar_delete = true; removeSubsetProduct(items)">
-                                            <v-btn  class="mb-2  me-2 ms-1" icon color="red" variant="tonal" size="small">
-                                            <TrashIcon size="18" />
-                                        </v-btn>
-                                            </SharedConfirmationDialog>
+
+                                        <SharedConfirmationDialog v-if="items.sold == false"
+                                            @delete-item="subset_product.splice(subset_product.indexOf(items), 1); snackbar_delete = true; removeSubsetProduct(items)">
+                                            <v-btn class="mb-2  me-2 ms-1" icon color="red" variant="tonal"
+                                                size="small">
+                                                <TrashIcon size="18" />
+                                            </v-btn>
+                                        </SharedConfirmationDialog>
                                     </tr>
                                 </tbody>
                             </v-table>
@@ -270,47 +305,32 @@
                     </div>
 
 
+                    </v-locale-provider>
+                </div>
+                <v-locale-provider rtl>
+                    <v-row class="mt-10 mb-5">
+                        <v-col cols="12" md="6">
+                            <AddCategories @change="(data) => { selectedCategories = data }"
+                                :selected="selectedCategories"
+                                url="/api/product/seller-panel/category-digital-product-list-create/" />
+                            </v-col>
+                            <v-col cols="12" md="6">
+                                <v-checkbox v-model="pin_profile" color="primary" label="پین بودن در صفحه ی پروفایل شما"
+                                    class="flex-grow-1" />
+                            </v-col>
+                    </v-row>
 
 
-                    <v-expansion-panels>
-                        <v-expansion-panel elevation="0">
-                            <v-expansion-panel-title color="grey-lighten-4" class="mt-10">
-                                <div class="d-flex w-100 justify-space-between  align-center">
-                                    <div>
-                                        کد تخفیف
-                                    </div>
 
-                                </div>
-                            </v-expansion-panel-title>
 
-                            <v-expansion-panel-text class="border-b ">
-                                <AddDiscountcodes :data="discount_codes"
-                                    @change="(data) => { discount_codes = data }" />
-                            </v-expansion-panel-text>
-                            <p class="text-red text-body-1 pt-2">{{ error }}</p>
-                        </v-expansion-panel>
-                    </v-expansion-panels>
+                    
 
-                    <div class="d-flex flex-wrap mt-7 w-full lr">
-                        <v-checkbox v-model="discount" color="primary" label="دارای تخفیف" class="flex-grow-1" />
-                        <v-checkbox v-model="pin_profile" color="primary" label="پین بودن در صفحه ی پروفایل شما"
-                            class="flex-grow-1" />
-                    </div>
+
+                    
 
 
                 </v-locale-provider>
-                <v-slide-y-transition>
-                    <v-row v-if="discount" class="mt-1 mb-5 rtl">
-                        <v-col cols="12" md="3">
-                            <v-text-field label="درصد تخفیف" rounded="lg" v-model="value" :max="100" min="1" required
-                                type="number" persistent-hint variant="outlined" color="primary" />
-                        </v-col>
-                        <v-col cols="12" md="9" hidden>
-                            <v-slider label="" variant="outlined" color="primary" class="mt-3" v-model="value" :min="0"
-                                :max="100" :step="1" thumb-label></v-slider>
-                        </v-col>
-                    </v-row>
-                </v-slide-y-transition>
+                
 
 
                 <div class="d-flex">
@@ -467,11 +487,11 @@ export default {
                 // return this.get_file != null && this.get_file_url != null
             } else if (this.file_type == 'فایل') {
                 if (this.isContainFile) {
-                    if(this.file == null){
+                    if (this.file == null) {
                         return true
                     }
-                }else{
-                    if(this.file_url == null){
+                } else {
+                    if (this.file_url == null) {
                         return true
                     }
                 }
@@ -485,10 +505,10 @@ export default {
             } else if (this.file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا' || this.file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا') {
                 if (this.transformedData.length == 0) {
                     return true
-                }else{
+                } else {
                     return false
                 }
-            } 
+            }
             return false
         },
         handleInputChange() {
@@ -718,11 +738,11 @@ export default {
                 this.discount_codes = response.data.discount_codes != null ? response.data.discount_codes : []
                 if (response.data.discount) this.discount = true
 
-                if (this.instructions == null){
+                if (this.instructions == null) {
                     this.isContainTutorial = false
-                }else if(this.instructions== '<p class="ql-align-right ql-direction-rtl"><br></p>'){
+                } else if (this.instructions == '<p class="ql-align-right ql-direction-rtl"><br></p>') {
                     this.isContainTutorial = false
-                }else{
+                } else {
                     this.isContainTutorial = true
                 }
             }
