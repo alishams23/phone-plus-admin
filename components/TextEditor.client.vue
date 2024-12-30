@@ -264,8 +264,7 @@ Quill.register(LineHeightStyle, true);
 }
 .ql-toolbar{
   direction: rtl;
-  border-top-left-radius: 0.7rem; 
-  border-top-right-radius: 0.7rem;
+
 }
 .ql-header.ql-picker{
   direction: ltr;
@@ -273,6 +272,7 @@ Quill.register(LineHeightStyle, true);
 .ql-toolbar {
   position: sticky;
   top: 0;
+  
   z-index: 1000;
   background: white;
   transition: opacity 0.3s ease, visibility 0.3s ease;
