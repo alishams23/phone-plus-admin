@@ -74,7 +74,7 @@
 
     <v-alert v-if="data.length == 0 && loading == false" color="primary" icon="fa fa-info" variant="tonal"
       border="start" class="rtl border-opacity-100 my-10">
-      <div class="text-sm  font-weight-black irsa">
+      <div class="text-sm   irsa">
         محصولی وجود ندارد
       </div>
     </v-alert>

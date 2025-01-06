@@ -8,7 +8,7 @@
         <XIcon size="24" />
     </v-btn>
 
-    <div>
+    <v-container>
         <v-snackbar :timeout="2000" color="red" variant="flat" elevation="24" v-model="snackbar_delete">
             <div class="w-100 rtl">
                 <p>با موفقیت حذف شد</p>
@@ -59,8 +59,8 @@
                     </div>
                 </v-locale-provider>
 
-                <div class="border-lg pa-4 rounded-lg">
-                    <p class="d-flex justify-center text-grey-darken-1">
+                <v-sheet class="  pa-4 rounded-xl mt-10" elevation="10">
+                    <p class="d-flex justify-center  text-grey-darken-2 text-body-1  bg-grey-lighten-5  rounded-lg py-2 mb-8">
                         توضیحات و آموزش استفاده از محصول
                     </p>
 
@@ -78,16 +78,16 @@
                                 آموزش و نکات استفاده از محصول:
                             </p>
                             <TextEditor :content="instructions" @update="handleTextChangeInstructions"></TextEditor>
-                            <v-alert class="mt-2 rtl mb-5 rounded-lg bg-grey-lighten-4" title="نکته"
+                            <v-alert class="mt-2 rtl mb-5 rounded-lg text-body-2 bg-grey-lighten-4" title="نکته"
                                 text="توضیحاتی که در کادر بالا قرار می‌دهید پس از خرید در کنار محصول خریداری شده به خریدار نمایش داده می‌شود ، این توضیحات می‌تواند شامل آموزش استفاده از محصول یا نکات مهم استفاده از محصول باشد."></v-alert>
 
                         </div>
                     </v-slide-y-transition>
-                </div>
+                </v-sheet>
 
-                <div class="border-lg pa-4 rounded-lg mt-4">
+                <v-sheet class="  pa-4 rounded-xl my-5" elevation="10">
                     <v-locale-provider rtl>
-                        <p class="d-flex justify-center text-grey-darken-1">
+                        <p class="d-flex justify-center  text-grey-darken-2 text-body-1  bg-grey-lighten-5  rounded-lg py-2 mb-8">
                             قیمت گذاری محصول
                         </p>
                         <v-row class="mt-4">
@@ -134,10 +134,10 @@
                         </v-expansion-panels>
 
                     </v-locale-provider>
-                </div>
-                <div class="border-lg pa-4 rounded-lg mt-4">
+                </v-sheet>
+                <v-sheet class="  pa-4 rounded-xl" elevation="10">
                     <v-locale-provider rtl>
-                        <p class="d-flex justify-center text-grey-darken-1">
+                        <p class="d-flex justify-center  text-grey-darken-2 text-body-1  bg-grey-lighten-5  rounded-lg py-2 mb-8">
                             جزئیات محصول
                         </p>
 
@@ -204,13 +204,13 @@
                         دانلود فایل فعلی
                     </a>
 
-                    <v-row class="mt-1 mb-5 rtl " align="end"
+                    <v-row class="mt-1 mb-5  rtl " align="end"
                         v-if="id ? get_file == null && get_file_url == 'null' : file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا'">
-                        <v-col cols="12" md="9">
+                        <v-col cols="12" md="8">
                             <v-textarea label="اطلاعات ردیف" :required="LicenseRequiredHandler()" rounded="lg"
                                 persistent-hint variant="outlined" color="primary" class="" rows="3" v-model="body" />
                         </v-col>
-                        <v-col cols="12" md="3">
+                        <v-col cols="12" md="4">
                             <v-btn type="submit" :disabled="body == '' || title == ''"
                                 class="rounded-lg mt-2 mb-5 mx-12" color="primary" @click="addRow()" variant="flat">
 
@@ -275,17 +275,17 @@
                     </div>
                     <div v-if="subset_product.length > 0 && subset_product.some(item => !item.sold)" class="">
                         <div class="d-flex items-center ">
-                            <p class="pt-5 pb-2"> ردیف های موجود از قبل:</p>
+                            <p class="pt-5 pb-2"> ردیف های موجود از قبل: <span> ({{ subset_product.map(item => !item.sold).length }})</span></p>
                         </div>
                         <div class=" d-flex justify-end w-100">
                             <v-table fixed-header class="w-100">
-                                <tbody class="scrollable-tbody border-lg rounded-lg ">
+                                <tbody class="scrollable-tbody border-sm rounded-lg ">
                                     <tr v-for="items in subset_product" :key="items"
                                         class="d-flex justify-end items-center">
                                         <td class="table-cell  pt-2 rtl" v-if="items.sold == false"
                                             v-for="item in items.data">
                                             <div
-                                                class=" bg-green-lighten-4 text-green-darken-4 rounded-xl py-2 px-6 text-center ">
+                                                class=" bg-indigo-lighten-5 text-indigo rounded-xl py-2 px-6 text-center ">
                                                 <span class="font-weight-bold">{{ item.title }}:</span>
                                                 {{ item.body }}
                                             </div>
@@ -306,7 +306,7 @@
 
 
                     </v-locale-provider>
-                </div>
+                </v-sheet>
                 <v-locale-provider rtl>
                     <v-row class="mt-10 mb-5">
                         <v-col cols="12" md="6">
@@ -346,7 +346,7 @@
                 </div>
             </div>
         </form>
-    </div>
+    </v-container>
 </template>
 <script>
 import Papa from 'papaparse';
