@@ -1,9 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr:false,
+
   build: {
     transpile: ["vuetify"],
   },
+
   css: ['~/scss/style.scss','~/assets/WebFonts/css/fontiran.css',],
   modules: ['@pinia/nuxt', '@vueuse/nuxt', '@vite-pwa/nuxt'],
 
@@ -11,7 +13,9 @@ export default defineNuxtConfig({
     port: 3003,
     // host:"0"
   },
+
   devtools: { enabled: true },
+
   pwa: {
     registerType: 'autoUpdate',
     manifest: {
@@ -55,4 +59,6 @@ export default defineNuxtConfig({
 
   /* your pwa options */
 },
+
+  compatibilityDate: '2025-01-06',
 })

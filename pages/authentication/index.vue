@@ -6,9 +6,7 @@
 
     <div v-else>
         <div class="pa-4" v-if="show_alert">
-            <v-progress-linear indeterminate color="primary" rounded="lg" height="3" v-if="id"
-                class="negative-margin mt-5">
-            </v-progress-linear>
+            
             <v-alert border="end" color="info" icon="fa fa-info" variant="tonal"
                 class="border-opacity-100  my-3 ">
                 <template v-slot:prepend>
@@ -24,7 +22,7 @@
             </v-alert>
         </div>
         
-        <v-stepper class="ma-4 rounded-lg" next="() => console.log(1)" v-model="step" :items="items" show-actions flat>
+        <v-stepper class="ma-4 rounded-lg" next="() => console.log(1)" v-model="step" elevation="0" :items="items" show-actions flat>
             <template v-slot:actions>
 
             </template>
@@ -107,8 +105,8 @@
 
                     </v-locale-provider>
                     <div class="d-flex justify-space-between">
-                        <v-btn rounded="lg" persistent-hint variant="flat" color="secondary" @click="step--"
-                            class="mx-2 px-5 text-body2 font-weight-bold mb-5" >
+                        <v-btn rounded="lg" persistent-hint variant="tonal" color="black" @click="step--"
+                            class="mx-2 px-5 text-body2  mb-5" >
                             بازگشت
                         </v-btn>
                         <v-btn rounded="lg" persistent-hint variant="flat" color="primary"
@@ -129,8 +127,8 @@
 
                     </v-locale-provider>
                     <div class="d-flex justify-space-between">
-                        <v-btn rounded="lg" persistent-hint variant="flat" color="secondary" @click="step--"
-                            class="mx-2 px-5 text-body2 font-weight-bold mb-5">
+                        <v-btn rounded="lg" persistent-hint variant="tonal" color="black" @click="step--"
+                            class="mx-2 px-5 text-body2  mb-5">
                             بازگشت
                         </v-btn>
                         <v-btn rounded="lg" persistent-hint variant="flat" color="primary"
@@ -185,7 +183,7 @@ export default {
             shipping: 0,
             step: 1,
             items: [
-                'اطلاعات شخصی',
+                'اطلاعات فروشگاه',
                 'کد اینماد',
                 'مرچنت زرینپال',
             ],
@@ -320,6 +318,9 @@ export default {
                 }
             ).then((response) => {
                 console.log('Update data', response.data);
+                if(this.merchant_id_zarinpal ){
+                    this.show_alert = true
+                }
 
             }).catch(function (error) {
 
@@ -350,7 +351,7 @@ export default {
                 }
             ).then((response) => {
                 console.log('Update data', response.data);
-                this.get
+            
             }).catch(function (error) {
                 if (error.response) {
                     console.log(error.response.data);
@@ -369,7 +370,7 @@ export default {
     },
 }
 </script>
-<style scoped>
+<style scoped >
 .negative-margin {
     margin-bottom: -17px;
     width: 98%;
