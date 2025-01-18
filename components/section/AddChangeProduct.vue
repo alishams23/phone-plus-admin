@@ -10,149 +10,159 @@
 
     <form @submit.prevent="sendData">
         <v-overlay :value="loadingData" :z-index="5">
-                <v-progress-circular 
-                    bg-color="transparent" 
-                    :size="55" 
-                    class="ma-10" 
-                    :width="5" 
-                    color="primary"
-                    indeterminate>
-                </v-progress-circular>
-            </v-overlay>
+            <v-progress-circular bg-color="transparent" :size="55" class="ma-10" :width="5" color="primary"
+                indeterminate>
+            </v-progress-circular>
+        </v-overlay>
 
-            <div class="form-content" :class="{ 'blurred': loadingData }">
-        <v-locale-provider rtl>
-            <v-text-field label="نام محصول" v-model="title" :maxlength="80" rounded="lg" required persistent-hint variant="outlined"
-                color="primary" class="mt-md-10" />
+        <div class="form-content" :class="{ 'blurred': loadingData }">
+            <v-locale-provider rtl>
+                <v-text-field label="نام محصول" v-model="title" :maxlength="80" rounded="lg" required persistent-hint
+                    variant="outlined" color="primary" class="mt-md-10" />
+                <v-file-input rounded="lg" accept=".png,.jpg" persistent-hint
+                    :required="id ? imageIds.length != 0 ? false : true : true" @change="sendImage" variant="outlined"
+                    prepend-icon="" :loading="loadingImage" :disabled="loadingImage" color="primary" v-model="images"
+                    placeholder="Upload your documents" label="عکس‌های محصول" multiple>
+                    <template v-slot:prepend>
+                        <PhotoIcon style="" class="text-grey" />
+                    </template>
+                    <template v-slot:selection="{ fileNames }">
+                        <template v-for="(preview, index) in imagePreviews" :key="index">
+                            <v-chip class="mx-1" size="small" label color="primary">
+                                {{ fileNames[index] }}
+                            </v-chip>
+                        </template>
+                    </template>
+                </v-file-input>
+                <div class="image-preview-container">
 
-            <div class="px-5 py-3 ">
-                توضیحات محصول
-            </div>
-        </v-locale-provider>
+                    <div v-for="(preview, index) in imageIds" :key="index">
 
-        <TextEditor :content="description" @update="handleTextChange"></TextEditor>
-        <v-locale-provider rtl>
-            <v-row class="mt-10 mb-5">
-                <!-- <v-col cols="12" md="6">
+                        <v-img :src="address + '/api/product/product-image/' + preview + '/ '"
+                            class="chip-image-preview object-cover "><v-avatar size="30" class="ma-3"
+                                @click="imageIds.splice(imageIds.indexOf(preview), 1)" color="red-darken-2" icon="">
+                                <TrashIcon size="15" />
+                            </v-avatar></v-img>
+                    </div>
+                </div>
+                <v-text-field label="کد آی‌فریم ویدیو محصول" v-model="video" rounded="lg" variant="outlined"
+                    color="primary" class="mt-2" />
+                    <v-sheet class="  pa-4 rounded-xl" elevation="10">
+                <v-locale-provider rtl>
+                    <p
+                        class="d-flex justify-center  text-grey-darken-2 text-body-1  bg-grey-lighten-5  rounded-lg py-2 mb-8">
+                        توضیحات محصول
+                    </p>
+
+                    <TextEditor :content="description" @update="handleTextChange"></TextEditor>
+                </v-locale-provider>
+            </v-sheet>
+                    <v-row class="mt-10 mb-5">
+                    <!-- <v-col cols="12" md="6">
                     <v-text-field label="قیمت محصول(تومان)" v-model="price" min="1000" required rounded="lg" type="number"
                         persistent-hint variant="outlined" color="primary" />
                 </v-col> -->
-                <v-col cols="12" md="6">
-                    <v-text-field
-                        label="هزینه ارسال(تومان)"
-                        v-model="delivery_fee"
-                        rounded="lg"
-                        persistent-hint
-                        variant="outlined"
-                        color="primary"
-                        type="number"
-                        min=0
-                        class=""
-                        :rules="[validateDeliveryFee]"
-                    />
+                    
+                    <v-col cols="12" md="6">
+                        <AddCategories @change="(data) => { selectedCategories = data }" :selected="selectedCategories"
+                            url="/api/product/seller-panel/category-product-list-create/" />
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <v-checkbox v-model="pin_profile" color="primary" label="پین بودن در صفحه ی پروفایل شما" />
+                    </v-col>
+                </v-row>
+                <v-expansion-panels rounded="xl" class="mb-10 mt-5  ">
+                    <v-expansion-panel elevation="0">
+                        <v-expansion-panel-title color="grey-lighten-4" class=" ">
+                            <div class="d-flex w-100 justify-space-between align-center">
+                                <div>
+                                    ویژگی های محصول
+                                </div>
 
-                </v-col>
-                <v-col cols="12" md="6">
-                    <AddCategories @change="(data) => { selectedCategories = data }" :selected="selectedCategories"
-                        url="/api/product/seller-panel/category-product-list-create/" />
-                </v-col>
-            </v-row>
+                            </div>
+                        </v-expansion-panel-title>
+                        <v-expansion-panel-text>
+                            <AddSpecification :data="list_specification"
+                                @change="(data) => { list_color = list_specification }" />
+                        </v-expansion-panel-text>
+                    </v-expansion-panel>
+
+                </v-expansion-panels>
+            </v-locale-provider>
 
 
-            <v-file-input rounded="lg" accept=".png,.jpg" persistent-hint :required="id?imageIds.length!=0?false:true:true" @change="sendImage"
-                variant="outlined" prepend-icon="" :loading="loadingImage" :disabled="loadingImage" color="primary" v-model="images"
-                placeholder="Upload your documents" label="عکس‌های محصول" multiple>
-                <template v-slot:prepend>
-                    <PhotoIcon style="" class="text-grey" />
-                </template>
-                <template v-slot:selection="{ fileNames }">
-                    <template v-for="(preview, index) in imagePreviews" :key="index">
-                        <v-chip class="mx-1" size="small" label color="primary">
-                            {{ fileNames[index] }}
-                        </v-chip>
-                    </template>
-                </template>
-            </v-file-input>
-            <div class="image-preview-container">
-                     
-                    <div v-for="(preview, index) in imageIds" :key="index">
-    
-                        <v-img :src="address + '/api/product/product-image/'+preview+'/ '" class="chip-image-preview object-cover " ><v-avatar size="30" class="ma-3"
-                            @click="imageIds.splice(imageIds.indexOf(preview), 1)"
-                            color="red-darken-2" icon="">
-                            <TrashIcon size="15" />
-                        </v-avatar></v-img>
-                    </div>
-                </div>   
-            <v-text-field label="کد آی‌فریم ویدیو محصول" v-model="video" rounded="lg" variant="outlined" color="primary"
-                class="mt-10" />
+
             
-            <v-expansion-panels rounded="xl" class="mb-10 mt-5  ">
-                <v-expansion-panel elevation="0">
-                    <v-expansion-panel-title color="grey-lighten-4" class=" ">
-                        <div class="d-flex w-100 justify-space-between align-center">
-                            <div>
-                                ویژگی های محصول
+            <v-sheet class="  pa-4 rounded-xl mt-10 mb-4" elevation="10">
+                <v-locale-provider rtl>
+                <p
+                    class="d-flex justify-center  text-grey-darken-2 text-body-1  bg-grey-lighten-5  rounded-lg py-2 mb-8">
+                    قیمت گذاری محصول
+                </p>
+                
+                <v-expansion-panels rounded="xl" class="mb-10 mt-5  ">
+                    <v-expansion-panel elevation="0">
+                        <v-expansion-panel-title color="grey-lighten-4" class="">
+                            <div class="d-flex w-100 justify-space-between  align-center">
+                                <div>
+                                    افزودن رنگ
+                                </div>
+
                             </div>
-                          
-                        </div>
-                    </v-expansion-panel-title>
-                    <v-expansion-panel-text>
-                        <AddSpecification :data="list_specification"
-                            @change="(data) => { list_color = list_specification }" />
-                    </v-expansion-panel-text>
-                </v-expansion-panel>
-                <v-expansion-panel elevation="0">
-                    <v-expansion-panel-title color="grey-lighten-4" class="">
-                        <div class="d-flex w-100 justify-space-between  align-center">
-                            <div>
-                                افزودن رنگ
+                        </v-expansion-panel-title>
+                        <v-expansion-panel-text class="border-b ">
+                            <AddColor :data="list_color" @change="(data) => { list_color = data }" />
+                        </v-expansion-panel-text>
+                        <p class="text-red text-body-1 ">{{ error }}</p>
+                    </v-expansion-panel>
+                    <v-expansion-panel elevation="0">
+                        <v-expansion-panel-title color="grey-lighten-4" class="">
+                            <div class="d-flex w-100 justify-space-between  align-center">
+                                <div>
+                                    کد تخفیف
+                                </div>
                             </div>
-                         
-                        </div>
-                    </v-expansion-panel-title>
-                    <v-expansion-panel-text class="border-b ">
-                        <AddColor :data="list_color" @change="(data) => { list_color = data }" />
-                    </v-expansion-panel-text>
-                    <p class="text-red text-body-1 ">{{ error }}</p>
-                </v-expansion-panel>
-                <v-expansion-panel elevation="0">
-                    <v-expansion-panel-title color="grey-lighten-4" class="">
-                        <div class="d-flex w-100 justify-space-between  align-center">
-                            <div>
-                                کد تخفیف
-                            </div>
-                        </div>
-                    </v-expansion-panel-title>
-                   
-                    <v-expansion-panel-text class="border-b ">
-                        <AddDiscountcodes :data="discount_codes" @change="(data) => { discount_codes = data }" />
-                    </v-expansion-panel-text>
-                    <!-- <p class="text-red text-body-1 pt-2">{{ error }}</p> -->
-                </v-expansion-panel>
-            </v-expansion-panels>
-            <v-row class="d-flex mt-7 w-full ltr">
-             <v-col>
-                   <v-checkbox v-model="pin_profile" color="primary" label="پین بودن در صفحه ی پروفایل شما" />
-             </v-col>
-              <v-col>
-                  <AddDiscount :value="value" @change="(data) => { value = data }" />
-              </v-col>
-            </v-row>
-        </v-locale-provider>
-        
-        <div class="d-flex" >
-            <v-btn rounded="lg" persistent-hint variant="flat" color="primary" :disabled="loadingImage"
-                class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
-                ثبت
-            </v-btn>
-            <!-- <v-btn rounded="lg" persistent-hint variant="outline" color="primary" :disabled="loadingImage"
+                        </v-expansion-panel-title>
+
+                        <v-expansion-panel-text class="border-b ">
+                            <AddDiscountcodes :data="discount_codes" @change="(data) => { discount_codes = data }" />
+                        </v-expansion-panel-text>
+                        <!-- <p class="text-red text-body-1 pt-2">{{ error }}</p> -->
+                    </v-expansion-panel>
+                </v-expansion-panels>
+                <v-row class="d-flex mt-2 w-full ltr">
+                    <v-col cols="12" md="6">
+                        <AddDiscount :value="value" @change="(data) => { value = data }" />
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <v-text-field label="هزینه ارسال(تومان)" v-model="delivery_fee" rounded="lg" persistent-hint
+                            variant="outlined" color="primary" type="number" min=0 class=""
+                            :rules="[validateDeliveryFee]" />
+
+                    </v-col>
+                </v-row>
+            </v-locale-provider>
+            </v-sheet>
+            <v-locale-provider rtl>
+                
+
+
+
+                
+            </v-locale-provider>
+
+            <div class="d-flex">
+                <v-btn rounded="lg" persistent-hint variant="flat" color="primary" :disabled="loadingImage"
+                    class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
+                    ثبت
+                </v-btn>
+                <!-- <v-btn rounded="lg" persistent-hint variant="outline" color="primary" :disabled="loadingImage"
                 class=" px-10 text-body2  font-weight-bold mb-5" @click="$emit('cancel')">
                 برگشت
             </v-btn> -->
+            </div>
         </div>
-        </div>
-        
+
     </form>
 </template>
 <script>
@@ -169,7 +179,7 @@ import { apiStore } from '~/store/api';
 export default {
     components: { XIcon, PhotoIcon, VideoIcon, CheckIcon, TrashIcon, CheckboxIcon, AddCategories, AddColor, AddDiscountcodes, AddSpecification, AddDiscount },
     props: ['id'],
-    emits:["close","cancel"],
+    emits: ["close", "cancel"],
     computed: {
         address() {
             return apiStore().address
@@ -245,7 +255,7 @@ export default {
                 reader.readAsDataURL(file);
             });
             this.sendDataFunc();
-            
+
         },
         async sendData() {
             let list_specification_id = []
@@ -253,7 +263,7 @@ export default {
             let discount_codes_id = []
             this.list_specification.forEach(element => {
                 list_specification_id.push(element.id)
-                
+
             });
 
             if (this.list_color.length != 0) { // check all func or not
@@ -261,13 +271,13 @@ export default {
                     list_color_id.push(element.id)
                 });
 
-          
+
                 this.discount_codes.forEach(element => {
                     discount_codes_id.push(element.id)
                 });
-       
 
-                if (discount_codes_id.length >0){
+
+                if (discount_codes_id.length > 0) {
                     formData.append('discount_codes', discount_codes_id)
                 }
                 let formDic = {}
@@ -348,17 +358,19 @@ export default {
 </script>
 
 <style>
-
 .fixed-top-left {
     position: fixed;
-    left: 10px; /* Adjust the right margin as necessary */
-    top: 10px; /* Adjust the bottom margin as necessary */
-    z-index: 1000; /* Ensures the button stays above other content */
+    left: 10px;
+    /* Adjust the right margin as necessary */
+    top: 10px;
+    /* Adjust the bottom margin as necessary */
+    z-index: 1000;
+    /* Ensures the button stays above other content */
 }
+
 .blurred {
     filter: blur(4px);
-    pointer-events: none; /* Disable interactions while loading */
+    pointer-events: none;
+    /* Disable interactions while loading */
 }
-
-
 </style>

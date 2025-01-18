@@ -60,7 +60,8 @@
                 </v-locale-provider>
 
                 <v-sheet class="  pa-4 rounded-xl mt-10" elevation="10">
-                    <p class="d-flex justify-center  text-grey-darken-2 text-body-1  bg-grey-lighten-5  rounded-lg py-2 mb-8">
+                    <p
+                        class="d-flex justify-center  text-grey-darken-2 text-body-1  bg-grey-lighten-5  rounded-lg py-2 mb-8">
                         توضیحات و آموزش استفاده از محصول
                     </p>
 
@@ -87,33 +88,35 @@
 
                 <v-sheet class="  pa-4 rounded-xl my-5" elevation="10">
                     <v-locale-provider rtl>
-                        <p class="d-flex justify-center  text-grey-darken-2 text-body-1  bg-grey-lighten-5  rounded-lg py-2 mb-8">
+                        <p
+                            class="d-flex justify-center  text-grey-darken-2 text-body-1  bg-grey-lighten-5  rounded-lg py-2 mb-8">
                             قیمت گذاری محصول
                         </p>
                         <v-row class="mt-4">
                             <v-col cols="12" md="6">
                                 <v-text-field
-                                :label="file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا' || file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا' ? ' قیمت هر ردیف(تومان)' : 'قیمت(تومان)'"
-                                rounded="lg" v-model="price" required type="number" persistent-hint variant="outlined"
-                                min="10000" color="primary" /> 
+                                    :label="file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا' || file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا' ? ' قیمت هر ردیف(تومان)' : 'قیمت(تومان)'"
+                                    rounded="lg" v-model="price" required type="number" persistent-hint
+                                    variant="outlined" min="10000" color="primary" />
                             </v-col>
                             <v-col cols="12" md="6">
-                                <v-checkbox v-model="discount" color="primary" label="دارای تخفیف" class="flex-grow-1" />
+                                <v-checkbox v-model="discount" color="primary" label="دارای تخفیف"
+                                    class="flex-grow-1" />
                             </v-col>
                         </v-row>
                         <v-slide-y-transition>
                             <v-row v-if="discount" class="mt-1 mb-5">
-                               
+
                                 <v-col cols="12" md="6">
-                                    
+
                                 </v-col>
                                 <v-col cols="12" md="6">
-                                    <v-text-field label="درصد تخفیف" rounded="lg" v-model="value" :max="100" min="1" required
-                                        type="number" persistent-hint variant="outlined" color="primary" />
+                                    <v-text-field label="درصد تخفیف" rounded="lg" v-model="value" :max="100" min="1"
+                                        required type="number" persistent-hint variant="outlined" color="primary" />
                                 </v-col>
                             </v-row>
                         </v-slide-y-transition>
-                        
+
                         <v-expansion-panels>
                             <v-expansion-panel elevation="0">
                                 <v-expansion-panel-title color="grey-lighten-4" class="">
@@ -137,35 +140,103 @@
                 </v-sheet>
                 <v-sheet class="  pa-4 rounded-xl" elevation="10">
                     <v-locale-provider rtl>
-                        <p class="d-flex justify-center  text-grey-darken-2 text-body-1  bg-grey-lighten-5  rounded-lg py-2 mb-8">
+                        <p
+                            class="d-flex justify-center  text-grey-darken-2 text-body-1  bg-grey-lighten-5  rounded-lg py-2 mb-8">
                             جزئیات محصول
                         </p>
 
                         <!-- DATA -->
                         <v-select v-if="id == null" rounded="lg" required accept=".zip,.rar" persistent-hint
-                        variant="outlined" color="primary" v-model="file_type" :disabled="id ? true : false"
-                        :label="id ? (get_file || get_file_url ? 'فایل' : 'افزودن گروهی: اکانت، لایسنس یا کد یکتا') : 'انتخاب نوع محصول'"
-                        :items="[
-                            'افزودن گروهی: اکانت، لایسنس یا کد یکتا',
-                            'افزودن تکی: اکانت، لایسنس یا کد یکتا',
-                            'فایل',
-                        ]" :rules="comboboxRules"></v-select>
+                            variant="outlined" color="primary" v-model="file_type" :disabled="id ? true : false"
+                            :label="id ? (get_file || get_file_url ? 'فایل' : 'افزودن گروهی: اکانت، لایسنس یا کد یکتا') : 'انتخاب نوع محصول'"
+                            :items="[
+                                'افزودن گروهی: اکانت، لایسنس یا کد یکتا',
+                                'افزودن تکی: اکانت، لایسنس یا کد یکتا',
+                                'فایل',
+                            ]" :rules="comboboxRules"></v-select>
 
 
 
-                    <!-- <v-row class="mt-1" v-if="id ? get_file || get_file_url : file_type == 'فایل'"> -->
+                        <!-- <v-row class="mt-1" v-if="id ? get_file || get_file_url : file_type == 'فایل'"> -->
 
-                    <v-checkbox @click="file_url = null; file = null"
-                        v-if="id ? get_file || get_file_url != 'null' : file_type == 'فایل'" v-model="isContainFile"
-                        class="rtl " color="primary" label="آپلود فایل" />
+                        <v-checkbox @click="file_url = null; file = null"
+                            v-if="id ? get_file || get_file_url != 'null' : file_type == 'فایل'" v-model="isContainFile"
+                            class="rtl " color="primary" label="آپلود فایل" />
 
-                    <!-- <v-slide-x-transition> -->
-                    <div class="" v-if="isContainFile">
-                        <!-- <v-col cols="6"> -->
-                        <v-file-input v-if="id ? get_file || get_file_url != 'null' : file_type == 'فایل'" rounded="lg"
-                            accept=".zip,.rar,.pdf" persistent-hint variant="outlined" color="primary"
-                            :loading="loadingFile" :required="fileRequiredHandler()" placeholder="اضافه کردن فایل"
-                            @change="handleFileChange" :label="id ? 'تعویض فایل محصول' : 'فایل محصول'">
+                        <!-- <v-slide-x-transition> -->
+                        <div class="" v-if="isContainFile">
+                            <!-- <v-col cols="6"> -->
+                            <v-file-input v-if="id ? get_file || get_file_url != 'null' : file_type == 'فایل'"
+                                rounded="lg" accept=".zip,.rar,.pdf" persistent-hint variant="outlined" color="primary"
+                                :loading="loadingFile" :required="fileRequiredHandler()" placeholder="اضافه کردن فایل"
+                                @change="handleFileChange" :label="id ? 'تعویض فایل محصول' : 'فایل محصول'">
+                                <template v-slot:selection="{ fileNames }">
+                                    <template v-for="fileName in fileNames" :key="fileName">
+                                        <v-chip size="small" label color="primary">
+                                            {{ fileName }}
+                                        </v-chip>
+                                    </template>
+                                </template>
+                            </v-file-input>
+                            <!-- </v-col> -->
+                        </div>
+                        <div class="" v-if="isContainFile != true">
+                            <!-- <v-col cols="6"> -->
+                            <v-text-field v-if="id ? get_file || get_file_url != 'null' : file_type == 'فایل'"
+                                rounded="lg" :required="fileRequiredHandler()" persistent-hint variant="outlined"
+                                color="primary" :label="id ? 'تعویض لینک فایل محصول' : 'لینک فایل محصول'"
+                                v-model="file_url" placeholder="لینک دانلود فایل">
+                            </v-text-field>
+                            <!-- </v-col> -->
+                        </div>
+                        <!-- </v-slide-x-transition> -->
+
+
+
+                        <!-- </v-row> -->
+
+                        <p v-if="file_error != null" :href="get_file"
+                            class="d-flex justify-start w-100 ps-15 text-red-darken-3">
+                            {{ file_error }}
+                        </p>
+
+                        <a v-if="get_file" :href="get_file" class="d-flex justify-start w-100 ps-15">
+                            دانلود فایل فعلی
+                        </a>
+                        <a v-if="get_file_url != null && get_file_url != 'null'" :href="get_file_url"
+                            class="d-flex justify-start w-100 ps-15">
+                            دانلود فایل فعلی
+                        </a>
+
+                        <v-row class="mt-1 mb-5  rtl " align="end"
+                            v-if="id ? get_file == null && get_file_url == 'null' : file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا'">
+                            <v-col cols="12" md="8">
+                                <v-textarea label="اطلاعات ردیف" :required="LicenseRequiredHandler()" rounded="lg"
+                                    persistent-hint variant="outlined" color="primary" class="" rows="3"
+                                    v-model="body" />
+                            </v-col>
+                            <v-col cols="12" md="4">
+                                <v-btn type="submit" :disabled="body == '' || title == ''"
+                                    class="rounded-lg mt-2 mb-5 mx-12" color="primary" @click="addRow()" variant="flat">
+
+                                    اضافه کردن ردیف
+
+                                    <template v-slot:append>
+                                        <CheckIcon size="17" />
+                                    </template>
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+
+                        <v-alert v-if="file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'"
+                            class="mt-2 mb-5 rounded-lg" title="نکته"
+                            text="برای ثبت لایسنس‌های خود، لطفاً فایل اکسل را با دقت تکمیل کنید و در نظر داشته باشید اولین ردیف را به عنوان تخصیص دهید. هر ردیف فایل باید حاوی اطلاعات یک لایسنس باشد. پس از تکمیل، فایل خود را در بخش مربوطه در وب‌سایت آپلود کنید تا لایسنس‌های شما به سرعت و به طور موثر ثبت شوند."></v-alert>
+                        <v-file-input :key="fileInputKey" :required="LicenseRequiredHandler()" rounded="lg"
+                            accept=".xlsx" persistent-hint variant="outlined" color="primary"
+                            v-if="id ? get_file == null && get_file_url == 'null' : file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'"
+                            @change="handleCsvUpload" placeholder="اضافه لیست"
+                            :label="id ? 'اضافه کردن به لیست محصول' : 'لیست محصول'">
+
                             <template v-slot:selection="{ fileNames }">
                                 <template v-for="fileName in fileNames" :key="fileName">
                                     <v-chip size="small" label color="primary">
@@ -174,135 +245,71 @@
                                 </template>
                             </template>
                         </v-file-input>
-                        <!-- </v-col> -->
-                    </div>
-                    <div class="" v-if="isContainFile != true">
-                        <!-- <v-col cols="6"> -->
-                        <v-text-field v-if="id ? get_file || get_file_url != 'null' : file_type == 'فایل'" rounded="lg"
-                            :required="fileRequiredHandler()" persistent-hint variant="outlined" color="primary"
-                            :label="id ? 'تعویض لینک فایل محصول' : 'لینک فایل محصول'" v-model="file_url"
-                            placeholder="لینک دانلود فایل">
-                        </v-text-field>
-                        <!-- </v-col> -->
-                    </div>
-                    <!-- </v-slide-x-transition> -->
 
+                        <!-- Show CSV data -->
+                        <div v-if="transformedData.length > 0">
+                            <div class="d-flex items-center">
+                                <p class="pt-5 pb-2">ردیف های اضافه شده:</p>
+                                <p class="pt-5 pb-2 mx-3 text-sm-body-2 text-red cursor-pointer" @click="clearData">پاک
+                                    کردن
+                                    همه</p>
+                            </div>
+                            <div class=" d-flex justify-end w-100">
+                                <v-table fixed-header class="w-100">
+                                    <tbody class="scrollable-tbody bg-grey-lighten-3 rounded-lg ">
+                                        <tr v-for="items in transformedData" :key="items"
+                                            class="d-flex justify-end items-center pt-2">
+                                            <td class="table-cell  rtl" v-for="item in items">
+                                                <div
+                                                    class=" bg-grey-lighten-5 text-grey-darken-3 rounded-xl py-2 px-6 text-center ">
+                                                    <span class="font-weight-bold ">{{ item.title }}:</span>
+                                                    {{ item.body }}
+                                                </div>
+                                            </td>
 
-
-                    <!-- </v-row> -->
-
-                    <p v-if="file_error != null" :href="get_file"
-                        class="d-flex justify-start w-100 ps-15 text-red-darken-3">
-                        {{ file_error }}
-                    </p>
-
-                    <a v-if="get_file" :href="get_file" class="d-flex justify-start w-100 ps-15">
-                        دانلود فایل فعلی
-                    </a>
-                    <a v-if="get_file_url != null && get_file_url != 'null'" :href="get_file_url"
-                        class="d-flex justify-start w-100 ps-15">
-                        دانلود فایل فعلی
-                    </a>
-
-                    <v-row class="mt-1 mb-5  rtl " align="end"
-                        v-if="id ? get_file == null && get_file_url == 'null' : file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا'">
-                        <v-col cols="12" md="8">
-                            <v-textarea label="اطلاعات ردیف" :required="LicenseRequiredHandler()" rounded="lg"
-                                persistent-hint variant="outlined" color="primary" class="" rows="3" v-model="body" />
-                        </v-col>
-                        <v-col cols="12" md="4">
-                            <v-btn type="submit" :disabled="body == '' || title == ''"
-                                class="rounded-lg mt-2 mb-5 mx-12" color="primary" @click="addRow()" variant="flat">
-
-                                اضافه کردن ردیف
-
-                                <template v-slot:append>
-                                    <CheckIcon size="17" />
-                                </template>
-                            </v-btn>
-                        </v-col>
-                    </v-row>
-
-                    <v-alert v-if="file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'" class="mt-2 mb-5 rounded-lg"
-                        title="نکته"
-                        text="برای ثبت لایسنس‌های خود، لطفاً فایل اکسل را با دقت تکمیل کنید و در نظر داشته باشید اولین ردیف را به عنوان تخصیص دهید. هر ردیف فایل باید حاوی اطلاعات یک لایسنس باشد. پس از تکمیل، فایل خود را در بخش مربوطه در وب‌سایت آپلود کنید تا لایسنس‌های شما به سرعت و به طور موثر ثبت شوند."></v-alert>
-                    <v-file-input :key="fileInputKey" :required="LicenseRequiredHandler()" rounded="lg" accept=".xlsx"
-                        persistent-hint variant="outlined" color="primary"
-                        v-if="id ? get_file == null && get_file_url == 'null' : file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'"
-                        @change="handleCsvUpload" placeholder="اضافه لیست"
-                        :label="id ? 'اضافه کردن به لیست محصول' : 'لیست محصول'">
-
-                        <template v-slot:selection="{ fileNames }">
-                            <template v-for="fileName in fileNames" :key="fileName">
-                                <v-chip size="small" label color="primary">
-                                    {{ fileName }}
-                                </v-chip>
-                            </template>
-                        </template>
-                    </v-file-input>
-
-                    <!-- Show CSV data -->
-                    <div v-if="transformedData.length > 0">
-                        <div class="d-flex items-center">
-                            <p class="pt-5 pb-2">ردیف های اضافه شده:</p>
-                            <p class="pt-5 pb-2 mx-3 text-sm-body-2 text-red cursor-pointer" @click="clearData">پاک کردن
-                                همه</p>
+                                            <SharedConfirmationDialog
+                                                @delete-item="transformedData.splice(transformedData.indexOf(items), 1); snackbar_delete = true">
+                                                <v-btn class="mb-2  me-2 ms-1" icon color="red" variant="tonal"
+                                                    size="small">
+                                                    <TrashIcon size="18" />
+                                                </v-btn>
+                                            </SharedConfirmationDialog>
+                                        </tr>
+                                    </tbody>
+                                </v-table>
+                            </div>
                         </div>
-                        <div class=" d-flex justify-end w-100">
-                            <v-table fixed-header class="w-100">
-                                <tbody class="scrollable-tbody bg-grey-lighten-3 rounded-lg ">
-                                    <tr v-for="items in transformedData" :key="items"
-                                        class="d-flex justify-end items-center pt-2">
-                                        <td class="table-cell  rtl" v-for="item in items">
-                                            <div
-                                                class=" bg-grey-lighten-5 text-grey-darken-3 rounded-xl py-2 px-6 text-center ">
-                                                <span class="font-weight-bold ">{{ item.title }}:</span>
-                                                {{ item.body }}
-                                            </div>
-                                        </td>
+                        <div v-if="subset_product.length > 0 && subset_product.some(item => !item.sold)" class="">
+                            <div class="d-flex items-center ">
+                                <p class="pt-5 pb-2"> ردیف های موجود از قبل: <span> ({{ subset_product.map(item =>
+                                        !item.sold).length }})</span></p>
+                            </div>
+                            <div class=" d-flex justify-end w-100">
+                                <v-table fixed-header class="w-100">
+                                    <tbody class="scrollable-tbody border-sm rounded-lg ">
+                                        <tr v-for="items in subset_product" :key="items"
+                                            class="d-flex justify-end items-center">
+                                            <td class="table-cell  pt-2 rtl" v-if="items.sold == false"
+                                                v-for="item in items.data">
+                                                <div
+                                                    class=" bg-indigo-lighten-5 text-indigo rounded-xl py-2 px-6 text-center ">
+                                                    <span class="font-weight-bold">{{ item.title }}:</span>
+                                                    {{ item.body }}
+                                                </div>
+                                            </td>
 
-                                        <SharedConfirmationDialog
-                                            @delete-item="transformedData.splice(transformedData.indexOf(items), 1); snackbar_delete = true">
-                                            <v-btn class="mb-2  me-2 ms-1" icon color="red" variant="tonal"
-                                                size="small">
-                                                <TrashIcon size="18" />
-                                            </v-btn>
-                                        </SharedConfirmationDialog>
-                                    </tr>
-                                </tbody>
-                            </v-table>
+                                            <SharedConfirmationDialog v-if="items.sold == false"
+                                                @delete-item="subset_product.splice(subset_product.indexOf(items), 1); snackbar_delete = true; removeSubsetProduct(items)">
+                                                <v-btn class="mb-2  me-2 ms-1" icon color="red" variant="tonal"
+                                                    size="small">
+                                                    <TrashIcon size="18" />
+                                                </v-btn>
+                                            </SharedConfirmationDialog>
+                                        </tr>
+                                    </tbody>
+                                </v-table>
+                            </div>
                         </div>
-                    </div>
-                    <div v-if="subset_product.length > 0 && subset_product.some(item => !item.sold)" class="">
-                        <div class="d-flex items-center ">
-                            <p class="pt-5 pb-2"> ردیف های موجود از قبل: <span> ({{ subset_product.map(item => !item.sold).length }})</span></p>
-                        </div>
-                        <div class=" d-flex justify-end w-100">
-                            <v-table fixed-header class="w-100">
-                                <tbody class="scrollable-tbody border-sm rounded-lg ">
-                                    <tr v-for="items in subset_product" :key="items"
-                                        class="d-flex justify-end items-center">
-                                        <td class="table-cell  pt-2 rtl" v-if="items.sold == false"
-                                            v-for="item in items.data">
-                                            <div
-                                                class=" bg-indigo-lighten-5 text-indigo rounded-xl py-2 px-6 text-center ">
-                                                <span class="font-weight-bold">{{ item.title }}:</span>
-                                                {{ item.body }}
-                                            </div>
-                                        </td>
-
-                                        <SharedConfirmationDialog v-if="items.sold == false"
-                                            @delete-item="subset_product.splice(subset_product.indexOf(items), 1); snackbar_delete = true; removeSubsetProduct(items)">
-                                            <v-btn class="mb-2  me-2 ms-1" icon color="red" variant="tonal"
-                                                size="small">
-                                                <TrashIcon size="18" />
-                                            </v-btn>
-                                        </SharedConfirmationDialog>
-                                    </tr>
-                                </tbody>
-                            </v-table>
-                        </div>
-                    </div>
 
 
                     </v-locale-provider>
@@ -313,24 +320,24 @@
                             <AddCategories @change="(data) => { selectedCategories = data }"
                                 :selected="selectedCategories"
                                 url="/api/product/seller-panel/category-digital-product-list-create/" />
-                            </v-col>
-                            <v-col cols="12" md="6">
-                                <v-checkbox v-model="pin_profile" color="primary" label="پین بودن در صفحه ی پروفایل شما"
-                                    class="flex-grow-1" />
-                            </v-col>
+                        </v-col>
+                        <v-col cols="12" md="6">
+                            <v-checkbox v-model="pin_profile" color="primary" label="پین بودن در صفحه ی پروفایل شما"
+                                class="flex-grow-1" />
+                        </v-col>
                     </v-row>
 
 
 
 
-                    
 
 
-                    
+
+
 
 
                 </v-locale-provider>
-                
+
 
 
                 <div class="d-flex">
