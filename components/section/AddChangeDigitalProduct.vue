@@ -281,8 +281,7 @@
                         </div>
                         <div v-if="subset_product.length > 0 && subset_product.some(item => !item.sold)" class="">
                             <div class="d-flex items-center ">
-                                <p class="pt-5 pb-2"> ردیف های موجود از قبل: <span> ({{ subset_product.map(item =>
-                                        !item.sold).length }})</span></p>
+                                <p class="pt-5 pb-2"> ردیف های موجود از قبل: <span> ({{ subset_product.filter(item =>   item.sold == false).length }})</span></p>
                             </div>
                             <div class=" d-flex justify-end w-100">
                                 <v-table fixed-header class="w-100">
