@@ -88,35 +88,11 @@
 
                 <v-sheet class="  pa-4 rounded-xl my-5" elevation="10">
                     <v-locale-provider rtl>
+                        
                         <p
                             class="d-flex justify-center  text-grey-darken-2 text-body-1  bg-grey-lighten-5  rounded-lg py-2 mb-8">
                             قیمت گذاری محصول
                         </p>
-                        <v-row class="mt-4">
-                            <v-col cols="12" md="6">
-                                <v-text-field
-                                    :label="file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا' || file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا' ? ' قیمت هر ردیف(تومان)' : 'قیمت(تومان)'"
-                                    rounded="lg" v-model="price" required type="number" persistent-hint
-                                    variant="outlined" min="10000" color="primary" />
-                            </v-col>
-                            <v-col cols="12" md="6">
-                                <v-checkbox v-model="discount" color="primary" label="دارای تخفیف"
-                                    class="flex-grow-1" />
-                            </v-col>
-                        </v-row>
-                        <v-slide-y-transition>
-                            <v-row v-if="discount" class="mt-1 mb-5">
-
-                                <v-col cols="12" md="6">
-
-                                </v-col>
-                                <v-col cols="12" md="6">
-                                    <v-text-field label="درصد تخفیف" rounded="lg" v-model="value" :max="100" min="1"
-                                        required type="number" persistent-hint variant="outlined" color="primary" />
-                                </v-col>
-                            </v-row>
-                        </v-slide-y-transition>
-
                         <v-expansion-panels>
                             <v-expansion-panel elevation="0">
                                 <v-expansion-panel-title color="grey-lighten-4" class="">
@@ -135,6 +111,32 @@
                                 <p class="text-red text-body-1 pt-2">{{ error }}</p>
                             </v-expansion-panel>
                         </v-expansion-panels>
+                        <v-row class="mt-4">
+                            <v-col cols="12" md="6">
+                                <v-text-field
+                                    :label="file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا' || file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا' ? ' قیمت هر ردیف(تومان)' : 'قیمت(تومان)'"
+                                    rounded="lg" v-model="price" required type="number" persistent-hint
+                                    variant="outlined" min="10000" color="primary" />
+                            </v-col>
+                            <v-col cols="12" md="6">
+                                
+                                <v-slide-y-transition>
+                                    <v-row class="mb-2">
+        
+                                        <v-col cols="12" md="6">
+                                            <v-checkbox v-model="discount" color="primary" label="دارای تخفیف"
+                                            class="flex-grow-1" />
+                                        </v-col>
+                                        <v-col v-if="discount"  cols="12" md="6">
+                                            <v-text-field label="درصد تخفیف" rounded="lg" v-model="value" :max="100" min="1"
+                                                required type="number" persistent-hint variant="outlined" color="primary" />
+                                        </v-col>
+                                    </v-row>
+                                </v-slide-y-transition>
+                            </v-col>
+                        </v-row>
+
+                        
 
                     </v-locale-provider>
                 </v-sheet>

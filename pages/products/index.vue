@@ -107,7 +107,7 @@
 
 
 
-                    <v-card-actions class="mt-auto mr-auto px-10">
+                    <v-card-actions class="mt-auto d-flex flex-wrap justify-end mr-auto px-3">
                     
                       
                     
@@ -137,7 +137,7 @@
                       </a>                                                                                                         
                       <SharedConfirmationDialog @delete-item="removeItem(product.id);snackbar_delete = true">
 
-                        <v-btn size="30" class="cursor-pointer" variant="tonal" color="red-darken-2" icon="">
+                        <v-btn size="30" class="cursor-pointer ml-4" variant="tonal" color="red-darken-2" icon="">
                         <TrashIcon size="15" />
                       </v-btn>
                       </SharedConfirmationDialog>

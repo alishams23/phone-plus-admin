@@ -3,58 +3,58 @@
     <v-snackbar
       :timeout="2000"
       color="primary"
-      variant="tonal"
+      
       elevation="24"
        v-model="snackbar_edit">
       <div class="w-100 rtl">
         <p>مقاله با موفقیت ویرایش شد</p>
       </div>
-      <template v-slot:actions>
+      <!-- <template v-slot:actions>
         <v-btn
           color="red"
           variant="text"
           @click="snackbar_edit = false">
           <XIcon/>
         </v-btn>
-      </template>
+      </template> -->
     </v-snackbar>
 
     <v-snackbar
       :timeout="2000"
       color="primary"
-      variant="tonal"
+      
       elevation="24"
        v-model="snackbar_save">
       <div class="w-100 rtl">
         <p>مقاله با موفقیت ثبت شد</p>
       </div>
-      <template v-slot:actions>
+      <!-- <template v-slot:actions>
         <v-btn
           color="red"
           variant="text"
           @click="snackbar_save = false">
           <XIcon/>
         </v-btn>
-      </template>
+      </template> -->
     </v-snackbar>
 
     <v-snackbar
       :timeout="2000"
       color="red"
-      variant="tonal"
+      
       elevation="24"
        v-model="snackbar_delete">
       <div class="w-100 rtl">
         <p>مقاله با موفقیت حذف شد</p>
       </div>
-      <template v-slot:actions>
+      <!-- <template v-slot:actions>
         <v-btn
           color="red"
           variant="text"
           @click="snackbar_delete = false">
           <XIcon/>
         </v-btn>
-      </template>
+      </template> -->
     </v-snackbar>
 
   <v-container>

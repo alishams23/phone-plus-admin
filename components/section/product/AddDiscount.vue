@@ -1,22 +1,19 @@
 <template>
     <v-locale-provider rtl>
-    <v-checkbox @click="valueData = 0 " v-model="discount" color="primary"
-    label="دارای تخفیف">
-</v-checkbox>
-</v-locale-provider>
-<v-slide-y-transition>
-    <v-row v-if="discount" class="mt-1 mb-5 rtl">
-        <v-col cols="12" md="6">
-            <v-text-field label="درصد تخفیف" rounded="lg" :max="100" min="1" v-model="valueData" required type="number" persistent-hint
-                variant="outlined" color="primary" />
-        </v-col>
-        <v-col cols="12" md="9" hidden>
-            <v-slider label="" variant="outlined" color="primary" class="mt-3"
-                v-model="valueData" :min="0" :max="100" :step="1" thumb-label></v-slider>
-        </v-col>
-    </v-row>
-</v-slide-y-transition>
-
+        
+        <v-slide-y-transition>
+            <v-row  class="mb-5 rtl">
+            <v-col cols="12" md="5">
+                <v-checkbox @click="valueData = 0" v-model="discount" color="primary" label="دارای تخفیف">
+                </v-checkbox>
+            </v-col>
+            <v-col v-if="discount" cols="12" md="6" >
+                <v-text-field label="درصد تخفیف" rounded="lg" :max="100" min="1" v-model="valueData" required
+                    type="number" persistent-hint variant="outlined" color="primary" />
+            </v-col>
+        </v-row>
+        </v-slide-y-transition>
+    </v-locale-provider>
 </template>
 <script>
 import { PlusIcon, TrashIcon, CheckIcon } from 'vue-tabler-icons';
@@ -36,7 +33,7 @@ export default {
         return {
             first_time: true,
             discount: false,
-            valueData:0
+            valueData: 0
         }
     },
     methods: {
@@ -51,10 +48,10 @@ export default {
     watch: {
         value: {
             handler(newVal) {
-                if(this.first_time) {
+                if (this.first_time) {
                     this.initializeState()
                 }
-                if(this.discount) {
+                if (this.discount) {
                     this.first_time = false
                 }
             },
