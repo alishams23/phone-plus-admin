@@ -206,7 +206,7 @@ Quill.register(LineHeightStyle, true);
         formData.append('image', file);
 
         // Assuming your API endpoint for uploading is '/api/upload'
-        const response = await axios.post('https://new.phoneplus.ir/api/blog/seller-panel/quill-images/', formData, {
+        const response = await axios.post('https://phoneplus.ir/api/blog/seller-panel/quill-images/', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }

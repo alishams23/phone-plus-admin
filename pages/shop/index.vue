@@ -7,7 +7,7 @@ import { apiStore } from '~/store/api';
 export default{
     mounted(){
 
-        window.location.href = `https://new.phoneplus.ir//${useUserStore().usernameShop}`;
+        window.location.href = `https://phoneplus.ir//${useUserStore().usernameShop}`;
 
     }
 }
