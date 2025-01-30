@@ -113,7 +113,7 @@ onMounted(() => {
   <v-card elevation="10" rounded="lg">
     <v-card-item>
       <div class="d-flex align-center justify-space-between pt-sm-2 rtl">
-        <v-card-title class="text-h5">درآمد ماهانه</v-card-title>
+        <v-card-title class="text-h5">درآمد ماه اخیر</v-card-title>
         <v-btn size="large" icon elevation="10" class="bg-secondary">
           <v-avatar size="large" class="text-white">
             <CurrencyDollarIcon size="25" />
