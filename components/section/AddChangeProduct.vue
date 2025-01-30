@@ -138,7 +138,7 @@
                             <AddDiscount :value="value" @change="(data) => { value = data }" />
                         </v-col>
                         <v-col cols="12" md="6">
-                            <v-text-field label="هزینه ارسال(تومان)" v-model="delivery_fee" rounded="lg" persistent-hint
+                            <v-text-field label="هزینه ارسال(تومان)" required v-model="delivery_fee" rounded="lg" persistent-hint
                                 variant="outlined" color="primary" type="number" min=0 class=""
                                 :rules="[validateDeliveryFee]" />
 
