@@ -227,7 +227,7 @@
                                             </tr>
                                         </tbody>
                                         </v-table>
-                   å                 </v-card-item>
+                                    </v-card-item>
                                 </v-card>
                             </v-container>
                         </div>
