@@ -107,7 +107,7 @@
                             controls 
                             class="rounded-lg shadow" 
                             style="width: 100%; max-width: 600px; height: auto;">
-                            <source src="" type="video/mp4" />
+                            <source src="/video/video.mp4" type="video/mp4" />
                             مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند
                         </video>
                     </div>
