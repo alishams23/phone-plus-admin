@@ -1,6 +1,6 @@
 <template>
     <div v-if="loadingData" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-        <v-progress-circular :size="55" class="ma-10" bg-color="grey4" :width="7" color="blue" indeterminate>
+        <v-progress-circular :size="55" class="ma-10" bg-color="grey-lighten-4" :width="5" color="blue" indeterminate>
         </v-progress-circular>
     </div>
 
@@ -14,15 +14,15 @@
                         fa fa-info
                     </v-icon>
                 </template>
-                <div class="text-xs text-right font-weight-black irsa">
-                    <p class="text-right">
-                        (ممکن است تا ۴۸ ساعت طول بکشد) اطلاعات شما با موفقیت ثبت شد منتظر تایید بمانید
+                <div class="text-xs text-right irsa">
+                    <p class="text-right text-black ">
+                        اطلاعات شما با موفقیت ثبت شد منتظر تایید بمانید  <span class="text-body-1 mx-3 text-grey-darken-2">ممکن است تا ۴۸ ساعت طول بکشد</span>
                     </p>
                 </div>
             </v-alert>
         </div>
         <v-locale-provider rtl>
-            <v-stepper class="ma-4 rounded-lg" v-model="step" :items="items" show-actions bg-color="white" elevation="2"  >
+            <v-stepper  class="ma-4 custom-stepper rounded-lg" v-model="step" :items="items" show-actions bg-color="white" elevation="10"  >
                 
                 
                 
@@ -161,9 +161,33 @@
 
                 <template v-slot:item.3>
                     <form @submit.prevent="handleFormSubmit()">
+               
+                     
                         <v-locale-provider rtl>
+                            <v-alert border="start"  color="info"  icon="fa fa-info" variant="tonal">
 
-                            <v-text-field class="pt-2" label="مرچنت آیدی زرین‌پال" v-model="merchant_id_zarinpal" rounded="lg" required
+                                <div class="text-black">
+                                    لطفا وارد سایت زرین پال به نشانی <a href="zarinpal.com"><b>zarinpal.com</b></a> شده و مراحل ثبت نام خود را تکمیل کنید.
+<br/>
+اگر هنگام ثبت نام در زرین پال نیازمند کد رهگیری مالیاتی بودید میتوانید طبق آموزش زیر کد رهگیری خودتون رو دریافت کنید.
+<br/>
+<br/>
+<a href="https://www.aparat.com/v/a6297ef">https://www.aparat.com/v/a6297ef</a>
+<br/>
+<br/>
+پس از ثبت نام موفق از قسمت تنظیمات درگاه کد درگاه پرداخت را در کادر پایین وارد کنید.
+
+                                </div>
+
+<div class="mt-4 d-flex">
+    <v-img src="/images/merchant.jpg" class="rounded-lg"  max-width="400">
+
+</v-img>
+</div>
+</v-alert>
+
+
+                            <v-text-field class="pt-2 mt-5" label="مرچنت آیدی زرین‌پال" v-model="merchant_id_zarinpal" rounded="lg" required
                                 persistent-hint variant="outlined" color="primary" />
 
 
@@ -427,10 +451,15 @@ export default {
     },
 }
 </script>
-<style scoped >
+<style  >
 .negative-margin {
     margin-bottom: -17px;
     width: 98%;
     /* Default to a relatively narrow width */
+}
+
+.custom-stepper .v-stepper-header {
+    box-shadow: none !important;
+    border-bottom: solid 1px rgb(229, 229, 229) ;
 }
 </style>
