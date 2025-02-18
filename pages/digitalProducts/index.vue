@@ -89,22 +89,18 @@
             <!-- <v-col cols="12" md="4" rounded="0">
               <v-img height="175px" :src="address + product.image[0].photo" cover></v-img>
             </v-col> -->
-            <v-col cols="12" md="4" rounded="0">
+            <v-col cols="12"  lg="4" rounded="0">
               <v-img height="175px" :src="product.image[0].photo" cover></v-img>
             </v-col>
-            <v-col cols="12" md="8">
-              <div class="d-flex ">
-                <div class=" d-flex flex-column flex-fill ">
-                  <v-card-item>
+            <v-col cols="12"   lg="8" class="d-flex flex-column flex-fill  ">
+             
+               
+                  <v-card-item class="mb-auto">
                     <v-card-title class="text-h6 ">{{ product.title }}</v-card-title>
                     <div v-html="product.plain_description" class="text-line-1  text-body-2"></div>
                   </v-card-item>
-                  <v-card-actions class="mt-auto d-flex flex-wrap justify-end mr-auto px-3">
-                    
-                    
-                    
-
-                    <div class="cursor-none">
+                  <v-card-actions class="  d-flex justify-space-between flex-wrap  align-center   px-3">
+                    <div class="cursor-none ">
                       <v-chip v-if="product.type=='license'" class="px-3 mr-4" variant="none" rounded="xl" size="small"
                         color="grey">
                        <div v-if="product.remain_subset_product>0 && product.remain_subset_product<=5">
@@ -116,13 +112,10 @@
                         </div>
                       </v-chip>
                     </div>
-
-                    
-
-
+                    <div class="d-flex align-center mt-auto ">
                     <v-dialog persistent width="1000"  :fullscreen="isBelowMd">
                       <template v-slot:activator="{ props: activatorProps }">
-                        <div class="ma-4">
+                        <div class="">
                           <v-btn class="px-5" v-bind="activatorProps" variant="flat" rounded="xl" size="small"
                             color="primary">
                             ویرایش
@@ -141,21 +134,22 @@
                     </v-dialog>
 
                     <a :href="`${address}/p/digitalProduct/${product.slug}`" target="_blank" rel="noopener noreferrer">
-                      <v-avatar size="30" variant="tonal" class="cursor-pointer ml-4" color="primary">
+                      <v-avatar size="30" variant="tonal" class="cursor-pointer  mx-2" color="primary">
                         <EyeIcon size="15" />
                       </v-avatar>
                     </a>
                     <SharedConfirmationDialog @delete-item="removeItem(product.id); snackbar_delete = true">
-                      <v-btn size="30" variant="tonal" class="cursor-pointer ml-4 " color="red-darken-2" icon="">
+                      <v-btn size="30" variant="tonal" class="cursor-pointer  " color="red-darken-2" icon="">
                         <TrashIcon size="15" />
                       </v-btn>
                     </SharedConfirmationDialog>
 
                     
+                    </div>
 
                   </v-card-actions>
-                </div>
-              </div>
+           
+             
             </v-col>
 
           </v-row>
