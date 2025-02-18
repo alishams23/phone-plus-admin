@@ -18,21 +18,21 @@
     </v-snackbar>
     <div class="d-flex justify-space-between align-center" v-if="loading ==false && data.length > 0">
                     
-                    <v-btn variant="outlined" to="/products" rounded="xl" size="small">
-                       همه ی محصولات
+                    <v-btn variant="outlined" to="/digitalproducts" rounded="xl" size="small">
+                       همه ی محصولات دیجیتال
                     </v-btn>
                     <div class="rtl font-weight-black py-5">
-                        محصولات اخیر
+                        محصولات دیجیتال اخیر 
                     </div>
                    </div>
     <v-row  class="rtl" v-if="loading ==false">
-        <v-col cols="12" lg="3"  sm="6" v-for="item in data.slice(-4)" :key="item.title">
+        <v-col cols="12" lg="3" sm="6"  v-for="item in data.slice(-4)" :key="item.title">
           
-            <v-card elevation="10"  height="100%" rounded="lg" >
+            <v-card elevation="10"  rounded="lg">
                 <RouterLink :to="'/'">
-                    <v-img :src="item.image[0].photo" height="65%" class="rounded-t-md"></v-img>
+                    <v-img :src="item.image[0].photo" height="100%" class="rounded-t-md"></v-img>
                 </RouterLink>
-                <div class="d-flex justify-end ml-4 mt-n5  " >
+                <div class="d-flex justify-end ml-4 mt-n5 " >
                   <v-dialog width="900" persistent>
                     <template v-slot:activator="{ props: activatorProps }">
                       <v-btn size="40" icon class="bg-primary d-flex" v-bind="activatorProps"
@@ -60,7 +60,7 @@
                     <v-card-title class="text-h6" v-text="item.title"></v-card-title>
                     <div class="d-flex align-center justify-space-between mt-1">
                         <div>
-                            <span class="text-h6" v-text=" item.colors[0].price"></span>
+                            <span class="text-h6" v-text=" item.price"></span>
                             <span class="text-body-1 ml-2 text-medium-emphasis text-decoration-line-through" v-text="item.salesPrice"></span>
                         </div>
                         <v-rating density="compact" color="warning" size="small" v-model="item.rating" readonly></v-rating>
@@ -91,7 +91,7 @@ export default {
     TrashIcon,
     AddChangeProduct
   },
-  name: "ProductCard",
+  name: "DigitalProductCard",
   data() {
     return {
       data: [],
@@ -109,7 +109,7 @@ export default {
     
     searchData() {
       this.loading = true
-      axios.get(`${apiStore().address}/api/product/seller-panel/products-list-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
+      axios.get(`${apiStore().address}/api/product/seller-panel/digital-products-list-search/?search=${this.search_text}&ordering=${this.order == false ? 'id' : '-id'}`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
@@ -121,7 +121,7 @@ export default {
       })
     },removeItem(id){
       this.loadingItem = id
-      axios.delete(`${apiStore().address}/api/product/seller-panel/product-retrieve-update-destroy/${id}/`, {
+      axios.delete(`${apiStore().address}/api/product/seller-panel/digital-product-retrieve-update-destroy/${id}/`, {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",

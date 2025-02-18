@@ -7,6 +7,7 @@ import RecentNotification from '~/components/dashboard/RecentNotification.vue';
 import PaymentTable from '~/components/dashboard/PaymentTable.vue';
 import FirstLoginPopUp from '~/components/dashboard/FirstLoginPopUp.vue';
 import RecentProduct from '~/components/dashboard/RecentProduct.vue';
+import RecentDigitalProduct from '~/components/dashboard/RecentDigitalProduct.vue';
 import axios from "axios";
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
@@ -20,7 +21,8 @@ export default {
     RecentNotification,
     PaymentTable,
     FirstLoginPopUp,
-    RecentProduct
+    RecentProduct,
+    RecentDigitalProduct
     },
     data() {
         return {
@@ -87,7 +89,12 @@ export default {
                     <PaymentTable />
                 </v-col>
 
-                <!-- Product Cards -->
+                <!-- Digital Product Cards -->
+                <!-- <v-col cols="12">
+                   
+                    <RecentDigitalProduct />
+                </v-col> -->
+
                 <v-col cols="12">
                    
                     <RecentProduct />
