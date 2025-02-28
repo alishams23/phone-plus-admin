@@ -31,6 +31,7 @@
                         color="primary"
                         class="mt-12"
                         type="tel"
+                        inputmode="numeric"
                       />
 
                       <v-btn type="submit" class="mt-3" size="large" elevation="0" rounded color="primary" :loading="loading" dark block tile> دریافت کد</v-btn>
@@ -46,7 +47,7 @@
                       <v-text-field
                         v-model="code"
                         :rules="[rules.required, rules.number]"
-                       label="کد را وارد کنید" required rounded="lg" type="tel"
+                       label="کد را وارد کنید" required rounded="lg" inputmode="numeric"
                        persistent-hint variant="outlined"
                         color="primary" class="mt-12" />
                     <div @click="state='login'"  class="  text-indigo-accent-4 d-flex justify-end pl-3 pt-1 cursor-pointer">
@@ -147,7 +148,7 @@
                         </v-row>
                         <v-text-field v-model="email" class="mt-3 " required label="ایمیل" rounded="lg" persistent-hint variant="outlined" color="primary" />
 
-                        <v-text-field v-model="phoneNumber" type="tel" class="mt-3 " label="شماره تلفن" rounded="lg" persistent-hint variant="outlined" color="primary" />
+                        <v-text-field v-model="phoneNumber" type="tel" inputmode="numeric" class="mt-3 " label="شماره تلفن" rounded="lg" persistent-hint variant="outlined" color="primary" />
                     
                         <v-btn :loading="loading" type="submit"  class="mt-1" size="large" elevation="0" rounded color="primary" dark block tile>ثبت
                           نام</v-btn>                    
@@ -164,7 +165,7 @@
                           v-model="code"
                           :rules="[rules.required, rules.number]"
                         label="کد را وارد کنید" required rounded="lg"
-                        persistent-hint variant="outlined" type="tel"
+                        persistent-hint variant="outlined" inputmode="numeric" 
                           color="primary" class="mt-16" />
                       <div @click="state='signup'"  class="  text-indigo-accent-4 d-flex justify-end pl-3 pt-1 cursor-pointer">
                         تغییر شماره  {{ phoneNumber }} 
