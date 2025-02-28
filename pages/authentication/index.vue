@@ -63,12 +63,14 @@
                                     </template>
 
                                 </v-file-input>
+
                                 <v-alert border="start" color="warning" icon="fa fa-info" variant="tonal"
                                     class=" border-opacity-100 mb-6">
                                     <div class="text-xs irsa">
-                                        <p class="text-right"> عکس کارت ملی خود را در مجاور خود گرفته به صورتی که واضح
+                                        <p class="text-right text-black"> عکس کارت ملی خود را در مجاور خود گرفته به صورتی که واضح
                                             باشد </p>
                                     </div>
+                                    <img src="/images/id_card.jpg" class="ma-3 rounded-xl " height="200" />
                                 </v-alert>
                                 <div v-if="N_card_face_preview" class="image-preview-container ps-10">
                                     <img :src="N_card_face_preview" class="chip-image-preview" />
