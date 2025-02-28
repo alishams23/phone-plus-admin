@@ -6,9 +6,8 @@
 
     <div v-else>
         <div class="pa-4" v-if="show_alert">
-            
-            <v-alert border="end" color="info" icon="fa fa-info" variant="tonal"
-                class="border-opacity-100  my-3 ">
+
+            <v-alert border="end" color="info" icon="fa fa-info" variant="tonal" class="border-opacity-100  my-3 ">
                 <template v-slot:prepend>
                     <v-icon>
                         fa fa-info
@@ -16,16 +15,19 @@
                 </template>
                 <div class="text-xs text-right irsa">
                     <p class="text-right text-black ">
-                        اطلاعات شما با موفقیت ثبت شد منتظر تایید بمانید  <span class="text-body-1 mx-3 text-grey-darken-2">ممکن است تا ۴۸ ساعت طول بکشد</span>
+                        اطلاعات شما با موفقیت ثبت شد منتظر تایید بمانید <span
+                            class="text-body-1 mx-3 text-grey-darken-2">ممکن است تا ۴۸
+                            ساعت طول بکشد</span>
                     </p>
                 </div>
             </v-alert>
         </div>
         <v-locale-provider rtl>
-            <v-stepper  class="ma-4 custom-stepper rounded-lg" v-model="step" :items="items" show-actions bg-color="white" elevation="10"  >
-                
-                
-                
+            <v-stepper class="ma-4 custom-stepper rounded-lg" v-model="step" :items="items" show-actions
+                bg-color="white" elevation="10">
+
+
+
                 <template v-slot:actions></template>
 
                 <template v-slot:item.1>
@@ -35,8 +37,8 @@
                         </v-alert>
                         <form @submit.prevent="handleFormSubmit(true)">
                             <v-locale-provider rtl>
-                                <v-text-field class="mt-16" label="نام فروشگاه" v-model="shop_name" rounded="lg" required
-                                    persistent-hint variant="outlined" color="primary" />
+                                <v-text-field class="mt-16" label="نام فروشگاه" v-model="shop_name" rounded="lg"
+                                    required persistent-hint variant="outlined" color="primary" />
 
                                 <v-file-input rounded="lg" accept=".png,.jpg" persistent-hint
                                     :required="N_card_preview ? false : true" variant="outlined" color="primary"
@@ -103,16 +105,81 @@
                         برای مشاهده آموزش نحوه دریافت کد اینماد، ویدیو پایین را تماشا کنید.
                     </p>
                     <div class="my-4 d-flex justify-center items-center">
-                        <video 
-                            controls 
-                            class="rounded-lg shadow" 
-                            style="width: 100%; max-width: 600px; height: auto;">
+                        <video controls class="rounded-lg shadow" style="width: 100%; max-width: 600px; height: auto;">
                             <source src="/video/video.mp4" type="video/mp4" />
                             مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند
                         </video>
                     </div>
                     <div class="my-4 mt-16 rounded-lg w-10">
-                        <div class="d-flex justify-space-between align-center bg-grey-lighten-4 rounded-lg py-2 px-4 flex-wrap">
+                        <div
+                            class="d-flex justify-space-between align-center bg-grey-lighten-4 rounded-lg py-2 px-4 flex-wrap">
+                            <div>دامنه فروشگاه:</div>
+                            <div class="d-flex justify-center align-center flex-wrap">
+                                <div class="mx-2 text-grey-darken-2" style="max-width: 300px; word-break: break-all;">
+                                    <p>{{ domain }}</p>
+                                </div>
+                                <v-btn @click="copyText" icon="mdi-content-copy" size="small" color="primary"
+                                    variant="tonal" class="mx-2 my-2">
+                                </v-btn>
+                            </div>
+                            <v-snackbar :timeout="2000" v-model="copied" color="gray" rounded="pill">
+                                <p class="text-center">
+                                    کپی شد <span class="text-bold">{{ domain }}</span>
+                                </p>
+                            </v-snackbar>
+                        </div>
+                    </div>
+                    <form @submit.prevent="handleFormSubmit(true)">
+                        <v-locale-provider rtl>
+
+                            <v-text-field class="pt-4" label="کد اینماد خود را وارد کنید" placeholder="کد اینماد"
+                                v-model="enamad_code" rounded="lg" required persistent-hint variant="outlined"
+                                color="primary" />
+
+                        </v-locale-provider>
+                        <div class="d-flex justify-space-between">
+                            <v-btn rounded="lg" persistent-hint variant="tonal" color="black" @click="step--"
+                                class="mx-2 px-5 text-body2  mb-5">
+                                بازگشت
+                            </v-btn>
+                            <v-btn rounded="lg" persistent-hint variant="flat" color="primary"
+                                class="mx-2 px-5 text-body2 font-weight-bold mb-5" type="submit">
+                                ثبت و ادامه
+                            </v-btn>
+                        </div>
+                    </form>
+                </template>
+
+                <template v-slot:item.3>
+                    <form @submit.prevent="handleFormSubmit()">
+
+
+                        <v-locale-provider rtl>
+                            <v-alert border="start" color="info" icon="fa fa-info" variant="tonal">
+
+                                <div class="text-black">
+                                    لطفا وارد سایت زرین پال به نشانی <a href="zarinpal.com"><b>zarinpal.com</b></a> شده
+                                    و مراحل ثبت نام خود را تکمیل کنید.
+                                    <br />
+                                    اگر هنگام ثبت نام در زرین پال نیازمند کد رهگیری مالیاتی بودید میتوانید طبق آموزش زیر
+                                    کد رهگیری خودتون رو دریافت کنید.
+                                    <br />
+                                    <br />
+                                    <a href="https://www.aparat.com/v/a6297ef">https://www.aparat.com/v/a6297ef</a>
+                                    <br />
+                                    <br />
+                                    پس از ثبت نام موفق از قسمت تنظیمات درگاه کد درگاه پرداخت را در کادر پایین وارد کنید.
+
+                                </div>
+
+                                <div class="mt-4 d-flex">
+                                    <v-img src="/images/merchant.jpg" class="rounded-lg" max-width="400">
+
+                                    </v-img>
+                                </div>
+                            </v-alert>
+
+                            <div class="d-flex justify-space-between align-center bg-grey-lighten-4 rounded-lg py-2 px-4 mt-4 flex-wrap">
                             <div>دامنه فروشگاه:</div>
                             <div class="d-flex justify-center align-center flex-wrap">
                                 <div class="mx-2 text-grey-darken-2" style="max-width: 300px; word-break: break-all;">
@@ -138,57 +205,9 @@
                                 </p>
                             </v-snackbar>
                         </div>
-                    </div>
-                    <form @submit.prevent="handleFormSubmit(true)">
-                        <v-locale-provider rtl>
 
-                            <v-text-field class="pt-4" label="کد اینماد خود را وارد کنید" placeholder="کد اینماد" v-model="enamad_code" rounded="lg" required persistent-hint
-                                variant="outlined" color="primary" />
-
-                        </v-locale-provider>
-                        <div class="d-flex justify-space-between">
-                            <v-btn rounded="lg" persistent-hint variant="tonal" color="black" @click="step--"
-                                class="mx-2 px-5 text-body2  mb-5" >
-                                بازگشت
-                            </v-btn>
-                            <v-btn rounded="lg" persistent-hint variant="flat" color="primary"
-                                class="mx-2 px-5 text-body2 font-weight-bold mb-5" type="submit">
-                                ثبت و ادامه
-                            </v-btn>
-                        </div>
-                    </form>
-                </template>
-
-                <template v-slot:item.3>
-                    <form @submit.prevent="handleFormSubmit()">
-               
-                     
-                        <v-locale-provider rtl>
-                            <v-alert border="start"  color="info"  icon="fa fa-info" variant="tonal">
-
-                                <div class="text-black">
-                                    لطفا وارد سایت زرین پال به نشانی <a href="zarinpal.com"><b>zarinpal.com</b></a> شده و مراحل ثبت نام خود را تکمیل کنید.
-<br/>
-اگر هنگام ثبت نام در زرین پال نیازمند کد رهگیری مالیاتی بودید میتوانید طبق آموزش زیر کد رهگیری خودتون رو دریافت کنید.
-<br/>
-<br/>
-<a href="https://www.aparat.com/v/a6297ef">https://www.aparat.com/v/a6297ef</a>
-<br/>
-<br/>
-پس از ثبت نام موفق از قسمت تنظیمات درگاه کد درگاه پرداخت را در کادر پایین وارد کنید.
-
-                                </div>
-
-<div class="mt-4 d-flex">
-    <v-img src="/images/merchant.jpg" class="rounded-lg"  max-width="400">
-
-</v-img>
-</div>
-</v-alert>
-
-
-                            <v-text-field class="pt-2 mt-5" label="مرچنت آیدی زرین‌پال" v-model="merchant_id_zarinpal" rounded="lg" required
-                                persistent-hint variant="outlined" color="primary" />
+                            <v-text-field class="pt-2 mt-5" label="مرچنت آیدی زرین‌پال" v-model="merchant_id_zarinpal"
+                                rounded="lg" required persistent-hint variant="outlined" color="primary" />
 
 
                         </v-locale-provider>
@@ -285,13 +304,13 @@ export default {
     },
     methods: {
         async copyText() {
-          try {
-            this.copied = true
-            await navigator.clipboard.writeText(this.domain);
-            console.log('Text copied to clipboard');
-          } catch (err) {
-            console.error('Failed to copy text: ', err);
-          }
+            try {
+                this.copied = true
+                await navigator.clipboard.writeText(this.domain);
+                console.log('Text copied to clipboard');
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            }
         },
         async handleFormSubmit(go_next = false) {
             try {
@@ -328,9 +347,9 @@ export default {
             };
             reader.readAsDataURL(files[0]);
         },
-        getData(check_step=true) {
+        getData(check_step = true) {
             this.loadingData = true
-            
+
             console.log('getData');
             axios.get(`${apiStore().address}/api/account/seller-panel/verify-shop-list`, {
                 headers: {
@@ -347,20 +366,20 @@ export default {
                     this.N_card_preview = response.data[0].image_national_card;
                     this.N_card_face_preview = response.data[0].selfie_with_national_card;
                     this.shop_card_preview = response.data[0].shop_card;
-                    this.enamad_code = response.data[0].code_enamad == 'null'?null:response.data[0].code_enamad;
-                    this.merchant_id_zarinpal = response.data[0].merchant_zarin =='null'?null:response.data[0].merchant_zarin;
+                    this.enamad_code = response.data[0].code_enamad == 'null' ? null : response.data[0].code_enamad;
+                    this.merchant_id_zarinpal = response.data[0].merchant_zarin == 'null' ? null : response.data[0].merchant_zarin;
                     this.put_data = true
                     this.domain = apiStore().address.replace('https://', `${this.shop_id.toLowerCase()}.`)
                     console.log('this.enamad_code', this.enamad_code);
-                    if(this.merchant_id_zarinpal){
-                        this.show_alert= true
+                    if (this.merchant_id_zarinpal) {
+                        this.show_alert = true
                     }
-                    if(check_step){
-                        if (this.enamad_code){
+                    if (check_step) {
+                        if (this.enamad_code) {
                             this.step = 3
-                        }else if (this.shop_name){
+                        } else if (this.shop_name) {
                             this.step = 2
-                        }else{
+                        } else {
                             this.step = 1
                         }
                     }
@@ -399,7 +418,7 @@ export default {
                 }
             ).then((response) => {
                 console.log('Update data', response.data);
-                if(this.merchant_id_zarinpal ){
+                if (this.merchant_id_zarinpal) {
                     this.show_alert = true
                 }
 
@@ -432,7 +451,7 @@ export default {
                 }
             ).then((response) => {
                 console.log('Update data', response.data);
-            
+
             }).catch(function (error) {
                 if (error.response) {
                     console.log(error.response.data);
@@ -451,7 +470,7 @@ export default {
     },
 }
 </script>
-<style  >
+<style>
 .negative-margin {
     margin-bottom: -17px;
     width: 98%;
@@ -460,6 +479,6 @@ export default {
 
 .custom-stepper .v-stepper-header {
     box-shadow: none !important;
-    border-bottom: solid 1px rgb(229, 229, 229) ;
+    border-bottom: solid 1px rgb(229, 229, 229);
 }
 </style>
