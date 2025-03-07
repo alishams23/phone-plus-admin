@@ -563,9 +563,9 @@ export default {
             // Filter out rows that are completely empty after the cell filtering
             return transformedData.filter(row => row.length > 0);
         },
-        removeSubsetProduct(item) {
+        async removeSubsetProduct(item) {
            
-            fetch(`${apiStore().address}/api/product/seller-panel/remove-row-subset-digital-product/${item.id}`, {
+            await fetch(`${apiStore().address}/api/product/seller-panel/remove-row-subset-digital-product/${item.id}`, {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json",
