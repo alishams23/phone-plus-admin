@@ -566,7 +566,7 @@ export default {
         async removeSubsetProduct(item) {
            
             await fetch(`${apiStore().address}/api/product/seller-panel/remove-row-subset-digital-product/${item.id}`, {
-                method: 'DELETE',
+                method: 'get',
                 headers: {
                     "Content-Type": "application/json",
                     Accept: "application/json",
