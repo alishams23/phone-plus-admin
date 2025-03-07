@@ -562,7 +562,8 @@ export default {
         removeSubsetProduct(item) {
             axios.delete(`${apiStore().address}/api/product/seller-panel/remove-row-subset-digital-product/${item.id}`, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    "Content-type": "application/json",
+                    Accept: "application/json",
                     Authorization: `Token ${useUserStore().userToken}`
                 },
             })
