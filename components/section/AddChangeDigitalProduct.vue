@@ -300,7 +300,7 @@
                                             </td>
 
                                             <SharedConfirmationDialog v-if="items.sold == false"
-                                                @delete-item="subset_product.splice(subset_product.indexOf(items), 1); snackbar_delete = true; removeSubsetProduct(items,userToken)">
+                                                @delete-item="subset_product.splice(subset_product.indexOf(items), 1); snackbar_delete = true; removeSubsetProduct(items)">
                                                 <v-btn class="mb-2  me-2 ms-1" icon color="red" variant="tonal"
                                                     size="small">
                                                     <TrashIcon size="18" />
@@ -563,14 +563,13 @@ export default {
             // Filter out rows that are completely empty after the cell filtering
             return transformedData.filter(row => row.length > 0);
         },
-        removeSubsetProduct(item,token) {
-            console.log(token)
+        removeSubsetProduct(item) {
             fetch(`${apiStore().address}/api/product/seller-panel/remove-row-subset-digital-product/${item.id}`, {
                 method: 'DELETE',
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",
-                    Authorization: `Token ${token}`
+                    Authorization: `Token ${this.userToken}`
                 },
             })
         },
