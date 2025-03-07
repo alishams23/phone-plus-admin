@@ -421,6 +421,9 @@ export default {
         address() {
             return apiStore().address
         },
+        userToken() {
+            return useUserStore().userToken 
+        },
     },
     mounted() {
         this.id != null ? this.getData() : ''
@@ -565,7 +568,7 @@ export default {
                 headers: {
                     "Content-type": "application/json",
                     Accept: "application/json",
-                    Authorization: `Token ${useUserStore().userToken}`
+                    Authorization: `Token ${this.userToken}`
                 },
             })
         },
