@@ -300,7 +300,7 @@
                                             </td>
 
                                             <SharedConfirmationDialog v-if="items.sold == false"
-                                                @delete-item="removeSubsetProduct(items)">
+                                                @delete-item="() => {removeSubsetProduct(items)}">
                                                 <v-btn class="mb-2  me-2 ms-1" icon color="red" variant="tonal"
                                                     size="small">
                                                     <TrashIcon size="18" />
