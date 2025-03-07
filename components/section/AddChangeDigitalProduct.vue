@@ -563,15 +563,31 @@ export default {
             // Filter out rows that are completely empty after the cell filtering
             return transformedData.filter(row => row.length > 0);
         },
-        removeSubsetProduct(item) {
+        removeSubsetProduct(item, token) {
+            console.log(token);
             fetch(`${apiStore().address}/api/product/seller-panel/remove-row-subset-digital-product/${item.id}`, {
                 method: 'DELETE',
                 headers: {
-                    "Content-type": "application/json",
+                    "Content-Type": "application/json",
                     Accept: "application/json",
-                    Authorization: `Token ${this.userToken}`
+                    Authorization: `Token ${token}`
                 },
+                mode: 'cors',
+                credentials: 'include', // Important for Safari
+                body: JSON.stringify({}) // Workaround for Safari
             })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Success:", data);
+            })
+            .catch(error => {
+                console.error("Error removing product:", error);
+            });
         },
         handleFileChange(event) {
             const files = event.target.files || event; // get the file(s)
