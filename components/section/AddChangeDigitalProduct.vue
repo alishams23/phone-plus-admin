@@ -300,7 +300,7 @@
                                             </td>
 
                                             <SharedConfirmationDialog v-if="items.sold == false"
-                                                @delete-item="() => {subset_product.splice(subset_product.indexOf(items), 1); snackbar_delete = true; fetch(`${apiStore().address}/api/product/seller-panel/remove-row-subset-digital-product/${item.id}`, {method: 'DELETE',headers: {'Content-Type': 'application/json',Accept: 'application/json',Authorization: `Token ${userToken}`},})}">
+                                                @delete-item="() => {subset_product.splice(subset_product.indexOf(items), 1); snackbar_delete = true; removeSubsetProduct(items)}">
                                                 <v-btn class="mb-2  me-2 ms-1" icon color="red" variant="tonal"
                                                     size="small">
                                                     <TrashIcon size="18" />
