@@ -560,12 +560,22 @@ export default {
             return transformedData.filter(row => row.length > 0);
         },
         removeSubsetProduct(item) {
-            axios.delete(`${apiStore().address}/api/product/seller-panel/remove-row-subset-digital-product/${item.id}`, {
+            fetch(`${apiStore().address}/api/product/seller-panel/remove-row-subset-digital-product/${item.id}`, {
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    Authorization: `Token ${useUserStore().userToken}`
-                },
+                    'Authorization': `Token ${useUserStore().userToken}`
+                }
             })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // Optionally handle the successful response here
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         },
         handleFileChange(event) {
             const files = event.target.files || event; // get the file(s)
