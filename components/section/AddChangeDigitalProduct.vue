@@ -572,7 +572,6 @@ export default {
                     Accept: "application/json",
                     Authorization: `Token ${this.userToken}`
                 },
-                mode: 'cors',
                 credentials: 'include', // Important for Safari
                 body: JSON.stringify({}) // Workaround for Safari
             })
