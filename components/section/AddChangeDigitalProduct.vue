@@ -564,7 +564,7 @@ export default {
             return transformedData.filter(row => row.length > 0);
         },
         removeSubsetProduct(item) {
-            console.log(token);
+           
             fetch(`${apiStore().address}/api/product/seller-panel/remove-row-subset-digital-product/${item.id}`, {
                 method: 'DELETE',
                 headers: {
