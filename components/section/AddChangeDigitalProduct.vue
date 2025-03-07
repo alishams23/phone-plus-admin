@@ -342,6 +342,7 @@
 
 
                 <div class="d-flex">
+                    {{ userToken }}
                     <v-btn rounded="lg" persistent-hint variant="flat" color="primary"
                         :disabled="loadingImage || loadingFile || disabled_submit"
                         class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
