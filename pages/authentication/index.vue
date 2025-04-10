@@ -5,23 +5,7 @@
     </div>
 
     <div v-else>
-        <div class="pa-4" v-if="show_alert">
-
-            <v-alert border="end" color="info" icon="fa fa-info" variant="tonal" class="border-opacity-100  my-3 ">
-                <template v-slot:prepend>
-                    <v-icon>
-                        fa fa-info
-                    </v-icon>
-                </template>
-                <div class="text-xs text-right irsa">
-                    <p class="text-right text-black ">
-                        اطلاعات شما با موفقیت ثبت شد منتظر تایید بمانید <span
-                            class="text-body-1 mx-3 text-grey-darken-2">ممکن است تا ۴۸
-                            ساعت طول بکشد</span>
-                    </p>
-                </div>
-            </v-alert>
-        </div>
+        
         <v-locale-provider rtl>
             <v-stepper class="ma-4 custom-stepper rounded-lg" v-model="step" :items="items" show-actions
                 bg-color="white" elevation="10">
@@ -227,7 +211,23 @@
                 </template>
             </v-stepper>
         </v-locale-provider>
-
+        
+        <div class="pa-4" v-if="show_alert">
+            <v-alert border="end" color="info" icon="fa fa-info" variant="tonal" class="border-opacity-100  my-3 ">
+                <template v-slot:prepend>
+                    <v-icon>
+                        fa fa-info
+                    </v-icon>
+                </template>
+                <div class="text-xs text-right irsa">
+                    <p class="text-right text-black ">
+                        اطلاعات شما با موفقیت ثبت شد منتظر تایید بمانید <span
+                            class="text-body-1 mx-3 text-grey-darken-2">ممکن است تا ۴۸
+                            ساعت طول بکشد</span>
+                    </p>
+                </div>
+            </v-alert>
+        </div>
 
     </div>
 </template>
