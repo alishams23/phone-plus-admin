@@ -263,7 +263,7 @@ export default {
                         this.snackbar = true
 
                         setTimeout(() => {
-                            // window.location.reload(true)
+                            window.location.reload(true)
                             this.loading = false
                         }, 3000);
                     })
