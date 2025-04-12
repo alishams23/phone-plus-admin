@@ -229,10 +229,10 @@ export default {
         },
         async updateData() {
             this.loading = true
-
+            
             this.fd = new FormData();
-                if(this.image)  this.fd.append("image", this.image[0])
-                if(this.background_image)  this.fd.append("background_image", this.background_image[0])
+                if(this.image)  this.fd.append("image", this.image)
+                if(this.background_image)  this.fd.append("background_image", this.background_image)
                 this.fd.append("name", this.name);
                 this.fd.append("bio", this.bio);
                 this.fd.append("is_background_blur", this.is_background_blur);
@@ -263,7 +263,7 @@ export default {
                         this.snackbar = true
 
                         setTimeout(() => {
-                            window.location.reload(true)
+                            // window.location.reload(true)
                             this.loading = false
                         }, 3000);
                     })
