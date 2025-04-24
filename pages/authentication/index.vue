@@ -143,7 +143,7 @@
                             <v-alert border="start" color="info" icon="fa fa-info" variant="tonal">
 
                                 <div class="text-black">
-                                    لطفا وارد سایت زرین پال به نشانی <a href="zarinpal.com"><b>zarinpal.com</b></a> شده
+                                    لطفا وارد سایت زرین پال به نشانی <a href="https://zarinpal.com" target="_blank"><b>zarinpal.com</b></a> شده
                                     و مراحل ثبت نام خود را تکمیل کنید.
                                     <br />
                                     اگر هنگام ثبت نام در زرین پال نیازمند کد رهگیری مالیاتی بودید میتوانید طبق آموزش زیر
