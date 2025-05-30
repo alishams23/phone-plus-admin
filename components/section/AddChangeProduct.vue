@@ -194,7 +194,7 @@ export default {
         title: null,
         description: null,
         images: [],
-        video: null,
+        video: '',
         imageUrl: [],
         value: 0,
         pin_profile: false,
