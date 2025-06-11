@@ -57,11 +57,24 @@
           <v-text-field v-model="search_text" @update:model-value="searchData" label="جستجو" rounded="lg"
             persistent-hint variant="outlined" color="primary" dense class="mt-md-5 text-body-2">
             <template v-slot:prepend>
-              <v-btn @click="order = !order; searchData()" variant="tonal" color="primary" rounded="lg" size="50">
-                <SortDescending2Icon v-if="order" />
-                <SortAscending2Icon v-if="!order" />
-              </v-btn>
+              <v-tooltip location="top">
+                <template v-slot:activator="{ props }">
+                  <v-btn
+                    v-bind="props"
+                    @click="order = !order; searchData()"
+                    variant="tonal"
+                    color="primary"
+                    rounded="lg"
+                    size="50"
+                  >
+                    <SortDescending2Icon v-if="order" />
+                    <SortAscending2Icon v-if="!order" />
+                  </v-btn>
+                </template>
+                <span>{{ order ? 'به ترتیب قدیمی ترین' : 'به ترتیب جدید ترین' }}</span>
+              </v-tooltip>
             </template>
+
           </v-text-field>
         </v-locale-provider>
       </v-col>

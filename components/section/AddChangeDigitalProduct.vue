@@ -88,7 +88,7 @@
 
                 <v-sheet class="  pa-4 rounded-xl my-5" elevation="10">
                     <v-locale-provider rtl>
-                        
+
                         <p
                             class="d-flex justify-center  text-grey-darken-2 text-body-1  bg-grey-lighten-5  rounded-lg py-2 mb-8">
                             قیمت گذاری محصول
@@ -119,24 +119,25 @@
                                     variant="outlined" min="10000" color="primary" />
                             </v-col>
                             <v-col cols="12" md="6">
-                                
+
                                 <v-slide-y-transition>
                                     <v-row class="mb-2">
-        
+
                                         <v-col cols="12" md="6">
                                             <v-checkbox v-model="discount" color="primary" label="دارای تخفیف"
-                                            class="flex-grow-1" />
+                                                class="flex-grow-1" />
                                         </v-col>
-                                        <v-col v-if="discount"  cols="12" md="6">
-                                            <v-text-field label="درصد تخفیف" rounded="lg" v-model="value" :max="100" min="1"
-                                                required type="number" persistent-hint variant="outlined" color="primary" />
+                                        <v-col v-if="discount" cols="12" md="6">
+                                            <v-text-field label="درصد تخفیف" rounded="lg" v-model="value" :max="100"
+                                                min="1" required type="number" persistent-hint variant="outlined"
+                                                color="primary" />
                                         </v-col>
                                     </v-row>
                                 </v-slide-y-transition>
                             </v-col>
                         </v-row>
 
-                        
+
 
                     </v-locale-provider>
                 </v-sheet>
@@ -162,13 +163,13 @@
                         <!-- <v-row class="mt-1" v-if="id ? get_file || get_file_url : file_type == 'فایل'"> -->
 
                         <v-checkbox @click="file_url = null; file = null"
-                            v-if="id ? get_file || get_file_url != 'null' : file_type == 'فایل'" v-model="isContainFile"
+                            v-if="id ? ((get_file || get_file_url != 'null') && type == null) || type == 'file' : file_type == 'فایل'" v-model="isContainFile"
                             class="rtl " color="primary" label="آپلود فایل" />
 
                         <!-- <v-slide-x-transition> -->
                         <div class="" v-if="isContainFile">
                             <!-- <v-col cols="6"> -->
-                            <v-file-input v-if="id ? get_file || get_file_url != 'null' : file_type == 'فایل'"
+                            <v-file-input v-if="id ? ((get_file || get_file_url != 'null') && type == null) || type == 'file' : file_type == 'فایل'"
                                 rounded="lg" accept=".zip,.rar,.pdf" persistent-hint variant="outlined" color="primary"
                                 :loading="loadingFile" :required="fileRequiredHandler()" placeholder="اضافه کردن فایل"
                                 @change="handleFileChange" :label="id ? 'تعویض فایل محصول' : 'فایل محصول'">
@@ -184,7 +185,7 @@
                         </div>
                         <div class="" v-if="isContainFile != true">
                             <!-- <v-col cols="6"> -->
-                            <v-text-field v-if="id ? get_file || get_file_url != 'null' : file_type == 'فایل'"
+                            <v-text-field v-if="id ? ((get_file || get_file_url != 'null') && type == null) || type == 'file' : file_type == 'فایل'"
                                 rounded="lg" :required="fileRequiredHandler()" persistent-hint variant="outlined"
                                 color="primary" :label="id ? 'تعویض لینک فایل محصول' : 'لینک فایل محصول'"
                                 v-model="file_url" placeholder="لینک دانلود فایل">
@@ -211,7 +212,7 @@
                         </a>
 
                         <v-row class="mt-1 mb-5  rtl " align="end"
-                            v-if="id ? get_file == null && get_file_url == 'null' : file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا'">
+                            v-if="id ? (get_file == null && get_file_url == 'null' && type == null) || type == 'license' : file_type == 'افزودن تکی: اکانت، لایسنس یا کد یکتا'">
                             <v-col cols="12" md="8">
                                 <v-textarea label="اطلاعات ردیف" :required="LicenseRequiredHandler()" rounded="lg"
                                     persistent-hint variant="outlined" color="primary" class="" rows="3"
@@ -235,7 +236,7 @@
                             text="برای ثبت لایسنس‌های خود، لطفاً فایل اکسل را با دقت تکمیل کنید و در نظر داشته باشید اولین ردیف را به عنوان تخصیص دهید. هر ردیف فایل باید حاوی اطلاعات یک لایسنس باشد. پس از تکمیل، فایل خود را در بخش مربوطه در وب‌سایت آپلود کنید تا لایسنس‌های شما به سرعت و به طور موثر ثبت شوند."></v-alert>
                         <v-file-input :key="fileInputKey" :required="LicenseRequiredHandler()" rounded="lg"
                             accept=".xlsx" persistent-hint variant="outlined" color="primary"
-                            v-if="id ? get_file == null && get_file_url == 'null' : file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'"
+                            v-if="id ?  (get_file == null && get_file_url == 'null' && type == null) || type == 'license' : file_type == 'افزودن گروهی: اکانت، لایسنس یا کد یکتا'"
                             @change="handleCsvUpload" placeholder="اضافه لیست"
                             :label="id ? 'اضافه کردن به لیست محصول' : 'لیست محصول'">
 
@@ -283,7 +284,9 @@
                         </div>
                         <div v-if="subset_product.length > 0 && subset_product.some(item => !item.sold)" class="">
                             <div class="d-flex items-center ">
-                                <p class="pt-5 pb-2"> ردیف های موجود از قبل: <span> ({{ subset_product.filter(item =>   item.sold == false).length }})</span></p>
+                                <p class="pt-5 pb-2"> ردیف های موجود از قبل: <span> ({{subset_product.filter(item =>
+                                        item.sold
+                                        == false).length }})</span></p>
                             </div>
                             <div class=" d-flex justify-end w-100">
                                 <v-table fixed-header class="w-100">
@@ -300,7 +303,7 @@
                                             </td>
 
                                             <SharedConfirmationDialog v-if="items.sold == false"
-                                                @delete-item="() => {subset_product.splice(subset_product.indexOf(items), 1); snackbar_delete = true; removeSubsetProduct(items)}">
+                                                @delete-item="() => { subset_product.splice(subset_product.indexOf(items), 1); snackbar_delete = true; removeSubsetProduct(items) }">
                                                 <v-btn class="mb-2  me-2 ms-1" icon color="red" variant="tonal"
                                                     size="small">
                                                     <TrashIcon size="18" />
@@ -342,7 +345,7 @@
 
 
                 <div class="d-flex">
-            
+
                     <v-btn rounded="lg" persistent-hint variant="flat" color="primary"
                         :disabled="loadingImage || loadingFile || disabled_submit"
                         class="mx-2 px-10 text-body2 font-weight-bold mb-5" type="submit">
@@ -404,6 +407,7 @@ export default {
         get_file: null,
         get_file_url: null,
         file: null,
+        type: null,
         file_url: null,
         value: 0,
         body: '',
@@ -423,7 +427,7 @@ export default {
             return apiStore().address
         },
         userToken() {
-            return useUserStore().userToken 
+            return useUserStore().userToken
         },
     },
     mounted() {
@@ -564,7 +568,7 @@ export default {
             return transformedData.filter(row => row.length > 0);
         },
         async removeSubsetProduct(item) {
-           
+
             await fetch(`${apiStore().address}/api/product/seller-panel/remove-row-subset-digital-product/${item.id}/`, {
                 method: 'DELETE',
                 headers: {
@@ -572,20 +576,20 @@ export default {
                     Accept: "application/json",
                     Authorization: `Token ${this.userToken}`
                 },
-               
+
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log("Success:", data);
-            })
-            .catch(error => {
-                console.error("Error removing product:", error);
-            });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Success:", data);
+                })
+                .catch(error => {
+                    console.error("Error removing product:", error);
+                });
         },
         handleFileChange(event) {
             const files = event.target.files || event; // get the file(s)
@@ -760,6 +764,7 @@ export default {
 
                 this.price = response.data.price
                 this.value = response.data.discount
+                this.type = response.data.type
                 this.get_file = response.data.file
                 this.get_file_url = response.data.link_file
                 this.subset_product = response.data.subset_product
