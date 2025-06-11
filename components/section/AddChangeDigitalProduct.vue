@@ -69,7 +69,7 @@
                         توضیحات محصول:
                     </p>
                     <TextEditor :content="description" @update="handleTextChange"></TextEditor>
-                    <v-checkbox @click="isContainTutorial ? instructions = null : ''" v-model="isContainTutorial"
+                    <v-checkbox @click="isContainTutorial ? instructions = '' : ''" v-model="isContainTutorial"
                         class="rtl mt-5" color="primary" label="افزودن آموزش و نکات استفاده از محصول" />
 
                     <v-slide-y-transition>
@@ -766,7 +766,7 @@ export default {
                 this.discount_codes = response.data.discount_codes != null ? response.data.discount_codes : []
                 if (response.data.discount) this.discount = true
 
-                if (this.instructions == null) {
+                if (this.instructions == '') {
                     this.isContainTutorial = false
                 } else if (this.instructions == '<p class="ql-align-right ql-direction-rtl"><br></p>') {
                     this.isContainTutorial = false
