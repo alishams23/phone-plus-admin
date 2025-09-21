@@ -321,25 +321,17 @@
                 <v-locale-provider rtl>
                     <v-row class="mt-10 mb-5">
                         <v-col cols="12" md="6">
-                            <AddCategories @change="(data) => { selectedCategories = data }"
+                            <v-locale-provider ltr>
+                                <AddCategories @change="(data) => { selectedCategories = data }"
                                 :selected="selectedCategories"
                                 url="/api/product/seller-panel/category-digital-product-list-create/" />
+                            </v-locale-provider>
                         </v-col>
                         <v-col cols="12" md="6">
                             <v-checkbox v-model="pin_profile" color="primary" label="پین بودن در صفحه ی پروفایل شما"
                                 class="flex-grow-1" />
                         </v-col>
                     </v-row>
-
-
-
-
-
-
-
-
-
-
                 </v-locale-provider>
 
 
