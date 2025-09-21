@@ -124,7 +124,7 @@
                                     <v-row class="mb-2">
 
                                         <v-col cols="12" md="6">
-                                            <v-checkbox v-model="discount" color="primary" label="دارای تخفیف"
+                                            <v-checkbox v-model="discount" @click="value = 0" color="primary" label="دارای تخفیف"
                                                 class="flex-grow-1" />
                                         </v-col>
                                         <v-col v-if="discount" cols="12" md="6">
