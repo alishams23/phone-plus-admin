@@ -150,7 +150,7 @@
 
                         <!-- DATA -->
                         <v-select v-if="id == null" rounded="lg" required accept=".zip,.rar" persistent-hint
-                            variant="outlined" color="primary" v-model="file_type" :disabled="id ? true : false"
+                            variant="outlined" color="primary" v-model="file_type" :update:modelValue="handleInputChange()" :disabled="id ? true : false"
                             :label="id ? (get_file || get_file_url ? 'فایل' : 'افزودن گروهی: اکانت، لایسنس یا کد یکتا') : 'انتخاب نوع محصول'"
                             :items="[
                                 'افزودن گروهی: اکانت، لایسنس یا کد یکتا',
@@ -759,6 +759,7 @@ export default {
                 this.type = response.data.type
                 this.get_file = response.data.file
                 this.get_file_url = response.data.link_file
+                this.file_url = response.data.link_file
                 this.subset_product = response.data.subset_product
                 this.discount_codes = response.data.discount_codes != null ? response.data.discount_codes : []
                 if (response.data.discount) this.discount = true
@@ -775,11 +776,6 @@ export default {
             }
             )
         },
-    },
-    watch: {
-        file_type() {
-            this.handleInputChange();
-        }
     }
 }
 </script>
