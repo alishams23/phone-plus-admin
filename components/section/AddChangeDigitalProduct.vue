@@ -372,11 +372,11 @@ export default {
         fileInputKey: Date.now(),
         title: null,
         body: '',
-        instructions: null,
+        instructions: '',
         csvData: [],
         formattedDate: [],
         transformedData: [],
-        description: null,
+        description: '',
         isContainTutorial: false,
         isContainFile: false,
         images: [],
@@ -741,8 +741,8 @@ export default {
                 },
             }).then((response) => {
                 this.loadingData = false
-                this.description = response.data.description
-                this.instructions = response.data.instructions
+                this.description = response.data.description == 'null'? '' : response.data.description
+                this.instructions = response.data.instructions == 'null'? '' : response.data.instructions
                 this.title = response.data.title
                 this.video = response.data.video
                 this.pin_profile = response.data.pin_profile
@@ -766,6 +766,8 @@ export default {
                 if (this.instructions == '') {
                     this.isContainTutorial = false
                 } else if (this.instructions == '<p class="ql-align-right ql-direction-rtl"><br></p>') {
+                    this.isContainTutorial = false
+                } else if (this.instructions == 'null') {
                     this.isContainTutorial = false
                 } else {
                     this.isContainTutorial = true
