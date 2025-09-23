@@ -150,7 +150,7 @@
 
                         <!-- DATA -->
                         <v-select v-if="id == null" rounded="lg" required accept=".zip,.rar" persistent-hint
-                            variant="outlined" color="primary" v-model="file_type" :update:modelValue="handleInputChange()" :disabled="id ? true : false"
+                            variant="outlined" color="primary" v-model="file_type" @update:modelValue="handleInputChange()" :disabled="id ? true : false"
                             :label="id ? (get_file || get_file_url ? 'فایل' : 'افزودن گروهی: اکانت، لایسنس یا کد یکتا') : 'انتخاب نوع محصول'"
                             :items="[
                                 'افزودن گروهی: اکانت، لایسنس یا کد یکتا',
@@ -162,9 +162,11 @@
 
                         <!-- <v-row class="mt-1" v-if="id ? get_file || get_file_url : file_type == 'فایل'"> -->
 
-                        <v-checkbox @click="file_url = null; file = null"
+                       <div >
+                         <v-checkbox @update:modelValue="file_url = null; file = null"
                             v-if="id ? ((get_file || get_file_url != 'null') && type == null) || type == 'file' : file_type == 'فایل'" v-model="isContainFile"
-                            class="rtl " color="primary" label="آپلود فایل" />
+                             color="primary" label="آپلود فایل" />
+                       </div>
 
                         <!-- <v-slide-x-transition> -->
                         <div class="" v-if="isContainFile">
@@ -437,7 +439,7 @@ export default {
             }
 
             // Define the new row object
-            const newRow = [{ title: this.title, body: this.body }];
+            const newRow = [{ title: this.title ? this.title : 'Data', body: this.body }];
             this.body = ''
             // Add the new row to transformedData
             this.transformedData.push(newRow);
