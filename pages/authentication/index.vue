@@ -7,37 +7,77 @@
     <div v-else>
         
         <v-locale-provider rtl>
-            <v-stepper class="ma-4 custom-stepper rounded-lg" v-model="step" :items="items" show-actions
-                bg-color="white" elevation="10">
-
-
-
-                <template v-slot:actions></template>
-
-                <template v-slot:item.1>
-                    <v-container class="px-md-10">
-                        <v-alert border="start" class="rtl mt-2 " title="نکته"
+            <v-container class="px-md-10">
+                        <!-- <v-alert border="start" class="rtl mt-2 " title="نکته"
                             text="پروفایل شما به عنوان یک فروشنده تایید نشده است. شما ابتدا باید احراز هویت انجام داده و پس از آن میتوانید وارد پنل فروشندگان شوید.">
-                        </v-alert>
+                        </v-alert> -->
                         <form @submit.prevent="handleFormSubmit(true)">
+                            
                             <v-locale-provider rtl>
-                                <v-text-field class="mt-16" label="نام فروشگاه" v-model="shop_name" rounded="lg"
-                                    required persistent-hint variant="outlined" color="primary" />
+                                <v-row align="center" justify="center">
+                                    <v-col cols="12" sm="6">
+   
+                                        <v-text-field 
+                                            class="mt-10" 
+                                            label="نام فروشگاه" 
+                                            v-model="shop_name" 
+                                            rounded="lg"
+                                            required 
+                                            persistent-hint 
+                                            variant="outlined" 
+                                            color="primary" 
+                                        />
+                                    </v-col>
+                                    <v-col cols="12" sm="6">
+                                        <v-text-field 
+                                            class="mt-10" 
+                                            label="آیدی فروشگاه" 
+                                            v-model="shop_id" 
+                                            rounded="lg"
+                                            required 
+                                            persistent-hint 
+                                            variant="outlined" 
+                                            color="primary" 
+                                        />
+                                                            
+                                    </v-col>
+                                </v-row>
+                                
+                                <v-textarea
+                                    color="primary" 
+                                    v-model="shop_bio" 
+                                    rounded="lg" 
+                                    variant="outlined" 
+                                    label="توضیحات بیشتر راجب فروشگاه"
+                                    persistent-hint 
+                                    
+                                />
 
-                                <v-file-input rounded="lg" accept=".png,.jpg" persistent-hint
-                                    :required="N_card_preview ? false : true" variant="outlined" color="primary"
-                                    v-model="N_card" @change="handleNCardChange" placeholder="Upload your documents"
-                                    label="عکس کارت ملی" prepend-icon="">
+                                <v-file-input 
+                                    rounded="lg"   
+                                    accept=".png,.jpg"  
+                                    persistent-hint
+                                    :required="logo_preview ? false : true"   
+                                    variant="outlined" 
+                                    color="primary"
+                                    v-model="logo" 
+                                    @change="handleLogoChange" 
+                                    placeholder="Upload your documents"
+                                    label="لوگو فروشگاه"    
+                                    prepend-icon="">
+                                    
                                     <template v-slot:prepend>
                                         <PhotoIcon class="text-grey" />
                                     </template>
 
                                 </v-file-input>
-                                <div v-if="N_card_preview" class="image-preview-container ps-10">
-                                    <img :src="N_card_preview" class="chip-image-preview" />
+
+                                
+                                <div v-if="logo_preview" class="image-preview-container ps-10">
+                                    <img :src="logo_preview" class="chip-image-preview" />
                                 </div>
 
-                                <v-file-input rounded="lg" accept=".png,.jpg" persistent-hint
+                                <!-- <v-file-input rounded="lg" accept=".png,.jpg" persistent-hint
                                     :required="N_card_face_preview ? false : true" variant="outlined" color="primary"
                                     v-model="N_card_face" @change="handleNCardFaceChange"
                                     placeholder="Upload your documents" label=" عکس صورت همراه با کارت ملی "
@@ -48,33 +88,13 @@
 
                                 </v-file-input>
 
-                                <v-alert border="start" color="warning" icon="fa fa-info" variant="tonal"
-                                    class=" border-opacity-100 mb-6">
-                                    <div class="text-xs irsa">
-                                        <p class="text-right text-black">  کارت ملی را مجاور خود گرفته به صورتی که هم صورت و هم کارت ملی واضح باشند </p>
-                                    </div>
-                                    <img src="/images/id_card.jpg" class="ma-3 rounded-xl " height="200" />
-                                </v-alert>
-                                <div v-if="N_card_face_preview" class="image-preview-container ps-10">
-                                    <img :src="N_card_face_preview" class="chip-image-preview" />
-                                </div>
-                                <!-- <v-file-input rounded="lg" accept=".png,.jpg" persistent-hint variant="outlined"
-                                    color="primary" v-model="shop_card" @change="handleShopCardChange"
-                                    placeholder="Upload your documents" label=" کارت مغازه " prepend-icon="">
-                                    <template v-slot:prepend>
-                                        <PhotoIcon class="text-grey" />
-                                    </template>
-
-                                </v-file-input>
-                                <div v-if="shop_card_preview" class="image-preview-container ps-10">
-                                    <img :src="shop_card_preview" class="chip-image-preview" />
-                                </div> -->
+                               -->
 
 
                                 <div class="d-flex justify-end">
                                     <v-btn rounded="lg" persistent-hint variant="flat" color="primary"
                                         class="mx-2 px-5 text-body2 font-weight-bold mb-5" type="submit">
-                                        ثبت و ادامه
+                                        قبول قوانین و قرارداد و ثبت
                                     </v-btn>
                                 </div>
                             </v-locale-provider>
@@ -82,134 +102,7 @@
 
 
                     </v-container>
-
-                </template>
-
-                <template v-slot:item.2>
-                    <p class="text-center text-body1 mt-2">
-                        برای مشاهده آموزش نحوه دریافت کد اینماد، ویدیو پایین را تماشا کنید.
-                    </p>
-                    <div class="my-4 d-flex justify-center items-center">
-                        <video controls class="rounded-lg shadow" style="width: 100%; max-width: 600px; height: auto;">
-                            <source src="/video/video.mp4" type="video/mp4" />
-                            مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند
-                        </video>
-                    </div>
-                    <div class="my-4 mt-16 rounded-lg w-10">
-                        <div
-                            class="d-flex justify-space-between align-center bg-grey-lighten-4 rounded-lg py-2 px-4 flex-wrap">
-                            <div>دامنه فروشگاه:</div>
-                            <div class="d-flex justify-center align-center flex-wrap">
-                                <div class="mx-2 text-grey-darken-2" style="max-width: 300px; word-break: break-all;">
-                                    <p>{{ domain }}</p>
-                                </div>
-                                <v-btn @click="copyText" icon="mdi-content-copy" size="small" color="primary"
-                                    variant="tonal" class="mx-2 my-2">
-                                </v-btn>
-                            </div>
-                            <v-snackbar :timeout="2000" v-model="copied" color="gray" rounded="pill">
-                                <p class="text-center">
-                                    کپی شد <span class="text-bold">{{ domain }}</span>
-                                </p>
-                            </v-snackbar>
-                        </div>
-                    </div>
-                    <form @submit.prevent="handleFormSubmit(true)">
-                        <v-locale-provider rtl>
-
-                            <v-text-field class="pt-4" label="کد اینماد خود را وارد کنید" placeholder="کد اینماد"
-                                v-model="enamad_code" rounded="lg" required persistent-hint variant="outlined"
-                                color="primary" />
-
-                        </v-locale-provider>
-                        <div class="d-flex justify-space-between">
-                            <v-btn rounded="lg" persistent-hint variant="tonal" color="black" @click="step--"
-                                class="mx-2 px-5 text-body2  mb-5">
-                                بازگشت
-                            </v-btn>
-                            <v-btn rounded="lg" persistent-hint variant="flat" color="primary"
-                                class="mx-2 px-5 text-body2 font-weight-bold mb-5" type="submit">
-                                ثبت و ادامه
-                            </v-btn>
-                        </div>
-                    </form>
-                </template>
-
-                <template v-slot:item.3>
-                    <form @submit.prevent="handleFormSubmit()">
-
-
-                        <v-locale-provider rtl>
-                            <v-alert border="start" color="info" icon="fa fa-info" variant="tonal">
-
-                                <div class="text-black">
-                                    لطفا وارد سایت زرین پال به نشانی <a href="https://zarinpal.com" target="_blank"><b>zarinpal.com</b></a> شده
-                                    و مراحل ثبت نام خود را تکمیل کنید.
-                                    <br />
-                                    اگر هنگام ثبت نام در زرین پال نیازمند کد رهگیری مالیاتی بودید میتوانید طبق آموزش زیر
-                                    کد رهگیری خودتون رو دریافت کنید.
-                                    <br />
-                                    <br />
-                                    <a href="https://www.aparat.com/v/a6297ef">https://www.aparat.com/v/a6297ef</a>
-                                    <br />
-                                    <br />
-                                    پس از ثبت نام موفق از قسمت تنظیمات درگاه کد درگاه پرداخت را در کادر پایین وارد کنید.
-
-                                </div>
-
-                                <div class="mt-4 d-flex">
-                                    <v-img src="/images/merchant.jpg" class="rounded-lg" max-width="400">
-
-                                    </v-img>
-                                </div>
-                            </v-alert>
-
-                            <div class="d-flex justify-space-between align-center bg-grey-lighten-4 rounded-lg py-2 px-4 mt-4 flex-wrap">
-                            <div>دامنه فروشگاه:</div>
-                            <div class="d-flex justify-center align-center flex-wrap">
-                                <div class="mx-2 text-grey-darken-2" style="max-width: 300px; word-break: break-all;">
-                                    <p>{{ domain }}</p>
-                                </div>
-                                <v-btn 
-                                    @click="copyText" 
-                                    icon="mdi-content-copy" 
-                                    size="small" 
-                                    color="primary" 
-                                    variant="tonal" 
-                                    class="mx-2 my-2">
-                                </v-btn>
-                            </div>
-                            <v-snackbar
-                                :timeout="2000"
-                                v-model="copied"
-                                color="gray"
-                                rounded="pill"
-                                >
-                                <p class="text-center">
-                                    کپی شد <span class="text-bold">{{ domain }}</span>
-                                </p>
-                            </v-snackbar>
-                        </div>
-
-                            <v-text-field class="pt-2 mt-5" label="مرچنت آیدی زرین‌پال" v-model="merchant_id_zarinpal"
-                                rounded="lg" required persistent-hint variant="outlined" color="primary" />
-
-
-                        </v-locale-provider>
-                        <div class="d-flex justify-space-between">
-                            <v-btn rounded="lg" persistent-hint variant="tonal" color="black" @click="step--"
-                                class="mx-2 px-5 text-body2  mb-5">
-                                بازگشت
-                            </v-btn>
-                            <v-btn rounded="lg" persistent-hint variant="flat" color="primary"
-                                class="mx-2 px-5 text-body2 font-weight-bold mb-5" type="submit">
-                                پذیرش قوانین و ثبت
-                            </v-btn>
-                        </div>
-
-                    </form>
-                </template>
-            </v-stepper>
+            
         </v-locale-provider>
         
         <div class="pa-4" v-if="show_alert">
@@ -251,9 +144,10 @@ export default {
 
             shop_name: null,
             shop_id: null,
+            shop_bio: null,
 
-            N_card: null,
-            N_card_preview: null,
+            logo: null,
+            logo_preview: null,
 
             N_card_face: null,
             N_card_face_preview: null,
@@ -315,22 +209,23 @@ export default {
         },
         async handleFormSubmit(go_next = false) {
             try {
-                if (this.id != null) {
-                    await this.updateData(); // Call update logic if `id` exists
-                } else {
-                    await this.createData(); // Call create logic otherwise
-                    this.getData(false)
-                }
-
+                // if (this.id != null) {
+                //     await this.updateData(); // Call update logic if `id` exists
+                // } else {
+                //     await this.createData(); // Call create logic otherwise
+                //     this.getData(false)
+                // }
+                await this.createData(); // Call create logic otherwise
+                
                 // Increment step after successful submission
                 if (go_next) this.step++;
             } catch (error) {
                 console.error('Form submission error:', error);
             }
         },
-        handleNCardChange(event) {
+        handleLogoChange(event) {
             const files = event.target.files;
-            this.previewImage(files, 'N_card_preview');
+            this.previewImage(files, 'logo_preview');
         },
         handleNCardFaceChange(event) {
             const files = event.target.files;
@@ -364,7 +259,7 @@ export default {
                     this.is_verified = response.data[0].is_verified;
                     this.shop_name = response.data[0].name;
                     this.shop_id = response.data[0].username;
-                    this.N_card_preview = response.data[0].image_national_card;
+                    this.logo_preview = response.data[0].image_national_card;
                     this.N_card_face_preview = response.data[0].selfie_with_national_card;
                     this.shop_card_preview = response.data[0].shop_card;
                     this.enamad_code = response.data[0].code_enamad == 'null' ? null : response.data[0].code_enamad;
@@ -402,11 +297,8 @@ export default {
             this.fd = new FormData();
 
             this.fd.append("name", this.shop_name)
-            this.N_card ? this.fd.append("image_national_card", this.N_card[0]) : ''
-            this.N_card_face ? this.fd.append("selfie_with_national_card", this.N_card_face[0]) : ''
-            this.shop_card ? this.fd.append("shop_card", this.shop_card[0]) : ''
-            this.fd.append("merchant_zarin", this.merchant_id_zarinpal)
-            this.fd.append("code_enamad", this.enamad_code)
+            this.fd.append("username", this.shop_id)
+            this.fd.append("image", this.logo)
 
             await axios.patch(
                 `${apiStore().address}/api/account/seller-panel/verify-shop-retrieve-update/${this.id}/`,
@@ -431,18 +323,17 @@ export default {
 
         },
         async createData() {
+            const userStore = useUserStore();
             console.log('createData');
             this.fd = new FormData();
 
             this.fd.append("name", this.shop_name)
-            this.fd.append("image_national_card", this.N_card)
-            this.fd.append("selfie_with_national_card", this.N_card_face)
-            this.shop_card ? this.fd.append("shop_card", this.shop_card) : ''
-            this.fd.append("merchant_zarin", this.merchant_id_zarinpal)
-            this.fd.append("code_enamad", this.enamad_code)
+            this.fd.append("bio", this.shop_bio)
+            this.fd.append("username", this.shop_id)
+            this.fd.append("image", this.logo)
 
             await axios.post(
-                `${apiStore().address}/api/account/seller-panel/verify-shop-create/`,
+                `${apiStore().address}/api/account/seller-panel/init-shop/`,
                 this.fd,
                 {
                     headers: {
@@ -451,7 +342,9 @@ export default {
                     },
                 }
             ).then((response) => {
-                console.log('Update data', response.data);
+                
+                userStore.saveStatusAndShopUsername('s', this.shop_id);
+                this.$router.push('/');
 
             }).catch(function (error) {
                 if (error.response) {

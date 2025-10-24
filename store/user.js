@@ -25,13 +25,23 @@ export const useUserStore = defineStore('user', {
 
     // Function to save the token and username in a cookie
     saveTokenAndUsernameInCookie(token, username,usernameShop,status) {
-      console.log(status)
       document.cookie = `userToken=${token};  path=/; max-age=${60 * 60 * 24 * 100 }`;
       document.cookie = `usernameUser=${username};  path=/; max-age=${60 * 60 * 24 * 100 }`;
       document.cookie = `usernameShop=${usernameShop};  path=/; max-age=${60 * 60 * 24 * 100 }`;
       document.cookie = `status=${status};  path=/; max-age=${60 * 60 * 24 * 100 }`;
     },
-
+    saveStatusAndShopUsername(status, usernameShop) {
+      console.log('test1');
+      
+      this.status = status
+      console.log('test۲');
+      this.usernameShop = usernameShop
+      console.log('test۳');
+      document.cookie = `usernameShop=${usernameShop};  path=/; max-age=${60 * 60 * 24 * 100 }`;
+      console.log('test۴');
+      document.cookie = `status=${status};  path=/; max-age=${60 * 60 * 24 * 100 }`;
+      console.log('test۵');
+    },
     // Function to load the token and username from a cookie
     loadTokenAndUsernameFromCookie() {
       const cookies = document.cookie.split('; ');

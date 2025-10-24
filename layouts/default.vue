@@ -21,7 +21,6 @@ export default {
     components: { Menu2Icon, NavGroup, NavItem, ExtraBox, Icon, Settings2Icon, SearchIcon, ProfileDD, Side,ExternalLinkIcon },
     data() {
         return {
-            sidebarMenu: shallowRef([]),
             sidebarItemsData: sidebarItems,
             sidebarItemUnregisterData: sidebarItemUnregister,
             settingMenu: shallowRef(settingItems),
@@ -33,13 +32,10 @@ export default {
         }
     },
     mounted() {
-
-        this.sidebarMenu = useUserStore().status == 's' ? this.sidebarItemsData : this.sidebarItemUnregisterData
         this.getMessage()
         setInterval(() => {
             this.getMessage()
         }, 10000);
-
     },
     computed: {
         address() {
@@ -50,7 +46,10 @@ export default {
         },
         user_status(){
             return useUserStore().status 
-        }
+        },
+        sidebarMenu() {
+            return useUserStore().status == 's' ? this.sidebarItemsData : this.sidebarItemUnregisterData
+        } 
     },
 
     methods: {
@@ -75,7 +74,12 @@ export default {
             // If the userToken does not exist, redirect to the login page
             this.$router.push('/auth');
         } else if (userStore.status != 's')
+        {
             this.$router.push('/authentication');
+
+        }
+
+            
     },
 }
 </script>

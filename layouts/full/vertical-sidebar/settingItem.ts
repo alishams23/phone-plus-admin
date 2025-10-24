@@ -32,15 +32,19 @@ const sidebarItem: menu[] = [
         to: '/settings/changeUsername'
     },
     {
+        title: '  چینش محصولات   ',
+        icon: MenuOrderIcon,
+        to: '/settings/showProfile'
+    },
+    {
         title: ' درگاه پرداخت  ',
         icon: WalletIcon,
         to: '/settings/wallet'
     },
-
     {
-        title: '  چینش محصولات   ',
-        icon: MenuOrderIcon,
-        to: '/settings/showProfile'
+        title: ' اینماد  ',
+        icon: WalletIcon,
+        to: '/settings/enamad'
     },
     
     

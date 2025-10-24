@@ -58,11 +58,11 @@ export default {
         <v-col cols="12">
             <v-row>
                 <!-- First Login PopUp -->
-                <v-dialog width="900" persistent v-model="open">
+                <!-- <v-dialog width="900" persistent v-model="open">
                     <v-card class="px-3 px-md-15 rounded-lg my-20 " title="">
                         <FirstLoginPopUp @cancel="open = false" />
                     </v-card>
-                </v-dialog>
+                </v-dialog> -->
 
                 <!-- Sales overview -->
                 <v-col cols="12" lg="8">

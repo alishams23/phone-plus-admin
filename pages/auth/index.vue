@@ -124,34 +124,42 @@
               </div>
             </v-col>
             <v-col cols="12" md="6" class="h-100">
-              <v-card-text class="mt-12">
+              <v-card-text class="mt-6">
                 <div class="w-full  mt-1 d-flex justify-center">
                   <img
                     src="@/assets/images/logos/phon plus FINISH.png"
                     class="mx-auto"
-                    width="250" height="125" alt="PhonePlus">
+                    width="200" height="100" alt="PhonePlus">
                 </div>
-                <h4 class="text-center text-h4 mt-10 font-weight-black">ثبت نام </h4>
+                <h4 class="text-center text-h4 font-weight-black">ثبت نام </h4>
                 <v-locale-provider rtl>
                   <form v-if="state != 'get_code_signup' " @submit.prevent="sendSingUpSms">
                     <v-row align="center" justify="center">
                       <v-col cols="12" sm="8">
                         <v-row>
                           <v-col cols="12" sm="6">
-                            <v-text-field v-model="first_name" required label="نام" rounded="lg" persistent-hint variant="outlined" color="primary"
+                            <v-text-field :rules="[rules.required]" v-model="first_name" required label="نام" rounded="lg" persistent-hint variant="outlined" color="primary"
                               class="mt-lg-2" />
                           </v-col>
                           <v-col cols="12" sm="6" >
-                            <v-text-field v-model="last_name" required  label="نام خانوادگی" rounded="lg" persistent-hint variant="outlined"
+                            <v-text-field v-model="last_name" label="نام خانوادگی" rounded="lg" persistent-hint variant="outlined"
                               color="primary" class="mt-lg-2" />
                           </v-col>
                         </v-row>
-                        <v-text-field v-model="email" class="mt-3 " required label="ایمیل" rounded="lg" persistent-hint variant="outlined" color="primary" />
+                        <v-text-field :rules="[rules.required]" v-model="email" class="mt-1 " required label="ایمیل" rounded="lg" persistent-hint variant="outlined" color="primary" />
+                        
+                        <v-text-field :rules="[rules.required, rules.nationalCode]" type="number" inputmode="numeric" v-model="national_code" class="mt-1 " required label="کدملی" rounded="lg" persistent-hint variant="outlined" color="primary" />
 
-                        <v-text-field v-model="phoneNumber" type="tel" inputmode="numeric" class="mt-3 " label="شماره تلفن" rounded="lg" persistent-hint variant="outlined" color="primary" />
+                        <v-text-field :rules="[rules.required, rules.phoneNumber]" v-model="phoneNumber" type="tel" inputmode="numeric" class="mt-1 " label="شماره تلفن" rounded="lg" persistent-hint variant="outlined" color="primary" />
                     
                         <v-btn :loading="loading" type="submit"  class="mt-1" size="large" elevation="0" rounded color="primary" dark block tile>ثبت
-                          نام</v-btn>                    
+                          نام
+                        </v-btn>                    
+                        
+                        <div v-if="signup_error" class="  text-red-accent-4 d-flex justify-start pl-3 pt-3 ">
+                          {{ signup_error }}
+                        </div>
+
                       </v-col>
                     </v-row>
                   </form>
@@ -232,12 +240,18 @@ export default {
     first_name: '',
     last_name: '',
     email: '',
+    national_code: '',
     step: null,
+    signup_error : '',
     rules: {
       required: value => !!value || 'این فیلد اجباری است',
       phoneNumber: value => {
         const pattern = /^\d{11}$/; // Updated to check for exactly 11 digits
         return pattern.test(value) || 'شماره باید ۱۱ رقم باشد';
+      },
+      nationalCode: value => {
+        const pattern = /^\d{10}$/; // Updated to check for exactly 11 digits
+        return pattern.test(value) || 'کدملی باید ۱۰ رقم باشد';
       },
       number: value=>{
         const pattern = /^[0-9]*$/;
@@ -277,7 +291,7 @@ export default {
     sendLoginSms() {
         // Ensure the phone number is not empty
         if (this.phoneNumber) {
-            const apiUrl = `${apiStore().address}/api/account/login-sms/`;
+            const apiUrl = `${apiStore().address}/api/account/seller-panel/login-sms/`;
             const data = {
                 number: this.phoneNumber // Assuming the API expects the full number with country code
             };
@@ -355,17 +369,18 @@ export default {
       console.log('sendSingUpSms' ,this.phoneNumber );
         // Ensure the phone number is not empty
         if (this.phoneNumber) {
-            const apiUrl = `${apiStore().address}/api/account/sign-up-sms/`;
+            const apiUrl = `${apiStore().address}/api/account/seller-panel/sign-up-sms/`;
             const data = {
                 first_name: this.first_name, // Assuming the API expects the full number with country code
                 last_name: this.last_name, // Assuming the API expects the full number with country code
                 email: this.email,
-                number: this.phoneNumber // Assuming the API expects the full number with country code
+                national_code: parseInt(this.national_code),
+                phone_number: this.phoneNumber // Assuming the API expects the full number with country code
             };
             this.loading = true
             axios.post(apiUrl, data, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    "Content-type": "application/json",
 
                 },
             })
@@ -382,7 +397,14 @@ export default {
                 })
                 .catch(error => {
                     // Handle error response
-                    console.error('Error sending SMS:', error);
+                    console.error('Error sending SMS:', error.response.data);
+                    this.loading = false
+                    if (error.response.data.code == "shahkar_validation_failed"){
+                      this.signup_error = "کدملی شما با شماره تلفن تطابق ندارد"
+                    }else{
+                      this.signup_error = "مشکلی پیش آمده، لطفا دوباره تلاش کنید"
+                    }
+                    // "shahkar_validation_failed"
                     // You can show an error message to the user here
                 });
         } else {
