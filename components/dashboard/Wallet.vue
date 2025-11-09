@@ -47,20 +47,52 @@
                                 افزایش اعتبار
                             </v-btn>
                         </template>
-
+                            
                         <template v-slot:default="{ isActive }"><v-locale-provider rtl>
                                 <form @submit.prevent="goPaymentPage">
                                     <v-card rounded="lg">
+                                        <div class="ma-5">افزایش اعتبار</div>
                                     
                                         <v-card-text>
                                             <v-text-field  type="number" min="10000" v-model="amount" label=" به مبلغ مورد نظر (ریال)" rounded="lg"
-                                                required class="mt-5" persistent-hint variant="outlined" color="primary" />
+                                                required class="mt-1" persistent-hint variant="outlined" color="primary" />
                                         </v-card-text>
-                                    
+                                        <v-slide-group class="mx-5" v-model="selected_gateway" mandatory show-arrows>
+                                            <v-slide-group-item
+                                                v-for="(key, index) in available_gateways"
+                                                :key="key"
+                                                :value="key"
+                                                v-slot="{ isSelected, toggle }"
+                                            >
+                                                <v-card
+                                                    @click="toggle"
+                                                    class="ma-2 d-flex flex-column align-center justify-center text-center"
+                                                    rounded="lg"
+                                                    :elevation="0"
+                                                    :variant="isSelected ? 'outlined' : 'text'"
+                                                    :color="isSelected ? 'primary' : undefined"
+                                                    width="84"
+                                                    height="80"
+                                                >
+                                                    <v-img
+                                                        :src="gateways[key].img"
+                                                        :alt="gateways[key].name"
+                                                        width="32"
+                                                        height="24"
+                                                        cover
+                                                        class="mt-2"
+                                                    />
+                                                    <v-card-text class="text-subtitle-2 text-center text-grey-darken-2 py-1">
+                                                        {{ gateways[key].name }}
+                                                    </v-card-text>
+                                                </v-card>
+                                            </v-slide-group-item>
+                                        </v-slide-group>
                                         <v-card-actions>
                                             <v-spacer></v-spacer>
                                     
                                             <v-btn text="بستن" rounded="lg" @click="isActive.value = false"></v-btn>
+
                                             <v-btn
                                             type="submit" 
                                             @click=""
@@ -80,7 +112,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { ArrowDownIcon, WalletIcon, QuestionMarkIcon } from 'vue-tabler-icons';
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
@@ -103,6 +135,15 @@ export default {
     data() {
         return {
             amount: null,
+            available_gateways: [],
+            selected_gateway: null,
+            gateways: {
+                sep:        { name: 'سپ',        img: '/images/gateways/sep.png' },
+                custom:     { name: 'زرینپال',   img: '/images/gateways/zarinpal.png' },
+                zarinpal:   { name: 'زرین پال',  img: '/images/gateways/zarinpal.png' },
+                behpardakht:{ name: 'به پرداخت', img: '/images/gateways/behpardakht.png' },
+                sadad:      { name: 'سداد',      img: '/images/gateways/sadad.png' },
+            }
         }
     },
     methods: {
@@ -122,30 +163,31 @@ export default {
             return chars.join("");;
         },
     goPaymentPage(){
-        window.location.href = this.address + '/api/wallet/charge-wallet/' + this.shop_username + '/' + this.amount
+        window.location.href = this.address + '/api/wallet/charge-wallet/' + this.shop_username + '/' + this.amount + '/' + this.selected_gateway
     }
     },
     setup() {
         const cash = ref(0);
 
-        onMounted(async () => {
-            try {
-                const response = await axios.get(`${apiStore().address}/api/wallet/wallet-info/`, {
-                    headers: {
-                        'Content-type': 'application/json',
-                        Accept: 'application/json',
-                        Authorization: `Token ${useUserStore().userToken}`,
-                    },
-                });
-                cash.value = response.data.cash;
-            } catch (error) {
-                console.error('Error fetching data from API', error);
-            }
-        });
-
         return {
             cash,
         };
+    },
+    async mounted() {
+        try {
+            const response = await axios.get(`${apiStore().address}/api/wallet/wallet-info/`, {
+                headers: {
+                    'Content-type': 'application/json',
+                    Accept: 'application/json',
+                    Authorization: `Token ${useUserStore().userToken}`,
+                },
+            });
+            this.cash = response.data.cash;
+            this.available_gateways = response.data.available_gateways || [];
+            this.selected_gateway = this.available_gateways[0] || null;
+        } catch (error) {
+            console.error('Error fetching data from API', error);
+        }
     }
 };
 </script>
