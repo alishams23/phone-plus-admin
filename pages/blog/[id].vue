@@ -157,8 +157,6 @@ export default {
             if (this.photo) {
                 this.fd.append("photo", this.photo[0])
                 this.fd.append("title_for_photo", this.title);
-                console.log(this.photo)
-                console.log('sendImg');
                 await axios
                     .post(
                         `${apiStore().address}/api/blog/seller-panel/create-image/`,
@@ -173,12 +171,8 @@ export default {
                     )
                     .catch(function (error) {
                         if (error.response) {
-                            console.log(error.response.data);
-                            console.log(error.response.status);
-                            console.log(error.response.headers);
                         }
                     }).then((response) => {
-                        console.log('sendImg', response.data.id);
                         this.imageId = response.data.id;
 
                     })
@@ -215,11 +209,7 @@ export default {
                     }
                 )
                 .catch(function (error) {
-                    if (error.response) {
-                        console.log(error.response.data);
-                        console.log(error.response.status);
-                        console.log(error.response.headers);
-                    }
+                 
                 })
                 .then((response) => {
                     this.$router.push(`/blog`);

@@ -37,7 +37,6 @@ export default {
                     Authorization: `Token ${useUserStore().userToken}`
                 },
             }).then((response) => {
-                console.log(response)
                 this.loading = false
                 this.open = response.data[0].is_first_login
             })

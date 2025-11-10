@@ -51,7 +51,6 @@ export default {
                 .then((data) => {
                     this.data = data;
                     this.loading = false;
-                    console.log(this.data);
                 });
         },
     },

@@ -202,7 +202,6 @@ export default {
             try {
                 this.copied = true
                 await navigator.clipboard.writeText(this.domain);
-                console.log('Text copied to clipboard');
             } catch (err) {
                 console.error('Failed to copy text: ', err);
             }
@@ -246,14 +245,12 @@ export default {
         getData(check_step = true) {
             this.loadingData = true
 
-            console.log('getData');
             axios.get(`${apiStore().address}/api/account/seller-panel/verify-shop-list`, {
                 headers: {
                     Accept: "application/json",
                     Authorization: `Token ${useUserStore().userToken}`
                 },
             }).then((response) => {
-                console.log('Data', response.data[0])
                 if (response.data.length) {
                     this.id = response.data[0].id;
                     this.is_verified = response.data[0].is_verified;
@@ -266,7 +263,6 @@ export default {
                     this.merchant_id_zarinpal = response.data[0].merchant_zarin == 'null' ? null : response.data[0].merchant_zarin;
                     this.put_data = true
                     this.domain = apiStore().address.replace('https://', `${this.shop_id.toLowerCase()}.`)
-                    console.log('this.enamad_code', this.enamad_code);
                     if (this.merchant_id_zarinpal) {
                         this.show_alert = true
                     }
@@ -287,12 +283,9 @@ export default {
 
             }).catch(error => {
                 // Handle error response
-                console.log('Error')
-                console.log(error);
             });
         },
         async updateData() {
-            console.log('updateData')
 
             this.fd = new FormData();
 
@@ -310,21 +303,18 @@ export default {
                     },
                 }
             ).then((response) => {
-                console.log('Update data', response.data);
                 if (this.merchant_id_zarinpal) {
                     this.show_alert = true
                 }
 
             }).catch(function (error) {
 
-                console.log('error', error);
 
             })
 
         },
         async createData() {
             const userStore = useUserStore();
-            console.log('createData');
             this.fd = new FormData();
 
             this.fd.append("name", this.shop_name)
@@ -348,7 +338,6 @@ export default {
 
             }).catch(function (error) {
                 if (error.response) {
-                    console.log(error.response.data);
                 }
             })
 

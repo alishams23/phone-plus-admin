@@ -109,7 +109,6 @@ export default {
                     Authorization: `Token ${useUserStore().userToken}`
                 },
             }).then((response) => {
-                console.log('search');
                 this.loading = false
                 this.data_digital_product = response.data
             })

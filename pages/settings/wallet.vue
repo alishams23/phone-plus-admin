@@ -118,7 +118,6 @@ export default {
             try {
                 this.copied = true
                 await navigator.clipboard.writeText(this.domain);
-                console.log('Text copied to clipboard');
             } catch (err) {
                 console.error('Failed to copy text: ', err);
             }
@@ -158,11 +157,7 @@ export default {
                         }
                     )
                     .catch(function (error) {
-                        if (error.response) {
-                            console.log(error.response.data);
-                            console.log(error.response.status);
-                            console.log(error.response.headers);
-                        }
+                     
                     }).then((response) => {
                         this.loading = false
                         this.snackbar = true

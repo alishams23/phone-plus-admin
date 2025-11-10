@@ -87,7 +87,6 @@ export default {
             try {
                 this.copied = true
                 await navigator.clipboard.writeText(this.domain);
-                console.log('Text copied to clipboard');
             } catch (err) {
                 console.error('Failed to copy text: ', err);
             }
@@ -99,7 +98,6 @@ export default {
                     Authorization: `Token ${useUserStore().userToken}`
                 },
             }).then((response) => {
-                console.log(response.data);
                 this.id = response.data[0].id
                 this.loading = false
                 this.enamad_code = response.data[0].enamad_code
@@ -124,11 +122,7 @@ export default {
                     }
                 )
                 .catch(function (error) {
-                    if (error.response) {
-                        console.log(error.response.data);
-                        console.log(error.response.status);
-                        console.log(error.response.headers);
-                    }
+                 
                 }).then((response) => {
                     this.snackbar = true
 

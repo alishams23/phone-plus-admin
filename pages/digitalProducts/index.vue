@@ -278,7 +278,6 @@ export default {
           Authorization: `Token ${useUserStore().userToken}`
         },
       }).then((response) => {
-        console.log('get data', response.data);
         this.loading = false
         this.data = response.data.results
         this.next = response.data.next

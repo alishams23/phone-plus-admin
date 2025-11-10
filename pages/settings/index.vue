@@ -210,7 +210,6 @@ export default {
                     Authorization: `Token ${useUserStore().userToken}`
                 },
             }).then((response) => {
-                console.log(response)
                 this.loading = false
                 this.id = response.data[0].id
                 this.name = response.data[0].name
@@ -254,11 +253,7 @@ export default {
                         }
                     )
                     .catch(function (error) {
-                        if (error.response) {
-                            console.log(error.response.data);
-                            console.log(error.response.status);
-                            console.log(error.response.headers);
-                        }
+                        
                     }).then((response) => {
                         this.snackbar = true
 

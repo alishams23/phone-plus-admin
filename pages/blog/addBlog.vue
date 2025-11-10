@@ -112,7 +112,6 @@ import { PhotoIcon, } from 'vue-tabler-icons';
         this.fd = new FormData();
         this.fd.append("photo", this.photo[0]);
         this.fd.append("title_for_photo", this.title);
-        console.log(this.photo)
         await axios
           .post(
             `${apiStore().address}/api/blog/seller-panel/create-image/`,
@@ -126,11 +125,7 @@ import { PhotoIcon, } from 'vue-tabler-icons';
             }
           )
           .catch(function (error) {
-            if (error.response) {
-              console.log(error.response.data);
-              console.log(error.response.status);
-              console.log(error.response.headers);
-            }
+           
           })
           .then((response) => {
             this.imageId = response.data.id;
@@ -152,11 +147,7 @@ import { PhotoIcon, } from 'vue-tabler-icons';
                 }
               )
               .catch(function (error) {
-                if (error.response) {
-                  console.log(error.response.data);
-                  console.log(error.response.status);
-                  console.log(error.response.headers);
-                }
+                
               })
               .then((response) => {
                 this.$router.push(`/blog`);

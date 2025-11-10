@@ -77,7 +77,6 @@ export default {
                     Authorization: `Token ${useUserStore().userToken}`
                 },
             }).then((response) => {
-                console.log(response)
                 this.loadingData = false
                 this.name = response.data[0].name
                 this.bio = response.data[0].bio
@@ -91,7 +90,6 @@ export default {
                 this.fd.append("image", this.image)
                 this.fd.append("name", this.name);
                 this.fd.append("bio", this.bio);
-                console.log(this.image)
                 await axios
                     .put(
                         `${apiStore().address}/api/account/seller-panel/shop-update/`,
@@ -104,11 +102,7 @@ export default {
                         }
                     )
                     .catch(function (error) {
-                        if (error.response) {
-                            console.log(error.response.data);
-                            console.log(error.response.status);
-                            console.log(error.response.headers);
-                        }
+                       
                     }).then((response) => {
 
 

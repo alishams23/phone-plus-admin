@@ -41,18 +41,18 @@
                  <form v-if="state == 'get_login_code' " @submit.prevent="check_code" >
                   <v-row align="center" justify="center">
                     <v-col cols="12" sm="8">
+                      <v-text-field
+                      v-model="code"
+                      :rules="[rules.required, rules.number]"
+                      label="کد را وارد کنید" required rounded="lg" inputmode="numeric"
+                      persistent-hint variant="outlined"
+                      color="primary" class="mt-12" />
+                      <div @click="state='login'"  class="  text-indigo-accent-4 d-flex justify-end pl-3 pt-1 cursor-pointer">
+                        تغییر شماره  {{ phoneNumber }} 
+                      </div>
                       <div v-if="error" class="  text-red-accent-4 d-flex justify-start pl-3 pt-1 ">
                       {{ error }}
                       </div>
-                      <v-text-field
-                        v-model="code"
-                        :rules="[rules.required, rules.number]"
-                       label="کد را وارد کنید" required rounded="lg" inputmode="numeric"
-                       persistent-hint variant="outlined"
-                        color="primary" class="mt-12" />
-                    <div @click="state='login'"  class="  text-indigo-accent-4 d-flex justify-end pl-3 pt-1 cursor-pointer">
-                      تغییر شماره  {{ phoneNumber }} 
-                    </div>
                       
 
                       <v-btn
@@ -291,6 +291,7 @@ export default {
     sendLoginSms() {
         // Ensure the phone number is not empty
         if (this.phoneNumber) {
+          this.error = null
             const apiUrl = `${apiStore().address}/api/account/seller-panel/login-sms/`;
             const data = {
                 number: this.phoneNumber // Assuming the API expects the full number with country code
@@ -320,7 +321,6 @@ export default {
                     // Handle error response
                     this.error = 'کاربری با این شماره وجود ندارد'
                     this.loading = false
-                    console.log(error.response.status);
                     // You can show an error message to the user here
                 });
         } else {
@@ -346,11 +346,16 @@ export default {
                     })
                 .then(response => {
                     // Handle success response
-                    console.log(response);
-                    const userStore = useUserStore();
-                    userStore.setToken(response.data.token,response.data.username,response.data.username_shop , response.data.status);
-                    this.$router.push(`/`);
-                    // You can change the dialog page or show a success message here
+                    if (response.data.status == 'b'){
+                      this.error = 'باید برای احراز هویت ثبت‌نام مجدد کنید'
+                      this.loading = false
+                    }
+                    else{
+                      const userStore = useUserStore();
+                      userStore.setToken(response.data.token,response.data.username,response.data.username_shop , response.data.status);
+                      this.$router.push(`/`);
+                      // You can change the dialog page or show a success message here
+                    }
                 })
                 .catch(error => {
                   this.error = 'کد معتبر نیست'
@@ -366,9 +371,9 @@ export default {
         }
     },
     sendSingUpSms() {
-      console.log('sendSingUpSms' ,this.phoneNumber );
         // Ensure the phone number is not empty
         if (this.phoneNumber) {
+          this.error = null
             const apiUrl = `${apiStore().address}/api/account/seller-panel/sign-up-sms/`;
             const data = {
                 first_name: this.first_name, // Assuming the API expects the full number with country code
@@ -386,7 +391,6 @@ export default {
             })
                 .then(response => {
                     // Handle success response
-                    console.log('SMS sent successfully:', response);
                     this.state =  'get_code_signup'
                     this.loading = false
                     this.isCooldownActive = true;

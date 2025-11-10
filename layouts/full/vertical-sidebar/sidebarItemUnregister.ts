@@ -24,7 +24,7 @@ const sidebarItemUnregister: menu[] = [
     { header: 'خانه' },
 
     {
-        title: 'احراز هویت',
+        title: 'تکمیل ثبت‌نام',
         icon: ScanEyeIcon,
         to: '/authentication'
     },
