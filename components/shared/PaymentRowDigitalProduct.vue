@@ -33,8 +33,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </v-locale-provider>
             </v-card-text>
         </v-card>
@@ -60,6 +58,9 @@
     </td>
     <td >
         <h6 v-bind="props" style="width: 200px !important;" class="text-body-1 text-muted">{{ data.digital_product.title }}</h6>
+    </td>
+    <td>
+        <h6 class="text-body-1 text-muted">{{ data.used_default_payment == false ? 'بله' : 'خیر' }}</h6>
     </td>
     <td>
         <v-btn v-if="data.is_payed" :loading="data.id == loadingStatus" density="compact" :ripple="false" variant="flat"

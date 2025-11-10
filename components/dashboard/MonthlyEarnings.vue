@@ -13,16 +13,18 @@ const totalPriceSum = ref(0);
 const loading = ref(true);
 function price(value: any) {
   let text
-  let chars = Array.from(`${value / 10}`)
-  for (let index = 1; index <= chars.length; index++) {
-    if (index % 3 == 0) {
-      if (chars.length != index) {
-        chars[chars.length - index] = `,${chars[chars.length - index]}`;
+            let chars = Array.from(`${value/10}`)
+            for (let index = 1; index <= chars.length; index++) {
+                
+                if(index % 3==0){
+                    if (chars.length != index) {
+                    chars[chars.length-index] = `,${chars[chars.length-index]}`;
+                        
+                    }
+                }
 
-      }
-    }
-  }
-  return chars.join("");;
+            }
+          return chars.join("");;
 }
 /* Chart */
 const areachartOptions = computed(() => {
@@ -58,7 +60,9 @@ const areachartOptions = computed(() => {
       x: {
         show: false,
       },
-      
+      y: {
+        formatter: (val: number) => `${price(val)}`,
+      },
       
     },
   };
@@ -140,4 +144,3 @@ onMounted(() => {
     <v-card v-else height="105" class="mt-3"></v-card>
   </v-card>
 </template>
-

@@ -92,6 +92,7 @@
                                                     <th class="text-subtitle-1 font-weight-bold">کد پیگیری خرید</th>
                                                     <th class="text-subtitle-1 font-weight-bold">خریدار</th>
                                                     <th class="text-subtitle-1 font-weight-bold">محصول دیجیتال</th>
+                                                    <th class="text-subtitle-1 font-weight-bold">درگاه شخصی</th>
                                                     <th class="text-subtitle-1 font-weight-bold">وضعیت</th>
                                                     <th class="text-subtitle-1 font-weight-bold text-right">مبلغ</th>
                                                 </tr>
@@ -138,10 +139,10 @@
                         <div>
                             <v-container class="pt-0 mt-0">
                                 <v-row align="center" class="rtl">
-                                    <v-col cols="12" md="5" class="rtl  d-flex align-center">
+                                    <v-col cols="12" md="4" class="rtl  d-flex align-center">
                                        
                                     </v-col>
-                                    <v-col cols="12" md="7"  >
+                                    <v-col cols="12" md="8"  >
                                         
                                           <v-row >
                                             <v-col cols="12" md="6" class="py-0">
@@ -216,6 +217,7 @@
                                                     <th class="text-subtitle-1 font-weight-bold">کد پیگیری خرید</th>
                                                     <th class="text-subtitle-1 font-weight-bold">خریدار</th>
                                                     <th class="text-subtitle-1 font-weight-bold">محصول</th>
+                                                    <th class="text-subtitle-1 font-weight-bold">درگاه شخصی</th>
                                                     <th class="text-subtitle-1 font-weight-bold">تعداد</th>
                                                     <th class="text-subtitle-1 font-weight-bold">وضعیت</th>
                                                     <th class="text-subtitle-1 font-weight-bold text-right">مبلغ</th>
@@ -361,7 +363,6 @@ export default {
                     Authorization: `Token ${useUserStore().userToken}`
                 },
             }).then((response) => {
-                console.log('search');
                 this.loading_digital = false
                 this.data_digital_product = response.data.results
                 this.next_digital_product = response.data.next

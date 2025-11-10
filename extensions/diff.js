@@ -55,7 +55,6 @@ const Test = Node.create({
       },
     };
   },
-  // 额外的命令
   addCommands() {
     return {
       toggleDiff:
@@ -70,22 +69,17 @@ const Test = Node.create({
               },
             ],
           });
-          console.log('原始文档', JSON.stringify(doc1.toJSON()));
           let doc2 = this.editor.view.state.doc;
-          console.log('当前文档', JSON.stringify(doc2.toJSON()));
           let mySchema = this.editor.schema;
           let tr = recreateTransform(doc1, doc2, false, true);
           // tr.doc
           // tr.docs
           // tr.steps
-          console.log('tr', tr);
-          console.log('差异', JSON.stringify(tr.doc.toJSON()));
           let decos = DecorationSet.empty; // decorations 的空集合。
           let changeSet = ChangeSet.create(doc1).addSteps(
             tr.doc,
             tr.mapping.maps
           );
-          console.log('changeSet', changeSet);
           let { startDoc, changes, simplifyChanges } = changeSet;
           changes.forEach((ccc) => {
             // 添加的元素
@@ -133,19 +127,14 @@ const Test = Node.create({
               }),
             ],
           });
-          console.log('historyState', historyState);
-          // 新建一个div,
           let historyViewDiv = document.createElement('div');
-          // 获取页面展示历史记录区域的id, 即#history
           let historyDiv = document.getElementById('history');
 
-          // 将刚才新建的div添加到#history中
           historyDiv.insertBefore(
             historyViewDiv,
             historyDiv.firstElementChild
           );
 
-          // 创建新的editorView, 展示差异
           new EditorView(historyViewDiv, {
             state: historyState,
           });

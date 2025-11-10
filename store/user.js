@@ -31,16 +31,11 @@ export const useUserStore = defineStore('user', {
       document.cookie = `status=${status};  path=/; max-age=${60 * 60 * 24 * 100 }`;
     },
     saveStatusAndShopUsername(status, usernameShop) {
-      console.log('test1');
       
       this.status = status
-      console.log('test۲');
       this.usernameShop = usernameShop
-      console.log('test۳');
       document.cookie = `usernameShop=${usernameShop};  path=/; max-age=${60 * 60 * 24 * 100 }`;
-      console.log('test۴');
       document.cookie = `status=${status};  path=/; max-age=${60 * 60 * 24 * 100 }`;
-      console.log('test۵');
     },
     // Function to load the token and username from a cookie
     loadTokenAndUsernameFromCookie() {
@@ -53,7 +48,6 @@ export const useUserStore = defineStore('user', {
       this.username = username || null;
       this.usernameShop = usernameShop || null;
       this.status = status || null;
-      console.log(status)
     },
 
     isAuthenticated() {

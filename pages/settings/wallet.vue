@@ -79,7 +79,7 @@
                 v-model="use_default_payment"  
                 @click="value = 0" 
                 color="primary" 
-                label="از این درگاه استفاده کن"
+                label="استفاده از درگاه شخصی من"
                 class="flex-grow-1" 
                 />
                 
@@ -130,10 +130,10 @@ export default {
                     Authorization: `Token ${useUserStore().userToken}`
                 },
             }).then((response) => {
-                console.log(response)
                 this.loading = false
                 this.merchant_id = response.data[0].merchant_id
                 this.id = response.data[0].id
+                this.use_default_payment = !response.data[0].use_default_payment
                 // this.domain = apiStore().address.replace('https://', `${useUserStore().usernameShop.toLowerCase()}.`)
                 this.domain = apiStore().address + "/" + useUserStore().usernameShop.toLowerCase()
                 // this.image = response.data[0].image

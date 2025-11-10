@@ -69,7 +69,6 @@ const onEditorReady = (data: any) => {
     customButton.addEventListener('click', () => {
       // Handle custom button click
       // You can perform any custom action here
-      console.log('Custom button clicked!');
       dialog.value = true;
     });
   }
@@ -84,7 +83,6 @@ const onEditorReady = (data: any) => {
   if (lineHeightPicker) {
     lineHeightPicker.innerText = 'Line Height';
     lineHeightPickerOption.querySelectorAll('.ql-picker-item').forEach((span: any) => {
-      console.log(span)
       span.innerText = span.getAttribute('data-value');
     });
     // Insert the label before the line height picker

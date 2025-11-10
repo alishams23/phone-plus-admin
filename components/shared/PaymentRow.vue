@@ -213,6 +213,9 @@
             <h6 v-bind="props" style="width: 200px !important;" class="text-body-1 text-muted">{{ data.product.title }}</h6>
         </td>
         <td>
+            <h6 class="text-body-1 text-muted">{{ data.used_default_payment == false ? 'بله' : 'خیر'}}</h6>
+        </td>
+        <td>
             <h6 class="text-body-1 text-muted">{{ data.count }}</h6>
         </td>
         <td>

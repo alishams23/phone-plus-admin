@@ -146,7 +146,6 @@ export default {
                                 Authorization: `Token ${useUserStore().userToken}`
                             },
                         }).then((data) => {
-                            console.log('upload image');
                             this.imageId = data.data.id
                             this.loadingImage = false;
                         })
