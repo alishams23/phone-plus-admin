@@ -210,10 +210,13 @@
             </div>
         </td>
         <td>
-            <h6 v-bind="props" style="width: 200px !important;" class="text-body-1 text-muted">{{ data.product.title }}</h6>
+            <h6 v-bind="props" style="width: 100px !important;" class="text-body-1 text-muted">{{ data.product.title }}</h6>
         </td>
         <td>
             <h6 class="text-body-1 text-muted">{{ data.used_default_payment == false ? 'بله' : 'خیر'}}</h6>
+        </td>
+        <td>
+            <h6 class="text-body-1 text-muted">{{ data.gateway ? gateway[data.gateway]: null }}</h6>  
         </td>
         <td>
             <h6 class="text-body-1 text-muted">{{ data.count }}</h6>
@@ -280,6 +283,9 @@
             </v-menu>
         </td>
         <td>
+        {{ price(data.payment_fee) }} تومان
+        </td>
+        <td>
             <h6 v-if="data.price!=0" class="text-h6 text-right">{{ price(data.price) }} <span class="text-body-2 text-xs" >تومان</span></h6>
             <h6 v-else class="text-h6 text-right">-</h6>
         </td>
@@ -323,6 +329,11 @@ export default {
             loading: true,
             loadingStatus: 0,
             dialog:false,
+            gateway:{
+                'sep':'سامان کیش (سپ)',
+                'sadad': 'سداد',
+                'zarinpal' : 'زرین پال'
+            },
             items: [
                 { title: 'تحویل داده شده', value: 'received' },
                 { title: 'ارسال شده ', value: 'sended' },

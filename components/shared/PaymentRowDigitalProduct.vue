@@ -57,11 +57,14 @@
         </div>
     </td>
     <td >
-        <h6 v-bind="props" style="width: 200px !important;" class="text-body-1 text-muted">{{ data.digital_product.title }}</h6>
+        <h6 v-bind="props" style="width: 100px !important;" class="text-body-1 text-muted">{{ data.digital_product.title }}</h6>
     </td>
     <td>
         <h6 class="text-body-1 text-muted">{{ data.used_default_payment == false ? 'بله' : 'خیر' }}</h6>
     </td>
+    <td>
+            <h6 class="text-body-1 text-muted">{{ data.gateway ? gateway[data.gateway]: null }}</h6>  
+        </td>
     <td>
         <v-btn v-if="data.is_payed" :loading="data.id == loadingStatus" density="compact" :ripple="false" variant="flat"
             rounded="md" class="bg-green pa-0 ">
@@ -80,6 +83,9 @@
             </v-chip>
 
         </v-btn>
+    </td>
+    <td>
+        {{ price(data.payment_fee ) }} تومان
     </td>
     <td>
         <h6 v-if="data.price != 0" class="text-h6 text-right">{{ price(data.price) }} تومان</h6>
@@ -115,6 +121,11 @@ export default {
             loading: true,
             dialog:false,
             loadingStatus: 0,
+            gateway:{
+                'sep':'سامان کیش (سپ)',
+                'sadad': 'سداد',
+                'zarinpal' : 'زرین پال'
+            },
             
         }
     },

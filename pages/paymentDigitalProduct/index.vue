@@ -50,6 +50,7 @@
                                 <th class="text-subtitle-1 font-weight-bold">خریدار</th>
                                 <th class="text-subtitle-1 font-weight-bold">محصول دیجیتال</th>
                                 <th class="text-subtitle-1 font-weight-bold">وضعیت</th>
+                                <th class="text-subtitle-1 font-weight-bold text-right">مبلغ کارمزد</th>
                                 <th class="text-subtitle-1 font-weight-bold text-right">مبلغ</th>
                             </tr>
                         </thead>
