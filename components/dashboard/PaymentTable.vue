@@ -19,14 +19,14 @@
                 <v-table class="month-table rtl">
                     <thead>
                         <tr>
-                            <th class="text-subtitle-1 font-weight-bold">تاریخ سفارش</th>
-                                                    <th class="text-subtitle-1 font-weight-bold">شماره سفارش</th>
-                                                    <th class="text-subtitle-1 font-weight-bold"> کد پیگیری خرید</th>
-                                                    <th class="text-subtitle-1 font-weight-bold">خریدار</th>
-                                                    <th class="text-subtitle-1 font-weight-bold">محصول</th>
-                                                    <th class="text-subtitle-1 font-weight-bold">تعداد</th>
-                                                    <th class="text-subtitle-1 font-weight-bold">وضعیت</th>
-                                                    <th class="text-subtitle-1 font-weight-bold text-right">مبلغ</th>
+                            <th class="text-subtitle-1 font-weight-bold">تاریخ پرداخت</th>
+                            <th class="text-subtitle-1 font-weight-bold">کد سفارش</th>
+                            <th class="text-subtitle-1 font-weight-bold">مشتری</th>
+                            <th class="text-subtitle-1 font-weight-bold">محصول</th>
+                            <th class="text-subtitle-1 font-weight-bold">تعداد</th>
+                            <th class="text-subtitle-1 font-weight-bold">وضعیت</th>
+                            <th class="text-subtitle-1 font-weight-bold text-right">مبلغ</th>
+                            <th class="text-subtitle-1 font-weight-bold text-right">جزئیات</th>
                         </tr>
                     </thead>
                     <tbody>
