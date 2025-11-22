@@ -75,6 +75,8 @@ export default {
                         body: this.body_specification,
                         id: response.data.id
                     })
+                    this.title_specification = null
+                    this.body_specification = null
 
                 })
                 .catch(error => {
