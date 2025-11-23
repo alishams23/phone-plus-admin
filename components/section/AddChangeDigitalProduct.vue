@@ -658,7 +658,6 @@ export default {
   top: 10px;
   z-index: 1000;
 }
-<<<<<<< ours
 
 /* hide native number spinners */
 :deep(input[type='number']),
@@ -676,6 +675,4 @@ export default {
   -webkit-appearance: none;
   margin: 0;
 }
-=======
->>>>>>> theirs
 </style>
