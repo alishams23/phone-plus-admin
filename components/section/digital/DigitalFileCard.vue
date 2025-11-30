@@ -218,7 +218,22 @@
                 </v-btn>
               </SharedConfirmationDialog>
                 <td class="table-cell rtl" v-for="(item, i) in items" :key="i">
-                  <div class="cell-badge">
+                  <div v-if="isEditingNewCell(rowIndex, i)" class="cell-editor">
+                    <v-text-field
+                      v-model="editingNewCell.value"
+                      density="compact"
+                      hide-details
+                      variant="underlined"
+                      autofocus
+                      @keydown.enter.prevent="saveNewCellEdit(rowIndex, i)"
+                      @blur="saveNewCellEdit(rowIndex, i)"
+                    />
+                  </div>
+                  <div
+                    v-else
+                    class="cell-badge editable"
+                    @click="startNewCellEdit(rowIndex, i, item.body)"
+                  >
                     <span class="font-weight-bold">{{ item.title }}:</span>
                     {{ item.body }}
                   </div>
@@ -388,7 +403,13 @@ export default {
     'add-row',
     'remove-row',
     'remove-subset',
+    'update-transformed-cell',
   ],
+  data() {
+    return {
+      editingNewCell: { rowIndex: null, cellIndex: null, value: '' },
+    };
+  },
   computed: {
     fileTypeOptions() {
       return [
@@ -396,6 +417,35 @@ export default {
         'افزودن تکی: اکانت، لایسنس یا کد یکتا',
         'فایل',
       ];
+    },
+  },
+  methods: {
+    startNewCellEdit(rowIndex, cellIndex, currentValue) {
+      this.editingNewCell = {
+        rowIndex,
+        cellIndex,
+        value: currentValue ?? '',
+      };
+    },
+    saveNewCellEdit(rowIndex, cellIndex) {
+      if (
+        this.editingNewCell.rowIndex !== rowIndex ||
+        this.editingNewCell.cellIndex !== cellIndex
+      ) {
+        return;
+      }
+      this.$emit('update-transformed-cell', {
+        rowIndex,
+        cellIndex,
+        value: this.editingNewCell.value ?? '',
+      });
+      this.editingNewCell = { rowIndex: null, cellIndex: null, value: '' };
+    },
+    isEditingNewCell(rowIndex, cellIndex) {
+      return (
+        this.editingNewCell.rowIndex === rowIndex &&
+        this.editingNewCell.cellIndex === cellIndex
+      );
     },
   },
 };
@@ -521,6 +571,23 @@ export default {
   background: #e8edff;
   border-color: #c8d2ff;
   color: #303f9f;
+}
+
+.cell-badge.editable {
+  cursor: pointer;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.cell-badge.editable:hover {
+  box-shadow: 0 4px 12px rgba(40, 53, 147, 0.18);
+  transform: translateY(-1px);
+}
+
+.cell-editor {
+  background: #fff;
+  border: 1px solid #dce3ff;
+  border-radius: 12px;
+  padding: 6px 10px;
 }
 
 .soft-hint {

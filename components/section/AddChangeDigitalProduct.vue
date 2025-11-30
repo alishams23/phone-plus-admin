@@ -119,6 +119,7 @@
           @add-row="addRow"
           @remove-row="removeCsvRow"
           @remove-subset="removeSubsetItem"
+          @update-transformed-cell="updateTransformedCell"
         />
 
         <DigitalMetaCard
@@ -315,6 +316,16 @@ export default {
       this.currentRowColumns.push({ title: colTitle, body: colBody });
       this.columnTitle = '';
       this.columnBody = '';
+    },
+    updateTransformedCell({ rowIndex, cellIndex, value }) {
+      if (!Array.isArray(this.transformedData)) return;
+      const targetRow = this.transformedData[rowIndex];
+      if (!targetRow || !targetRow[cellIndex]) return;
+      const sanitizedValue = value != null ? String(value).trim() : '';
+      const updatedRow = targetRow.map((cell, idx) =>
+        idx === cellIndex ? { ...cell, body: sanitizedValue } : cell,
+      );
+      this.transformedData.splice(rowIndex, 1, updatedRow);
     },
     handleCsvUpload(event) {
       if (!event?.target?.files || event.target.files.length === 0) return;
