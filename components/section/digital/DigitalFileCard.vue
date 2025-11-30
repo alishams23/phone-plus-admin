@@ -222,19 +222,41 @@
                 <td class="table-cell rtl" v-for="(item, i) in items" :key="i">
                   <div v-if="isEditingNewCell(rowIndex, i)" class="cell-editor">
                     <v-text-field
-                      v-model="editingNewCell.value"
+                      v-model="editingNewCell.title"
                       density="compact"
                       hide-details
                       variant="underlined"
+                      label="عنوان"
                       autofocus
                       @keydown.enter.prevent="saveNewCellEdit(rowIndex, i)"
-                      @blur="saveNewCellEdit(rowIndex, i)"
                     />
+                    <v-text-field
+                      v-model="editingNewCell.body"
+                      density="compact"
+                      hide-details
+                      variant="underlined"
+                      label="مقدار"
+                      class="mt-2"
+                      @keydown.enter.prevent="saveNewCellEdit(rowIndex, i)"
+                    />
+                    <div class="d-flex justify-end ga-2 py-1">
+                      <v-btn
+                        size="small"
+                        color="primary"
+                        variant="tonal"
+                        @click="saveNewCellEdit(rowIndex, i)"
+                      >
+                        ذخیره
+                      </v-btn>
+                      <v-btn size="small" variant="text" color="grey" @click="cancelNewCellEdit">
+                        انصراف
+                      </v-btn>
+                    </div>
                   </div>
                   <div
                     v-else
                     class="cell-badge editable"
-                    @click="startNewCellEdit(rowIndex, i, item.body)"
+                    @click="startNewCellEdit(rowIndex, i, item)"
                   >
                     <span class="font-weight-bold">{{ item.title }}:</span>
                     {{ item.body }}
@@ -447,7 +469,7 @@ export default {
   ],
   data() {
     return {
-      editingNewCell: { rowIndex: null, cellIndex: null, value: '' },
+      editingNewCell: { rowIndex: null, cellIndex: null, title: '', body: '' },
       editingExistingCell: { rowIndex: null, cellIndex: null, title: '', body: '' },
     };
   },
@@ -461,11 +483,12 @@ export default {
     },
   },
   methods: {
-    startNewCellEdit(rowIndex, cellIndex, currentValue) {
+    startNewCellEdit(rowIndex, cellIndex, item) {
       this.editingNewCell = {
         rowIndex,
         cellIndex,
-        value: currentValue ?? '',
+        title: item?.title ?? '',
+        body: item?.body ?? '',
       };
     },
     saveNewCellEdit(rowIndex, cellIndex) {
@@ -478,9 +501,13 @@ export default {
       this.$emit('update-transformed-cell', {
         rowIndex,
         cellIndex,
-        value: this.editingNewCell.value ?? '',
+        title: this.editingNewCell.title ?? '',
+        value: this.editingNewCell.body ?? '',
       });
-      this.editingNewCell = { rowIndex: null, cellIndex: null, value: '' };
+      this.cancelNewCellEdit();
+    },
+    cancelNewCellEdit() {
+      this.editingNewCell = { rowIndex: null, cellIndex: null, title: '', body: '' };
     },
     isEditingNewCell(rowIndex, cellIndex) {
       return (

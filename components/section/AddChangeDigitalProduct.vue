@@ -318,13 +318,14 @@ export default {
       this.columnTitle = '';
       this.columnBody = '';
     },
-    updateTransformedCell({ rowIndex, cellIndex, value }) {
+    updateTransformedCell({ rowIndex, cellIndex, value, title }) {
       if (!Array.isArray(this.transformedData)) return;
       const targetRow = this.transformedData[rowIndex];
       if (!targetRow || !targetRow[cellIndex]) return;
       const sanitizedValue = value != null ? String(value).trim() : '';
+      const sanitizedTitle = title != null ? String(title).trim() : targetRow[cellIndex].title;
       const updatedRow = targetRow.map((cell, idx) =>
-        idx === cellIndex ? { ...cell, body: sanitizedValue } : cell,
+        idx === cellIndex ? { ...cell, body: sanitizedValue, title: sanitizedTitle } : cell,
       );
       this.transformedData.splice(rowIndex, 1, updatedRow);
     },
