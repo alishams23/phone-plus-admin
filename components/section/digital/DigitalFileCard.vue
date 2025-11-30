@@ -4,23 +4,47 @@
       <div class="panel-heading">
         <div class="heading-dot"></div>
         <h4 class="text-h6 font-weight-bold">مدیریت محتوای دیجیتال</h4>
+        <v-chip
+          v-if="showProductTypeTag"
+          label
+          size="small"
+          color="primary"
+          variant="outlined"
+          rounded="lg"
+          class="ms-auto type-chip"
+        >
+          {{ productTypeLabel }}
+        </v-chip>
       </div>
 
-      <v-select
-        v-if="!id"
-        rounded="lg"
-        required
-        accept=".zip,.rar"
-        persistent-hint
-        variant="outlined"
-        color="primary"
-        :model-value="fileType"
-        @update:modelValue="$emit('update:fileType', $event)"
-        :label="'انتخاب نوع محصول'"
-        :items="fileTypeOptions"
-        :rules="comboboxRules"
-        class="mb-3"
-      />
+      <div v-if="!id" class="file-type-toggle mb-3">
+        <div class="d-flex justify-space-between align-center mb-2">
+          <span class="text-body-2 text-grey-darken-1">انتخاب نوع محصول</span>
+          <span v-if="fileTypeTouched && fileTypeError" class="text-caption text-error">
+            {{ fileTypeError }}
+          </span>
+        </div>
+        <v-btn-toggle
+          rounded="lg"
+          mandatory
+          color="primary"
+          class="file-type-tabs"
+          density="comfortable"
+          :model-value="fileType"
+          @update:modelValue="onFileTypeChange"
+        >
+          <v-btn
+            v-for="option in fileTypeOptions"
+            :key="option"
+            :value="option"
+            class="tab-btn"
+            variant="text"
+            elevation="0"
+          >
+            {{ option }}
+          </v-btn>
+        </v-btn-toggle>
+      </div>
 
       <div v-if="showFileInputs" class="file-chooser">
         <div class="d-flex align-center justify-space-between mb-2">
@@ -452,6 +476,10 @@ export default {
       type: String,
       default: 'لیست محصول',
     },
+    productTypeLabel: {
+      type: String,
+      default: '',
+    },
   },
   emits: [
     'update:fileType',
@@ -471,18 +499,32 @@ export default {
     return {
       editingNewCell: { rowIndex: null, cellIndex: null, title: '', body: '' },
       editingExistingCell: { rowIndex: null, cellIndex: null, title: '', body: '' },
+      fileTypeTouched: false,
     };
   },
   computed: {
+    showProductTypeTag() {
+      return this.id != null && !!this.productTypeLabel;
+    },
     fileTypeOptions() {
       return [
-        'افزودن گروهی: اکانت، لایسنس یا کد یکتا',
-        'افزودن تکی: اکانت، لایسنس یا کد یکتا',
+        'لایسنس یا کد یکتا',
         'فایل',
       ];
     },
+    fileTypeError() {
+      if (!this.comboboxRules || !this.comboboxRules.length) return null;
+      const failedRule = this.comboboxRules
+        .map((rule) => (typeof rule === 'function' ? rule(this.fileType) : true))
+        .find((result) => result !== true);
+      return typeof failedRule === 'string' ? failedRule : null;
+    },
   },
   methods: {
+    onFileTypeChange(value) {
+      this.fileTypeTouched = true;
+      this.$emit('update:fileType', value);
+    },
     startNewCellEdit(rowIndex, cellIndex, item) {
       this.editingNewCell = {
         rowIndex,
@@ -587,6 +629,49 @@ export default {
   box-shadow: 0 0 0 6px rgba(92, 107, 192, 0.12);
 }
 
+.file-type-toggle {
+  width: 100%;
+}
+
+.file-type-tabs {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 14px;
+  background: #f3f5ff;
+  border: 1px dashed #d4dbf5;
+}
+
+.file-type-tabs .tab-btn {
+  flex: 1 1 180px;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #1f2d5c;
+  border: 1px solid #dfe5f7;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(34, 52, 108, 0.08);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-type-tabs .tab-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(34, 52, 108, 0.12);
+}
+
+.file-type-tabs .tab-btn.v-btn--active {
+  color: #fff;
+  border-color: #3f51b5;
+}
+
+.type-chip {
+  font-weight: 700;
+  margin-inline-start: auto;
+}
+
 .file-chooser {
   border: 1px dashed #d4dbf5;
   border-radius: 14px;
@@ -615,9 +700,8 @@ export default {
 
 .scrollable-tbody {
   display: block;
-  max-height: 250px;
-  overflow-x: auto;
-  overflow-y: auto;
+  max-height: none;
+  overflow: visible;
   direction: ltr !important;
   background: #fff;
   border-radius: 12px;
@@ -626,8 +710,8 @@ export default {
 
 .table-cell {
   width: auto;
-  min-width: auto;
-  white-space: nowrap;
+  min-width: 0;
+  white-space: normal;
   overflow: visible;
   text-overflow: ellipsis;
 }
@@ -649,7 +733,7 @@ export default {
 }
 
 .table-scroller {
-  overflow-x: auto;
+  overflow: visible;
 }
 
 .horizontal-scroll {
@@ -737,5 +821,47 @@ export default {
   line-height: 1.9;
   white-space: normal;
   word-break: break-word;
+}
+
+@media (max-width: 960px) {
+  .panel-card {
+    padding: 16px;
+  }
+
+  .file-type-tabs {
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .file-type-tabs .tab-btn {
+    flex: 1 1 140px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .panel-card {
+    padding: 14px;
+  }
+
+  .file-type-tabs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+
+  .file-type-tabs .tab-btn {
+    flex: 1 1 auto;
+    min-width: 0;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .table-scroller {
+    overflow: visible;
+  }
+
+  .scrollable-tbody {
+    max-height: none;
+  }
 }
 </style>

@@ -69,18 +69,6 @@
           @update:isContainTutorial="isContainTutorial = $event"
         />
 
-        <DigitalPricingCard
-          :price="price"
-          :price-label="priceLabel"
-          :discount-enabled="discount"
-          :discount-value="value"
-          :discount-codes="discount_codes"
-          @update:price="price = $event"
-          @update:discountEnabled="handleDiscountToggle"
-          @update:discountValue="value = $event"
-          @update:discountCodes="discount_codes = $event"
-        />
-
         <DigitalFileCard
           :id="id"
           :file-type="file_type"
@@ -107,6 +95,7 @@
           :get-file="get_file"
           :get-file-url="normalizedFileUrl"
           :csv-label="csvLabel"
+          :product-type-label="productTypeLabel"
           @update:fileType="handleFileTypeChange"
           @update:isContainFile="toggleContainFile"
           @update:fileUrl="file_url = $event"
@@ -128,6 +117,18 @@
           :pin-profile="pin_profile"
           @update:selectedCategories="selectedCategories = $event"
           @update:pinProfile="pin_profile = $event"
+        />
+
+        <DigitalPricingCard
+          :price="price"
+          :price-label="priceLabel"
+          :discount-enabled="discount"
+          :discount-value="value"
+          :discount-codes="discount_codes"
+          @update:price="price = $event"
+          @update:discountEnabled="handleDiscountToggle"
+          @update:discountValue="value = $event"
+          @update:discountCodes="discount_codes = $event"
         />
 
         <div class="d-flex actions-bar">
@@ -223,11 +224,15 @@ export default {
     userToken() {
       return useUserStore().userToken;
     },
+    productTypeLabel() {
+      const baseType = this.type || this.file_type;
+      if (!baseType) return '';
+      if (baseType === 'فایل' || baseType === 'file') return 'فایل';
+      return 'لایسنس یا کد یکتا';
+    },
     priceLabel() {
       const isLicenseChoice =
-        this.file_type === 'افزودن گروهی: اکانت، لایسنس یا کد یکتا' ||
-        this.file_type === 'افزودن تکی: اکانت، لایسنس یا کد یکتا' ||
-        this.type === 'license';
+        this.file_type === 'لایسنس یا کد یکتا' || this.type === 'license';
       return isLicenseChoice ? 'قیمت هر ردیف (تومان)' : 'قیمت (تومان)';
     },
     isFileProduct() {
@@ -236,6 +241,7 @@ export default {
       if (this.id != null) {
         if (this.type === 'file') return true;
         if (this.type === 'license') return false;
+        if (this.file_type === 'لایسنس یا کد یکتا') return false;
         return hasExistingFile;
       }
       return this.file_type === 'فایل';
@@ -245,16 +251,16 @@ export default {
         this.id != null &&
         ((this.get_file == null && (this.get_file_url === 'null' || !this.get_file_url) && this.type == null) ||
           this.type === 'license');
-      const isNewSingle = this.file_type === 'افزودن تکی: اکانت، لایسنس یا کد یکتا';
-      return isEditingLicense || isNewSingle;
+      const isLicenseType = this.file_type === 'لایسنس یا کد یکتا';
+      return isEditingLicense || isLicenseType;
     },
     showBulkLicense() {
       const isEditingLicense =
         this.id != null &&
         ((this.get_file == null && (this.get_file_url === 'null' || !this.get_file_url) && this.type == null) ||
           this.type === 'license');
-      const isNewBulk = this.file_type === 'افزودن گروهی: اکانت، لایسنس یا کد یکتا';
-      return isEditingLicense || isNewBulk;
+      const isLicenseType = this.file_type === 'لایسنس یا کد یکتا';
+      return isEditingLicense || isLicenseType;
     },
     showExistingSubset() {
       return this.subset_product.length > 0 && this.subset_product.some(item => !item.sold);
@@ -403,8 +409,7 @@ export default {
         return false;
       }
       if (
-        this.file_type === 'افزودن گروهی: اکانت، لایسنس یا کد یکتا' ||
-        this.file_type === 'افزودن تکی: اکانت، لایسنس یا کد یکتا'
+        this.file_type === 'لایسنس یا کد یکتا'
       ) {
         return this.transformedData.length === 0;
       }
