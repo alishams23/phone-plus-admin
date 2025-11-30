@@ -120,6 +120,7 @@
           @remove-row="removeCsvRow"
           @remove-subset="removeSubsetItem"
           @update-transformed-cell="updateTransformedCell"
+          @update-existing-subset="updateExistingSubsetCell"
         />
 
         <DigitalMetaCard
@@ -326,6 +327,32 @@ export default {
         idx === cellIndex ? { ...cell, body: sanitizedValue } : cell,
       );
       this.transformedData.splice(rowIndex, 1, updatedRow);
+    },
+    async updateExistingSubsetCell({ rowId, cellId, rowIndex, cellIndex, title, body }) {
+      const payload = {
+        title: title != null ? String(title).trim() : '',
+        body: body != null ? String(body).trim() : '',
+      };
+      try {
+        await axios.patch(
+          `${apiStore().address}/api/product/seller-panel/row-subset-digital-product/${rowId}/data-row/${cellId}/`,
+          payload,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+              Authorization: `Token ${this.userToken}`,
+            },
+          },
+        );
+        const targetRow = this.subset_product[rowIndex];
+        if (targetRow && Array.isArray(targetRow.data) && targetRow.data[cellIndex]) {
+          const updatedCell = { ...targetRow.data[cellIndex], ...payload };
+          this.subset_product[rowIndex].data.splice(cellIndex, 1, updatedCell);
+        }
+      } catch (error) {
+        console.error('Error updating subset row:', error);
+      }
     },
     handleCsvUpload(event) {
       if (!event?.target?.files || event.target.files.length === 0) return;

@@ -212,11 +212,13 @@
                 :key="rowIndex"
                 class="table-row"
               >
-              <SharedConfirmationDialog @delete-item="$emit('remove-row', rowIndex)">
-                <v-btn class="mb-2 me-2 ms-1" icon color="red" variant="tonal" size="small">
-                  <TrashIcon size="18" />
-                </v-btn>
-              </SharedConfirmationDialog>
+                <td class="table-cell action-cell">
+                  <SharedConfirmationDialog @delete-item="$emit('remove-row', rowIndex)">
+                    <v-btn class="mb-2" icon color="red" variant="tonal" size="small">
+                      <TrashIcon size="18" />
+                    </v-btn>
+                  </SharedConfirmationDialog>
+                </td>
                 <td class="table-cell rtl" v-for="(item, i) in items" :key="i">
                   <div v-if="isEditingNewCell(rowIndex, i)" class="cell-editor">
                     <v-text-field
@@ -262,18 +264,55 @@
                 class="table-row"
               >
                 <template v-if="items.sold === false">
-                  <SharedConfirmationDialog @delete-item="$emit('remove-subset', items)">
-                    <v-btn class="mb-2 me-2 ms-1" icon color="red" variant="tonal" size="small">
-                      <TrashIcon size="18" />
-                    </v-btn>
-                  </SharedConfirmationDialog>
+                  <td class="table-cell action-cell">
+                    <SharedConfirmationDialog @delete-item="$emit('remove-subset', items)">
+                      <v-btn class="mb-2" icon color="red" variant="tonal" size="small">
+                        <TrashIcon size="18" />
+                      </v-btn>
+                    </SharedConfirmationDialog>
+                  </td>
                   <td class="table-cell pt-2 rtl" v-for="(item, i) in items.data" :key="i">
-                    <div class="cell-badge existing">
+                    <div v-if="isEditingExistingCell(idx, i)" class="cell-editor">
+                      <v-text-field
+                        v-model="editingExistingCell.title"
+                        density="compact"
+                        hide-details
+                        variant="underlined"
+                        label="عنوان"
+                        @keydown.enter.prevent="saveExistingCellEdit(idx, i, items.id, item.id)"
+                      />
+                      <v-text-field
+                        v-model="editingExistingCell.body"
+                        density="compact"
+                        hide-details
+                        variant="underlined"
+                        label="مقدار"
+                        class="mt-2"
+                        @keydown.enter.prevent="saveExistingCellEdit(idx, i, items.id, item.id)"
+                      />
+                      <div class="d-flex justify-end ga-2 py-1">
+                        <v-btn
+                          size="small"
+                          color="primary"
+                          variant="tonal"
+                          @click="saveExistingCellEdit(idx, i, items.id, item.id)"
+                        >
+                          ذخیره
+                        </v-btn>
+                        <v-btn size="small" variant="text" color="grey" @click="cancelExistingCellEdit">
+                          انصراف
+                        </v-btn>
+                      </div>
+                    </div>
+                    <div
+                      v-else
+                      class="cell-badge existing editable"
+                      @click="startExistingCellEdit(idx, i, item)"
+                    >
                       <span class="font-weight-bold">{{ item.title }}:</span>
                       {{ item.body }}
                     </div>
                   </td>
-
                 </template>
               </tr>
             </tbody>
@@ -404,10 +443,12 @@ export default {
     'remove-row',
     'remove-subset',
     'update-transformed-cell',
+    'update-existing-subset',
   ],
   data() {
     return {
       editingNewCell: { rowIndex: null, cellIndex: null, value: '' },
+      editingExistingCell: { rowIndex: null, cellIndex: null, title: '', body: '' },
     };
   },
   computed: {
@@ -445,6 +486,40 @@ export default {
       return (
         this.editingNewCell.rowIndex === rowIndex &&
         this.editingNewCell.cellIndex === cellIndex
+      );
+    },
+    startExistingCellEdit(rowIndex, cellIndex, item) {
+      this.editingExistingCell = {
+        rowIndex,
+        cellIndex,
+        title: item?.title ?? '',
+        body: item?.body ?? '',
+      };
+    },
+    saveExistingCellEdit(rowIndex, cellIndex, rowId, cellId) {
+      if (
+        this.editingExistingCell.rowIndex !== rowIndex ||
+        this.editingExistingCell.cellIndex !== cellIndex
+      ) {
+        return;
+      }
+      this.$emit('update-existing-subset', {
+        rowIndex,
+        cellIndex,
+        rowId,
+        cellId,
+        title: this.editingExistingCell.title ?? '',
+        body: this.editingExistingCell.body ?? '',
+      });
+      this.cancelExistingCellEdit();
+    },
+    cancelExistingCellEdit() {
+      this.editingExistingCell = { rowIndex: null, cellIndex: null, title: '', body: '' };
+    },
+    isEditingExistingCell(rowIndex, cellIndex) {
+      return (
+        this.editingExistingCell.rowIndex === rowIndex &&
+        this.editingExistingCell.cellIndex === cellIndex
       );
     },
   },
@@ -556,6 +631,11 @@ export default {
 
 .table-row {
   display: table-row;
+}
+
+.action-cell {
+  min-width: 50px;
+  text-align: center;
 }
 
 .cell-badge {
