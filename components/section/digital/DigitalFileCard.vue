@@ -304,12 +304,8 @@
         <div class="d-flex justify-end w-100 table-scroller">
           <v-table fixed-header class="w-100 panel-table">
             <tbody class="scrollable-tbody horizontal-scroll" dir="rtl">
-              <tr
-                v-for="(items, idx) in subsetProduct"
-                :key="idx"
-                class="table-row"
-              >
-                <template v-if="items.sold === false">
+              <template v-for="(items, idx) in subsetProduct" :key="idx">
+                <tr v-if="items.sold === false" class="table-row">
                   <td class="table-cell action-cell">
                     <SharedConfirmationDialog @delete-item="$emit('remove-subset', items)">
                       <v-btn class="mb-2" icon color="red" variant="tonal" size="small">
@@ -359,8 +355,8 @@
                       {{ item.body }}
                     </div>
                   </td>
-                </template>
-              </tr>
+                </tr>
+              </template>
             </tbody>
           </v-table>
         </div>
