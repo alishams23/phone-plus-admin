@@ -683,9 +683,9 @@ export default {
 
 .scrollable-tbody {
   display: block;
-  max-height: 250px;
-  overflow-x: auto;
-  overflow-y: scroll;
+  max-height: 55vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
   direction: ltr !important;
 }
 

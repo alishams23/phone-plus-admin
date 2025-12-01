@@ -700,8 +700,9 @@ export default {
 
 .scrollable-tbody {
   display: block;
-  max-height: none;
-  overflow: visible;
+  max-height: 55vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
   direction: ltr !important;
   background: #fff;
   border-radius: 12px;
@@ -733,7 +734,8 @@ export default {
 }
 
 .table-scroller {
-  overflow: visible;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .horizontal-scroll {
@@ -857,11 +859,14 @@ export default {
   }
 
   .table-scroller {
-    overflow: visible;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .scrollable-tbody {
-    max-height: none;
+    max-height: 55vh;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 </style>
