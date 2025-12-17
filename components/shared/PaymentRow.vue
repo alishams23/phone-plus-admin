@@ -2,18 +2,35 @@
     <v-snackbar v-model="snackbar" class=" rtl" color="success" elevation="24" rounded="lg">
         وضعیت با موفقیت ویرایش شد
     </v-snackbar>
-    <v-dialog  width="900" rounded="xl" v-model="dialog">
-        <v-card rounded="xl" class="  pa-5  ">
+    <v-dialog  width="900" rounded="xl" v-model="dialog" persistent>
+        <v-card rounded="xl" class="pa-5 payment-details-dialog-card">
+            <v-btn
+                icon
+                variant="text"
+                color="grey-darken-2"
+                class="payment-details-close"
+                aria-label="بستن"
+                @click="dialog = false"
+            >
+                <XIcon size="20" />
+            </v-btn>
             <v-card-text>
                 <v-locale-provider rtl>
-                    <v-list-item class="pa-2 pe-4">
+                    <v-list-item class="pa-2 pe-4 payment-details-header">
                         <template v-slot:prepend>
                             <v-avatar size="x-large" class="">
                                 <UserIcon />
                             </v-avatar>
                         </template>
-                        <v-list-item-title class=" font-weight-bold  text-nauto">{{ data.author.full_name
-                        }}</v-list-item-title>
+                        <v-list-item-title class="font-weight-bold text-nauto payment-details-author-name">
+                            {{ data.author.full_name }}
+                        </v-list-item-title>
+                        <v-list-item-subtitle
+                            v-if="data.author?.phone_number"
+                            class="payment-details-author-phone"
+                        >
+                            {{ data.author.phone_number }}
+                        </v-list-item-subtitle>
                         <template v-slot:append>
                             <v-chip color="primary" variant="tonal" size="small" class="font-weight-bold">
                                 محصول فیزیکی
@@ -301,7 +318,7 @@
 </template>
 <script>
   
-import { UserIcon } from 'vue-tabler-icons';
+import { UserIcon, XIcon } from 'vue-tabler-icons';
 import { useUserStore } from '~/store/user';
 import { apiStore } from '~/store/api';
 import axios from "axios";
@@ -312,6 +329,7 @@ export default {
   
     components: {
         UserIcon,
+        XIcon,
         EyeIcon,
         ChevronDownIcon
     },
@@ -366,3 +384,33 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.payment-details-dialog-card {
+  position: relative;
+}
+
+.payment-details-close {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+}
+
+:deep(.payment-details-header .v-list-item__content) {
+  min-width: 0;
+}
+
+.payment-details-author-name,
+.payment-details-author-phone {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+@media (max-width: 600px) {
+  :deep(.payment-details-header .v-list-item__append) {
+    align-self: flex-start;
+  }
+}
+</style>
