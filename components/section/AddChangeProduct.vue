@@ -231,9 +231,7 @@ export default {
         formDic.pin_profile = this.pin_profile;
         formDic.Specification = list_specification_id;
         formDic.colors = list_color_id;
-        if (discount_codes_id.length > 0) {
-          formDic.discount_codes = discount_codes_id;
-        }
+        formDic.discount_codes = discount_codes_id;
         const header = {
           headers: {
             'Content-type': 'application/json',

@@ -30,9 +30,9 @@
         <v-text-field
           :label="discountLabel"
           required
-          :type="'number'"
-          :min="discountType === 'درصدی' ? '1' : '1000'"
-          :max="discountType === 'درصدی' ? '100' : ''"
+          type="number"
+          :min="minAmount"
+          :max="maxAmount"
           rounded="lg"
           v-model="discountAmount"
           variant="outlined"
@@ -52,8 +52,8 @@
   </form>
 
   <v-row
-    v-for="item in data"
-    :key="item.id || item.code"
+    v-for="(item, index) in localCodes"
+    :key="item.id || item.code || index"
     class="bg-grey-lighten-5 mb-2 mt-4 rounded-xl cursor-pointer"
     align="center"
     @click="copyCode(item.code)"
@@ -65,7 +65,7 @@
     <v-col class="w100">کد تخفیف : {{ (item.code || '').toUpperCase() }}</v-col>
     <v-col class="d-flex justify-space-between align-center">
       <v-btn
-        @click.stop="data.splice(data.indexOf(item), 1)"
+        @click.stop="removeDiscountCode(index, item)"
         icon
         variant="tonal"
         class="mx-3"
@@ -99,19 +99,34 @@ export default {
       discountType: 'درصدی',
       discountAmount: null,
       discountMaxUsage: null,
-      discountTypes: [['درصدی'], ['قیمت ثابت']],
+      discountTypes: ['درصدی', 'قیمت ثابت'],
       copiedToast: false,
+      localCodes: [],
     };
   },
   computed: {
+    isPercentage() {
+      return this.discountType === 'درصدی';
+    },
     discountLabel() {
-      return this.discountType === 'درصدی' ? 'درصد تخفیف' : 'مبلغ تخفیف (تومان)';
+      return this.isPercentage ? 'درصد تخفیف' : 'مبلغ تخفیف (تومان)';
+    },
+    minAmount() {
+      return this.isPercentage ? 1 : 1000;
+    },
+    maxAmount() {
+      return this.isPercentage ? 100 : null;
     },
     formIsValid() {
-      return this.discountMaxUsage && this.discountAmount;
+      const amount = Number(this.discountAmount);
+      const maxUsage = Number(this.discountMaxUsage);
+      return Number.isFinite(amount) && amount > 0 && Number.isFinite(maxUsage) && maxUsage > 0;
     },
   },
   methods: {
+    emitCodes(codes) {
+      this.$emit('change', codes);
+    },
     copyCode(code) {
       if (!code) return;
       const str = String(code).toUpperCase();
@@ -127,9 +142,9 @@ export default {
         .post(
           `${apiStore().address}/api/product/seller-panel/discount/list-create/`,
           {
-            amount: this.discountAmount,
-            max_usage: this.discountMaxUsage,
-            is_percentage: this.discountType === 'درصدی' ? true : false,
+            amount: Number(this.discountAmount),
+            max_usage: Number(this.discountMaxUsage),
+            is_percentage: this.isPercentage,
           },
           {
             headers: {
@@ -140,14 +155,19 @@ export default {
         )
         .then((response) => {
           this.loadingColor = false;
-          this.data.push({
-            id: response.data.id,
-            code: response.data.data.code,
-            amount: response.data.data.amount,
-            max_usage: response.data.data.max_usage,
-            current_usage: response.data.data.current_usage,
-            is_percentage: response.data.data.is_percentage,
-          });
+          const nextCodes = [
+            ...this.localCodes,
+            {
+              id: response.data.id,
+              code: response.data.data.code,
+              amount: response.data.data.amount,
+              max_usage: response.data.data.max_usage,
+              current_usage: response.data.data.current_usage,
+              is_percentage: response.data.data.is_percentage,
+            },
+          ];
+          this.localCodes = nextCodes;
+          this.emitCodes(nextCodes);
           this.discountMaxUsage = null;
           this.discountAmount = null;
         })
@@ -155,11 +175,35 @@ export default {
           console.error('Error:', error);
         });
     },
+    removeDiscountCode(index, item) {
+      const targetId = item?.id ?? null;
+      const targetCode = item?.code ?? null;
+      const isMatch = (entry) => {
+        if (targetId != null && entry?.id != null) {
+          return String(entry.id) === String(targetId);
+        }
+        if (targetCode != null && entry?.code != null) {
+          return String(entry.code).toLowerCase() === String(targetCode).toLowerCase();
+        }
+        return entry === item;
+      };
+      const nextCodes =
+        Number.isInteger(index) && index >= 0 && index < this.localCodes.length
+          ? this.localCodes.filter((_, idx) => idx !== index)
+          : this.localCodes.filter((entry) => !isMatch(entry));
+      if (nextCodes.length === this.localCodes.length) return;
+      this.localCodes = nextCodes;
+      if (Array.isArray(this.data)) {
+        this.data.splice(0, this.data.length, ...nextCodes);
+      }
+      this.emitCodes(nextCodes);
+    },
   },
   watch: {
     data: {
+      immediate: true,
       handler(val) {
-        this.$emit('change', val);
+        this.localCodes = Array.isArray(val) ? [...val] : [];
       },
     },
   },

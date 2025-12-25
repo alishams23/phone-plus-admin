@@ -507,30 +507,25 @@ export default {
       const discount_codes_id = [];
       this.disabled_submit = true;
 
-      if (this.file != null) {
-        this.loadingFile = true;
-        formData.append('file', this.file[0]);
-      }
       this.discount_codes.forEach((element) => {
-        discount_codes_id.push(element.id);
+        const rawId = element && typeof element === 'object' ? element.id : element;
+        const numericId = Number(rawId);
+        if (Number.isFinite(numericId)) {
+          discount_codes_id.push(numericId);
+        }
       });
-      if (discount_codes_id.length > 0) {
-        formData.append('discount_codes', discount_codes_id);
-      }
-      formData.append('title', this.title);
-      formData.append('price', this.price);
-      formData.append('description', this.description);
-      formData.append('instructions', this.instructions);
-      formData.append('discount', this.value);
-      formData.append('link_file', this.file_url || '');
-      formData.append('pin_profile', this.pin_profile);
-      formData.append('subsets_data', JSON.stringify(this.transformedData));
-      this.imageIds.forEach((element) => {
-        formData.append('image', element);
-      });
-      this.selectedCategories.forEach((element) => {
-        formData.append('category', element);
-      });
+
+      const url =
+        this.id != null
+          ? `/api/product/seller-panel/digital-product-retrieve-update-destroy/${this.id}/`
+          : '/api/product/seller-panel/digital-product-list-create/';
+
+      const jsonHeader = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${useUserStore().userToken}`,
+        },
+      };
 
       const header = {
         headers: {
@@ -538,12 +533,55 @@ export default {
           Authorization: `Token ${useUserStore().userToken}`,
         },
       };
-
-      const url =
-        this.id != null
-          ? `/api/product/seller-panel/digital-product-retrieve-update-destroy/${this.id}/`
-          : '/api/product/seller-panel/digital-product-list-create/';
       try {
+        if (this.id != null && discount_codes_id.length === 0) {
+          const payload = {
+            title: this.title,
+            price: this.price,
+            description: this.description,
+            instructions: this.instructions,
+            discount: this.value,
+            link_file: this.file_url || '',
+            pin_profile: this.pin_profile,
+            subsets_data: this.transformedData,
+            image: this.imageIds,
+            category: this.selectedCategories,
+            discount_codes: [],
+          };
+          await axios.patch(
+            `${apiStore().address}${url}`,
+            payload,
+            jsonHeader,
+          );
+          if (this.file == null) {
+            this.$emit('close');
+            return;
+          }
+        }
+
+        if (this.file != null) {
+          this.loadingFile = true;
+          formData.append('file', this.file[0]);
+        }
+        if (discount_codes_id.length > 0) {
+          discount_codes_id.forEach((id) => {
+            formData.append('discount_codes', id);
+          });
+        }
+        formData.append('title', this.title);
+        formData.append('price', this.price);
+        formData.append('description', this.description);
+        formData.append('instructions', this.instructions);
+        formData.append('discount', this.value);
+        formData.append('link_file', this.file_url || '');
+        formData.append('pin_profile', this.pin_profile);
+        formData.append('subsets_data', JSON.stringify(this.transformedData));
+        this.imageIds.forEach((element) => {
+          formData.append('image', element);
+        });
+        this.selectedCategories.forEach((element) => {
+          formData.append('category', element);
+        });
         if (this.id != null) {
           await axios.patch(`${apiStore().address}${url}`, formData, header);
         } else {
