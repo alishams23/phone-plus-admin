@@ -515,6 +515,9 @@ export default {
         }
       });
 
+      const hasSubsetData = Array.isArray(this.transformedData) && this.transformedData.length > 0;
+      const requiresFormData = this.file != null || discount_codes_id.length > 0 || hasSubsetData;
+
       const url =
         this.id != null
           ? `/api/product/seller-panel/digital-product-retrieve-update-destroy/${this.id}/`
@@ -534,7 +537,7 @@ export default {
         },
       };
       try {
-        if (this.id != null && discount_codes_id.length === 0) {
+        if (this.id != null && !requiresFormData) {
           const payload = {
             title: this.title,
             price: this.price,
@@ -553,10 +556,8 @@ export default {
             payload,
             jsonHeader,
           );
-          if (this.file == null) {
-            this.$emit('close');
-            return;
-          }
+          this.$emit('close');
+          return;
         }
 
         if (this.file != null) {
