@@ -84,17 +84,18 @@
       </v-list>
     </v-main>
   </v-app>
+  <v-alert v-if="chatUnavailable" type="warning" variant="tonal" class="rtl ma-4">ارسال پیام جدید برای این فروشگاه امکان‌پذیر نیست.</v-alert>
   <v-bottom-navigation v-if="username != null && loadingGetMessage == false" height="70" elevation="0"
     color="transparent">
     <v-row class="px-3 py-2 ">
       <v-col cols="9" sm="10" md="11">
         <v-locale-provider rtl>
-        <v-text-field @keyup.enter="sendMessage()" variant="solo" v-model="inputData" class="shadow-none rtl"
+        <v-text-field @keyup.enter="sendMessage()" :disabled="chatUnavailable" variant="solo" v-model="inputData" class="shadow-none rtl"
           bg-color="grey-lighten-3" elevation="10" placeholder="پیام شما..."  rounded="pill" required></v-text-field>
         </v-locale-provider>
         </v-col>
       <v-col>
-        <v-avatar @click="sendMessage()" color="primary"  class="mt-1" size="48">
+        <v-avatar @click="sendMessage()" :class="chatUnavailable ? 'opacity-50' : ''" color="primary"  class="mt-1" size="48">
           <SendIcon size="25" />
         </v-avatar>
       </v-col>
@@ -134,7 +135,8 @@ export default {
       setInterval2: null,
       setInterval3: null,
       loadingGetMessage: false,
-      chatSocket: null
+      chatSocket: null,
+      chatUnavailable: false,
     }
   },
   mounted() {
@@ -148,8 +150,12 @@ export default {
             headers: this.headers
           }
         )
-          .then(response => response.json())
+          .then(async (response) => {
+            if (response.status === 404) { this.chatUnavailable = true; return null }
+            return response.json()
+          })
           .then((data) => {
+            if (!data) return
             this.username = data.contact.username
             this.$route.params.username = this.username
             this.user = data.contact
@@ -179,6 +185,7 @@ export default {
       document.getElementsByClassName("openchat")[0].click()
     },
     sendMessage() {
+      if (this.chatUnavailable || !this.chatSocket || this.chatSocket.readyState !== WebSocket.OPEN) return
       if (this.inputData != null && this.inputData != '') {
         this.chatSocket.send(
           JSON.stringify({
@@ -211,7 +218,9 @@ export default {
       }
       this.chatSocket.onmessage = (e) => {
         const data = JSON.parse(e.data)
-        if (data.command === 'fetch_message') {
+        if (data.command === 'error' && data.error === 'shop_not_available') {
+          this.chatUnavailable = true
+        } else if (data.command === 'fetch_message') {
           this.messages = data.message
           this.loadingGetMessage = false
           this.$nextTick(() => {

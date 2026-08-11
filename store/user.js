@@ -6,6 +6,10 @@ export const useUserStore = defineStore('user', {
     username: null, // Add the username field
     usernameShop: null, // Add the username field
     status: null, // Add the username field
+    shopLifecycle: {
+      status: 'active',
+      is_active: true,
+    },
   }),
   actions: {
     setToken(token, username,usernameShop,status) {
@@ -36,6 +40,14 @@ export const useUserStore = defineStore('user', {
       this.usernameShop = usernameShop
       document.cookie = `usernameShop=${usernameShop};  path=/; max-age=${60 * 60 * 24 * 100 }`;
       document.cookie = `status=${status};  path=/; max-age=${60 * 60 * 24 * 100 }`;
+    },
+    setShopLifecycle(shop) {
+      const status = String(shop.status || '').toLowerCase();
+      const isActive = shop.is_active !== false && status !== 'inactive';
+      this.shopLifecycle = {
+        status: isActive ? 'active' : 'inactive',
+        is_active: isActive,
+      };
     },
     // Function to load the token and username from a cookie
     loadTokenAndUsernameFromCookie() {

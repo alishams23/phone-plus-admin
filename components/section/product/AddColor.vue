@@ -17,7 +17,7 @@
           required
           type="number"
           min="0"
-          label="قیمت کالا با این رنگ(تومان)"
+          label="مبلغ اضافه این رنگ (تومان)"
           rounded="lg"
           v-model="price_color"
           variant="outlined"
@@ -126,8 +126,8 @@ export default {
           `${apiStore().address}/api/product/seller-panel/product-color-list-create/`,
           {
             title: this.title_color,
-            price: this.price_color,
-            count: this.count_color,
+            price: Number(this.price_color),
+            count: Number(this.count_color),
             hexcolor: this.hexcolor,
           },
           {
@@ -141,9 +141,9 @@ export default {
           this.loadingSpecification = false;
           this.data.push({
             title: this.title_color,
-            price: this.price_color,
+            price: Number(this.price_color),
             hexcolor: this.hexcolor,
-            count: this.count_color,
+            count: Number(this.count_color),
             id: response.data.id,
           });
           this.title_color = null;

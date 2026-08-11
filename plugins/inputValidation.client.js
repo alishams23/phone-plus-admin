@@ -1,5 +1,4 @@
-// plugins/inputValidation.js
-export default function () {
+export default defineNuxtPlugin(() => {
   const observer = new MutationObserver((mutationsList, observer) => {
     for (let mutation of mutationsList) {
       if (mutation.type === 'childList' || mutation.type === 'subtree') {
@@ -31,4 +30,4 @@ export default function () {
   });
 
   observer.observe(document.body, { subtree: true, childList: true });
-};
+});

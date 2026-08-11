@@ -62,12 +62,14 @@
       />
 
       <PhysicalPricingCard
+        :price="price"
         :colors="list_color"
         :discount-codes="discount_codes"
         :value="value"
         :delivery-fee="delivery_fee"
         :delivery-rules="[validateDeliveryFee]"
         :error="error"
+        @update:price="price = $event"
         @update:colors="(data) => { list_color = data }"
         @update:discountCodes="(data) => { discount_codes = data }"
         @update:value="(data) => { value = data }"
@@ -226,7 +228,7 @@ export default {
         formDic.title = this.title;
         formDic.description = this.description;
         formDic.delivery_fee = this.delivery_fee;
-        formDic.price = this.price;
+        formDic.price = Number(this.price);
         formDic.discount = this.value;
         formDic.pin_profile = this.pin_profile;
         formDic.Specification = list_specification_id;

@@ -18,6 +18,7 @@
 
     </template>
   </v-dialog>
+  <v-alert v-if="uploadError" type="error" variant="tonal" class="mb-3 rtl">{{ uploadError }}</v-alert>
   <client-only>
     <quill-editor @ready="onEditorReady($event)" class="rounded-b-lg" :ref="editorContent" content-type="html"
       v-model:content="content" theme="snow" :toolbar="toolbar" :modules="modules" @textChange="updateContent" />
@@ -25,8 +26,11 @@
 </template>
 <script setup lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
-import { ref, defineEmits } from 'vue';
+import { ref } from 'vue';
 import axios from 'axios'
+import { useUserStore } from '~/store/user'
+import { apiStore } from '~/store/api'
+const uploadError = ref('')
 const props = defineProps<{
   content: string,
 }>();
@@ -217,16 +221,20 @@ modules = [
           formData.append('image', file);
 
           // Assuming your API endpoint for uploading is '/api/upload'
-          const response = await axios.post('https://phoneplus.ir/api/blog/seller-panel/quill-images/', formData, {
+          uploadError.value = ''
+          const response = await axios.post(`${apiStore().address}/api/blog/seller-panel/quill-images/`, formData, {
             headers: {
-              'Content-Type': 'multipart/form-data'
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Token ${useUserStore().userToken}`,
             }
           });
 
           // Return the URL to insert into the editor
           return response.data.image; // Ensure your API response returns the image URL
         } catch (error) {
-          console.error('Image upload failed:', error);
+          uploadError.value = error.response?.status === 401 || error.response?.status === 403
+            ? 'اجازه بارگذاری تصویر ندارید.'
+            : 'بارگذاری تصویر انجام نشد. لطفاً دوباره تلاش کنید.'
           throw error;
         }
       }

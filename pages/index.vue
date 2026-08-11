@@ -3,7 +3,6 @@
 /*Call Components*/
 import SalesOverview from '~/components/dashboard/SalesOverview.vue';
 import MonthlyEarning from '~/components/dashboard/MonthlyEarnings.vue';
-import RecentNotification from '~/components/dashboard/RecentNotification.vue';
 import PaymentTable from '~/components/dashboard/PaymentTable.vue';
 import FirstLoginPopUp from '~/components/dashboard/FirstLoginPopUp.vue';
 import RecentProduct from '~/components/dashboard/RecentProduct.vue';
@@ -18,7 +17,6 @@ export default {
     SalesOverview,
 
     MonthlyEarning,
-    RecentNotification,
     PaymentTable,
     FirstLoginPopUp,
     RecentProduct,
@@ -37,9 +35,15 @@ export default {
                     Authorization: `Token ${useUserStore().userToken}`
                 },
             }).then((response) => {
+                useUserStore().setShopLifecycle(response.data[0])
                 this.loading = false
                 this.open = response.data[0].is_first_login
             })
+        },
+    },
+    computed: {
+        shopIsActive() {
+            return useUserStore().shopLifecycle.is_active !== false
         },
     },
     mounted() {
@@ -78,11 +82,6 @@ export default {
                     </div>
                 </v-col>
 
-                <!-- Recent transaction -->
-                <!-- <v-col cols="12" lg="4">
-                    <RecentNotification />
-                </v-col> -->
-
                 <!-- Payment Table -->
                 <v-col cols="12" lg="12">
                     <PaymentTable />
@@ -94,7 +93,7 @@ export default {
                     <RecentDigitalProduct />
                 </v-col> -->
 
-                <v-col cols="12">
+                <v-col v-if="shopIsActive" cols="12">
                    
                     <RecentProduct />
                 </v-col>

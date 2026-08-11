@@ -12,6 +12,10 @@
       </template>
     </v-text-field>
   </v-locale-provider>
+  <v-tabs v-model="chatTab" color="primary" grow class="px-5">
+    <v-tab value="active">فعال</v-tab>
+    <v-tab value="archived">آرشیو</v-tab>
+  </v-tabs>
   <v-alert v-if="contacts.length == 0" class="mx-7 font-weight-bold" border="start" variant="tonal" color="primary">
     گفتگویی وجود ندارد
   </v-alert>
@@ -38,6 +42,7 @@
 
         <!-- <v-list-item-title v-if="person.contact.shop">{{person.contact.shop.name}}</v-list-item-title> -->
         <v-list-item-title>{{ person.contact.full_name }}</v-list-item-title>
+        <v-list-item-subtitle v-if="person.is_archived">فروشگاه غیرفعال است</v-list-item-subtitle>
       </v-list-item>
     </div>
   </v-list>
@@ -81,6 +86,7 @@ export default {
       selected_user: this.$route.params.username,
       searchContact: [],
       searchInput: '',
+      chatTab: 'active',
       headers: {
         'Content-type': 'application/json',
         Accept: 'application/json',
@@ -90,7 +96,9 @@ export default {
   },
   methods: {
     async ListUserMessageApi() {
-      await fetch(`${apiStore().address}/api/chat/ChatList/?search=${this.searchInput == null ? '' : this.searchInput}`, {
+      const query = new URLSearchParams({ search: this.searchInput || '' })
+      if (this.chatTab === 'archived') query.set('archived', 'true')
+      await fetch(`${apiStore().address}/api/chat/ChatList/?${query.toString()}`, {
         headers: this.headers
       })
         .then(response => response.json())
@@ -112,6 +120,9 @@ export default {
           this.loadingListUserMessage = false
         })
     },
+  },
+  watch: {
+    chatTab() { this.ListUserMessageApi() },
   },
   mounted() {
     this.loadingListUserMessage = true

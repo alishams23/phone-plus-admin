@@ -1,7 +1,7 @@
 
 <template>
     <v-snackbar v-model="snackbar" class=" rtl" color="success" elevation="24" rounded="lg">
-        اطلاعات با موفقیت ویرایش شد
+        {{ snackbarMessage }}
     </v-snackbar>
     <v-container>
         <form @submit.prevent="updateData">
@@ -152,6 +152,33 @@
             </v-btn>
 
         </form>
+
+        <v-divider class="my-10" />
+        <section class="rtl">
+            <h2 class="text-h5 font-weight-bold text-error mb-3">بستن فروشگاه</h2>
+            <p class="text-body-2 mb-5">با بستن فروشگاه، پروفایل و محصولات شما از نمایش عمومی خارج می‌شوند. سفارش‌های قبلی و کیف پول همچنان در دسترس می‌مانند.</p>
+            <v-alert v-if="!shopLifecycle.is_active" type="warning" variant="tonal" class="mb-4">
+                فروشگاه شما غیرفعال است. سفارش‌های قبلی، کیف پول و گزارش‌های مالی همچنان در دسترس هستند.
+            </v-alert>
+            <v-btn v-if="shopLifecycle.is_active" color="error" variant="outlined" @click="deactivateDialog = true">غیرفعال کردن فروشگاه</v-btn>
+            <v-btn v-else color="success" variant="flat" :loading="activating" @click="activateShop">فعال‌سازی مجدد فروشگاه</v-btn>
+            <v-alert v-if="lifecycleActionError" type="error" variant="tonal" class="mt-4">{{ lifecycleActionError }}</v-alert>
+        </section>
+
+        <v-dialog v-model="deactivateDialog" max-width="520">
+            <v-card class="rtl pa-3" title="تأیید بستن فروشگاه">
+                <v-card-text>
+                    <p class="mb-4">این عمل باعث حذف فروشگاه از بخش عمومی و توقف مدیریت کاتالوگ می‌شود.</p>
+                    <v-textarea v-model="deactivationReason" label="علت بستن (اختیاری)" variant="outlined" />
+                    <v-alert v-if="deactivationError" type="error" variant="tonal">{{ deactivationError }}</v-alert>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer />
+                    <v-btn @click="deactivateDialog = false">انصراف</v-btn>
+                    <v-btn color="error" :loading="deactivating" @click="deactivateShop">تأیید بستن</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-container>
 </template>
 <script >
@@ -181,6 +208,14 @@ export default {
       
             image_preview: null,
             background_image_preview: null,
+            shopLifecycle: useUserStore().shopLifecycle,
+            deactivateDialog: false,
+            deactivationReason: '',
+            deactivationError: '',
+            deactivating: false,
+            activating: false,
+            snackbarMessage: 'اطلاعات با موفقیت ویرایش شد',
+            lifecycleActionError: '',
         };
     },
     mounted() {
@@ -210,6 +245,8 @@ export default {
                     Authorization: `Token ${useUserStore().userToken}`
                 },
             }).then((response) => {
+                useUserStore().setShopLifecycle(response.data[0])
+                this.shopLifecycle = useUserStore().shopLifecycle
                 this.loading = false
                 this.id = response.data[0].id
                 this.name = response.data[0].name
@@ -225,6 +262,42 @@ export default {
                 this.whatsapp = response.data[0].whatsapp
             }
             )
+        },
+        async deactivateShop() {
+            this.deactivating = true
+            this.deactivationError = ''
+            this.lifecycleActionError = ''
+            try {
+                const reason = this.deactivationReason.trim()
+                const response = await axios.post(`${apiStore().address}/api/account/seller-panel/deactivate-shop/`, reason ? { reason } : {}, { headers: { Authorization: `Token ${useUserStore().userToken}` } })
+                useUserStore().setShopLifecycle(response.data)
+                this.shopLifecycle = useUserStore().shopLifecycle
+                this.deactivateDialog = false
+                this.deactivationReason = ''
+                this.snackbarMessage = 'فروشگاه با موفقیت غیرفعال شد'
+                this.snackbar = true
+            } catch (error) {
+                this.deactivationError = error.response?.data?.error || 'بستن فروشگاه انجام نشد. لطفاً دوباره تلاش کنید.'
+            } finally {
+                this.deactivating = false
+            }
+        },
+        async activateShop() {
+            this.activating = true
+            this.lifecycleActionError = ''
+            try {
+                const response = await axios.post(`${apiStore().address}/api/account/seller-panel/activate-shop/`, null, {
+                    headers: { Authorization: `Token ${useUserStore().userToken}` },
+                })
+                useUserStore().setShopLifecycle(response.data)
+                this.shopLifecycle = useUserStore().shopLifecycle
+                this.snackbarMessage = 'فروشگاه با موفقیت فعال شد'
+                this.snackbar = true
+            } catch (error) {
+                this.lifecycleActionError = error.response?.data?.error || 'فعال‌سازی فروشگاه انجام نشد. لطفاً دوباره تلاش کنید.'
+            } finally {
+                this.activating = false
+            }
         },
         async updateData() {
             this.loading = true

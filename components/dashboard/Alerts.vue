@@ -2,7 +2,21 @@
 <template>
    <div v-if="loading == false">
      <v-alert
-         v-if="cash < 18000"
+         v-for="notification in notifications"
+         :key="notification.id"
+         class="rtl mb-3"
+         :title="notification.title || 'اطلاعیه فروشگاه'"
+         :text="notification.body"
+         type="info"
+         variant="tonal"
+         border="start"
+     >
+         <NuxtLink v-if="notification.url" :to="notification.url" class="text-primary text-decoration-none">
+             مشاهده
+         </NuxtLink>
+     </v-alert>
+     <v-alert
+         v-if="cash < fee_product"
          closable
          class="rtl"
          title="کمبود وجه"
@@ -12,7 +26,7 @@
          border="start"
      ></v-alert>
      <v-alert
-         v-else-if="cash < 500000"
+         v-else-if="cash < fee_product * 28"
          closable
          class="rtl "
          title="کمبود وجه"
@@ -52,6 +66,8 @@ export default {
     setup() {
         const cash = ref(0);
         const loading = ref(true);
+        const fee_product = ref(0);
+        const notifications = ref([]);
 
         onMounted(async () => {
             try {
@@ -63,14 +79,35 @@ export default {
                     },
                 });
                 cash.value = response.data.cash;
-                loading.value = false;
+                const config = await axios.get(`${apiStore().address}/api/config/`, { headers: { Authorization: `Token ${useUserStore().userToken}` } });
+                fee_product.value = Number(config.data.fee_product || 0);
             } catch (error) {
                 console.error('Error fetching data from API', error);
+            } finally {
+                loading.value = false;
+            }
+
+            try {
+                const response = await axios.get(`${apiStore().address}/api/account/notification-list/`, {
+                    headers: {
+                        Accept: 'application/json',
+                        Authorization: `Token ${useUserStore().userToken}`,
+                    },
+                });
+                const data = Array.isArray(response.data)
+                    ? response.data
+                    : response.data.results || response.data.data || [];
+                const items = Array.isArray(data) ? data : [];
+                notifications.value = items.filter((notification) => (
+                    notification.readingStatus !== true && notification.readingStatus !== 'true'
+                ));
+            } catch (error) {
+                console.error('Error fetching shop notifications', error);
             }
         });
 
         return {
-            cash,loading
+            cash, loading, fee_product, notifications
         };
     },
 };

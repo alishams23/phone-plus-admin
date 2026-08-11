@@ -11,7 +11,7 @@
                             <QuestionMarkIcon size="12" class="bg-white rounded-pill ml-2" v-bind="attrs" v-on="on" />
                         </template>
 
-                        <span class="text-center rtl">برای فروش هر محصول، مبلغ ۱۸۰۰ تومان از کیف پول شما کسر می‌شود 
+                        <span class="text-center rtl">برای فروش هر محصول، مبلغ {{ price(fee_product) }} تومان از کیف پول شما کسر می‌شود 
                             <br/>
                             اگر موجودی کیف پول
                             شما کمتر از این مقدار
@@ -137,6 +137,7 @@ export default {
             amount: null,
             available_gateways: [],
             selected_gateway: null,
+            fee_product: 0,
             gateways: {
                 sep:        { name: 'سپ',        img: '/images/gateways/sep.png' },
                 custom:     { name: 'زرینپال',   img: '/images/gateways/zarinpal.png' },
@@ -185,6 +186,8 @@ export default {
             this.cash = response.data.cash;
             this.available_gateways = response.data.available_gateways || [];
             this.selected_gateway = this.available_gateways[0] || null;
+            const config = await axios.get(`${apiStore().address}/api/config/`, { headers: { Authorization: `Token ${useUserStore().userToken}` } });
+            this.fee_product = Number(config.data.fee_product || 0);
         } catch (error) {
             console.error('Error fetching data from API', error);
         }

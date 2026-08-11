@@ -60,8 +60,21 @@
       </div>
 
       <v-row class="mt-1" dense>
-        
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="4">
+          <v-text-field
+            label="قیمت پایه محصول (تومان)"
+            :model-value="price"
+            @update:modelValue="$emit('update:price', toNumber($event))"
+            rounded="lg"
+            required
+            persistent-hint
+            variant="outlined"
+            color="primary"
+            type="number"
+            min="1000"
+          />
+        </v-col>
+        <v-col cols="12" md="4">
           <v-text-field
             label="هزینه ارسال(تومان)"
             :model-value="deliveryFee"
@@ -76,7 +89,7 @@
             :rules="deliveryRules"
           />
         </v-col>
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="4">
           <AddDiscount :value="value" @change="$emit('update:value', $event)" />
         </v-col>
       </v-row>
@@ -93,6 +106,10 @@ import { TrashIcon } from 'vue-tabler-icons';
 export default {
   components: { AddDiscountcodes, AddColor, AddDiscount, TrashIcon },
   props: {
+    price: {
+      type: [Number, String],
+      default: 0,
+    },
     deliveryFee: {
       type: [Number, String, null],
       default: 0,
@@ -118,13 +135,17 @@ export default {
       default: () => [],
     },
   },
-  emits: ['update:deliveryFee', 'update:value', 'update:colors', 'update:discountCodes', 'removeColor'],
+  emits: ['update:price', 'update:deliveryFee', 'update:value', 'update:colors', 'update:discountCodes', 'removeColor'],
   data() {
     return {
       colorPanel: [0],
     };
   },
   methods: {
+    toNumber(value) {
+      const numeric = Number(value);
+      return Number.isNaN(numeric) ? 0 : numeric;
+    },
     itemStyle(color) {
       const base = color.hexcolor || '#6c7bff';
       return {

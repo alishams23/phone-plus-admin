@@ -32,6 +32,7 @@ export default {
         }
     },
     mounted() {
+        this.loadShopLifecycle()
         this.getMessage()
         setInterval(() => {
             this.getMessage()
@@ -48,11 +49,33 @@ export default {
             return useUserStore().status 
         },
         sidebarMenu() {
-            return useUserStore().status == 's' ? this.sidebarItemsData : this.sidebarItemUnregisterData
-        } 
+            const items = useUserStore().status == 's' ? this.sidebarItemsData : this.sidebarItemUnregisterData
+            return items.map((item) => this.catalogRoute(item.to) ? { ...item, disabled: !this.shopCanManageCatalog } : item)
+        },
+        settingMenuItems() {
+            return this.settingMenu.map((item) => this.catalogRoute(item.to) ? { ...item, disabled: !this.shopCanManageCatalog } : item)
+        },
+        shopCanManageCatalog() {
+            return useUserStore().shopLifecycle.is_active !== false
+        },
     },
 
     methods: {
+        async loadShopLifecycle() {
+            const user = useUserStore()
+            if (!user.userToken || user.status !== 's') return
+            try {
+                const { data } = await axios.get(`${apiStore().address}/api/account/seller-panel/shop-retrieve/`, {
+                    headers: { Authorization: `Token ${user.userToken}` }
+                })
+                if (data?.[0]) user.setShopLifecycle(data[0])
+            } catch (error) {
+                console.error('Unable to load shop lifecycle:', error)
+            }
+        },
+        catalogRoute(route) {
+            return ['/products', '/digitalProducts', '/blog', '/settings/showProfile'].includes(route)
+        },
         currentRouteCheck(url) {
             return this.$route.name.split("-").includes(url.split('/')[1]);
         },
@@ -182,7 +205,7 @@ export default {
                 </div>
             </div>
 
-            <template v-for="(item, i) in settingMenu">
+            <template v-for="(item, i) in settingMenuItems">
                 <!---Item Sub Header -->
                 <NavGroup :item="item" v-if="item.header" :key="item.title" />
                 <!---Single Item-->
@@ -232,6 +255,13 @@ export default {
             </div>
         </v-app-bar>
         <v-main>
+            <v-container v-if="user_status === 's' && !shopCanManageCatalog" class="pb-0">
+                <v-alert type="warning" variant="tonal" border="start" class="rtl text-right" prominent>
+                    <v-alert-title>فروشگاه شما غیرفعال است</v-alert-title>
+                    تا زمان فعال‌سازی مجدد، امکان مدیریت محصولات، محصولات دیجیتال، وبلاگ و اطلاعات فروشگاه وجود ندارد.
+                    سفارش‌ها، کیف پول و گزارش‌های مالی همچنان در دسترس هستند.
+                </v-alert>
+            </v-container>
             <slot />
         </v-main>
     </v-app>

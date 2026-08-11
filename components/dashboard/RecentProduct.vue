@@ -60,8 +60,11 @@
                     <v-card-title class="text-h6" v-text="item.title"></v-card-title>
                     <div class="d-flex align-center justify-space-between mt-1">
                         <div>
-                            <span class="text-h6" v-text=" item.colors[0].price"></span>
-                            <span class="text-body-1 ml-2 text-medium-emphasis text-decoration-line-through" v-text="item.salesPrice"></span>
+                            <span class="text-h6">{{ formatPrice(finalPrice(item)) }} تومان</span>
+                            <span
+                              v-if="Number(item.discount) > 0"
+                              class="text-body-1 ml-2 text-medium-emphasis text-decoration-line-through"
+                            >{{ formatPrice(basePrice(item)) }}</span>
                         </div>
                         <v-rating density="compact" color="warning" size="small" v-model="item.rating" readonly></v-rating>
                     </div>
@@ -106,6 +109,19 @@ export default {
   },
 
   methods: {
+    basePrice(product) {
+      const colorPrices = Array.isArray(product.colors)
+        ? product.colors.map((color) => Number(color.price) || 0)
+        : []
+      const lowestColorAdjustment = colorPrices.length ? Math.min(...colorPrices) : 0
+      return (Number(product.price) || 0) + lowestColorAdjustment
+    },
+    finalPrice(product) {
+      return Math.round(this.basePrice(product) * (100 - (Number(product.discount) || 0)) / 100)
+    },
+    formatPrice(value) {
+      return Number(value || 0).toLocaleString('fa-IR')
+    },
     
     searchData() {
       this.loading = true

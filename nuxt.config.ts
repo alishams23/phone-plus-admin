@@ -2,6 +2,12 @@
 export default defineNuxtConfig({
   ssr:false,
 
+  // Nuxt's experimental app-manifest runtime is not needed by this SPA and can
+  // leave Vite with an unresolved internal `#app-manifest` import in dev.
+  experimental: {
+    appManifest: false,
+  },
+
   build: {
     transpile: ["vuetify"],
   },
